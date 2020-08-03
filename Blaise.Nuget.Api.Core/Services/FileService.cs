@@ -35,12 +35,6 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public void BackupDatabaseFile(string dataFileName, string metaFileName, string destinationPath)
         {
-            //copy data file
-            CopyFileToDirectory(dataFileName, destinationPath);
-
-            //copy meta file
-            CopyFileToDirectory(metaFileName, destinationPath);
-
             //copy source file
             var sourceFilePath = Path.GetDirectoryName(dataFileName);
 
@@ -52,7 +46,18 @@ namespace Blaise.Nuget.Api.Core.Services
             var sourceFileName = Path.GetFileNameWithoutExtension(dataFileName);
             var fullSourceFilePath = Path.Combine(sourceFilePath, $"{sourceFileName}.{DatabaseSourceExt}");
 
-            CopyFileToDirectory(fullSourceFilePath, destinationPath);
+            if (destinationPath.StartsWith("gs://"))
+            {
+                CopyFileToGCloudBucket(dataFileName, Path.Combine(destinationPath, Path.GetFileName(dataFileName)));
+                CopyFileToGCloudBucket(metaFileName, Path.Combine(destinationPath, Path.GetFileName(metaFileName)));
+                CopyFileToGCloudBucket(fullSourceFilePath, Path.Combine(destinationPath, Path.GetFileName(fullSourceFilePath)));
+            }
+            else
+            {
+                CopyFileToDirectory(dataFileName, destinationPath);
+                CopyFileToDirectory(metaFileName, destinationPath);
+                CopyFileToDirectory(fullSourceFilePath, destinationPath);
+            }
         }
 
         public string CreateDatabaseFile(string metaFileName, string filePath, string instrumentName)
@@ -84,6 +89,15 @@ namespace Blaise.Nuget.Api.Core.Services
             Directory.CreateDirectory(destinationPath);
             var destinationFile = Path.Combine(destinationPath, Path.GetFileName(sourceFile));
             File.Copy(sourceFile, destinationFile, true);
+        }
+
+        public void CopyFileToGCloudBucket(string sourceFile, string destinationPath)
+        {
+            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
+
+            psi.FileName = "gsutil";
+            psi.Arguments = String.Join(" ", new string[]{ "cp", sourceFile, destinationPath});
+            System.Diagnostics.Process.Start(psi);
         }
 
         private static string GetFullFilePath(string filePath, string instrumentName, string extension)

@@ -8,5 +8,6 @@
 
         void BackupDatabaseFile(string dataFileName, string metaFileName, string destinationPath);
         void CopyFileToDirectory(string dataFileName, string destinationFilePath);
+        void CopyFileToGCloudBucket(string dataFileName, string destinationBucket);
     }
 }
