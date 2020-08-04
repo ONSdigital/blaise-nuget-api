@@ -22,6 +22,9 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.1
   
+    - name: restore packages
+      run: nuget restore Blaise.Nuget.Api.sln
+      
     # Runs a single command using the runners shell
     - name: Run msbuild
       run: msbuild Blaise.Nuget.Api.sln -p:Configuration=Release
