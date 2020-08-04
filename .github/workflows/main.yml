@@ -23,7 +23,9 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.1
   
     - name: restore packages
-      run: nuget restore Blaise.Nuget.Api.sln
+      run: |
+        nuget sources Add -Name "C# Artefacts" -source https://pkgs.dev.azure.com/blaise-gcp/csharp/_packaging/CSharp/nuget/v3/index.json
+        nuget restore Blaise.Nuget.Api.sln
       
     # Runs a single command using the runners shell
     - name: Run msbuild
