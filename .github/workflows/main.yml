@@ -19,6 +19,9 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.1
+  
     # Runs a single command using the runners shell
     - name: Run msbuild
       run: msbuild Blaise.Nuget.Api.sln -p:Configuration=Release
