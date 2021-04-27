@@ -466,7 +466,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
         [TestCase("02-12-2021", "09:23:59", 12)]
         [TestCase("12-01-2021", "23:45:59", 01)]
-        public void Given_The_Date_And_Time_Fields_Are_Set_When_I_Call_GetLastUpdatedDateTime_Then_The_Correct_Value_Is_Returned(
+        public void Given_The_Date_And_Time_Fields_Are_Set_When_I_Call_GetLastUpdated_Then_The_Correct_Value_Is_Returned(
             string dateField, string timeField, int month)
         {
             //arrange
@@ -494,7 +494,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
 
             //act
-            var result = _sut.GetLastUpdatedDateTime(_dataRecordMock.Object);
+            var result = _sut.GetLastUpdated(_dataRecordMock.Object);
 
             //assert
             Assert.IsNotNull(result);
@@ -509,7 +509,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase("01-01-2021", null)]
         [TestCase("", null)]
         [TestCase(null, null)]
-        public void Given_The_Date_Or_Time_Field_Is_Not_Set_Are_Set_When_I_Call_GetLastUpdatedDateTime_Then_Null_Is_Returned(
+        public void Given_The_Date_Or_Time_Field_Is_Not_Set_Are_Set_When_I_Call_GetLastUpdated_Then_Null_Is_Returned(
             string dateField, string timeField)
         {
             //arrange
@@ -535,7 +535,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
 
             //act
-            var result = _sut.GetLastUpdatedDateTime(_dataRecordMock.Object);
+            var result = _sut.GetLastUpdated(_dataRecordMock.Object);
 
             //assert
             Assert.IsNull(result);
@@ -544,7 +544,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase("2017", "09:23:59")]
         [TestCase("02-2017", "09:23:59")]
         [TestCase("01-01-2021", "09")]
-        public void Given_The_Date_Or_Time_Field_Is_In_Incorrect_Format_When_I_Call_GetLastUpdatedDateTime_Then_Null_Is_Returned(
+        public void Given_The_Date_Or_Time_Field_Is_In_Incorrect_Format_When_I_Call_GetLastUpdated_Then_Null_Is_Returned(
             string dateField, string timeField)
         {
             //arrange
@@ -571,14 +571,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
 
             //act
-            var result = _sut.GetLastUpdatedDateTime(_dataRecordMock.Object);
+            var result = _sut.GetLastUpdated(_dataRecordMock.Object);
 
             //assert
             Assert.IsNull(result);
         }
 
         [Test]
-        public void Given_The_Date_Field_Does_Not_Exist_When_I_Call_GetLastUpdatedDateTime_Then_Null_Is_Returned()
+        public void Given_The_Date_Field_Does_Not_Exist_When_I_Call_GetLastUpdated_Then_Null_Is_Returned()
         {
             //arrange
 
@@ -597,14 +597,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(timeFieldMock.Object);
 
             //act
-            var result = _sut.GetLastUpdatedDateTime(_dataRecordMock.Object);
+            var result = _sut.GetLastUpdated(_dataRecordMock.Object);
 
             //assert
             Assert.IsNull(result);
         }
 
         [Test]
-        public void Given_The_Time_Field_Does_Not_Exist_When_I_Call_GetLastUpdatedDateTime_Then_Null_Is_Returned()
+        public void Given_The_Time_Field_Does_Not_Exist_When_I_Call_GetLastUpdated_Then_Null_Is_Returned()
         {
             //arrange
 
@@ -623,7 +623,57 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(false);
 
             //act
-            var result = _sut.GetLastUpdatedDateTime(_dataRecordMock.Object);
+            var result = _sut.GetLastUpdated(_dataRecordMock.Object);
+
+            //assert
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void Given_The_Field_Is_Set_When_I_Call_GetLastUpdatedAsString_Then_The_Correct_Value_Is_Returned()
+        {
+            //arrange
+            var expectedDateTime = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+
+            //setup date
+            var dateDataValueMock = new Mock<IDataValue>();
+            var dateFieldMock = new Mock<IField>();
+            dateDataValueMock.Setup(d => d.ValueAsText).Returns(expectedDateTime);
+            dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated))
+                .Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated))
+                .Returns(dateFieldMock.Object);
+
+
+            //act
+            var result = _sut.GetLastUpdatedAsString(_dataRecordMock.Object);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<string>(result);
+            Assert.AreEqual(expectedDateTime, result);
+        }
+
+        [Test]
+        public void Given_The_LastUpdated_Field_Does_Not_Exist_When_I_Call_GetLastUpdatedAsString_Then_Null_Is_Returned()
+        {
+            //arrange
+
+            //setup date
+            var dateDataValueMock = new Mock<IDataValue>();
+            var dateFieldMock = new Mock<IField>();
+            dateDataValueMock.Setup(d => d.ValueAsText).Returns("02-12-2021");
+            dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated))
+                .Returns(true);
+
+            //setup time
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated))
+                .Returns(false);
+
+            //act
+            var result = _sut.GetLastUpdatedAsString(_dataRecordMock.Object);
 
             //assert
             Assert.IsNull(result);

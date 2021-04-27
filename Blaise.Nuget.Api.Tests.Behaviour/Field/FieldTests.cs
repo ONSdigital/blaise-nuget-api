@@ -44,7 +44,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
             //act
             var dataRecord = _sut.GetCase(_primaryKey, instrumentName, serverParkName);
 
-            var result = _sut.GetLastUpdatedDateTime(dataRecord);
+            var result = _sut.GetLastUpdated(dataRecord);
 
             //arrange
             Assert.AreEqual(lastUpdated, result);

@@ -59,7 +59,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         void UnLockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName, string serverParkName,
             string lockId);
 
-        DateTime? GetLastUpdatedDateTime(IDataRecord dataRecord);
+        DateTime? GetLastUpdated(IDataRecord dataRecord);
+
+        string GetLastUpdatedAsString(IDataRecord dataRecord);
 
         bool CaseInUseInCati(IDataRecord dataRecord);
     }

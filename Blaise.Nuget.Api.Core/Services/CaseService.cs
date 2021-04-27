@@ -181,7 +181,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataRecordService.UnLockDataRecord(connectionModel, primaryKey, instrumentName, serverParkName, lockId);
         }
 
-        public DateTime? GetLastUpdatedDateTime(IDataRecord dataRecord)
+        public DateTime? GetLastUpdated(IDataRecord dataRecord)
         {
             if (!_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdatedDate) || 
                 !_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdatedTime))
@@ -207,9 +207,21 @@ namespace Blaise.Nuget.Api.Core.Services
             return null;
         }
 
+        public string GetLastUpdatedAsString(IDataRecord dataRecord)
+        {
+            if (!_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdated))
+            {
+                return null;
+            }
+
+            var field = _fieldService.GetField(dataRecord, FieldNameType.LastUpdated);
+
+            return field?.DataValue?.ValueAsText;
+        }
+
         public bool CaseInUseInCati(IDataRecord dataRecord)
         {
-            var lastUpdated = GetLastUpdatedDateTime(dataRecord);
+            var lastUpdated = GetLastUpdated(dataRecord);
 
             if (lastUpdated == null)
             {
