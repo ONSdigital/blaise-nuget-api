@@ -39,7 +39,6 @@ namespace Blaise.Nuget.Api.Core.Providers
 
             dataInterface.FileName = dataInterfaceFileName;
             dataInterface.DatamodelFileName = dataModelFileName;
-            dataInterface.DataPartitionType = DataPartitionType.FlatBlocks;
             dataInterface.CreateTableDefinitions();
             dataInterface.CreateDatabaseObjects(dataInterface.ConnectionInfo.GetConnectionString(), true);
             dataInterface.SaveToFile(true);
