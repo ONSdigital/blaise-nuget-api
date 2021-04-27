@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
 
@@ -63,5 +64,9 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         string GetLastUpdatedAsString(IDataRecord dataRecord);
 
         bool CaseInUseInCati(IDataRecord dataRecord);
+
+        CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
+
+        IEnumerable<CaseStatusModel> GetCaseStatusList(string instrumentName, string serverParkName);
     }
 }

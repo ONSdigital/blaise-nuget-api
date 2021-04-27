@@ -63,6 +63,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         public void Given_I_Call_GetDataLink_With_The_Same_InstrumentName_And_ServerName_More_Than_Once_Then_The_Same_DataLink_Is_Used()
         {
             //arrange
+            _connectionModel.ConnectionExpiresInMinutes = 1;
             _surveyServiceMock.Setup(p => p.GetInstrumentId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
             _remoteDataServerMock.Setup(r => r.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>())).Returns(_dataLinkMock.Object);
 

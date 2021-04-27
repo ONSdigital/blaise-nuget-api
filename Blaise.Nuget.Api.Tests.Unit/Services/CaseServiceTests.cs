@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
@@ -8,6 +9,7 @@ using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Core.Services;
 using Moq;
 using NUnit.Framework;
+using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
 using StatNeth.Blaise.API.Meta;
 
@@ -470,7 +472,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             string dateField, string timeField, int month)
         {
             //arrange
-            var expectedDateTime = DateTime.ParseExact($"{dateField} {timeField}","dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            var expectedDateTime = DateTime.ParseExact($"{dateField} {timeField}", "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
 
             //setup date
             var dateDataValueMock = new Mock<IDataValue>();
@@ -575,6 +577,46 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //assert
             Assert.IsNull(result);
+        }
+
+        [Test]
+        public void Given_A_DataRecord_When_I_Call_GetOutcomeCode_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //arrange
+            var outcomeCode = 110;
+            var dataRecord = new Mock<IDataRecord>();
+            var fieldValue = new Mock<IDataValue>();
+            fieldValue.Setup(f => f.IntegerValue).Returns(outcomeCode);
+
+            _fieldServiceMock.Setup(f => f.GetField(It.IsAny<IDataRecord>(), FieldNameType.HOut).DataValue).Returns(fieldValue.Object);
+
+
+            //act
+            _sut.GetOutcomeCode(dataRecord.Object);
+
+            //assert
+            _fieldServiceMock.Verify(v => v.GetField(dataRecord.Object, FieldNameType.HOut),
+                Times.Once);
+        }
+
+        [Test]
+        public void Given_A_DataRecord_When_I_Call_GetOutcomeCode_Then_The_Expected_Value_Is_Returned()
+        {
+            //arrange
+            var outcomeCode = 110;
+            var dataRecord = new Mock<IDataRecord>();
+            var fieldValue = new Mock<IDataValue>();
+            fieldValue.Setup(f => f.IntegerValue).Returns(outcomeCode);
+
+            _fieldServiceMock.Setup(f => f.GetField(It.IsAny<IDataRecord>(), FieldNameType.HOut).DataValue).Returns(fieldValue.Object);
+
+            //act
+            var result = _sut.GetOutcomeCode(dataRecord.Object);
+
+            //assert
+            Assert.NotNull(result);
+            Assert.IsInstanceOf<int>(result);
+            Assert.AreEqual(outcomeCode, result);
         }
 
         [Test]
@@ -786,6 +828,85 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             Assert.IsNotNull(result);
             Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Given_A_Valid_DataRecord_When_I_Call_MapCaseStatusModel_Then_An_Expected_CaseStatusModel_Is_Returned()
+        {
+            //arrange
+            const string primaryKeyValue = "900000";
+            const int outCome = 110;
+            var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+
+            _keyServiceMock.Setup(k => k.GetPrimaryKeyValue(It.IsAny<IDataRecord>())).Returns(primaryKeyValue);
+
+            var outcomeFieldValue = new Mock<IDataValue>();
+            outcomeFieldValue.Setup(f => f.IntegerValue).Returns(outCome);
+            _fieldServiceMock.Setup(f => f.GetField(It.IsAny<IDataRecord>(), FieldNameType.HOut).DataValue).Returns(outcomeFieldValue.Object);
+
+            var dateFieldValue = new Mock<IDataValue>();
+            var dateFieldMock = new Mock<IField>();
+            dateFieldValue.Setup(d => d.ValueAsText).Returns(lastUpdated);
+            dateFieldMock.Setup(f => f.DataValue).Returns(dateFieldValue.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated)).Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated)).Returns(dateFieldMock.Object);
+
+            //act
+            var result = _sut.GetCaseStatus(_dataRecordMock.Object);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<CaseStatusModel>(result);
+            Assert.AreEqual(primaryKeyValue, result.PrimaryKey);
+            Assert.AreEqual(outCome, result.Outcome);
+            Assert.AreEqual(lastUpdated, result.LastUpdated);
+        }
+
+        [Test]
+        public void Given_A_Valid_DataSet_When_I_Call_GetCaseStatusList_Then_An_Expected_List_Of_CaseStatusModel_Is_Returned()
+        {
+            //arrange
+            const string primaryKeyValue = "900000";
+            const int outCome = 110;
+            var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+
+            _keyServiceMock.Setup(k => k.GetPrimaryKeyValue(_dataRecordMock.Object)).Returns(primaryKeyValue);
+
+            var outcomeFieldValue = new Mock<IDataValue>();
+            outcomeFieldValue.Setup(f => f.IntegerValue).Returns(outCome);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.HOut).DataValue).Returns(outcomeFieldValue.Object);
+
+            var dateFieldValue = new Mock<IDataValue>();
+            var dateFieldMock = new Mock<IField>();
+            dateFieldValue.Setup(d => d.ValueAsText).Returns(lastUpdated);
+            dateFieldMock.Setup(f => f.DataValue).Returns(dateFieldValue.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated)).Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated)).Returns(dateFieldMock.Object);
+
+            var dataSetMock = new Mock<IDataSet>();
+            dataSetMock.Setup(d => d.ActiveRecord).Returns(_dataRecordMock.Object);
+            dataSetMock.SetupSequence(ds => ds.EndOfSet)
+                    .Returns(false)
+                    .Returns(false)
+                    .Returns(true);
+
+            _dataRecordServiceMock.Setup(d => d.GetDataSet(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(dataSetMock.Object);
+
+            //act
+            var result = _sut.GetCaseStatusList(_connectionModel, _instrumentName, _serverParkName).ToList();
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<IEnumerable<CaseStatusModel>>(result);
+            Assert.AreEqual(2, result.Count);
+
+            foreach (var caseStatusModel in result)
+            {
+                Assert.AreEqual(primaryKeyValue, caseStatusModel.PrimaryKey);
+                Assert.AreEqual(outCome, caseStatusModel.Outcome);
+                Assert.AreEqual(lastUpdated, caseStatusModel.LastUpdated);
+            }
         }
     }
 }

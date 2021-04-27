@@ -204,13 +204,6 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetFieldDataFromRecord(dataRecord);
         }
 
-        public int GetOutcomeCode(IDataRecord dataRecord)
-        {
-            dataRecord.ThrowExceptionIfNull("dataRecord");
-
-            return (int) _caseService.GetFieldValue(dataRecord, FieldNameType.HOut).IntegerValue;
-        }
-
         public void LockDataRecord(string primaryKeyValue, string instrumentName, string serverParkName, string lockId)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
@@ -251,6 +244,13 @@ namespace Blaise.Nuget.Api.Api
             return true;
         }
 
+        public int GetOutcomeCode(IDataRecord dataRecord)
+        {
+            dataRecord.ThrowExceptionIfNull("dataRecord");
+
+            return _caseService.GetOutcomeCode(dataRecord);
+        }
+
         public DateTime? GetLastUpdated(IDataRecord dataRecord)
         {
             dataRecord.ThrowExceptionIfNull("dataRecord");
@@ -270,6 +270,21 @@ namespace Blaise.Nuget.Api.Api
             dataRecord.ThrowExceptionIfNull("dataRecord");
 
             return _caseService.CaseInUseInCati(dataRecord);
+        }
+
+        public CaseStatusModel GetCaseStatus(IDataRecord dataRecord)
+        {
+            dataRecord.ThrowExceptionIfNull("dataRecord");
+
+            return _caseService.GetCaseStatus(dataRecord);
+        }
+
+        public IEnumerable<CaseStatusModel> GetCaseStatusList(string instrumentName, string serverParkName)
+        {
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            return _caseService.GetCaseStatusList(_connectionModel, instrumentName, serverParkName);
         }
     }
 }

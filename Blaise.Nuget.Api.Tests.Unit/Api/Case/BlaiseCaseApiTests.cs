@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
@@ -1234,18 +1235,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             var outcomeCode = 110;
             var dataRecord = new Mock<IDataRecord>();
-            var fieldValue = new Mock<IDataValue>();
-            fieldValue.Setup(f => f.IntegerValue).Returns(outcomeCode);
 
-            _caseServiceMock.Setup(d => d.GetFieldValue(It.IsAny<IDataRecord>(), FieldNameType.HOut))
-                .Returns(fieldValue.Object);
+            _caseServiceMock.Setup(d => d.GetOutcomeCode(It.IsAny<IDataRecord>())).Returns(outcomeCode);
 
             //act
             _sut.GetOutcomeCode(dataRecord.Object);
 
             //assert
-            _caseServiceMock.Verify(v => v.GetFieldValue(dataRecord.Object, FieldNameType.HOut),
-                Times.Once);
+            _caseServiceMock.Verify(v => v.GetOutcomeCode(dataRecord.Object), Times.Once);
         }
 
         [Test]
@@ -1254,11 +1251,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             var outcomeCode = 110;
             var dataRecord = new Mock<IDataRecord>();
-            var fieldValue = new Mock<IDataValue>();
-            fieldValue.Setup(f => f.IntegerValue).Returns(outcomeCode);
 
-            _caseServiceMock.Setup(d => d.GetFieldValue(It.IsAny<IDataRecord>(), FieldNameType.HOut))
-                .Returns(fieldValue.Object);
+            _caseServiceMock.Setup(d => d.GetOutcomeCode(It.IsAny<IDataRecord>())).Returns(outcomeCode);
 
             //act
             var result = _sut.GetOutcomeCode(dataRecord.Object);
@@ -1641,6 +1635,86 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseInUseInCati(null));
             Assert.AreEqual("The argument 'dataRecord' must be supplied", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_A_Valid_DataRecord_When_I_Call_MapCaseStatusModel_Then_An_Expected_CaseStatusModel_Is_Returned()
+        {
+            //arrange
+            const string primaryKeyValue = "900000";
+            const int outCome = 110;
+            var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+            var caseStatusModel = new CaseStatusModel(primaryKeyValue, outCome, lastUpdated);
+            var dataRecord = new Mock<IDataRecord>();
+
+            _caseServiceMock.Setup(d => d.GetCaseStatus(dataRecord.Object)).Returns(caseStatusModel);
+
+            //act
+            var result = _sut.GetCaseStatus(dataRecord.Object);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<CaseStatusModel>(result);
+            Assert.AreEqual(primaryKeyValue, result.PrimaryKey);
+            Assert.AreEqual(outCome, result.Outcome);
+            Assert.AreEqual(lastUpdated, result.LastUpdated);
+        }
+
+        [Test]
+        public void Given_A_Null_DataRecord_When_I_Call_GetCaseStatus_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseStatus(null));
+            Assert.AreEqual("The argument 'dataRecord' must be supplied", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_A_Valid_Arguments_When_I_Call_GetCaseStatusList_Then_The_Expected_List_Of_CaseStatusModels_Is_Returned()
+        {
+            //arrange
+            var caseStatusModelList = new List<CaseStatusModel>();
+
+            _caseServiceMock.Setup(d => d.GetCaseStatusList(_connectionModel, _instrumentName, _serverParkName)).Returns(caseStatusModelList);
+
+            //act
+            var result = _sut.GetCaseStatusList(_instrumentName, _serverParkName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<IEnumerable<CaseStatusModel>>(result);
+            Assert.AreSame(caseStatusModelList, result);
+        }
+
+        [Test]
+        public void Given_An_Empty_InstrumentName_When_I_Call_GetCaseStatusList_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseStatusList(string.Empty, _serverParkName));
+            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_InstrumentName_When_I_Call_GetCaseStatusList_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseStatusList(null, _serverParkName));
+            Assert.AreEqual("instrumentName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_ServerParkName_When_I_Call_GetCaseStatusList_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseStatusList(_instrumentName, string.Empty));
+            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_ServerParkName_When_I_Call_GetCaseStatusList_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseStatusList(_instrumentName, null));
+            Assert.AreEqual("serverParkName", exception.ParamName);
         }
     }
 }

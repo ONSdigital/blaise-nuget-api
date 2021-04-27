@@ -181,6 +181,11 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataRecordService.UnLockDataRecord(connectionModel, primaryKey, instrumentName, serverParkName, lockId);
         }
 
+        public int GetOutcomeCode(IDataRecord dataRecord)
+        {
+            return (int)GetFieldValue(dataRecord, FieldNameType.HOut).IntegerValue;
+        }
+
         public DateTime? GetLastUpdated(IDataRecord dataRecord)
         {
             if (!_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdatedDate) || 
@@ -229,6 +234,31 @@ namespace Blaise.Nuget.Api.Core.Services
             }
 
             return lastUpdated.Value.AddMinutes(31) > DateTime.Now;
+        }
+
+        public CaseStatusModel GetCaseStatus(IDataRecord dataRecord)
+        {
+            return new CaseStatusModel(
+                GetPrimaryKeyValue(dataRecord),
+                GetOutcomeCode(dataRecord),
+                GetLastUpdatedAsString(dataRecord));
+        }
+
+        public IEnumerable<CaseStatusModel> GetCaseStatusList(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        {
+            var caseStatusList = new List<CaseStatusModel>();
+            var cases = GetDataSet(connectionModel, instrumentName, serverParkName);
+
+            while (!cases.EndOfSet)
+            {
+                var record = cases.ActiveRecord;
+
+                caseStatusList.Add(GetCaseStatus(record));
+
+                cases.MoveNext();
+            }
+
+            return caseStatusList;
         }
     }
 }

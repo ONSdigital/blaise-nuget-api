@@ -59,10 +59,16 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         void UnLockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName, string serverParkName,
             string lockId);
 
+        int GetOutcomeCode(IDataRecord dataRecord);
+
         DateTime? GetLastUpdated(IDataRecord dataRecord);
 
         string GetLastUpdatedAsString(IDataRecord dataRecord);
 
         bool CaseInUseInCati(IDataRecord dataRecord);
+
+        CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
+        IEnumerable<CaseStatusModel> GetCaseStatusList(ConnectionModel connectionModel, string instrumentName,
+            string serverParkName);
     }
 }
