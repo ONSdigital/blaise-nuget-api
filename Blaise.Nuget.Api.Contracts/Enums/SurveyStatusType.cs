@@ -6,6 +6,7 @@
         Installing,
         Active,
         Inactive,
-        Erroneous
+        Erroneous,
+        Failed
     }
 }

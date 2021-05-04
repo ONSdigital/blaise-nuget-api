@@ -282,6 +282,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
         [TestCase(SurveyStatusType.Inactive)]
         [TestCase(SurveyStatusType.Installing)]
         [TestCase(SurveyStatusType.Erroneous)]
+        [TestCase(SurveyStatusType.Failed)]
         [TestCase(SurveyStatusType.Other)]
         public void Given_Valid_Arguments_When_I_Call_GetSurveyStatus_Then_The_Expected_Result_Is_Returned(SurveyStatusType surveyStatusType)
         {
