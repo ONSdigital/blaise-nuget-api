@@ -228,9 +228,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase("Installing", SurveyStatusType.Installing)]
         [TestCase("Active", SurveyStatusType.Active)]
         [TestCase("Inactive", SurveyStatusType.Inactive)]
+        [TestCase("Erroneous", SurveyStatusType.Erroneous)]
+        [TestCase("Failed", SurveyStatusType.Failed)]
         [TestCase("Errored", SurveyStatusType.Other)]
         [TestCase("Error", SurveyStatusType.Other)]
-        [TestCase("", SurveyStatusType.Other)]
+        [TestCase("Invalid", SurveyStatusType.Other)]
+        [TestCase("Not found", SurveyStatusType.Other)]
+        [TestCase("Not available", SurveyStatusType.Other)]
+        [TestCase("unknown", SurveyStatusType.Other)]
 
         public void Given_Survey_Exists_When_I_Call_GetSurveyStatus_The_Correct_Status_Is_Returned(string surveyStatus, SurveyStatusType surveyStatusType)
         {
