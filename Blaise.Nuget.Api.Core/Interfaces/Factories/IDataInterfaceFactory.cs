@@ -9,5 +9,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Factories
         void UpdateDataFileSource(IDataInterface dataInterface, string dataSourceFileName);
 
         IDataInterface GetDataInterfaceForSql(string databaseConnectionString);
+
+        IGeneralDataInterface GetGeneralInterface(string databaseConnectionString,
+            ApplicationType applicationType);
     }
 }

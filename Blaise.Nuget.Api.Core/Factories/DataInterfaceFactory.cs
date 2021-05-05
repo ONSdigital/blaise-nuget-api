@@ -39,5 +39,19 @@ namespace Blaise.Nuget.Api.Core.Factories
 
             return dataInterface;
         }
+
+        public IGeneralDataInterface GetGeneralInterface(string databaseConnectionString, 
+            ApplicationType applicationType)
+        {
+            var dataInterface = DataInterfaceManager.Create(applicationType);
+            dataInterface.ConnectionInfo.DataSourceType = DataSourceType.Blaise;
+            dataInterface.ConnectionInfo.DataProviderType = DataProviderType.BlaiseDataProviderForDotNET;
+
+            var connectionBuilder = DataInterfaceManager.GetBlaiseConnectionStringBuilder();
+            connectionBuilder.ConnectionString = databaseConnectionString;
+            dataInterface.ConnectionInfo.SetConnectionString(connectionBuilder.ConnectionString);
+
+            return dataInterface;
+        }
     }
 }
