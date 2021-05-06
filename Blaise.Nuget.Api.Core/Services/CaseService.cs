@@ -223,6 +223,17 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return field?.DataValue?.ValueAsText;
         }
+        public DateTime? GetLiveDate(IDataRecord dataRecord)
+        {
+            if (!_fieldService.FieldExists(dataRecord, FieldNameType.LiveDate))
+            {
+                return null;
+            }
+
+            var liveDateField = _fieldService.GetField(dataRecord, FieldNameType.LiveDate);
+
+            return liveDateField.DataValue.DateValue;
+        }
 
         public bool CaseInUseInCati(IDataRecord dataRecord)
         {

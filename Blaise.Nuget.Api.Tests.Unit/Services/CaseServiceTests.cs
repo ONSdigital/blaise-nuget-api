@@ -580,6 +580,67 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
+        public void Given_The_LiveDate_Is_Set_When_I_Call_GetLiveDate_Then_The_Correct_Value_Is_Returned()
+        {
+            //arrange
+            var expectedDateTime = DateTime.Now.Date;
+
+            //setup date
+            var dateDataValueMock = new Mock<IDataValue>();
+            var dateFieldMock = new Mock<IField>();
+            dateDataValueMock.Setup(d => d.DateValue).Returns(expectedDateTime);
+            dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LiveDate))
+                .Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LiveDate))
+                .Returns(dateFieldMock.Object);
+
+            //act
+            var result = _sut.GetLiveDate(_dataRecordMock.Object);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<DateTime>(result);
+            Assert.AreEqual(expectedDateTime, result);
+        }
+
+        [Test]
+        public void Given_The_LiveDate_Is_Not_Set_When_I_Call_GetLiveDate_Then_Null_Is_Returned()
+        {
+            //arrange
+
+            //setup date
+            var dateDataValueMock = new Mock<IDataValue>();
+            var dateFieldMock = new Mock<IField>();
+            dateDataValueMock.Setup(d => d.DateValue).Returns((DateTime?)null);
+            dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LiveDate))
+                .Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LiveDate))
+                .Returns(dateFieldMock.Object);
+
+            //act
+            var result = _sut.GetLiveDate(_dataRecordMock.Object);
+
+            //assert
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void Given_The_LiveDate_Field_Does_Not_Exist_When_I_Call_GetLiveDate_Then_Null_Is_Returned()
+        {
+            //arrange
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LiveDate))
+                       .Returns(false);
+
+            //act
+            var result = _sut.GetLiveDate(_dataRecordMock.Object);
+
+            //assert
+            Assert.IsNull(result);
+        }
+
+        [Test]
         public void Given_A_DataRecord_When_I_Call_GetOutcomeCode_Then_The_Correct_Service_Method_Is_Called()
         {
             //arrange
