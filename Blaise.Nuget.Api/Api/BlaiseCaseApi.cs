@@ -265,6 +265,13 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetLastUpdatedAsString(dataRecord);
         }
 
+        public DateTime? GetLiveDate(IDataRecord dataRecord)
+        {
+            dataRecord.ThrowExceptionIfNull("dataRecord");
+
+            return _caseService.GetLiveDate(dataRecord);
+        }
+
         public bool CaseInUseInCati(IDataRecord dataRecord)
         {
             dataRecord.ThrowExceptionIfNull("dataRecord");

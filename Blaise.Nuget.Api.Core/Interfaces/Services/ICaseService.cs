@@ -65,6 +65,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         string GetLastUpdatedAsString(IDataRecord dataRecord);
 
+        DateTime? GetLiveDate(IDataRecord dataRecord);
+
         bool CaseInUseInCati(IDataRecord dataRecord);
 
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
