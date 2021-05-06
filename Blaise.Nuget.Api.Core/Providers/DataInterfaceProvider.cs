@@ -46,10 +46,12 @@ namespace Blaise.Nuget.Api.Core.Providers
             return dataInterface;
         }
 
-        public IGeneralDataInterface CreateCatiSqlDataInterface(string databaseConnectionString)
+        public IGeneralDataInterface CreateSettingsDataInterface(string databaseConnectionString, ApplicationType applicationType,
+            string fileName)
         {
-            var dataInterface = _dataInterfaceFactory.GetGeneralInterface(databaseConnectionString, ApplicationType.Cati);
-            dataInterface.FileName = @"d:\OPN.bcdi";
+            var dataInterface = _dataInterfaceFactory.GetSettingsDataInterfaceForSql(databaseConnectionString, applicationType);
+
+            dataInterface.FileName = fileName;
             dataInterface.CreateDatabaseObjects(dataInterface.ConnectionInfo.GetConnectionString(), true);
             dataInterface.SaveToFile(true);
 

@@ -5,6 +5,7 @@ using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Moq;
 using NUnit.Framework;
+using StatNeth.Blaise.API.DataInterface;
 
 namespace Blaise.Nuget.Api.Tests.Unit.Api.File
 {
@@ -167,6 +168,42 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateInstrumentFileWithSqlConnection(_instrumentName, null));
             Assert.AreEqual("instrumentFile", exception.ParamName);
+        }
+
+        [TestCase(ApplicationType.Cati)]
+        [TestCase(ApplicationType.AuditTrail)]
+        [TestCase(ApplicationType.Cari)]
+        [TestCase(ApplicationType.Session)]
+        [TestCase(ApplicationType.Configuration)]
+        [TestCase(ApplicationType.Meta)]
+        public void Given_Valid_Parameters_When_I_Call_CreateSettingsDataInterfaceFile_The_Correct_Services_Are_Called(ApplicationType applicationType)
+        {
+            //arrange
+            var fileName = "OPN2101a.bcdi";
+            _fileServiceMock.Setup(f => f.CreateSettingsDataInterfaceFile(It.IsAny<ApplicationType>(), It.IsAny<string>()));
+
+            //act
+            _sut.CreateSettingsDataInterfaceFile(applicationType, fileName);
+
+            //assert
+            _fileServiceMock.Verify(f => f.CreateSettingsDataInterfaceFile(applicationType,
+                fileName), Times.Once);
+        }
+
+        [Test]
+        public void Given_An_Empty_FileName_When_I_Call_CreateSettingsDataInterfaceFile_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateSettingsDataInterfaceFile(ApplicationType.Cati, string.Empty));
+            Assert.AreEqual("A value for the argument 'fileName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_FileName_When_I_Call_CreateSettingsDataInterfaceFile_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateSettingsDataInterfaceFile(ApplicationType.Cati, null));
+            Assert.AreEqual("fileName", exception.ParamName);
         }
     }
 }

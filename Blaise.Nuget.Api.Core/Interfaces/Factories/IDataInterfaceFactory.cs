@@ -10,7 +10,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Factories
 
         IDataInterface GetDataInterfaceForSql(string databaseConnectionString);
 
-        IGeneralDataInterface GetGeneralInterface(string databaseConnectionString,
+        IGeneralDataInterface GetSettingsDataInterfaceForSql(string databaseConnectionString,
             ApplicationType applicationType);
     }
 }

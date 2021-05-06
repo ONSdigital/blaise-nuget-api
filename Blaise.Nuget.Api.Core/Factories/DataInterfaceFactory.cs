@@ -40,12 +40,12 @@ namespace Blaise.Nuget.Api.Core.Factories
             return dataInterface;
         }
 
-        public IGeneralDataInterface GetGeneralInterface(string databaseConnectionString, 
+        public IGeneralDataInterface GetSettingsDataInterfaceForSql(string databaseConnectionString, 
             ApplicationType applicationType)
         {
             var dataInterface = DataInterfaceManager.Create(applicationType);
-            dataInterface.ConnectionInfo.DataSourceType = DataSourceType.Blaise;
-            dataInterface.ConnectionInfo.DataProviderType = DataProviderType.BlaiseDataProviderForDotNET;
+            dataInterface.ConnectionInfo.DataSourceType = DataSourceType.MySQL;
+            dataInterface.ConnectionInfo.DataProviderType = DataProviderType.MySQLDataProvider;
 
             var connectionBuilder = DataInterfaceManager.GetBlaiseConnectionStringBuilder();
             connectionBuilder.ConnectionString = databaseConnectionString;

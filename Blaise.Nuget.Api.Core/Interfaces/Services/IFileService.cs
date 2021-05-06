@@ -1,4 +1,5 @@
 ﻿using Blaise.Nuget.Api.Contracts.Models;
+using StatNeth.Blaise.API.DataInterface;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
@@ -9,5 +10,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         void UpdateInstrumentPackageWithSqlConnection(string instrumentName,
             string instrumentFile);
+
+        void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName);
     }
 }
