@@ -114,7 +114,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [TestCase("TestInstrumentName", true)]
-        [TestCase("TestInstrumentName", true)]
         [TestCase("InstrumentNotFound", false)]
         public void Given_I_Call_SurveyExists_Then_I_Get_A_Correct_Value_Returned(string instrumentName, bool exists)
         {

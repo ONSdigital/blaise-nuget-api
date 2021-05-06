@@ -271,5 +271,12 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return caseStatusList;
         }
+
+        public DateTime? GetLiveDate(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        {
+            var cases = GetDataSet(connectionModel, instrumentName, serverParkName);
+
+            return GetLiveDate(cases.ActiveRecord);
+        }
     }
 }
