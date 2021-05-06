@@ -6,6 +6,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Providers
     {
         IDataInterface CreateFileDataInterface(string dataSourceFileName, string dataInterfaceFileName, string dataModelFileName);
 
-        IDataInterface CreateSqlDataInterface(string dataSourceFileName, string dataInterfaceFileName, string dataModelFileName);
+        IDataInterface CreateSqlDataInterface(string databaseConnectionString, string dataInterfaceFileName, string dataModelFileName);
+
+        IGeneralDataInterface CreateSettingsDataInterface(string databaseConnectionString, ApplicationType applicationType,
+            string fileName);
     }
 }

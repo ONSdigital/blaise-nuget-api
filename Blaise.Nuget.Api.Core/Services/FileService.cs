@@ -4,6 +4,7 @@ using System.IO.Compression;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
+using StatNeth.Blaise.API.DataInterface;
 using StatNeth.Blaise.API.DataRecord;
 
 namespace Blaise.Nuget.Api.Core.Services
@@ -63,6 +64,13 @@ namespace Blaise.Nuget.Api.Core.Services
                 dataModelFileName);
 
             CreateInstrumentPackage(instrumentPath, instrumentFile);
+        }
+
+        public void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName)
+        {
+            var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
+
+            _dataInterfaceService.CreateSettingsDataInterface(databaseConnectionString, applicationType, fileName);
         }
 
         private static string ExtractInstrumentPackage(string instrumentFile)

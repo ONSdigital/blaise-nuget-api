@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using NUnit.Framework;
+using StatNeth.Blaise.API.DataInterface;
 
 namespace Blaise.Nuget.Api.Tests.Behaviour.InstrumentFile
 {
@@ -41,6 +42,18 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.InstrumentFile
             //act && assert
             Assert.DoesNotThrow(() => _sut.UpdateInstrumentFileWithSqlConnection(instrumentName,
                 instrumentFile));
+        }
+
+        [Ignore("Integration")]
+        [Test]
+        public void Given_I_Call_CreateSettingsDataInterfaceFile_Then_The_Interface_Is_Created()
+        {
+            //arrange
+            const ApplicationType applicationType = ApplicationType.Cati;
+            const string fileName = @"D:\OPN2101A.bcdi";
+
+            //act && assert
+            Assert.DoesNotThrow(() => _sut.CreateSettingsDataInterfaceFile(applicationType, fileName));
         }
 
         private static void CreateCases(int numberOfCases, string instrumentName, string serverParkName)

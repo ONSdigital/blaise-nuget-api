@@ -5,6 +5,7 @@ using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Extensions;
 using Blaise.Nuget.Api.Interfaces;
 using Blaise.Nuget.Api.Providers;
+using StatNeth.Blaise.API.DataInterface;
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -47,6 +48,13 @@ namespace Blaise.Nuget.Api.Api
             instrumentFile.ThrowExceptionIfNullOrEmpty("instrumentFile");
 
             _fileService.UpdateInstrumentPackageWithSqlConnection(instrumentName, instrumentFile);
+        }
+
+        public void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName)
+        {
+            fileName.ThrowExceptionIfNullOrEmpty("fileName");
+
+            _fileService.CreateSettingsDataInterfaceFile(applicationType, fileName);
         }
     }
 }

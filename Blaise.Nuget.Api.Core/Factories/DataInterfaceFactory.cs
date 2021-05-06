@@ -39,5 +39,19 @@ namespace Blaise.Nuget.Api.Core.Factories
 
             return dataInterface;
         }
+
+        public IGeneralDataInterface GetSettingsDataInterfaceForSql(string databaseConnectionString, 
+            ApplicationType applicationType)
+        {
+            var dataInterface = DataInterfaceManager.Create(applicationType);
+            dataInterface.ConnectionInfo.DataSourceType = DataSourceType.MySQL;
+            dataInterface.ConnectionInfo.DataProviderType = DataProviderType.MySQLDataProvider;
+
+            var connectionBuilder = DataInterfaceManager.GetBlaiseConnectionStringBuilder();
+            connectionBuilder.ConnectionString = databaseConnectionString;
+            dataInterface.ConnectionInfo.SetConnectionString(connectionBuilder.ConnectionString);
+
+            return dataInterface;
+        }
     }
 }
