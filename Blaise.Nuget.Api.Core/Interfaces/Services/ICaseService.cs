@@ -72,5 +72,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
         IEnumerable<CaseStatusModel> GetCaseStatusList(ConnectionModel connectionModel, string instrumentName,
             string serverParkName);
+
+        DateTime? GetLiveDate(ConnectionModel connectionModel, string instrumentName, string serverParkName);
     }
 }

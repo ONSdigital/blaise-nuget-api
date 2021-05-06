@@ -14,13 +14,16 @@ namespace Blaise.Nuget.Api.Api
     public class BlaiseSurveyApi : IBlaiseSurveyApi
     {
         private readonly ISurveyService _surveyService;
+        private readonly ICaseService _caseService;
         private readonly ConnectionModel _connectionModel;
 
         internal BlaiseSurveyApi(
             ISurveyService surveyService,
+            ICaseService caseService,
             ConnectionModel connectionModel)
         {
             _surveyService = surveyService;
+            _caseService = caseService;
             _connectionModel = connectionModel;
         }
 
@@ -30,7 +33,8 @@ namespace Blaise.Nuget.Api.Api
             unityProvider.RegisterDependencies();
 
             _surveyService = unityProvider.Resolve<ISurveyService>();
-            
+            _caseService = unityProvider.Resolve<ICaseService>();
+
             var configurationProvider = unityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
@@ -49,7 +53,7 @@ namespace Blaise.Nuget.Api.Api
         }
 
         public IEnumerable<ISurvey> GetSurveys(string serverParkName)
-        { 
+        {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
             return _surveyService.GetSurveys(_connectionModel, serverParkName);
@@ -94,7 +98,7 @@ namespace Blaise.Nuget.Api.Api
             return _surveyService.GetInstrumentId(_connectionModel, instrumentName, serverParkName);
         }
 
-        public void InstallSurvey(string instrumentName, string serverParkName, 
+        public void InstallSurvey(string instrumentName, string serverParkName,
             string instrumentFile, SurveyInterviewType surveyInterviewType)
         {
             instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
@@ -109,12 +113,15 @@ namespace Blaise.Nuget.Api.Api
         {
             instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
-            
+
             _surveyService.UninstallInstrument(_connectionModel, instrumentName, serverParkName);
         }
 
         public void ActivateSurvey(string instrumentName, string serverParkName)
         {
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
             var survey = GetSurvey(instrumentName, serverParkName);
 
             survey.Activate();
@@ -122,9 +129,20 @@ namespace Blaise.Nuget.Api.Api
 
         public void DeactivateSurvey(string instrumentName, string serverParkName)
         {
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
             var survey = GetSurvey(instrumentName, serverParkName);
 
             survey.Deactivate();
+        }
+
+        public DateTime? GetLiveDate(string instrumentName, string serverParkName)
+        {
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            return _caseService.GetLiveDate(_connectionModel, instrumentName, serverParkName);
         }
     }
 }

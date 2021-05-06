@@ -969,5 +969,37 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 Assert.AreEqual(lastUpdated, caseStatusModel.LastUpdated);
             }
         }
+
+        [Test]
+        public void Given_No_dataRecord_The_LiveDate_Is_Set_When_I_Call_GetLiveDate_Then_The_Correct_Value_Is_Returned()
+        {
+            //arrange
+            var expectedDateTime = DateTime.Now.Date;
+
+            //setup date
+            var dateDataValueMock = new Mock<IDataValue>();
+            var dateFieldMock = new Mock<IField>();
+            dateDataValueMock.Setup(d => d.DateValue).Returns(expectedDateTime);
+            dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LiveDate))
+                .Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LiveDate))
+                .Returns(dateFieldMock.Object);
+
+            //setup records
+            var dataSetMock = new Mock<IDataSet>();
+            dataSetMock.Setup(d => d.ActiveRecord).Returns(_dataRecordMock.Object);
+
+            _dataRecordServiceMock.Setup(d => d.GetDataSet(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(dataSetMock.Object);
+
+            //act
+            var result = _sut.GetLiveDate(_connectionModel, _instrumentName, _serverParkName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<DateTime>(result);
+            Assert.AreEqual(expectedDateTime, result);
+        }
     }
 }
