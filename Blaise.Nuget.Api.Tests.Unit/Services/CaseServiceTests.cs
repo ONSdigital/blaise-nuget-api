@@ -641,6 +641,16 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
+        public void Given_The_DataRecord_Is_Null_When_I_Call_GetLiveDate_Then_Null_Is_Returned()
+        {
+            //act
+            var result = _sut.GetLiveDate(null);
+
+            //assert
+            Assert.IsNull(result);
+        }
+
+        [Test]
         public void Given_A_DataRecord_When_I_Call_GetOutcomeCode_Then_The_Correct_Service_Method_Is_Called()
         {
             //arrange
@@ -860,8 +870,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_LastUpdated_Is_Not_set_When_I_Call_CaseInUseInCati_Then_False_Is_returned()
         {
-            //arrange
-
             //setup date
             var dateDataValueMock = new Mock<IDataValue>();
             var dateFieldMock = new Mock<IField>();
@@ -1000,6 +1008,47 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<DateTime>(result);
             Assert.AreEqual(expectedDateTime, result);
+        }
+
+        [Test]
+        public void Given_No_DataRecord_And_No_Cases_In_Instrument_When_I_Call_GetLiveDate_Then_Null_Is_Returned()
+        {
+            //arrange
+            var expectedDateTime = DateTime.Now.Date;
+
+            //setup records
+            var dataSetMock = new Mock<IDataSet>();
+            dataSetMock.SetupSequence(ds => ds.EndOfSet)
+                .Returns(true);
+
+            _dataRecordServiceMock.Setup(d => d.GetDataSet(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(dataSetMock.Object);
+
+            //act
+            var result = _sut.GetLiveDate(_connectionModel, _instrumentName, _serverParkName);
+
+            //assert
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void Given_No_DataRecord_And_No_Cases_In_Instrument_When_I_Call_GetLiveDate_Then_The_Field_Service_is_Not_Called()
+        {
+            //arrange
+
+            //setup records
+            var dataSetMock = new Mock<IDataSet>();
+            dataSetMock.SetupSequence(ds => ds.EndOfSet)
+                .Returns(true);
+
+            _dataRecordServiceMock.Setup(d => d.GetDataSet(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(dataSetMock.Object);
+
+            //act
+            _sut.GetLiveDate(_connectionModel, _instrumentName, _serverParkName);
+
+            //assert
+            _fieldServiceMock.VerifyNoOtherCalls();
         }
     }
 }

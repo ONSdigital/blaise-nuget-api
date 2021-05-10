@@ -60,8 +60,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
             //arrange
             const string serverParkName = "LocalDevelopment";
             const string instrumentName = "LMS2102_BK1";
-
-            var liveDate = DateTime.Now.Date;
+            var liveDate = DateTime.Today;
 
             var fieldData = new Dictionary<string, string>
             {

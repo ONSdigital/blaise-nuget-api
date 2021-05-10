@@ -225,6 +225,11 @@ namespace Blaise.Nuget.Api.Core.Services
         }
         public DateTime? GetLiveDate(IDataRecord dataRecord)
         {
+            if (dataRecord == null)
+            {
+                return null;
+            }
+
             if (!_fieldService.FieldExists(dataRecord, FieldNameType.LiveDate))
             {
                 return null;
@@ -276,7 +281,7 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var cases = GetDataSet(connectionModel, instrumentName, serverParkName);
 
-            return GetLiveDate(cases.ActiveRecord);
+            return cases.EndOfSet ? null : GetLiveDate(cases.ActiveRecord);
         }
     }
 }
