@@ -18,7 +18,7 @@
     <repository type="git" url="https://github.com/onsdigital/blaise-csharp-build.git" />
   </metadata>
   <files>
-    <file src="x64\bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\net472\Blaise.Nuget.Api.Contracts.dll" />
-    <file src="x64\bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\netcoreapp3.1\Blaise.Nuget.Api.Contracts.dll" />
+    <file src="bin\x64\release\Blaise.Nuget.Api.Contracts.dll" target="lib\net472\Blaise.Nuget.Api.Contracts.dll" />
+    <file src="bin\x64\release\Blaise.Nuget.Api.Contracts.dll" target="lib\netcoreapp3.1\Blaise.Nuget.Api.Contracts.dll" />
   </files>
 </package>
