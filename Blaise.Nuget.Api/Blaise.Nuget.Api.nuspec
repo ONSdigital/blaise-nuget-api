@@ -30,10 +30,10 @@
 		<repository type="git" url="https://github.com/onsdigital/blaise-csharp-build.git" />
 	</metadata>
 	<files>
-		<file src="x64\bin\release\Blaise.Nuget.Api.dll" target="lib\net472\Blaise.Nuget.Api.dll" />
-		<file src="x64\bin\release\Blaise.Nuget.Api.Core.dll" target="lib\net472\Blaise.Nuget.Api.Core.dll" />
-		<file src="x64\bin\release\Blaise.Nuget.Api.dll" target="lib\netcoreapp3.1\Blaise.Nuget.Api.dll" />
-		<file src="x64\bin\release\Blaise.Nuget.Api.Core.dll" target="lib\netcoreapp3.1\Blaise.Nuget.Api.Core.dll" />
+		<file src="bin\x64\release\Blaise.Nuget.Api.dll" target="lib\net472\Blaise.Nuget.Api.dll" />
+		<file src="bin\x64\release\Blaise.Nuget.Api.Core.dll" target="lib\net472\Blaise.Nuget.Api.Core.dll" />
+		<file src="bin\x64\release\Blaise.Nuget.Api.dll" target="lib\netcoreapp3.1\Blaise.Nuget.Api.dll" />
+		<file src="bin\x64\release\Blaise.Nuget.Api.Core.dll" target="lib\netcoreapp3.1\Blaise.Nuget.Api.Core.dll" />
 	</files>
 </package>
 
