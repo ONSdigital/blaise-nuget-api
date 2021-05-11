@@ -29,10 +29,8 @@ namespace Blaise.Nuget.Api.Core.Services
         public bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType)
         {
             var dataRecord2 = (IDataRecord2)dataRecord;
-            var dataFields = dataRecord2.GetDataFields();
 
-            return dataFields.Any(f =>
-                f.FullName.Equals(fieldNameType.FullName(), StringComparison.InvariantCultureIgnoreCase));
+            return dataRecord2.Fields.Any(f => f.FullName == fieldNameType.FullName());
         }
 
         public IField GetField(IDataRecord dataRecord, FieldNameType fieldNameType)
