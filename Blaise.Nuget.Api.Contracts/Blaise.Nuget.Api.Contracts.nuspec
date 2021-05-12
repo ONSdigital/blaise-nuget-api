@@ -1,24 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
-  <metadata>
-    <id>Blaise.Nuget.Api.Contracts</id>
-    <version>$version$</version>
-    <authors>Jamie Kerr</authors>
-    <owners>Jamie Kerr</owners>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Contracts package for the API to interact with Blaise</description>
-    <dependencies>
-      <group targetFramework="net472">
-	      <dependency id="StatNeth.Blaise.API.x64" version="5.9.3" />
-      </group>
-	    <group targetFramework="netcoreapp3.1">
-		    <dependency id="StatNeth.Blaise.API.x64" version="5.9.3" />
-	    </group>
-    </dependencies>
-    <repository type="git" url="https://github.com/onsdigital/blaise-csharp-build.git" />
-  </metadata>
-  <files>
-    <file src="bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\net472\Blaise.Nuget.Api.Contracts.dll" />
-    <file src="bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\netcoreapp3.1\Blaise.Nuget.Api.Contracts.dll" />
-  </files>
+	<metadata>
+		<id>Blaise.Nuget.Api.Contracts</id>
+		<version>$version$</version>
+		<authors>Jamie Kerr</authors>
+		<owners>Jamie Kerr</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Contracts package for the API to interact with Blaise</description>
+		<dependencies>
+			<group targetFramework="net472">
+				<dependency id="StatNeth.Blaise.API.x64" version="5.9.3" />
+			</group>
+			<group targetFramework="netcoreapp3.1">
+				<dependency id="StatNeth.Blaise.API.x64" version="5.9.3" />
+			</group>
+			<group targetFramework="net5.0">
+				<dependency id="StatNeth.Blaise.API.x64" version="5.9.3" />
+			</group>
+		</dependencies>
+		<repository type="git" url="https://github.com/onsdigital/blaise-csharp-build.git" />
+	</metadata>
+	<files>
+		<file src="bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\net472\Blaise.Nuget.Api.Contracts.dll" />
+		<file src="bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\netcoreapp3.1\Blaise.Nuget.Api.Contracts.dll" />
+		<file src="bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\net5.0\Blaise.Nuget.Api.Contracts.dll" />
+	</files>
 </package>
