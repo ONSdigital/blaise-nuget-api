@@ -85,6 +85,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_A_DataRecord_When_I_Call_FieldExists_Then_The_Correct_Value_Is_Returned(FieldNameType fieldNameType, bool fieldExists)
         {
             //arrange
+            var dataRecord2Mock = new Mock<IDataRecord2>();
+            var fieldCollectionMock = new Mock<IFieldCollection>();
+
             var iFieldMock = new Mock<IField>();
 
             if (fieldExists)
@@ -95,9 +98,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             {
                 iFieldMock.Setup(f => f.FullName).Returns("Does Not Exist");
             }
+            var fields = new List<IField> {iFieldMock.Object};
 
-            var dataRecord2Mock = new Mock<IDataRecord2>();
-            dataRecord2Mock.Setup(d => d.GetDataFields()).Returns(new List<IField> { iFieldMock .Object});
+            fieldCollectionMock.Setup(f => f.GetEnumerator())
+                .Returns(fields.GetEnumerator());
+
+            dataRecord2Mock.Setup(d => d.Fields).Returns(fieldCollectionMock.Object);
 
             //act
             var result = _sut.FieldExists(dataRecord2Mock.Object, fieldNameType);
