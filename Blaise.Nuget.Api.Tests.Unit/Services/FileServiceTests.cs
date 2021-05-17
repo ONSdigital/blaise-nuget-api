@@ -42,7 +42,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             const string existingConnectionString = "User Id=username;Server=ipaddress;Database=blaise;Password=password";
 
             var expectedConnectionString 
-                = $"User Id=username;Server=ipaddress;Database={applicationType};Password=password";
+                = $"User Id=username;Server=ipaddress;Database={applicationType.ToString().ToLower()};Password=password";
 
             _configurationMock.Setup(c => c.DatabaseConnectionString)
                 .Returns(existingConnectionString);
