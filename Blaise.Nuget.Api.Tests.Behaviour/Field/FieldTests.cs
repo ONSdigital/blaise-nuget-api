@@ -82,5 +82,25 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
             //cleanup
             _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
         }
+
+        //[Ignore("Integration")]
+        [Test]
+        public void Given_I_Call_GetLiveDate_Then_The_Correct_Value_Is_Returned()
+        {
+            //arrange
+            const string serverParkName = "LocalDevelopment";
+            const string instrumentName = "LMS2102_BK1";
+            var liveDate = DateTime.Today;
+
+            //act
+
+            var result = _sut.GetFieldValue("a", instrumentName, serverParkName, FieldNameType.LiveDate);
+
+            //arrange
+            Assert.AreEqual(liveDate, result);
+
+            //cleanup
+            _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
+        }
     }
 }

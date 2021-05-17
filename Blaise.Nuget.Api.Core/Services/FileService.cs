@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
+using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -68,7 +70,8 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName)
         {
-            var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
+            var databaseConnectionString = _configurationProvider.DatabaseConnectionString
+                .Replace("Database=blaise", $"Database={applicationType}");
 
             _dataInterfaceService.CreateSettingsDataInterface(databaseConnectionString, applicationType, fileName);
         }
