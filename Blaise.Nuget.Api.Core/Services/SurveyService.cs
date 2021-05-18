@@ -100,13 +100,13 @@ namespace Blaise.Nuget.Api.Core.Services
         public void InstallInstrument(ConnectionModel connectionModel, string instrumentName, string serverParkName,
             string instrumentFile, SurveyInterviewType surveyInterviewType)
         {
-            var serverPark = _parkService.GetServerPark(connectionModel, serverParkName);
+            var serverPark = (IServerPark5) _parkService.GetServerPark(connectionModel, serverParkName);
 
-            serverPark.InstallSurvey(
-                instrumentFile,
+            serverPark.InstallSurvey(instrumentFile,
                 surveyInterviewType.FullName(),
                 SurveyDataEntryType.StrictInterviewing.ToString(),
-                DataOverwriteMode.Always);
+                DataOverwriteMode.Always,
+                HarmlessDataModificationMode.Always);
         }
 
         public void UninstallInstrument(ConnectionModel connectionModel, string instrumentName, string serverParkName)

@@ -1014,7 +1014,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_No_DataRecord_And_No_Cases_In_Instrument_When_I_Call_GetLiveDate_Then_Null_Is_Returned()
         {
             //arrange
-            var expectedDateTime = DateTime.Now.Date;
 
             //setup records
             var dataSetMock = new Mock<IDataSet>();
