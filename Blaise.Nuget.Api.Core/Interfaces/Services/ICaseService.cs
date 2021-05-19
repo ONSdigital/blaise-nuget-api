@@ -45,6 +45,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         IDataValue GetFieldValue(IDataRecord dataRecord, FieldNameType fieldNameType);
 
+        IDataValue GetFieldValue(IDataRecord dataRecord, string fieldName);
+
         bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType);
 
         int GetNumberOfCases(ConnectionModel connectionModel, string instrumentName, string serverParkName);

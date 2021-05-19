@@ -36,5 +36,10 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             return dataRecord.GetField(fieldNameType.FullName());
         }
+
+        public IField GetField(IDataRecord dataRecord, string fieldName)
+        {
+            return dataRecord.GetField(fieldName);
+        }
     }
 }

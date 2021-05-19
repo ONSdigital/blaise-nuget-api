@@ -116,7 +116,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase(FieldNameType.HOut)]
         [TestCase(FieldNameType.Mode)]
         [TestCase(FieldNameType.TelNo)]
-        public void Given_I_Call_GetField_Then_The_Correct_Field_Is_Returned(FieldNameType fieldNameType)
+        public void iven_A_FieldNameType_When_I_Call_GetField_Then_The_Correct_Field_Is_Returned(FieldNameType fieldNameType)
         {
             //arrange
             var fieldMock = new Mock<IField>();
@@ -126,6 +126,23 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act
            var result = _sut.GetField(dataRecordMock.Object, fieldNameType);
+
+            //assert
+            Assert.AreEqual(fieldMock.Object, result);
+        }
+
+        [Test]
+        public void Given_A_FieldName_When_I_Call_GetField_Then_The_Correct_Field_Is_Returned()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+            var fieldMock = new Mock<IField>();
+
+            var dataRecordMock = new Mock<IDataRecord>();
+            dataRecordMock.Setup(d => d.GetField(fieldName)).Returns(fieldMock.Object);
+
+            //act
+            var result = _sut.GetField(dataRecordMock.Object, fieldName);
 
             //assert
             Assert.AreEqual(fieldMock.Object, result);

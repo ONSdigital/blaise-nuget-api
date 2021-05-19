@@ -11,5 +11,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType);
 
         IField GetField(IDataRecord dataRecord, FieldNameType fieldNameType);
+
+        IField GetField(IDataRecord dataRecord, string fieldName);
     }
 }

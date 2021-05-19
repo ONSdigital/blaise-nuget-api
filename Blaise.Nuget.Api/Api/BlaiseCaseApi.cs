@@ -152,6 +152,13 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetFieldValue(dataRecord, fieldNameType);
         }
 
+        public IDataValue GetFieldValue(IDataRecord dataRecord, string fieldName)
+        {
+            dataRecord.ThrowExceptionIfNull("dataRecord");
+
+            return _caseService.GetFieldValue(dataRecord, fieldName);
+        }
+
         public IDataValue GetFieldValue(string primaryKeyValue, string instrumentName,
             string serverParkName, FieldNameType fieldNameType)
         {

@@ -859,7 +859,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         [TestCase(FieldNameType.Mode)]
         [TestCase(FieldNameType.TelNo)]
         [TestCase(FieldNameType.LastUpdated)]
-        public void Given_A_DataRecord_When_I_Call_GetFieldValue_Then_The_Correct_Value(FieldNameType fieldNameType)
+        public void Given_A_FieldNameType_When_I_Call_GetFieldValue_Then_The_Correct_Value(FieldNameType fieldNameType)
         {
             //arrange
             var dataValueMock = new Mock<IDataValue>();
@@ -877,13 +877,43 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         }
 
         [Test]
-        public void Given_A_Null_DataRecord_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_FieldNameType_When_I_Call_GetFieldValue_With_A_Null_DataRecord_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange
             const FieldNameType fieldValueType = FieldNameType.HOut;
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(null, fieldValueType));
+            Assert.AreEqual("The argument 'dataRecord' must be supplied", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_A_FieldName_When_I_Call_GetFieldValue_Then_The_Correct_Value()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+            var dataValueMock = new Mock<IDataValue>();
+            var dataRecordMock = new Mock<IDataRecord>();
+
+            _caseServiceMock.Setup(d => d.GetFieldValue(dataRecordMock.Object, fieldName))
+                .Returns(dataValueMock.Object);
+
+            //act
+            var result = _sut.GetFieldValue(dataRecordMock.Object, fieldName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(dataValueMock.Object, result);
+        }
+
+        [Test]
+        public void Given_A_FieldName_When_I_Call_GetFieldValue_With_A_Null_DataRecord_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(null, fieldName));
             Assert.AreEqual("The argument 'dataRecord' must be supplied", exception.ParamName);
         }
 

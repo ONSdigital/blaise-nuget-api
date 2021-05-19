@@ -325,7 +325,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase(FieldNameType.HOut)]
         [TestCase(FieldNameType.Mode)]
         [TestCase(FieldNameType.TelNo)]
-        public void Given_I_Call_GetFieldValue_Then_The_Correct_DataModel_Is_Returned(FieldNameType fieldNameType)
+        public void Given_A_FieldNameType_When_I_Call_GetFieldValue_Then_The_Correct_DataModel_Is_Returned(FieldNameType fieldNameType)
         {
             //arrange
             var dataValueMock = new Mock<IDataValue>();
@@ -344,7 +344,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase(FieldNameType.HOut)]
         [TestCase(FieldNameType.Mode)]
         [TestCase(FieldNameType.TelNo)]
-        public void Given_I_Call_GetFieldValue_Then_The_Correct_Services_Are_Called(FieldNameType fieldNameType)
+        public void Given_A_FieldNameType_When_I_Call_GetFieldValue_Then_The_Correct_Services_Are_Called(FieldNameType fieldNameType)
         {
             //arrange
             var dataValueMock = new Mock<IDataValue>();
@@ -358,6 +358,42 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //assert
             _fieldServiceMock.Verify(v => v.GetField(_dataRecordMock.Object, fieldNameType), Times.Once);
+        }
+
+        [Test]
+        public void Given_A_FieldName_When_I_Call_GetFieldValue_Then_The_Correct_DataModel_Is_Returned()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+            var dataValueMock = new Mock<IDataValue>();
+            var fieldMock = new Mock<IField>();
+
+            fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldName)).Returns(fieldMock.Object);
+
+            //act
+            var result = _sut.GetFieldValue(_dataRecordMock.Object, fieldName);
+
+            //assert
+            Assert.AreEqual(dataValueMock.Object, result);
+        }
+
+        [Test]
+        public void Given_A_FieldName_When_I_Call_GetFieldValue_Then_The_Correct_Services_Are_Called()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+            var dataValueMock = new Mock<IDataValue>();
+            var fieldMock = new Mock<IField>();
+
+            fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldName)).Returns(fieldMock.Object);
+
+            //act
+            _sut.GetFieldValue(_dataRecordMock.Object, fieldName);
+
+            //assert
+            _fieldServiceMock.Verify(v => v.GetField(_dataRecordMock.Object, fieldName), Times.Once);
         }
 
         [TestCase(FieldNameType.HOut, true)]

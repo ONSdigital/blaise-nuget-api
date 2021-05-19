@@ -87,6 +87,11 @@ namespace Blaise.Nuget.Api.Core.Services
             return _fieldService.GetField(dataRecord, fieldNameType).DataValue;
         }
 
+        public IDataValue GetFieldValue(IDataRecord dataRecord, string fieldName)
+        {
+            return _fieldService.GetField(dataRecord, fieldName).DataValue;
+        }
+
         public bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType)
         {
             return _fieldService.FieldExists(dataRecord, fieldNameType);
