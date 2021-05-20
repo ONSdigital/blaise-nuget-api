@@ -8,6 +8,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
     {
         bool FieldExists(ConnectionModel connectionModel, string instrumentName, string serverParkName, FieldNameType fieldNameType);
 
+        bool FieldExists(ConnectionModel connectionModel, string instrumentName, string serverParkName, string fieldName);
+
         bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType);
 
         IField GetField(IDataRecord dataRecord, FieldNameType fieldNameType);

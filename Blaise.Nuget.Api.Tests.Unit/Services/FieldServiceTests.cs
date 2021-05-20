@@ -20,7 +20,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         private readonly string _instrumentName;
         private readonly string _serverParkName;
 
-        private FieldService _sut;
+        private IFieldService _sut;
 
         public FieldServiceTests()
         {
@@ -40,7 +40,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase(FieldNameType.HOut)]
         [TestCase(FieldNameType.Mode)]
         [TestCase(FieldNameType.TelNo)]
-        public void Given_I_Call_FieldExists_Then_The_Correct_Services_Are_Called(FieldNameType fieldNameType)
+        public void Given_A_FieldNameType_When_I_Call_FieldExists_Then_The_Correct_Services_Are_Called(FieldNameType fieldNameType)
         {
             //arrange
             var dataModelMock = new Mock<IDatamodel>();
@@ -59,7 +59,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Given_I_Call_FieldExists_Then_The_Correct_Value_Is_Returned(bool fieldExists)
+        public void Given_A_FieldNameType_When_I_Call_FieldExists_Then_The_Correct_Value_Is_Returned(bool fieldExists)
         {
             //arrange
             var dataModelMock = new Mock<IDatamodel>();
@@ -70,6 +70,45 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act
             var result = _sut.FieldExists(_connectionModel, _instrumentName, _serverParkName, FieldNameType.HOut);
+
+            //assert
+            Assert.NotNull(result);
+            Assert.AreEqual(fieldExists, result);
+        }
+
+        [Test]
+        public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Correct_Services_Are_Called()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+            var dataModelMock = new Mock<IDatamodel>();
+            dataModelMock.As<IDefinitionScope2>();
+            dataModelMock.As<IDefinitionScope2>().Setup(d => d.FieldExists(fieldName)).Returns(It.IsAny<bool>());
+
+            _dataModelServiceMock.Setup(d => d.GetDataModel(_connectionModel, It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(dataModelMock.Object);
+
+            //act
+            _sut.FieldExists(_connectionModel, _instrumentName, _serverParkName, fieldName);
+
+            //assert
+            _dataModelServiceMock.Verify(d => d.GetDataModel(_connectionModel, _instrumentName, _serverParkName), Times.Once);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Correct_Value_Is_Returned(bool fieldExists)
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+            var dataModelMock = new Mock<IDatamodel>();
+            dataModelMock.As<IDefinitionScope2>();
+            dataModelMock.As<IDefinitionScope2>().Setup(d => d.FieldExists(fieldName)).Returns(fieldExists);
+            _dataModelServiceMock.Setup(d => d.GetDataModel(_connectionModel, It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(dataModelMock.Object);
+
+            //act
+            var result = _sut.FieldExists(_connectionModel, _instrumentName, _serverParkName, fieldName);
 
             //assert
             Assert.NotNull(result);

@@ -138,6 +138,16 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.FieldExists(_connectionModel, instrumentName, serverParkName, fieldNameType);
         }
 
+        public bool FieldExists(string instrumentName, string serverParkName, string fieldName)
+        {
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            fieldName.ThrowExceptionIfNullOrEmpty("fieldName");
+
+            return _caseService.FieldExists(_connectionModel, instrumentName, serverParkName, fieldName);
+        }
+
         public bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType)
         {
             dataRecord.ThrowExceptionIfNull("dataRecord");
@@ -155,6 +165,7 @@ namespace Blaise.Nuget.Api.Api
         public IDataValue GetFieldValue(IDataRecord dataRecord, string fieldName)
         {
             dataRecord.ThrowExceptionIfNull("dataRecord");
+            fieldName.ThrowExceptionIfNullOrEmpty("fieldName");
 
             return _caseService.GetFieldValue(dataRecord, fieldName);
         }

@@ -25,6 +25,14 @@ namespace Blaise.Nuget.Api.Core.Services
             return definitionScope.FieldExists(fieldNameType.FullName());
         }
 
+        public bool FieldExists(ConnectionModel connectionModel, string instrumentName, string serverParkName, string fieldName)
+        {
+            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var definitionScope = (IDefinitionScope2)dataModel;
+
+            return definitionScope.FieldExists(fieldName);
+        }
+
         public bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType)
         {
             var dataRecord2 = (IDataRecord2)dataRecord;

@@ -67,6 +67,11 @@ namespace Blaise.Nuget.Api.Core.Services
             return _fieldService.FieldExists(connectionModel, instrumentName, serverParkName, fieldNameType);
         }
 
+        public bool FieldExists(ConnectionModel connectionModel, string instrumentName, string serverParkName, string fieldName)
+        {
+            return _fieldService.FieldExists(connectionModel, instrumentName, serverParkName, fieldName);
+        }
+
         public void RemoveDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName, string serverParkName)
         {
             var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);

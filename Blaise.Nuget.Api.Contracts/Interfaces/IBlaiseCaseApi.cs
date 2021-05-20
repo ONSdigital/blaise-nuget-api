@@ -34,6 +34,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         bool FieldExists(string instrumentName, string serverParkName, FieldNameType fieldNameType);
 
+        bool FieldExists(string instrumentName, string serverParkName, string fieldName);
+
         bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType);
 
         IDataValue GetFieldValue(IDataRecord dataRecord, FieldNameType fieldNameType);

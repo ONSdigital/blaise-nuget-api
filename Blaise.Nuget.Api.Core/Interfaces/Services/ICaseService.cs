@@ -38,6 +38,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         bool FieldExists(ConnectionModel connectionModel, string instrumentName, string serverParkName, 
             FieldNameType fieldNameType);
 
+        bool FieldExists(ConnectionModel connectionModel, string instrumentName, string serverParkName,
+            string fieldName);
+
         void RemoveDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName, 
             string serverParkName);
 

@@ -742,6 +742,104 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
+        [Test]
+        public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+            _caseServiceMock.Setup(d => d.FieldExists(_connectionModel, It.IsAny<string>(),
+                It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<bool>());
+
+            //act
+            _sut.FieldExists(_instrumentName, _serverParkName, fieldName);
+
+            //CompletedFieldExists
+            _caseServiceMock.Verify(v => v.FieldExists(_connectionModel, _instrumentName, _serverParkName, fieldName), Times.Once);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Expected_Result_Is_Returned(bool fieldExists)
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+            _caseServiceMock.Setup(d => d.FieldExists(_connectionModel, It.IsAny<string>(), It.IsAny<string>(),
+                It.IsAny<string>())).Returns(fieldExists);
+
+            //act
+            var result = _sut.FieldExists(_instrumentName, _serverParkName, fieldName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(fieldExists, result);
+        }
+
+        [Test]
+        public void Given_A_FieldName_And_An_Empty_InstrumentName_When_I_Call_FieldExists_Then_An_ArgumentException_Is_Thrown()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.FieldExists(string.Empty,
+                _serverParkName, fieldName));
+            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_FieldName_And_A_Null_InstrumentName_When_I_Call_FieldExists_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.FieldExists(null,
+                _serverParkName, fieldName));
+            Assert.AreEqual("instrumentName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_A_FieldName_And_An_Empty_ServerParkName_When_I_Call_FieldExists_Then_An_ArgumentException_Is_Thrown()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.FieldExists(_instrumentName,
+                string.Empty, fieldName));
+            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_FieldName_And_A_Null_ServerParkName_When_I_Call_FieldExists_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.FieldExists(_instrumentName,
+                null, fieldName));
+            Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_FieldName_When_I_Call_FieldExists_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.FieldExists(_instrumentName,
+                _serverParkName, string.Empty));
+            Assert.AreEqual("A value for the argument 'fieldName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_FieldName_When_I_Call_FieldExists_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.FieldExists(_instrumentName,
+                _serverParkName, null));
+            Assert.AreEqual("fieldName", exception.ParamName);
+        }
+
         [TestCase(FieldNameType.HOut)]
         [TestCase(FieldNameType.Mode)]
         [TestCase(FieldNameType.TelNo)]
@@ -915,6 +1013,28 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(null, fieldName));
             Assert.AreEqual("The argument 'dataRecord' must be supplied", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_FieldName_When_I_Call_GetFieldValue_Then_An_ArgumentException_Is_Thrown()
+        {
+            //arrange
+            var dataRecordMock = new Mock<IDataRecord>();
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFieldValue(dataRecordMock.Object, string.Empty));
+            Assert.AreEqual("A value for the argument 'fieldName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_FieldName_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            var dataRecordMock = new Mock<IDataRecord>();
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(dataRecordMock.Object, null)); 
+            Assert.AreEqual("fieldName", exception.ParamName);
         }
 
         [TestCase(FieldNameType.HOut)]
