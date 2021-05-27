@@ -134,6 +134,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\BlaiseAdminApi.cs" />
     <Compile Include="Api\BlaiseRoleApi.cs" />
     <Compile Include="Api\BlaiseServerParkApi.cs" />
     <Compile Include="Api\BlaiseCatiApi.cs" />
