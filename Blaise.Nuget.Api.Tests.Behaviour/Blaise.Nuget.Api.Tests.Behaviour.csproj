@@ -131,6 +131,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\ConnectionTests.cs" />
     <Compile Include="Case\CaseExistsTests.cs" />
     <Compile Include="Case\DeleteCaseTests.cs" />
     <Compile Include="Case\UpdateCaseTests.cs" />
@@ -161,9 +162,7 @@
       <Name>Blaise.Nuget.Api</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Admin\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
