@@ -71,6 +71,7 @@
     <Compile Include="Exceptions\DataNotFoundException.cs" />
     <Compile Include="Exceptions\SurveyConfigurationException.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Interfaces\IBlaiseAdminApi.cs" />
     <Compile Include="Interfaces\IBlaiseFileApi.cs" />
     <Compile Include="Interfaces\IBlaiseCaseApi.cs" />
     <Compile Include="Interfaces\IBlaiseHealthApi.cs" />

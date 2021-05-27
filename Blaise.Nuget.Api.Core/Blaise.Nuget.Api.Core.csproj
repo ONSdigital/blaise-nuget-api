@@ -119,6 +119,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExpiryExtensions.cs" />
     <Compile Include="Factories\DataInterfaceFactory.cs" />
+    <Compile Include="Interfaces\Admin\IResetConnections.cs" />
     <Compile Include="Interfaces\Factories\IDataInterfaceFactory.cs" />
     <Compile Include="Factories\SecurityManagerFactory.cs" />
     <Compile Include="Factories\ConnectedServerFactory.cs" />
