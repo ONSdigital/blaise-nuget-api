@@ -31,13 +31,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.InstrumentFile
             DeleteCasesInDatabase(instrumentName, serverParkName);
         }
 
-        [Ignore("Integration")]
+        //[Ignore("Integration")]
         [Test]
         public void Given_I_Call_UpdateInstrumentFileWithSqlConnection_Then_The_Instrument_Is_Updated()
         {
             //arrange
-            const string instrumentName = "opn2101a";
-            const string instrumentFile = @"D:\Opn\Temp\OPN2101A.bpkg";
+            const string instrumentName = "LMS2101_AA1";
+            const string instrumentFile = @"D:\Blaise\Instruments\LMS2101_AA1.bpkg";
 
             //act && assert
             Assert.DoesNotThrow(() => _sut.UpdateInstrumentFileWithSqlConnection(instrumentName,

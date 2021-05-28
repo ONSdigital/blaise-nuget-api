@@ -31,7 +31,7 @@ namespace Blaise.Nuget.Api.Core.Factories
             var dataInterface = DataInterfaceManager.GetDataInterface();
             dataInterface.ConnectionInfo.DataSourceType = DataSourceType.MySQL;
             dataInterface.ConnectionInfo.DataProviderType = DataProviderType.MySQLDataProvider;
-            dataInterface.DataPartitionType = DataPartitionType.Stream;
+            dataInterface.DataPartitionType = DataPartitionType.FlatBlocks;
 
             var connectionStringBuilder = DataInterfaceManager.GetBlaiseConnectionStringBuilder();
             connectionStringBuilder.ConnectionString = databaseConnectionString;
