@@ -31,7 +31,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.InstrumentFile
             DeleteCasesInDatabase(instrumentName, serverParkName);
         }
 
-        //[Ignore("Integration")]
+        [Ignore("Integration")]
         [Test]
         public void Given_I_Call_UpdateInstrumentFileWithSqlConnection_Then_The_Instrument_Is_Updated()
         {
