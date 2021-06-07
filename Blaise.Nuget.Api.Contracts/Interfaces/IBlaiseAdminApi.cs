@@ -3,5 +3,7 @@
     public interface IBlaiseAdminApi
     {
         void ResetConnections();
+
+        int ActiveConnections();
     }
 }

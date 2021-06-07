@@ -33,10 +33,21 @@ namespace Blaise.Nuget.Api.Api
             ResetConnection<ILocalDataLinkProvider>();
         }
 
+        public int ActiveConnections()
+        {
+            return CurrentConnections<IRemoteDataServerFactory>();
+        }
+
         public void ResetConnection<T>() where T : IResetConnections
         {
             var service = _iocProvider.Resolve<T>();
             service.ResetConnections();
+        }
+
+        public int CurrentConnections<T>() where T : IGetActiveConnections
+        {
+            var service = _iocProvider.Resolve<T>();
+            return service.NumberOfConnections();
         }
     }
 }
