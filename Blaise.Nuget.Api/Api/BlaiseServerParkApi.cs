@@ -24,12 +24,9 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseServerParkApi(ConnectionModel connectionModel = null)
         {
-            var unityProvider = new UnityProvider();
-            unityProvider.RegisterDependencies();
+            _parkService = UnityProvider.Resolve<IServerParkService>();
 
-            _parkService = unityProvider.Resolve<IServerParkService>();
-
-            var configurationProvider = unityProvider.Resolve<IBlaiseConfigurationProvider>();
+            var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 

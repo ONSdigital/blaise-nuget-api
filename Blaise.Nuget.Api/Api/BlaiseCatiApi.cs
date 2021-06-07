@@ -25,12 +25,9 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseCatiApi(ConnectionModel connectionModel = null)
         {
-            var unityProvider = new UnityProvider();
-            unityProvider.RegisterDependencies();
-
-            _catiService = unityProvider.Resolve<ICatiService>();
+            _catiService = UnityProvider.Resolve<ICatiService>();
             
-            var configurationProvider = unityProvider.Resolve<IBlaiseConfigurationProvider>();
+            var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
         

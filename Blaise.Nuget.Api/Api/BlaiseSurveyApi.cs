@@ -29,13 +29,10 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseSurveyApi(ConnectionModel connectionModel = null)
         {
-            var unityProvider = new UnityProvider();
-            unityProvider.RegisterDependencies();
+            _surveyService = UnityProvider.Resolve<ISurveyService>();
+            _caseService = UnityProvider.Resolve<ICaseService>();
 
-            _surveyService = unityProvider.Resolve<ISurveyService>();
-            _caseService = unityProvider.Resolve<ICaseService>();
-
-            var configurationProvider = unityProvider.Resolve<IBlaiseConfigurationProvider>();
+            var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 

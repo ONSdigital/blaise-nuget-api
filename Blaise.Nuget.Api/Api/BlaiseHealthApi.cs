@@ -28,14 +28,11 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseHealthApi(ConnectionModel connectionModel = null)
         {
-            var unityProvider = new UnityProvider();
-            unityProvider.RegisterDependencies();
+            _connectedServerFactory = UnityProvider.Resolve<IConnectedServerFactory>();
+            _remoteDataServerFactory = UnityProvider.Resolve<IRemoteDataServerFactory>();
+            _catiManagementServerFactory = UnityProvider.Resolve<ICatiManagementServerFactory>();
 
-            _connectedServerFactory = unityProvider.Resolve<IConnectedServerFactory>();
-            _remoteDataServerFactory = unityProvider.Resolve<IRemoteDataServerFactory>();
-            _catiManagementServerFactory = unityProvider.Resolve<ICatiManagementServerFactory>();
-
-            var configurationProvider = unityProvider.Resolve<IBlaiseConfigurationProvider>();
+            var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 

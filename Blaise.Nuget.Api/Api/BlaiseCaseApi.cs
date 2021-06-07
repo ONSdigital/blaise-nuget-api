@@ -27,12 +27,10 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseCaseApi(ConnectionModel connectionModel = null)
         {
-           var unityProvider = new UnityProvider();
-           unityProvider.RegisterDependencies();
 
-           _caseService = unityProvider.Resolve<ICaseService>();
+           _caseService = UnityProvider.Resolve<ICaseService>();
 
-           var configurationProvider = unityProvider.Resolve<IBlaiseConfigurationProvider>();
+           var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
            _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 

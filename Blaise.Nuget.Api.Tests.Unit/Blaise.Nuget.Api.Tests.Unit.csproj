@@ -82,7 +82,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\Admin\BlaiseAdminApiTests.cs" />
     <Compile Include="Api\Case\BlaiseCaseApiTests.cs" />
     <Compile Include="Api\File\BlaiseFileApiTests.cs" />
     <Compile Include="Api\Cati\BlaiseCatiApiTests.cs" />

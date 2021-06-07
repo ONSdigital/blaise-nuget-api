@@ -39,11 +39,6 @@ namespace Blaise.Nuget.Api.Core.Factories
             _remoteDataServers.Clear();
         }
 
-        public int NumberOfConnections()
-        {
-            return _remoteDataServers.Count;
-        }
-
         private IRemoteDataServer GetFreshServerConnection(ConnectionModel connectionModel)
         {
             var remoteConnection = CreateRemoteConnection(connectionModel);

@@ -6,7 +6,7 @@ using StatNeth.Blaise.API.DataRecord;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Providers
 {
-    public interface IRemoteDataLinkProvider : IResetConnections
+    public interface IRemoteDataLinkProvider : IResetConnections, IGetActiveConnections
     {
         void LockDataRecord(ConnectionModel connectionModel, string instrumentName, string serverParkName,
             IKey primaryKey, string lockId);

@@ -24,12 +24,9 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseRoleApi(ConnectionModel connectionModel = null)
         {
-            var unityProvider = new UnityProvider();
-            unityProvider.RegisterDependencies();
-
-            _roleService = unityProvider.Resolve<IRoleService>();
+            _roleService = UnityProvider.Resolve<IRoleService>();
             
-            var configurationProvider = unityProvider.Resolve<IBlaiseConfigurationProvider>();
+            var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
