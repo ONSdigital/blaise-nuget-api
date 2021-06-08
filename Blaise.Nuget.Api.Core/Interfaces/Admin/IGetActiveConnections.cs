@@ -1,7 +1,7 @@
 ﻿namespace Blaise.Nuget.Api.Core.Interfaces.Admin
 {
-    public interface IGetActiveConnections
+    public interface IGetOpenConnections
     {
-        int NumberOfConnections();
+        int GetOpenConnections();
     }
 }

@@ -1,4 +1,6 @@
-﻿using Blaise.Nuget.Api.Contracts.Interfaces;
+﻿using System.Collections.Generic;
+using Blaise.Nuget.Api.Contracts.Interfaces;
+using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Admin;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -19,9 +21,20 @@ namespace Blaise.Nuget.Api.Api
             ResetConnection<ILocalDataLinkProvider>();
         }
 
-        public int ActiveConnections()
+        public IEnumerable<OpenConnectionModel> OpenConnections()
         {
-            return CurrentConnections<IRemoteDataLinkProvider>();
+            var openConnections = new List<OpenConnectionModel>
+            {
+                GetOpenConnectionDetails<ICatiManagementServerFactory>(),
+                GetOpenConnectionDetails<IConnectedServerFactory>(),
+                GetOpenConnectionDetails<IRemoteDataServerFactory>(),
+                GetOpenConnectionDetails<ISecurityManagerFactory>(),
+
+                GetOpenConnectionDetails<IRemoteDataLinkProvider>(),
+                GetOpenConnectionDetails<ILocalDataLinkProvider>()
+            };
+
+            return openConnections;
         }
 
         public void ResetConnection<T>() where T : IResetConnections
@@ -30,10 +43,14 @@ namespace Blaise.Nuget.Api.Api
             service.ResetConnections();
         }
 
-        public int CurrentConnections<T>() where T : IGetActiveConnections
+        public OpenConnectionModel GetOpenConnectionDetails<T>() where T : IGetOpenConnections
         {
             var service = UnityProvider.Resolve<T>();
-            return service.NumberOfConnections();
+            return new OpenConnectionModel
+            {
+                ConnectionType = typeof(T).FullName,
+                Connections = service.GetOpenConnections()
+            };
         }
     }
 }

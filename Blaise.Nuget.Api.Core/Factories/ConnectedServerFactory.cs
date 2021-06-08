@@ -44,6 +44,11 @@ namespace Blaise.Nuget.Api.Core.Factories
             _connectedServers.Clear();
         }
 
+        public int GetOpenConnections()
+        {
+            return _connectedServers.Count;
+        }
+
         private IConnectedServer GetFreshServerConnection(ConnectionModel connectionModel)
         {
             var connectedServer = CreateServerConnection(connectionModel);

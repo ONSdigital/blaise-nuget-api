@@ -4,7 +4,7 @@ using StatNeth.Blaise.API.ServerManager;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Factories
 {
-    public interface IConnectedServerFactory : IResetConnections
+    public interface IConnectedServerFactory : IResetConnections, IGetOpenConnections
     {
         IConnectedServer GetConnection(ConnectionModel connectionModel);
 
