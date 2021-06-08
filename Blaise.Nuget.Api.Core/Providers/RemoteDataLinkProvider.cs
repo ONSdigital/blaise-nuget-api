@@ -6,7 +6,6 @@ using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataLink;
-using StatNeth.Blaise.API.DataRecord;
 
 namespace Blaise.Nuget.Api.Core.Providers
 {
@@ -15,7 +14,7 @@ namespace Blaise.Nuget.Api.Core.Providers
         private readonly IRemoteDataServerFactory _connectionFactory;
         private readonly ISurveyService _surveyService;
 
-        private readonly Dictionary<Tuple<string, string>, Tuple<IDataLink4, DateTime>> _dataLinkConnections;
+        private readonly Dictionary<Tuple<string, string, DateTime>, Tuple<IDataLink4, DateTime>> _dataLinkConnections;
         
         public RemoteDataLinkProvider(
             IRemoteDataServerFactory connectionFactory,
@@ -24,58 +23,45 @@ namespace Blaise.Nuget.Api.Core.Providers
             _connectionFactory = connectionFactory;
             _surveyService = surveyService;
 
-            _dataLinkConnections = new Dictionary<Tuple<string, string>, Tuple<IDataLink4, DateTime>>();
-        }
-
-        public void LockDataRecord(ConnectionModel connectionModel, string instrumentName, string serverParkName,
-            IKey primaryKey, string lockId)
-        {
-            var dataLink = GetDataLink(connectionModel, instrumentName, serverParkName);
-
-            dataLink.Lock(primaryKey, lockId);
-        }
-
-        public void UnLockDataRecord(ConnectionModel connectionModel, string instrumentName, string serverParkName,
-            IKey primaryKey, string lockId)
-        {
-            var dataLink = GetDataLink(connectionModel, instrumentName, serverParkName);
-
-            dataLink.Unlock(primaryKey, lockId);
+            _dataLinkConnections = new Dictionary<Tuple<string, string, DateTime>, Tuple<IDataLink4, DateTime>>();
         }
 
         public IDataLink4 GetDataLink(ConnectionModel connectionModel, string instrumentName, string serverParkName)
         {
-            if (!_dataLinkConnections.ContainsKey(new Tuple<string, string>(instrumentName, serverParkName)))
+            var installDate = _surveyService.GetInstallDate(connectionModel, instrumentName, serverParkName);
+
+            if (!_dataLinkConnections.ContainsKey(new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)))
             {
-                return GetFreshConnection(connectionModel, instrumentName, serverParkName);
+                return GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
             }
 
-            var (dataLink, expiryDate) = _dataLinkConnections[new Tuple<string, string>(instrumentName, serverParkName)];
+            var (dataLink, expiryDate) = 
+                _dataLinkConnections[new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)];
 
             return expiryDate.HasExpired()
-                ? GetFreshConnection(connectionModel, instrumentName, serverParkName)
-                : dataLink ?? GetFreshConnection(connectionModel, instrumentName, serverParkName);
+                ? GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate)
+                : dataLink ?? GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
         }
 
         public void ResetConnections()
         {
             _dataLinkConnections.Clear();
         }
-
-
+        
         public int NumberOfConnections()
         {
             return _dataLinkConnections.Count;
         }
 
-        private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string instrumentName, string serverParkName,
+            DateTime installDate)
         {
             var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
             var connection = _connectionFactory.GetConnection(connectionModel);
             var dataLink = connection.GetDataLink(instrumentId, serverParkName);
             var dictionaryEntry = new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
 
-            _dataLinkConnections[new Tuple<string, string>(instrumentName, serverParkName)] = dictionaryEntry;
+            _dataLinkConnections[new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)] = dictionaryEntry;
 
             return dataLink;
         }

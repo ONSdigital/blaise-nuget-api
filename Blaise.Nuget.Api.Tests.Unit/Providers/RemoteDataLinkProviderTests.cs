@@ -8,7 +8,6 @@ using Blaise.Nuget.Api.Core.Providers;
 using Moq;
 using NUnit.Framework;
 using StatNeth.Blaise.API.DataLink;
-using StatNeth.Blaise.API.DataRecord;
 using StatNeth.Blaise.API.Meta;
 
 namespace Blaise.Nuget.Api.Tests.Unit.Providers
@@ -25,6 +24,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         private readonly ConnectionModel _connectionModel;
         private readonly string _instrumentName;
         private readonly string _serverParkName;
+        private readonly DateTime _installDate;
         private readonly Guid _instrumentId;
 
         private IRemoteDataLinkProvider _sut;
@@ -34,6 +34,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             _connectionModel = new ConnectionModel();
             _instrumentName = "TestInstrumentName";
             _serverParkName = "TestServerParkName";
+            _installDate = DateTime.Today;
             _instrumentId = Guid.NewGuid();
         }
 
@@ -53,6 +54,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
 
             _surveyServiceMock = new Mock<ISurveyService>();
             _surveyServiceMock.Setup(p => p.GetInstrumentId(_connectionModel, _instrumentName, _serverParkName)).Returns(_instrumentId);
+            _surveyServiceMock.Setup(s => s.GetInstallDate(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(_installDate);
 
             _sut = new RemoteDataLinkProvider(
                 _connectionFactoryMock.Object,
@@ -60,7 +63,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_GetDataLink_With_The_Same_InstrumentName_And_ServerName_More_Than_Once_Then_The_Same_DataLink_Is_Used()
+        public void Given_InstallDate_Has_Not_Changed_When_I_Call_GetDataLink_With_The_Same_InstrumentName_And_ServerParkName_More_Than_Once_Then_The_Same_DataLink_Is_Used()
         {
             //arrange
             _connectionModel.ConnectionExpiresInMinutes = 1;
@@ -76,7 +79,26 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_GetDataLink_With_The_Same_InstrumentName_And_ServerName_But_Connection_Has_expired_Then_A_New_DataLink_Is_Established()
+        public void Given_InstallDate_Has_Changed_I_Call_GetDataLink_With_The_Same_InstrumentName_And_ServerParkName_More_Than_Once_Then_A_New_DataLink_Is_Established()
+        {
+            //arrange
+            _connectionModel.ConnectionExpiresInMinutes = 1;
+            _surveyServiceMock.Setup(p => p.GetInstrumentId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
+            _remoteDataServerMock.Setup(r => r.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>())).Returns(_dataLinkMock.Object);
+            _surveyServiceMock.SetupSequence(s => s.GetInstallDate(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(_installDate)
+                .Returns(DateTime.Today.AddHours(1));
+
+            //act
+            _sut.GetDataLink(_connectionModel, _instrumentName, _serverParkName);
+            _sut.GetDataLink(_connectionModel, _instrumentName, _serverParkName);
+
+            //assert
+            _remoteDataServerMock.Verify(v => v.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>()), Times.Exactly(2));
+        }
+
+        [Test]
+        public void Given_I_Call_GetDataLink_With_The_Same_InstrumentName_And_ServerParkName_But_Connection_Has_expired_Then_A_New_DataLink_Is_Established()
         {
             //arrange
             _surveyServiceMock.Setup(p => p.GetInstrumentId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
@@ -134,34 +156,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
 
             //assert
             _remoteDataServerMock.Verify(v => v.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>()), Times.Exactly(2));
-        }
-
-        [Test]
-        public void Given_I_Call_LockDataRecord_Then_The_Record_Is_Locked()
-        {
-            //arrange
-            var primaryKey = new Mock<IKey>();
-            const string lockId = "Lock123";
-
-            //act
-            _sut.LockDataRecord(_connectionModel, _instrumentName, _serverParkName, primaryKey.Object, lockId);
-
-            //assert
-            _dataLinkMock.Verify(v => v.Lock(primaryKey.Object, lockId), Times.Once);
-        }
-
-        [Test]
-        public void Given_I_Call_UnLockDataRecord_Then_The_Record_Is_UnLocked()
-        {
-            //arrange
-            var primaryKey = new Mock<IKey>();
-            const string lockId = "Lock123";
-
-            //act
-            _sut.UnLockDataRecord(_connectionModel, _instrumentName, _serverParkName, primaryKey.Object, lockId);
-
-            //assert
-            _dataLinkMock.Verify(v => v.Unlock(primaryKey.Object, lockId), Times.Once);
         }
     }
 }

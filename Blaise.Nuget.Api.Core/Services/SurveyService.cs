@@ -48,6 +48,13 @@ namespace Blaise.Nuget.Api.Core.Services
             return GetSurvey(surveys, instrumentName);
         }
 
+        public DateTime GetInstallDate(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        {
+            var survey = GetSurvey(connectionModel, instrumentName, serverParkName);
+
+            return survey.InstallDate;
+        }
+
         public SurveyStatusType GetSurveyStatus(ConnectionModel connectionModel, string instrumentName, string serverParkName)
         {
             var survey = GetSurvey(connectionModel, instrumentName, serverParkName);
