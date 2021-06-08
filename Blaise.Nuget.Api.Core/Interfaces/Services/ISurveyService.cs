@@ -11,9 +11,12 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         IEnumerable<string> GetSurveyNames(ConnectionModel connectionModel, string serverParkName);
 
         bool SurveyExists(ConnectionModel connectionModel, string instrumentName, string serverParkName);
+
         IEnumerable<ISurvey> GetSurveys(ConnectionModel connectionModel, string serverParkName);
 
         ISurvey GetSurvey(ConnectionModel connectionModel, string instrumentName, string serverParkName);
+
+        DateTime GetInstallDate(ConnectionModel connectionModel, string instrumentName, string serverParkName);
 
         SurveyStatusType GetSurveyStatus(ConnectionModel connectionModel, string instrumentName, string serverParkName);
 

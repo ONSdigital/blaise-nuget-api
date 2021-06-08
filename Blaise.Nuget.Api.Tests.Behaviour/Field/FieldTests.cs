@@ -53,7 +53,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
             _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
         }
 
-        //[Ignore("Integration")]
+        [Ignore("Integration")]
         [Test]
         public void Given_Value_Set_When_I_Call_GetLiveDate_Then_The_Correct_Value_Is_Returned()
         {

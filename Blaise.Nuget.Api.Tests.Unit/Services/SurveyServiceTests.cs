@@ -224,6 +224,30 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.AreEqual($"No survey found for instrument name '{instrument2Name}'", exception.Message);
         }
 
+        [Test]
+
+        public void Given_Survey_Exists_When_I_Call_GetInstallDate_The_Correct_Date_Is_Returned()
+        {
+            //arrange
+            var installDate = DateTime.Today;
+            const string instrumentName = "Instrument1";
+            var survey1Mock = new Mock<ISurvey>();
+            survey1Mock.Setup(s => s.Name).Returns(instrumentName);
+            survey1Mock.Setup(s => s.InstallDate).Returns(installDate);
+
+            var surveyItems = new List<ISurvey> { survey1Mock.Object };
+            _surveyCollectionMock = new Mock<ISurveyCollection>();
+            _surveyCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => surveyItems.GetEnumerator());
+            _serverParkMock.Setup(s => s.Surveys).Returns(_surveyCollectionMock.Object);
+            
+            //act
+            var result = _sut.GetInstallDate(_connectionModel, instrumentName, _serverParkName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(installDate, result);
+        }
+
         [TestCase("Installing", SurveyStatusType.Installing)]
         [TestCase("Active", SurveyStatusType.Active)]
         [TestCase("Inactive", SurveyStatusType.Inactive)]
@@ -255,6 +279,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             Assert.AreEqual(surveyStatusType, result);
         }
+
 
         [Test]
         public void Given_Survey_Does_Not_Exist_When_I_Call_GetSurveyStatus_Then_A_Data_Not_Found_Exception_Is_Thrown()
