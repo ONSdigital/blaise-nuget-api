@@ -64,12 +64,12 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Admin
 
             //act
             sut.GetDataLink(connectionModel, instrumentName, serverParkName);
-            var connections = adminApi.ActiveConnections();
+            var connections = adminApi.OpenConnections();
 
             Assert.AreEqual(1, connections);
 
             sut.ResetConnections();
-            connections = adminApi.ActiveConnections();
+            connections = adminApi.OpenConnections();
 
             //assert
             Assert.AreEqual(0, connections);
