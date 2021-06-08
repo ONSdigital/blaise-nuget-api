@@ -48,7 +48,7 @@ namespace Blaise.Nuget.Api.Core.Providers
             _dataLinkConnections.Clear();
         }
         
-        public int NumberOfConnections()
+        public int GetOpenConnections()
         {
             return _dataLinkConnections.Count;
         }

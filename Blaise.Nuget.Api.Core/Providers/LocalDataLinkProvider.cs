@@ -35,6 +35,11 @@ namespace Blaise.Nuget.Api.Core.Providers
             _dataLinkConnections.Clear();
         }
 
+        public int GetOpenConnections()
+        {
+            return _dataLinkConnections.Count;
+        }
+
         private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string databaseFile)
         {
             var dataLink = DataLinkManager.GetDataLink(databaseFile) as IDataLink4;

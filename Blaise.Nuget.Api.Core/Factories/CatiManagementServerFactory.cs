@@ -39,6 +39,11 @@ namespace Blaise.Nuget.Api.Core.Factories
             _remoteDataServers.Clear();
         }
 
+        public int GetOpenConnections()
+        {
+            return _remoteDataServers.Count;
+        }
+
         private IRemoteCatiManagementServer GetFreshServerConnection(ConnectionModel connectionModel)
         {
             var remoteConnection = CreateRemoteConnection(connectionModel);
