@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Extensions;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -38,6 +39,11 @@ namespace Blaise.Nuget.Api.Core.Providers
         public int GetOpenConnections()
         {
             return _dataLinkConnections.Count;
+        }
+
+        public IEnumerable<DateTime> GetExpirationDateTimes()
+        {
+            return _dataLinkConnections.Select(remoteDataServer => remoteDataServer.Value.Item2);
         }
 
         private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string databaseFile)

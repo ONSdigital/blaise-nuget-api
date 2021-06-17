@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Extensions;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
@@ -47,6 +48,11 @@ namespace Blaise.Nuget.Api.Core.Factories
         public int GetOpenConnections()
         {
             return _connectedServers.Count;
+        }
+
+        public IEnumerable<DateTime> GetExpirationDateTimes()
+        {
+            return _connectedServers.Select(remoteDataServer => remoteDataServer.Value.Item2);
         }
 
         private IConnectedServer GetFreshServerConnection(ConnectionModel connectionModel)
