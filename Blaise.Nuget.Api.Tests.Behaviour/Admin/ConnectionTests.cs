@@ -1,4 +1,5 @@
-﻿using Blaise.Nuget.Api.Api;
+﻿using System.Linq;
+using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -57,7 +58,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Admin
             };
 
             var instrumentName = "LMS2102_BK1";
-            var serverParkName = "gusty";
+            var serverParkName = "LocalDevelopment";
             var sut = UnityProvider.Resolve<IRemoteDataLinkProvider>();
             var adminApi = new BlaiseAdminApi();
 
@@ -66,7 +67,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Admin
             sut.GetDataLink(connectionModel, instrumentName, serverParkName);
             var connections = adminApi.OpenConnections();
 
-            Assert.AreEqual(1, connections);
+            Assert.AreEqual(6, connections.Count());
 
             sut.ResetConnections();
             connections = adminApi.OpenConnections();
