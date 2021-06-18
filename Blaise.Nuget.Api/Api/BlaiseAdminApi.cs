@@ -49,8 +49,8 @@ namespace Blaise.Nuget.Api.Api
             return new OpenConnectionModel
             {
                 ConnectionType = typeof(T).FullName,
-                Connections = service.GetOpenConnections(),
-                ExpirationDateTimes = service.GetExpirationDateTimes()
+                NumberOfConnections = service.GetNumberOfOpenConnections(),
+                Connections = service.GetConnections()
             };
         }
     }

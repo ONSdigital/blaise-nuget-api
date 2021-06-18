@@ -7,13 +7,13 @@ namespace Blaise.Nuget.Api.Contracts.Models
     {
         public OpenConnectionModel()
         {
-            ExpirationDateTimes = new List<DateTime>();
+            Connections = new Dictionary<string, DateTime>();
         }
 
         public string ConnectionType { get; set; }
 
-        public int Connections { get; set; }
+        public int NumberOfConnections { get; set; }
 
-        public IEnumerable<DateTime> ExpirationDateTimes { get; set; }
+        public Dictionary<string, DateTime> Connections { get; set; }
     }
 }

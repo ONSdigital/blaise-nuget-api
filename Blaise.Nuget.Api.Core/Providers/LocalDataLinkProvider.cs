@@ -36,14 +36,14 @@ namespace Blaise.Nuget.Api.Core.Providers
             _dataLinkConnections.Clear();
         }
 
-        public int GetOpenConnections()
+        public int GetNumberOfOpenConnections()
         {
             return _dataLinkConnections.Count;
         }
 
-        public IEnumerable<DateTime> GetExpirationDateTimes()
+        public Dictionary<string, DateTime> GetConnections()
         {
-            return _dataLinkConnections.Select(remoteDataServer => remoteDataServer.Value.Item2);
+            return _dataLinkConnections.ToDictionary(item => item.Key, item => item.Value.Item2);
         }
 
         private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string databaseFile)

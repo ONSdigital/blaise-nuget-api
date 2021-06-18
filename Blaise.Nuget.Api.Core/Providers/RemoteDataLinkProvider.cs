@@ -49,9 +49,16 @@ namespace Blaise.Nuget.Api.Core.Providers
             _dataLinkConnections.Clear();
         }
         
-        public int GetOpenConnections()
+        public int GetNumberOfOpenConnections()
         {
             return _dataLinkConnections.Count;
+        }
+
+        public Dictionary<string, DateTime> GetConnections()
+        {
+            return _dataLinkConnections.ToDictionary(
+                item => $"{item.Key.Item1}, {item.Key.Item2}, {item.Key.Item3} ", 
+                item => item.Value.Item2);
         }
 
         public IEnumerable<DateTime> GetExpirationDateTimes()
@@ -62,14 +69,34 @@ namespace Blaise.Nuget.Api.Core.Providers
         private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string instrumentName, string serverParkName,
             DateTime installDate)
         {
+            RemoveDeadConnections(instrumentName, serverParkName);
+
             var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
             var connection = _connectionFactory.GetConnection(connectionModel);
             var dataLink = connection.GetDataLink(instrumentId, serverParkName);
             var dictionaryEntry = new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
-
+            
             _dataLinkConnections[new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)] = dictionaryEntry;
 
             return dataLink;
+        }
+
+        private void RemoveDeadConnections(string instrumentName, string serverParkName)
+        {
+            var deadConnectionKeys = new List<Tuple<string, string, DateTime>>();
+
+            foreach (var entry in _dataLinkConnections)
+            {
+                if (entry.Key.Item1 == instrumentName && entry.Key.Item2 == serverParkName)
+                {
+                    deadConnectionKeys.Add(entry.Key);
+                }
+            }
+
+            foreach (var deadConnectionKey in deadConnectionKeys)
+            {
+                _dataLinkConnections.Remove(deadConnectionKey);
+            }
         }
     }
 }

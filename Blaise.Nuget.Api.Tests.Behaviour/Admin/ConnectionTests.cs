@@ -41,20 +41,20 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Admin
             //assert
         }
 
-        [Ignore("Integration")]
+        //[Ignore("Integration")]
         [Test]
         public void Given_A_Connection_Exists_When_I_Call_GetConnections_Then_The_Connection_Count_Is_Returned()
         {
             //arrange
             var connectionModel = new ConnectionModel
             {
-                ServerName = "",
-                UserName = "",
-                Password = "",
-                Binding = "",
-                Port = 0,
-                RemotePort = 0,
-                ConnectionExpiresInMinutes = 0
+                ServerName = "localhost",
+                UserName = "Root",
+                Password = "Root",
+                Binding = "HTTP",
+                Port = 8031,
+                RemotePort = 8033,
+                ConnectionExpiresInMinutes = 20
             };
 
             var instrumentName = "LMS2102_BK1";

@@ -101,6 +101,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         public void Given_I_Call_GetDataLink_With_The_Same_InstrumentName_And_ServerParkName_But_Connection_Has_expired_Then_A_New_DataLink_Is_Established()
         {
             //arrange
+            _connectionModel.ConnectionExpiresInMinutes = 0;
             _surveyServiceMock.Setup(p => p.GetInstrumentId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
             _remoteDataServerMock.Setup(r => r.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>())).Returns(_dataLinkMock.Object);
 

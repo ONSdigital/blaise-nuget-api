@@ -5,8 +5,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Admin
 {
     public interface IGetOpenConnections
     {
-        int GetOpenConnections();
+        int GetNumberOfOpenConnections();
 
-        IEnumerable<DateTime> GetExpirationDateTimes();
+        Dictionary<string, DateTime> GetConnections();
     }
 }

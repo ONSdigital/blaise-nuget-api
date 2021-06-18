@@ -45,14 +45,14 @@ namespace Blaise.Nuget.Api.Core.Factories
             _connectedServers.Clear();
         }
 
-        public int GetOpenConnections()
+        public int GetNumberOfOpenConnections()
         {
             return _connectedServers.Count;
         }
 
-        public IEnumerable<DateTime> GetExpirationDateTimes()
+        public Dictionary<string, DateTime> GetConnections()
         {
-            return _connectedServers.Select(remoteDataServer => remoteDataServer.Value.Item2);
+            return _connectedServers.ToDictionary(item => item.Key, item => item.Value.Item2);
         }
 
         private IConnectedServer GetFreshServerConnection(ConnectionModel connectionModel)
