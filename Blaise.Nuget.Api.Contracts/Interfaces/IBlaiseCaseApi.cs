@@ -71,6 +71,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         DateTime? GetLiveDate(IDataRecord dataRecord);
 
+        DateTime? GetLiveDate(string instrumentName, string serverParkName);
+
         bool CaseInUseInCati(IDataRecord dataRecord);
 
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);

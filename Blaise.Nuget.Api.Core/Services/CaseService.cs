@@ -233,6 +233,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return field?.DataValue?.ValueAsText;
         }
+
         public DateTime? GetLiveDate(IDataRecord dataRecord)
         {
             if (dataRecord == null)
@@ -248,6 +249,13 @@ namespace Blaise.Nuget.Api.Core.Services
             var liveDateField = _fieldService.GetField(dataRecord, FieldNameType.LiveDate);
 
             return liveDateField.DataValue.DateValue;
+        }
+
+        public DateTime? GetLiveDate(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        {
+            var cases = GetDataSet(connectionModel, instrumentName, serverParkName);
+
+            return cases.EndOfSet ? null : GetLiveDate(cases.ActiveRecord);
         }
 
         public bool CaseInUseInCati(IDataRecord dataRecord)
@@ -285,13 +293,6 @@ namespace Blaise.Nuget.Api.Core.Services
             }
 
             return caseStatusList;
-        }
-
-        public DateTime? GetLiveDate(ConnectionModel connectionModel, string instrumentName, string serverParkName)
-        {
-            var cases = GetDataSet(connectionModel, instrumentName, serverParkName);
-
-            return cases.EndOfSet ? null : GetLiveDate(cases.ActiveRecord);
         }
     }
 }

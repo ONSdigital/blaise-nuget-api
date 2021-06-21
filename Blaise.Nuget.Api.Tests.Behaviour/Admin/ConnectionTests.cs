@@ -41,7 +41,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Admin
             //assert
         }
 
-        //[Ignore("Integration")]
+        [Ignore("Integration")]
         [Test]
         public void Given_A_Connection_Exists_When_I_Call_GetConnections_Then_The_Connection_Count_Is_Returned()
         {
