@@ -14,23 +14,23 @@ namespace Blaise.Nuget.Api.Core.Factories
     {
         private readonly IPasswordService _passwordService;
 
-        private readonly Dictionary<string, Tuple<ISecurityServer, DateTime>> _securityServers;
+        private readonly Dictionary<string, Tuple<ISecurityServer, DateTime>> _connections;
 
         public SecurityManagerFactory(IPasswordService passwordService)
         {
             _passwordService = passwordService;
-            _securityServers = new Dictionary<string, Tuple<ISecurityServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
+            _connections = new Dictionary<string, Tuple<ISecurityServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
         public ISecurityServer GetConnection(ConnectionModel connectionModel)
         {
-            if (!_securityServers.ContainsKey(connectionModel.ServerName))
+            if (!_connections.ContainsKey(connectionModel.ServerName))
             {
                 return GetFreshServerConnection(connectionModel);
 
             }
             
-            var (remoteServer, expiryDate) = _securityServers[connectionModel.ServerName];
+            var (remoteServer, expiryDate) = _connections[connectionModel.ServerName];
 
             return expiryDate.HasExpired()
                 ? GetFreshServerConnection(connectionModel)
@@ -39,24 +39,24 @@ namespace Blaise.Nuget.Api.Core.Factories
 
         public void ResetConnections()
         {
-            _securityServers.Clear();
+            _connections.Clear();
         }
 
         public int GetNumberOfOpenConnections()
         {
-            return _securityServers.Count;
+            return _connections.Count;
         }
 
         public Dictionary<string, DateTime> GetConnections()
         {
-            return _securityServers.ToDictionary(item => item.Key, item => item.Value.Item2);
+            return _connections.ToDictionary(item => item.Key, item => item.Value.Item2);
         }
 
         private ISecurityServer GetFreshServerConnection(ConnectionModel connectionModel)
         {
             var securityConnection = CreateConnection(connectionModel);
 
-            _securityServers[connectionModel.ServerName] =
+            _connections[connectionModel.ServerName] =
                 new Tuple<ISecurityServer, DateTime>(securityConnection, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
 
             return securityConnection;

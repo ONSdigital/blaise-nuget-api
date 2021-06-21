@@ -13,22 +13,22 @@ namespace Blaise.Nuget.Api.Core.Factories
     {
         private readonly IPasswordService _passwordService;
 
-        private readonly Dictionary<string, Tuple<IRemoteCatiManagementServer, DateTime>> _catiServerConnections;
+        private readonly Dictionary<string, Tuple<IRemoteCatiManagementServer, DateTime>> _connections;
 
         public CatiManagementServerFactory(IPasswordService passwordService)
         {
             _passwordService = passwordService;
-            _catiServerConnections = new Dictionary<string, Tuple<IRemoteCatiManagementServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
+            _connections = new Dictionary<string, Tuple<IRemoteCatiManagementServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
         public IRemoteCatiManagementServer GetConnection(ConnectionModel connectionModel)
         {
-            if (!_catiServerConnections.ContainsKey(connectionModel.ServerName))
+            if (!_connections.ContainsKey(connectionModel.ServerName))
             {
                 return GetFreshServerConnection(connectionModel);
             }
 
-            var (remoteServer, expiryDate) = _catiServerConnections[connectionModel.ServerName];
+            var (remoteServer, expiryDate) = _connections[connectionModel.ServerName];
 
             return expiryDate.HasExpired()
                 ? GetFreshServerConnection(connectionModel)
@@ -37,24 +37,24 @@ namespace Blaise.Nuget.Api.Core.Factories
 
         public void ResetConnections()
         {
-            _catiServerConnections.Clear();
+            _connections.Clear();
         }
 
         public int GetNumberOfOpenConnections()
         {
-            return _catiServerConnections.Count;
+            return _connections.Count;
         }
 
         public Dictionary<string, DateTime> GetConnections()
         {
-            return _catiServerConnections.ToDictionary(item => item.Key, item => item.Value.Item2);
+            return _connections.ToDictionary(item => item.Key, item => item.Value.Item2);
         }
 
         private IRemoteCatiManagementServer GetFreshServerConnection(ConnectionModel connectionModel)
         {
             var remoteConnection = CreateRemoteConnection(connectionModel);
 
-            _catiServerConnections[connectionModel.ServerName] =
+            _connections[connectionModel.ServerName] =
                 new Tuple<IRemoteCatiManagementServer, DateTime>(remoteConnection, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
 
             return remoteConnection;

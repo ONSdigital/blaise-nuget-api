@@ -13,22 +13,22 @@ namespace Blaise.Nuget.Api.Core.Factories
     {
         private readonly IPasswordService _passwordService;
 
-        private readonly Dictionary<string, Tuple<IConnectedServer, DateTime>> _connectedServers;
+        private readonly Dictionary<string, Tuple<IConnectedServer, DateTime>> _connections;
 
         public ConnectedServerFactory(IPasswordService passwordService)
         {
             _passwordService = passwordService;
-            _connectedServers = new Dictionary<string, Tuple<IConnectedServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
+            _connections = new Dictionary<string, Tuple<IConnectedServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
         public IConnectedServer GetConnection(ConnectionModel connectionModel)
         {
-            if (!_connectedServers.ContainsKey(connectionModel.ServerName))
+            if (!_connections.ContainsKey(connectionModel.ServerName))
             {
                 return GetFreshServerConnection(connectionModel);
             }
             
-            var (connectedServer, expiryDate) = _connectedServers[connectionModel.ServerName];
+            var (connectedServer, expiryDate) = _connections[connectionModel.ServerName];
 
             return expiryDate.HasExpired()
                 ? GetFreshServerConnection(connectionModel)
@@ -42,24 +42,24 @@ namespace Blaise.Nuget.Api.Core.Factories
 
         public void ResetConnections()
         {
-            _connectedServers.Clear();
+            _connections.Clear();
         }
 
         public int GetNumberOfOpenConnections()
         {
-            return _connectedServers.Count;
+            return _connections.Count;
         }
 
         public Dictionary<string, DateTime> GetConnections()
         {
-            return _connectedServers.ToDictionary(item => item.Key, item => item.Value.Item2);
+            return _connections.ToDictionary(item => item.Key, item => item.Value.Item2);
         }
 
         private IConnectedServer GetFreshServerConnection(ConnectionModel connectionModel)
         {
             var connectedServer = CreateServerConnection(connectionModel);
 
-            _connectedServers[connectionModel.ServerName] =
+            _connections[connectionModel.ServerName] =
                 new Tuple<IConnectedServer, DateTime>(connectedServer, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
 
             return connectedServer;

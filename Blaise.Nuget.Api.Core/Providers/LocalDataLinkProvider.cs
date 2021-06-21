@@ -10,21 +10,21 @@ namespace Blaise.Nuget.Api.Core.Providers
 {
     public class LocalDataLinkProvider : ILocalDataLinkProvider
     {
-        private readonly Dictionary<string, Tuple<IDataLink4, DateTime>> _dataLinkConnections;
+        private readonly Dictionary<string, Tuple<IDataLink4, DateTime>> _connections;
 
         public LocalDataLinkProvider()
         {
-            _dataLinkConnections = new Dictionary<string, Tuple<IDataLink4, DateTime>>(StringComparer.OrdinalIgnoreCase);
+            _connections = new Dictionary<string, Tuple<IDataLink4, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
         public IDataLink4 GetDataLink(ConnectionModel connectionModel, string databaseFile)
         {
-            if (!_dataLinkConnections.ContainsKey(databaseFile))
+            if (!_connections.ContainsKey(databaseFile))
             {
                 return GetFreshConnection(connectionModel, databaseFile);
             }
 
-            var (dataLink, expiryDate) = _dataLinkConnections[databaseFile];
+            var (dataLink, expiryDate) = _connections[databaseFile];
 
             return expiryDate.HasExpired()
                 ? GetFreshConnection(connectionModel, databaseFile)
@@ -33,24 +33,24 @@ namespace Blaise.Nuget.Api.Core.Providers
 
         public void ResetConnections()
         {
-            _dataLinkConnections.Clear();
+            _connections.Clear();
         }
 
         public int GetNumberOfOpenConnections()
         {
-            return _dataLinkConnections.Count;
+            return _connections.Count;
         }
 
         public Dictionary<string, DateTime> GetConnections()
         {
-            return _dataLinkConnections.ToDictionary(item => item.Key, item => item.Value.Item2);
+            return _connections.ToDictionary(item => item.Key, item => item.Value.Item2);
         }
 
         private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string databaseFile)
         {
             var dataLink = DataLinkManager.GetDataLink(databaseFile) as IDataLink4;
 
-            _dataLinkConnections[databaseFile] = new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
+            _connections[databaseFile] = new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
 
             return dataLink;
         }
