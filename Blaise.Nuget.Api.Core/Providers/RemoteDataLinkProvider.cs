@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Core.Equality;
 using Blaise.Nuget.Api.Core.Extensions;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -24,7 +25,7 @@ namespace Blaise.Nuget.Api.Core.Providers
             _connectionFactory = connectionFactory;
             _surveyService = surveyService;
 
-            _dataLinkConnections = new Dictionary<Tuple<string, string, DateTime>, Tuple<IDataLink4, DateTime>>();
+            _dataLinkConnections = new Dictionary<Tuple<string, string, DateTime>, Tuple<IDataLink4, DateTime>>(new RemoteDataLinkKeyComparison());
         }
 
         public IDataLink4 GetDataLink(ConnectionModel connectionModel, string instrumentName, string serverParkName)
