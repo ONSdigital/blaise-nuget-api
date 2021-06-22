@@ -40,14 +40,15 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public IServerPark GetServerPark(ConnectionModel connectionModel, string serverParkName)
         {
-            var connection = _connectionFactory.GetConnection(connectionModel);
+            var serverParks = GetServerParks(connectionModel);
+            var serverPark = serverParks.FirstOrDefault(sp => sp.Name.Equals(serverParkName, StringComparison.InvariantCultureIgnoreCase));
 
-            if (!ServerParkExists(connectionModel, serverParkName))
+            if(serverPark == null)
             {
                 throw new DataNotFoundException($"Server park '{serverParkName}' not found");
             }
 
-            return connection.GetServerPark(serverParkName);
+            return serverPark;
         }
 
         public IEnumerable<IServerPark> GetServerParks(ConnectionModel connectionModel)

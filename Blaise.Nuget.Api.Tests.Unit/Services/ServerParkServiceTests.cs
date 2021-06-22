@@ -102,16 +102,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.AreEqual("No server parks found", exception.Message);
         }
 
-        [Test]
-        public void Given_A_ServerPark_Exists_When_I_Call_GetServerPark_Then_The_Correct_Service_Is_Called()
-        {
-            //act
-            _sut.GetServerPark(_connectionModel, _serverParkName);
-
-            //assert
-            _connectedServerMock.Verify(v => v.GetServerPark(_serverParkName), Times.Once);
-        }
-
         [TestCase("TEL")]
         [TestCase("tel")]
         [TestCase("TEl")]
@@ -141,7 +131,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_ServerPark_Exists_When_I_Call_GetServerPark_Then_I_Get_A_ServerPark_Returned()
+        public void Given_A_ServerPark_Exists_When_I_Call_GetServerPark_Then_The_Correct_ServerPark_Is_Returned()
         {
             //act
             var result = _sut.GetServerPark(_connectionModel, _serverParkName);
