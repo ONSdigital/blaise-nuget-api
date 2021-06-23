@@ -20,13 +20,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public IEnumerable<string> GetServerParkNames(ConnectionModel connectionModel)
         {
-            var connection = _connectionFactory.GetConnection(connectionModel);
-            var serverParks = connection.ServerParks;
-
-            if (!serverParks.Any())
-            {
-                throw new DataNotFoundException("No server parks found");
-            }
+            var serverParks = GetServerParks(connectionModel);
 
             return serverParks.Select(sp => sp.Name);
         }
