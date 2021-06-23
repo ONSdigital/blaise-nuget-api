@@ -45,23 +45,6 @@ namespace Blaise.Nuget.Api.Core.Providers
                 : dataLink ?? GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
         }
 
-        public void ResetConnections()
-        {
-            _dataLinkConnections.Clear();
-        }
-        
-        public int GetNumberOfOpenConnections()
-        {
-            return _dataLinkConnections.Count;
-        }
-
-        public Dictionary<string, DateTime> GetConnections()
-        {
-            return _dataLinkConnections.ToDictionary(
-                item => $"{item.Key.Item1}, {item.Key.Item2}, {item.Key.Item3} ", 
-                item => item.Value.Item2);
-        }
-
         private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string instrumentName, string serverParkName,
             DateTime installDate)
         {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Extensions;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
@@ -33,21 +32,6 @@ namespace Blaise.Nuget.Api.Core.Factories
             return expiryDate.HasExpired()
                 ? GetFreshServerConnection(connectionModel)
                 : remoteServer ?? GetFreshServerConnection(connectionModel);
-        }
-
-        public void ResetConnections()
-        {
-            _connections.Clear();
-        }
-
-        public int GetNumberOfOpenConnections()
-        {
-            return _connections.Count;
-        }
-
-        public Dictionary<string, DateTime> GetConnections()
-        {
-            return _connections.ToDictionary(item => item.Key, item => item.Value.Item2);
         }
 
         private IRemoteDataServer GetFreshServerConnection(ConnectionModel connectionModel)
