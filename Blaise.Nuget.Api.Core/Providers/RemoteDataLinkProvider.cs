@@ -62,11 +62,6 @@ namespace Blaise.Nuget.Api.Core.Providers
                 item => item.Value.Item2);
         }
 
-        public IEnumerable<DateTime> GetExpirationDateTimes()
-        {
-            return _dataLinkConnections.Select(remoteDataServer => remoteDataServer.Value.Item2);
-        }
-
         private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string instrumentName, string serverParkName,
             DateTime installDate)
         {

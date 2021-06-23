@@ -131,7 +131,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin\ConnectionTests.cs" />
     <Compile Include="Case\LiveDateTests.cs" />
     <Compile Include="Case\CaseExistsTests.cs" />
     <Compile Include="Case\DeleteCaseTests.cs" />
