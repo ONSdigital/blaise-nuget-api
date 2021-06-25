@@ -70,14 +70,10 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         string GetLastUpdatedAsString(IDataRecord dataRecord);
 
-        DateTime? GetLiveDate(IDataRecord dataRecord);
-
         bool CaseInUseInCati(IDataRecord dataRecord);
 
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
         IEnumerable<CaseStatusModel> GetCaseStatusList(ConnectionModel connectionModel, string instrumentName,
             string serverParkName);
-
-        DateTime? GetLiveDate(ConnectionModel connectionModel, string instrumentName, string serverParkName);
     }
 }

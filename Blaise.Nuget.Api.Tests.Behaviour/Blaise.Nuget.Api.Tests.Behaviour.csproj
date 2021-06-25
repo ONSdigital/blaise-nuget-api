@@ -131,12 +131,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Case\LiveDateTests.cs" />
     <Compile Include="Case\CaseExistsTests.cs" />
     <Compile Include="Case\DeleteCaseTests.cs" />
     <Compile Include="Case\UpdateCaseTests.cs" />
     <Compile Include="Field\LastUpdatedFieldTests.cs" />
-    <Compile Include="Field\LiveDateFieldTests.cs" />
     <Compile Include="InstrumentFile\InstrumentFileTests.cs" />
     <Compile Include="Case\GetCaseTests.cs" />
     <Compile Include="Case\CreateCaseTests.cs" />

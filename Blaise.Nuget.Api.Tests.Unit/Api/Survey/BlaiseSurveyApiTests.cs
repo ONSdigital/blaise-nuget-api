@@ -15,7 +15,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
     public class BlaiseSurveyApiTests
     {
         private Mock<ISurveyService> _surveyServiceMock;
-        private Mock<ICaseService> _caseServiceMock;
 
         private readonly string _serverParkName;
         private readonly string _instrumentName;
@@ -34,11 +33,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
         public void SetUpTests()
         {
             _surveyServiceMock = new Mock<ISurveyService>();
-            _caseServiceMock = new Mock<ICaseService>();
 
             _sut = new BlaiseSurveyApi(
                 _surveyServiceMock.Object,
-                _caseServiceMock.Object,
                 _connectionModel);
         }
 
@@ -711,55 +708,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.DeactivateSurvey(_instrumentName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
-        }
-
-        [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetLiveDate_Then_The_Correct_Service_Methods_Are_Called()
-        {
-            //arrange
-            var liveDate = DateTime.Now;
-            _caseServiceMock.Setup(c => c.GetLiveDate(_connectionModel, _instrumentName, _serverParkName))
-                .Returns(liveDate);
-            
-            //act
-            var result =_sut.GetLiveDate(_instrumentName, _serverParkName);
-
-            //assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<DateTime?>(result);
-            Assert.AreEqual(liveDate, result);
-        }
-
-        [Test]
-        public void Given_An_Empty_instrumentName_When_I_Call_GetLiveDate_Then_An_ArgumentException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetLiveDate(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_instrumentName_When_I_Call_GetLiveDate_Then_An_ArgumentNullException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetLiveDate(null, _serverParkName));
-            Assert.AreEqual("instrumentName", exception.ParamName);
-        }
-
-        [Test]
-        public void Given_An_Empty_ServerParkName_When_I_Call_GetLiveDate_Then_An_ArgumentException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetLiveDate(_instrumentName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_ServerParkName_When_I_Call_GetLiveDate_Then_An_ArgumentNullException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetLiveDate(_instrumentName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
     }
