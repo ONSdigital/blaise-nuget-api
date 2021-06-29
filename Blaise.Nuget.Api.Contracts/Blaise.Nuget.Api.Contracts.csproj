@@ -79,7 +79,6 @@
     <Compile Include="Interfaces\IBlaiseCatiApi.cs" />
     <Compile Include="Interfaces\IBlaiseSurveyApi.cs" />
     <Compile Include="Interfaces\IBlaiseUserApi.cs" />
-    <Compile Include="Models\OpenConnectionModel.cs" />
     <Compile Include="Models\ConnectionModel.cs" />
     <Compile Include="Models\CaseStatusModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -30,7 +30,5 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         void ActivateSurvey(string instrumentName, string serverParkName);
 
         void DeactivateSurvey(string instrumentName, string serverParkName);
-
-        DateTime? GetLiveDate(string instrumentName, string serverParkName);
     }
 }

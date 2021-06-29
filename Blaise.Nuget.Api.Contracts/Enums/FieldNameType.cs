@@ -20,9 +20,6 @@ namespace Blaise.Nuget.Api.Contracts.Enums
         LastUpdatedDate,
 
         [Description("TimeStamp")]
-        LastUpdatedTime,
-
-        [Description("LiveDate")]
-        LiveDate,
+        LastUpdatedTime
     }
 }

@@ -233,31 +233,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return field?.DataValue?.ValueAsText;
         }
-
-        public DateTime? GetLiveDate(IDataRecord dataRecord)
-        {
-            if (dataRecord == null)
-            {
-                return null;
-            }
-
-            if (!_fieldService.FieldExists(dataRecord, FieldNameType.LiveDate))
-            {
-                return null;
-            }
-
-            var liveDateField = _fieldService.GetField(dataRecord, FieldNameType.LiveDate);
-
-            return liveDateField.DataValue.DateValue;
-        }
-
-        public DateTime? GetLiveDate(ConnectionModel connectionModel, string instrumentName, string serverParkName)
-        {
-            var cases = GetDataSet(connectionModel, instrumentName, serverParkName);
-
-            return cases.EndOfSet ? null : GetLiveDate(cases.ActiveRecord);
-        }
-
+        
         public bool CaseInUseInCati(IDataRecord dataRecord)
         {
             var lastUpdated = GetLastUpdated(dataRecord);
