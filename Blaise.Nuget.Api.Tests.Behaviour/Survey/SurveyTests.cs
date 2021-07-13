@@ -10,7 +10,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Survey
     {
         private readonly BlaiseSurveyApi _sut;
 
-        private const string ServerParkName = "gusty";
+        private const string ServerParkName = "LocalDevelopment";
         private const string FullInstrumentPath = @"C:\users\user\desktop\OPN2102R.bpkg";
         private const string InstrumentName = "OPN2102R";
 
@@ -79,6 +79,20 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Survey
 
             //assert
             Assert.AreEqual(SurveyStatusType.Active, _sut.GetSurveyStatus(InstrumentName, ServerParkName));
+        }
+
+        [Ignore("Integration")]
+        [Test]
+        public void Given_An_Instrument_Is_Installed_In_Cati_And_Cawi_Mode_When_I_Call_GetSurveyModes_The_Correct_Modes_Are_Returned()
+        {
+            //act
+            var result = _sut.GetSurveyModes(InstrumentName, ServerParkName).ToList();
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Count);
+            Assert.True(result.Contains("CAWI"));
+            Assert.True(result.Contains("CATI"));
         }
     }
 }

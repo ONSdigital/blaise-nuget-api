@@ -15,6 +15,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
     public class BlaiseSurveyApiTests
     {
         private Mock<ISurveyService> _surveyServiceMock;
+        private Mock<ISurveyMetaService> _surveyMetaServiceMock;
 
         private readonly string _serverParkName;
         private readonly string _instrumentName;
@@ -33,9 +34,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
         public void SetUpTests()
         {
             _surveyServiceMock = new Mock<ISurveyService>();
+            _surveyMetaServiceMock = new Mock<ISurveyMetaService>();
 
             _sut = new BlaiseSurveyApi(
                 _surveyServiceMock.Object,
+                _surveyMetaServiceMock.Object,
                 _connectionModel);
         }
 
@@ -710,5 +713,48 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.DeactivateSurvey(_instrumentName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
+
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_GetSurveyModes_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //act
+            _sut.GetSurveyModes(_instrumentName, _serverParkName);
+
+            //assert
+            _surveyMetaServiceMock.Verify(v => v.GetSurveyModes(_connectionModel, _instrumentName, _serverParkName), Times.Once);
+        }
+
+        [Test]
+        public void Given_An_Empty_ServerParkName_When_I_Call_GetSurveyModes_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetSurveyModes(_instrumentName, string.Empty));
+            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_ServerParkName_When_I_Call_GetSurveyModes_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetSurveyModes(_instrumentName, null));
+            Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_instrumentName_When_I_Call_GetSurveyModes_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetSurveyModes(string.Empty, _serverParkName));
+            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_instrumentName_When_I_Call_GetSurveyModes_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetSurveyModes(null, _serverParkName));
+            Assert.AreEqual("instrumentName", exception.ParamName);
+        }
+
     }
 }

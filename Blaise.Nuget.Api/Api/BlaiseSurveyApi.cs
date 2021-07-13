@@ -14,19 +14,23 @@ namespace Blaise.Nuget.Api.Api
     public class BlaiseSurveyApi : IBlaiseSurveyApi
     {
         private readonly ISurveyService _surveyService;
+        private readonly ISurveyMetaService _surveyMetaService;
         private readonly ConnectionModel _connectionModel;
 
         internal BlaiseSurveyApi(
             ISurveyService surveyService,
+            ISurveyMetaService surveyMetaService,
             ConnectionModel connectionModel)
         {
             _surveyService = surveyService;
+            _surveyMetaService = surveyMetaService;
             _connectionModel = connectionModel;
         }
 
         public BlaiseSurveyApi(ConnectionModel connectionModel = null)
         {
             _surveyService = UnityProvider.Resolve<ISurveyService>();
+            _surveyMetaService = UnityProvider.Resolve<ISurveyMetaService>();
 
             var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
@@ -128,6 +132,14 @@ namespace Blaise.Nuget.Api.Api
             var survey = GetSurvey(instrumentName, serverParkName);
 
             survey.Deactivate();
+        }
+
+        public IEnumerable<string> GetSurveyModes(string instrumentName, string serverParkName)
+        {
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            return _surveyMetaService.GetSurveyModes(_connectionModel, instrumentName, serverParkName);
         }
     }
 }

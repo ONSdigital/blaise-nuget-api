@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.ServerManager;
 
 namespace Blaise.Nuget.Api.Contracts.Interfaces
@@ -30,5 +31,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         void ActivateSurvey(string instrumentName, string serverParkName);
 
         void DeactivateSurvey(string instrumentName, string serverParkName);
+
+        IEnumerable<string> GetSurveyModes(string instrumentName, string serverParkName);
     }
 }
