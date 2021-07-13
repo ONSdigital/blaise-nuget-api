@@ -103,6 +103,7 @@
     <Compile Include="Services\KeyServiceTests.cs" />
     <Compile Include="Services\DataModelServiceTests.cs" />
     <Compile Include="Providers\DataInterfaceProviderTests.cs" />
+    <Compile Include="Services\SurveyMetaServiceTests.cs" />
     <Compile Include="Services\SurveyServiceTests.cs" />
     <Compile Include="Providers\RemoteDataLinkProviderTests.cs" />
     <Compile Include="Services\CaseServiceTests.cs" />

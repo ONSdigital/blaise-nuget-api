@@ -17,13 +17,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             _primaryKey = "9000001";
         }
 
-        [Ignore("Integration")]
+        //[Ignore("Integration")]
         [Test]
         public void Given_Valid_Arguments_When_I_Call_GetCase_Then_The_Case_is_Returned()
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2101A";
+            const string instrumentName = "OPN2102R";
             var fieldData = new Dictionary<string, string>
             {
                 {FieldNameType.HOut.FullName(), "110"},
