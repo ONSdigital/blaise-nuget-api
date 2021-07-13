@@ -136,7 +136,10 @@ namespace Blaise.Nuget.Api.Api
 
         public IEnumerable<string> GetSurveyModes(string instrumentName, string serverParkName)
         {
-            throw new NotImplementedException();
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            return _surveyMetaService.GetSurveyModes(_connectionModel, instrumentName, serverParkName);
         }
     }
 }
