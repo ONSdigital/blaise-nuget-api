@@ -20,6 +20,9 @@ namespace Blaise.Nuget.Api.Contracts.Enums
         LastUpdatedDate,
 
         [Description("TimeStamp")]
-        LastUpdatedTime
+        LastUpdatedTime,
+
+        [Description("QDataBag.PostCode")]
+        PostCode
     }
 }
