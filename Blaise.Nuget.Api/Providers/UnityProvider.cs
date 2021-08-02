@@ -54,6 +54,7 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<ICatiService, CatiService>();
             UnityContainer.RegisterType<IRoleService, RoleService>();
             UnityContainer.RegisterType<ISurveyMetaService, SurveyMetaService>();
+            UnityContainer.RegisterType<IMySqlService, MySqlService>();
         }
 
         public static T Resolve<T>()
