@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Extensions;
@@ -6,7 +7,7 @@ using Blaise.Nuget.Api.Providers;
 
 namespace Blaise.Nuget.Api.Api
 {
-    public class BlaiseSqlApi 
+    public class BlaiseSqlApi : IBlaiseSqlApi
     {
         private readonly IMySqlService _mySqlService;
 

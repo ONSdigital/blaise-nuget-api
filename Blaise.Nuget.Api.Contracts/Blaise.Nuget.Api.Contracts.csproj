@@ -77,6 +77,7 @@
     <Compile Include="Interfaces\IBlaiseRoleApi.cs" />
     <Compile Include="Interfaces\IBlaiseServerParkApi.cs" />
     <Compile Include="Interfaces\IBlaiseCatiApi.cs" />
+    <Compile Include="Interfaces\IBlaiseSqlApi.cs" />
     <Compile Include="Interfaces\IBlaiseSurveyApi.cs" />
     <Compile Include="Interfaces\IBlaiseUserApi.cs" />
     <Compile Include="Models\ConnectionModel.cs" />
