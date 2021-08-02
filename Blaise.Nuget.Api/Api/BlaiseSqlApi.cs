@@ -25,8 +25,7 @@ namespace Blaise.Nuget.Api.Api
             _mySqlService = UnityProvider.Resolve<IMySqlService>();
             _configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
         }
-
-
+        
         public IEnumerable<string> GetCaseIds(string instrumentName)
         {
             instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
