@@ -59,6 +59,29 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIdentifiers;
         }
 
+        public string GetPostCode(string connectionString, string instrumentName, string primaryKey)
+        {
+            string postCode;
+            var databaseTableName = GetDatabaseTableName(instrumentName);
+            using (var con = new MySqlConnection(connectionString))
+            using (var cmd = new MySqlCommand())
+            {
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = $"SELECT {SqlFieldType.PostCode.FullName()} from {databaseTableName} WHERE {SqlFieldType.CaseId.FullName()} = {primaryKey}";
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+                    postCode = reader[0].ToString();
+                }
+
+                con.Close();
+            }
+
+            return postCode;
+        }
+
         private static string GetDatabaseTableName(string instrumentName)
         {
             return $"{instrumentName}_Form";

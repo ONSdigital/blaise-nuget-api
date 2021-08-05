@@ -40,5 +40,13 @@ namespace Blaise.Nuget.Api.Api
 
             return _mySqlService.GetCaseIdentifiers(_configurationProvider.DatabaseConnectionString, instrumentName);
         }
+
+        public string GetPostCode(string instrumentName, string primaryKey)
+        {
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            primaryKey.ThrowExceptionIfNullOrEmpty("primaryKey");
+
+            return _mySqlService.GetPostCode(_configurationProvider.DatabaseConnectionString, instrumentName, primaryKey);
+        }
     }
 }

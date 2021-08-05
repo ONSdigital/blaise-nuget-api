@@ -16,6 +16,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         private Mock<IBlaiseConfigurationProvider> _configMock;
 
         private readonly string _instrumentName;
+        private readonly string _primaryKey;
         private readonly string _connectionString;
 
         private IBlaiseSqlApi _sut;
@@ -23,6 +24,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         public BlaiseSqlApiTests()
         {
             _instrumentName = "Instrument1";
+            _primaryKey = "1234455";
             _connectionString = "sql;uid;pwd";
         }
 
@@ -48,7 +50,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //arrange
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
-            _sqlServiceMock.Setup(d => d.GetCaseIds(It.IsAny<string>(), It.IsAny<string>()));
+            _sqlServiceMock.Setup(s => s.GetCaseIds(It.IsAny<string>(), It.IsAny<string>()));
 
             //act
             _sut.GetCaseIds(_instrumentName);
@@ -68,7 +70,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             };
 
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
-            _sqlServiceMock.Setup(d => d.GetCaseIds(It.IsAny<string>(), It.IsAny<string>())).Returns(caseIds);
+            _sqlServiceMock.Setup(s => s.GetCaseIds(It.IsAny<string>(), It.IsAny<string>())).Returns(caseIds);
 
             //act
             var result =_sut.GetCaseIds(_instrumentName);
@@ -99,7 +101,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //arrange
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
-            _sqlServiceMock.Setup(d => d.GetCaseIdentifiers(It.IsAny<string>(), It.IsAny<string>()));
+            _sqlServiceMock.Setup(s => s.GetCaseIdentifiers(It.IsAny<string>(), It.IsAny<string>()));
 
             //act
             _sut.GetCaseIdentifiers(_instrumentName);
@@ -119,7 +121,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             };
 
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
-            _sqlServiceMock.Setup(d => d.GetCaseIdentifiers(It.IsAny<string>(), It.IsAny<string>())).Returns(caseIdentifiers);
+            _sqlServiceMock.Setup(s => s.GetCaseIdentifiers(It.IsAny<string>(), It.IsAny<string>())).Returns(caseIdentifiers);
 
             //act
             var result = _sut.GetCaseIdentifiers(_instrumentName);
@@ -143,6 +145,69 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseIdentifiers(null));
             Assert.AreEqual("instrumentName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_GetPostCode_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //arrange
+            _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
+            _sqlServiceMock.Setup(s => s.GetPostCode(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+
+            //act
+            _sut.GetPostCode(_instrumentName, _primaryKey);
+
+            //assert
+            _sqlServiceMock.Verify(v => v.GetPostCode(_connectionString, _instrumentName, _primaryKey), Times.Once);
+        }
+
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_GetPostCode_Then_The_Expected_Result_Is_Returned()
+        {
+            //arrange
+            var postCode = "NP1223";
+
+            _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
+            _sqlServiceMock.Setup(s => s.GetPostCode(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(postCode);
+
+            //act
+            var result = _sut.GetPostCode(_instrumentName, _primaryKey);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(postCode, result);
+        }
+
+        [Test]
+        public void Given_An_Empty_InstrumentName_When_I_Call_GetPostCode_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetPostCode(string.Empty, _primaryKey));
+            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_InstrumentName_When_I_Call_GetPostCode_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetPostCode(null, _primaryKey));
+            Assert.AreEqual("instrumentName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_GetPostCode_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetPostCode(_instrumentName, string.Empty));
+            Assert.AreEqual("A value for the argument 'primaryKey' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_PrimaryKeyValue_When_I_Call_GetPostCode_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetPostCode(_instrumentName, null));
+            Assert.AreEqual("primaryKey", exception.ParamName);
         }
     }
 }

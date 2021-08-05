@@ -8,5 +8,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         IEnumerable<string> GetCaseIds(string instrumentName);
 
         IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string instrumentName);
+
+        string GetPostCode(string instrumentName, string primaryKey);
     }
 }
