@@ -102,7 +102,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             _sqlServiceMock.Setup(d => d.GetCaseIdentifiers(It.IsAny<string>(), It.IsAny<string>()));
 
             //act
-            _sut.GetCaseIds(_instrumentName);
+            _sut.GetCaseIdentifiers(_instrumentName);
 
             //assert
             _sqlServiceMock.Verify(v => v.GetCaseIdentifiers(_connectionString, _instrumentName), Times.Once);
