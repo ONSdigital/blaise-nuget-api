@@ -162,9 +162,9 @@
     <Compile Include="Interfaces\Services\ICatiService.cs" />
     <Compile Include="Interfaces\Services\IRoleService.cs" />
     <Compile Include="Interfaces\Providers\IDataInterfaceProvider.cs" />
-    <Compile Include="Interfaces\Services\IMySqlService.cs" />
+    <Compile Include="Interfaces\Services\ISqlService.cs" />
     <Compile Include="Services\KeyService.cs" />
-    <Compile Include="Services\MySqlService.cs" />
+    <Compile Include="Services\SqlService.cs" />
     <Compile Include="Services\ServerParkService.cs" />
     <Compile Include="Services\PasswordService.cs" />
     <Compile Include="Services\CatiService.cs" />

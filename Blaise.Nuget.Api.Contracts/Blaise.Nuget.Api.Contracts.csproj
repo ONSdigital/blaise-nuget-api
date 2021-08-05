@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\SqlFieldType.cs" />
     <Compile Include="Enums\SurveyDataEntryType.cs" />
     <Compile Include="Enums\FieldNameType.cs" />
     <Compile Include="Enums\SurveyInterviewType.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Interfaces\IBlaiseSqlApi.cs" />
     <Compile Include="Interfaces\IBlaiseSurveyApi.cs" />
     <Compile Include="Interfaces\IBlaiseUserApi.cs" />
+    <Compile Include="Models\CaseIdentifierModel.cs" />
     <Compile Include="Models\ConnectionModel.cs" />
     <Compile Include="Models\CaseStatusModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

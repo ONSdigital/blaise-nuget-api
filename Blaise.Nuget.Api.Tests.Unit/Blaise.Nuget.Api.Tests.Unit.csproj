@@ -87,6 +87,7 @@
     <Compile Include="Api\Cati\BlaiseCatiApiTests.cs" />
     <Compile Include="Api\Health\BlaiseHealthApiTests.cs" />
     <Compile Include="Api\Role\BlaiseRoleApiTests.cs" />
+    <Compile Include="Api\Sql\BlaiseSqlApiTests.cs" />
     <Compile Include="Api\User\BlaiseUserApiTests.cs" />
     <Compile Include="Api\Survey\BlaiseSurveyApiTests.cs" />
     <Compile Include="Api\ServerPark\BlaiseServerParkApiTests.cs" />

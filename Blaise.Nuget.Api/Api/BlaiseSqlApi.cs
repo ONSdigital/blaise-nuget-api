@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Interfaces;
+using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Extensions;
@@ -9,11 +10,11 @@ namespace Blaise.Nuget.Api.Api
 {
     public class BlaiseSqlApi : IBlaiseSqlApi
     {
-        private readonly IMySqlService _mySqlService;
+        private readonly ISqlService _mySqlService;
 
         private readonly IBlaiseConfigurationProvider _configurationProvider;
 
-        internal BlaiseSqlApi(IMySqlService mySqlService,
+        internal BlaiseSqlApi(ISqlService mySqlService,
             IBlaiseConfigurationProvider configurationProvider)
         {
             _mySqlService = mySqlService;
@@ -22,7 +23,7 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseSqlApi()
         {
-            _mySqlService = UnityProvider.Resolve<IMySqlService>();
+            _mySqlService = UnityProvider.Resolve<ISqlService>();
             _configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
         }
         
@@ -33,5 +34,11 @@ namespace Blaise.Nuget.Api.Api
             return _mySqlService.GetCaseIds(_configurationProvider.DatabaseConnectionString, instrumentName);
         }
 
+        public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string instrumentName)
+        {
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+
+            return _mySqlService.GetCaseIdentifiers(_configurationProvider.DatabaseConnectionString, instrumentName);
+        }
     }
 }
