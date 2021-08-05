@@ -84,7 +84,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private static string GetDatabaseTableName(string instrumentName)
         {
-            return $"{instrumentName}_Form";
+            return $"{instrumentName.ToUpper()}_Form";
         }
     }
 }
