@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
@@ -65,18 +64,13 @@ namespace Blaise.Nuget.Api.Core.Services
             string postCode;
             var databaseTableName = GetDatabaseTableName(instrumentName);
             using (var con = new MySqlConnection(connectionString))
+            using (var cmd = new MySqlCommand())
             {
                 con.Open();
-                var cmd = new MySqlCommand("postcode_lookup", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "postcode_lookup";
-                cmd.Parameters.AddWithValue("@caseid", SqlDbType.BigInt).Value=primaryKey;
-
-                /*cmd.Connection = con;
+                cmd.Connection = con;
+                cmd.Connection = con;
                 cmd.CommandText = $"SELECT {SqlFieldType.PostCode.FullName()} from {databaseTableName} WHERE {SqlFieldType.CaseId.FullName()} = {primaryKey}";
-*/
-
-
+                
                 using (var reader = cmd.ExecuteReader())
                 {
                     reader.Read();
