@@ -12,7 +12,7 @@
 				<dependency id="Blaise.Nuget.Api.Contracts" version="$version$" />
 				<dependency id="Unity" version="5.11.6" exclude="Build,Analyzers" />
 				<dependency id="System.Configuration.ConfigurationManager" version="4.7.0" />
-				<dependency id="StatNeth.Blaise.API.x64" version="5.9.7" />
+				<dependency id="StatNeth.Blaise.API.x64" version="5.9.3" />
 				<dependency id="System.Data.SQLite" version="1.0.112.0" />
 				<dependency id="MySql.Data" version="8.0.22" />
 				<dependency id="System.IO.Compression.ZipFile" version="4.3.0" />
@@ -21,7 +21,7 @@
 				<dependency id="Blaise.Nuget.Api.Contracts" version="$version$" />
 				<dependency id="Unity" version="5.11.6" exclude="Build,Analyzers" />
 				<dependency id="System.Configuration.ConfigurationManager" version="4.7.0" />
-				<dependency id="StatNeth.Blaise.API.x64" version="5.9.7" />
+				<dependency id="StatNeth.Blaise.API.x64" version="5.9.3" />
 				<dependency id="System.Data.SQLite" version="1.0.112.0" />
 				<dependency id="MySql.Data" version="8.0.22" />
 				<dependency id="System.IO.Compression.ZipFile" version="4.3.0" />
@@ -30,7 +30,7 @@
 				<dependency id="Blaise.Nuget.Api.Contracts" version="$version$" />
 				<dependency id="Unity" version="5.11.6" exclude="Build,Analyzers" />
 				<dependency id="System.Configuration.ConfigurationManager" version="4.7.0" />
-				<dependency id="StatNeth.Blaise.API.x64" version="5.9.7" />
+				<dependency id="StatNeth.Blaise.API.x64" version="5.9.3" />
 				<dependency id="System.Data.SQLite" version="1.0.112.0" />
 				<dependency id="MySql.Data" version="8.0.22" />
 				<dependency id="System.IO.Compression.ZipFile" version="4.3.0" />
