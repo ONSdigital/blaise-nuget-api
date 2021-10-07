@@ -158,5 +158,22 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             //assert
             _remoteDataServerMock.Verify(v => v.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>()), Times.Exactly(2));
         }
+
+        [Test]
+        public void Given_The_DataLink_That_Is_Cached_Fails_Then_A_New_DataLink_Is_Established()
+        {
+            //arrange
+            _connectionModel.ConnectionExpiresInMinutes = 1;
+            _surveyServiceMock.Setup(p => p.GetInstrumentId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
+            _remoteDataServerMock.Setup(r => r.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>())).Returns(_dataLinkMock.Object);
+
+            //act
+            _sut.GetDataLink(_connectionModel, _instrumentName, _serverParkName);
+            _dataLinkMock.Setup(d => d.RecordCount).Throws(new Exception());
+            _sut.GetDataLink(_connectionModel, _instrumentName, _serverParkName);
+
+            //assert
+            _remoteDataServerMock.Verify(v => v.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>()), Times.Exactly(2));
+        }
     }
 }

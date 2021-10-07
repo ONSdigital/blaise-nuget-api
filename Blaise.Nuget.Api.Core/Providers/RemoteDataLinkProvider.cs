@@ -39,9 +39,27 @@ namespace Blaise.Nuget.Api.Core.Providers
             var (dataLink, expiryDate) = 
                 _dataLinkConnections[new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)];
 
-            return expiryDate.HasExpired()
-                ? GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate)
-                : dataLink ?? GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
+
+            if (expiryDate.HasExpired() || dataLink == null || !DataLinkConnectionIsWorking(dataLink))
+            {
+                return GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
+            }
+
+            return dataLink;
+        }
+
+        private static bool DataLinkConnectionIsWorking(IDataLink dataLink)
+        {
+            try
+            {
+                return dataLink.RecordCount >= 0;
+            }
+            catch
+            {
+                // ignored OMG
+            }
+
+            return false;
         }
 
         private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string instrumentName, string serverParkName,
