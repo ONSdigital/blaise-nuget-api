@@ -13,21 +13,29 @@ namespace Blaise.Nuget.Api.Core.Providers
 
         public LocalDataLinkProvider()
         {
+            Console.WriteLine("LocalDataLinkProvider - Initialise");
             _connections = new Dictionary<string, Tuple<IDataLink4, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
         public IDataLink4 GetDataLink(ConnectionModel connectionModel, string databaseFile)
         {
+            Console.WriteLine("LocalDataLinkProvider - GetDataLink");
             if (!_connections.ContainsKey(databaseFile))
             {
+                Console.WriteLine("LocalDataLinkProvider - No Cache found");
                 return GetFreshConnection(connectionModel, databaseFile);
             }
 
             var (dataLink, expiryDate) = _connections[databaseFile];
 
-            return expiryDate.HasExpired()
-                ? GetFreshConnection(connectionModel, databaseFile)
-                : dataLink ?? GetFreshConnection(connectionModel, databaseFile);
+            if (!expiryDate.HasExpired() && dataLink != null)
+            {
+                Console.WriteLine("LocalDataLinkProvider -  Return cached connection");
+                return dataLink;
+            }
+
+            Console.WriteLine("LocalDataLinkProvider - Return fresh connection");
+            return GetFreshConnection(connectionModel, databaseFile);
         }
 
         private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string databaseFile)

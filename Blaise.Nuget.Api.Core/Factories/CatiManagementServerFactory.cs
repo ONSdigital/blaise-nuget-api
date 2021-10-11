@@ -16,22 +16,32 @@ namespace Blaise.Nuget.Api.Core.Factories
 
         public CatiManagementServerFactory(IPasswordService passwordService)
         {
+            Console.WriteLine("CatiManagementServerFactory - Initialise");
             _passwordService = passwordService;
             _connections = new Dictionary<string, Tuple<IRemoteCatiManagementServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
         public IRemoteCatiManagementServer GetConnection(ConnectionModel connectionModel)
         {
+            Console.WriteLine("CatiManagementServerFactory - GetConnection");
+
             if (!_connections.ContainsKey(connectionModel.ServerName))
             {
+                Console.WriteLine("CatiManagementServerFactory - No Cache found");
                 return GetFreshServerConnection(connectionModel);
             }
 
             var (remoteServer, expiryDate) = _connections[connectionModel.ServerName];
 
-            return expiryDate.HasExpired()
-                ? GetFreshServerConnection(connectionModel)
-                : remoteServer ?? GetFreshServerConnection(connectionModel);
+            if (!expiryDate.HasExpired() && remoteServer != null)
+            {
+                Console.WriteLine("CatiManagementServerFactory -  Return cached connection");
+                return remoteServer;
+
+            }
+            
+            Console.WriteLine("CatiManagementServerFactory - Return fresh connection");
+            return GetFreshServerConnection(connectionModel);
         }
 
         private IRemoteCatiManagementServer GetFreshServerConnection(ConnectionModel connectionModel)

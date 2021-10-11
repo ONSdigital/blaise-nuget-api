@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Equality;
 using Blaise.Nuget.Api.Core.Extensions;
@@ -24,7 +22,6 @@ namespace Blaise.Nuget.Api.Core.Providers
             ISurveyService surveyService)
         {
             Console.WriteLine("RemoteDataLinkProvider - Initialise");
-            File.AppendAllText(@"d:\nuget.txt", "RemoteDataLinkProvider - Initialise \n", Encoding.UTF8);
             _connectionFactory = connectionFactory;
             _surveyService = surveyService;
 
@@ -34,13 +31,11 @@ namespace Blaise.Nuget.Api.Core.Providers
         public IDataLink4 GetDataLink(ConnectionModel connectionModel, string instrumentName, string serverParkName)
         {
             Console.WriteLine("RemoteDataLinkProvider - GetDataLink");
-            File.AppendAllText(@"d:\nuget.txt", "RemoteDataLinkProvider - GetDataLink \n", Encoding.UTF8);
             var installDate = _surveyService.GetInstallDate(connectionModel, instrumentName, serverParkName);
 
             if (!_dataLinkConnections.ContainsKey(new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)))
             {
                 Console.WriteLine("RemoteDataLinkProvider - No Cache found");
-                File.AppendAllText(@"d:\nuget.txt", "RemoteDataLinkProvider - No Cache found \n", Encoding.UTF8);
                 return GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
             }
 
@@ -51,13 +46,10 @@ namespace Blaise.Nuget.Api.Core.Providers
             if (!expiryDate.HasExpired() && dataLink != null)
             {
                 Console.WriteLine("RemoteDataLinkProvider -  Return cached connection");
-                File.AppendAllText(@"d:\nuget.txt", "RemoteDataLinkProvider - Return cached connection \n", Encoding.UTF8);
                 return dataLink;
-                
             }
 
             Console.WriteLine("RemoteDataLinkProvider - Return fresh connection");
-            File.AppendAllText(@"d:\nuget.txt", "RemoteDataLinkProvider - Return fresh connection \n", Encoding.UTF8);
             return GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
         }
 
