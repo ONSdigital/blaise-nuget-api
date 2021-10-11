@@ -1,4 +1,6 @@
-﻿using Blaise.Nuget.Api.Contracts.Interfaces;
+﻿using System;
+using System.Diagnostics;
+using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -28,6 +30,8 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseHealthApi(ConnectionModel connectionModel = null)
         {
+            Console.WriteLine("Create Nuget BlaiseHealth API - Console");
+            Debug.WriteLine("Create Nuget BlaiseHealth API - Debug");
             _connectedServerFactory = UnityProvider.Resolve<IConnectedServerFactory>();
             _remoteDataServerFactory = UnityProvider.Resolve<IRemoteDataServerFactory>();
             _catiManagementServerFactory = UnityProvider.Resolve<ICatiManagementServerFactory>();
