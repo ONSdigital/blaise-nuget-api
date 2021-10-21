@@ -104,7 +104,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<SurveyEntrySettingsModel>>(result);
+            Assert.IsInstanceOf<List<DataEntrySettingsModel>>(result);
         }
 
 
@@ -147,7 +147,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<SurveyEntrySettingsModel>>(result);
+            Assert.IsInstanceOf<List<DataEntrySettingsModel>>(result);
             Assert.AreEqual(2, result.Count);
 
             var dataEntrySettings1 = result.FirstOrDefault(n => n.Type == dataEntrySettings1Name);
@@ -184,7 +184,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<SurveyEntrySettingsModel>>(result);
+            Assert.IsInstanceOf<List<DataEntrySettingsModel>>(result);
             Assert.IsEmpty(result);
         }
     }

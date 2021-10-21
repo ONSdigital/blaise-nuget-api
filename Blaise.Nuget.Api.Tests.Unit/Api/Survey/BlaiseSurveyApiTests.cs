@@ -761,9 +761,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
         {
             //arrange
             _surveyMetaServiceMock.Setup(s => s.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName))
-                .Returns(new List<SurveyEntrySettingsModel>
+                .Returns(new List<DataEntrySettingsModel>
                 {
-                    new SurveyEntrySettingsModel { Type = "StrictInterviewing", DeleteSessionOnTimeout = true, DeleteSessionOnQuit = true }
+                    new DataEntrySettingsModel { Type = "StrictInterviewing", DeleteSessionOnTimeout = true, DeleteSessionOnQuit = true }
                 });
 
             //act
@@ -771,7 +771,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
 
             //assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<SurveyEntrySettingsModel>>(result);
+            Assert.IsInstanceOf<List<DataEntrySettingsModel>>(result);
         }
 
         [TestCase(true, true)]
@@ -782,9 +782,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
         {
             //arrange
             _surveyMetaServiceMock.Setup(s => s.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName))
-                .Returns(new List<SurveyEntrySettingsModel>
+                .Returns(new List<DataEntrySettingsModel>
                 {
-                    new SurveyEntrySettingsModel
+                    new DataEntrySettingsModel
                     {
                         Type = "StrictInterviewing", 
                         SessionTimeout = 30,

@@ -105,7 +105,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Survey
 
             //assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<SurveyEntrySettingsModel>(result);
+            Assert.IsInstanceOf<DataEntrySettingsModel>(result);
         }
     }
 }

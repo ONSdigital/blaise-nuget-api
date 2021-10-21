@@ -34,6 +34,6 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IEnumerable<string> GetSurveyModes(string instrumentName, string serverParkName);
 
-        IEnumerable<SurveyEntrySettingsModel> GetSurveyDataEntrySettings(string instrumentName, string serverParkName);
+        IEnumerable<DataEntrySettingsModel> GetSurveyDataEntrySettings(string instrumentName, string serverParkName);
     }
 }
