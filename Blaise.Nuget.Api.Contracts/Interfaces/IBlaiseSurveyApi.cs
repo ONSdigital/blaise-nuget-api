@@ -33,5 +33,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         void DeactivateSurvey(string instrumentName, string serverParkName);
 
         IEnumerable<string> GetSurveyModes(string instrumentName, string serverParkName);
+
+        IEnumerable<SurveyEntrySettingsModel> GetSurveyDataEntrySettings(string instrumentName, string serverParkName);
     }
 }

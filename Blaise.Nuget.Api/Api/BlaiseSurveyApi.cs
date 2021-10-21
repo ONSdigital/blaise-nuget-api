@@ -141,5 +141,13 @@ namespace Blaise.Nuget.Api.Api
 
             return _surveyMetaService.GetSurveyModes(_connectionModel, instrumentName, serverParkName);
         }
+
+        public IEnumerable<SurveyEntrySettingsModel> GetSurveyDataEntrySettings(string instrumentName, string serverParkName)
+        {
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            return _surveyMetaService.GetSurveyDataEntrySettings(_connectionModel, instrumentName, serverParkName);
+        }
     }
 }

@@ -21,5 +21,26 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return dataModel == null ? new List<string>() : dataModel.Modes.Select(dm => dm.Name);
         }
+
+        public IEnumerable<SurveyEntrySettingsModel> GetSurveyDataEntrySettings(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        {
+            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var dataEntrySettings = dataModel.DataEntrySettings;
+            
+            var surveyEntrySettingsModelList = new List<SurveyEntrySettingsModel>();
+
+            foreach (var dataEntrySetting in dataEntrySettings)
+            {
+                surveyEntrySettingsModelList.Add(new SurveyEntrySettingsModel
+                {
+                    Type = dataEntrySetting.Name,
+                    SessionTimeout = ((IDataEntrySettings4)dataEntrySetting).SessionTimeout,
+                    DeleteSessionOnTimeout = ((IDataEntrySettings6)dataEntrySetting).DeleteSessionOnTimeout,
+                    DeleteSessionOnQuit = ((IDataEntrySettings6)dataEntrySetting).DeleteSessionOnQuit
+                });
+            }
+
+            return surveyEntrySettingsModelList;
+        }
     }
 }

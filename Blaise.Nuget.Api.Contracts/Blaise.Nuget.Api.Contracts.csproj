@@ -84,6 +84,7 @@
     <Compile Include="Models\CaseIdentifierModel.cs" />
     <Compile Include="Models\ConnectionModel.cs" />
     <Compile Include="Models\CaseStatusModel.cs" />
+    <Compile Include="Models\SurveyEntrySettingsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
