@@ -35,6 +35,8 @@ namespace Blaise.Nuget.Api.Core.Services
                 {
                     Type = dataEntrySetting.Name,
                     SessionTimeout = ((IDataEntrySettings4)dataEntrySetting).SessionTimeout,
+                    SaveSessionOnTimeout =  ((IDataEntrySettings6)dataEntrySetting).SaveOnTimeout,
+                    SaveSessionOnQuit = ((IDataEntrySettings6)dataEntrySetting).SaveOnQuit,
                     DeleteSessionOnTimeout = ((IDataEntrySettings6)dataEntrySetting).DeleteSessionOnTimeout,
                     DeleteSessionOnQuit = ((IDataEntrySettings6)dataEntrySetting).DeleteSessionOnQuit
                 });

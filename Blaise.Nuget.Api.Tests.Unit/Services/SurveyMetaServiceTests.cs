@@ -119,6 +119,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dataEntrySettings1Mock = new Mock<IDataEntrySettings>();
             dataEntrySettings1Mock.Setup(de => de.Name).Returns(dataEntrySettings1Name);
             dataEntrySettings1Mock.As<IDataEntrySettings4>().Setup(de => de.SessionTimeout).Returns(dataEntrySettings1Timeout);
+            dataEntrySettings1Mock.As<IDataEntrySettings6>().Setup(de => de.SaveOnTimeout).Returns(true);
+            dataEntrySettings1Mock.As<IDataEntrySettings6>().Setup(de => de.SaveOnQuit).Returns(false);
             dataEntrySettings1Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnTimeout).Returns(true);
             dataEntrySettings1Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnQuit).Returns(false);
 
@@ -127,6 +129,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dataEntrySettings2Mock = new Mock<IDataEntrySettings>();
             dataEntrySettings2Mock.Setup(de => de.Name).Returns(dataEntrySettings2Name);
             dataEntrySettings2Mock.As<IDataEntrySettings4>().Setup(de => de.SessionTimeout).Returns(dataEntrySettings2Timeout);
+            dataEntrySettings2Mock.As<IDataEntrySettings6>().Setup(de => de.SaveOnTimeout).Returns(false);
+            dataEntrySettings2Mock.As<IDataEntrySettings6>().Setup(de => de.SaveOnQuit).Returns(true);
             dataEntrySettings2Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnTimeout).Returns(false);
             dataEntrySettings2Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnQuit).Returns(true);
 
@@ -153,12 +157,16 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dataEntrySettings1 = result.FirstOrDefault(n => n.Type == dataEntrySettings1Name);
             Assert.IsNotNull(dataEntrySettings1);
             Assert.AreEqual(dataEntrySettings1Timeout, dataEntrySettings1.SessionTimeout);
+            Assert.True(dataEntrySettings1.SaveSessionOnTimeout);
+            Assert.False(dataEntrySettings1.SaveSessionOnQuit);
             Assert.True(dataEntrySettings1.DeleteSessionOnTimeout);
             Assert.False(dataEntrySettings1.DeleteSessionOnQuit);
 
             var dataEntrySettings2 = result.FirstOrDefault(n => n.Type == dataEntrySettings2Name);
             Assert.IsNotNull(dataEntrySettings2);
             Assert.AreEqual(dataEntrySettings2Timeout, dataEntrySettings2.SessionTimeout);
+            Assert.False(dataEntrySettings2.SaveSessionOnTimeout);
+            Assert.True(dataEntrySettings2.SaveSessionOnQuit);
             Assert.False(dataEntrySettings2.DeleteSessionOnTimeout);
             Assert.True(dataEntrySettings2.DeleteSessionOnQuit);
         }

@@ -778,7 +778,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
         [TestCase(true, false)]
         [TestCase(false, true)]
         [TestCase(false, false)]
-        public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_Valid_SurveyEntrySettingsModel_Back(bool deleteSessionOnTimeout, bool deleteSessionOnQuit)
+        public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_Valid_SurveyEntrySettingsModel_Back(bool Timeout, bool Quit)
         {
             //arrange
             _surveyMetaServiceMock.Setup(s => s.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName))
@@ -788,8 +788,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
                     {
                         Type = "StrictInterviewing", 
                         SessionTimeout = 30,
-                        DeleteSessionOnTimeout = deleteSessionOnTimeout, 
-                        DeleteSessionOnQuit = deleteSessionOnQuit
+                        SaveSessionOnTimeout = Timeout,
+                        SaveSessionOnQuit = Quit,
+                        DeleteSessionOnTimeout = Timeout, 
+                        DeleteSessionOnQuit = Quit
                     }
                 });
 
@@ -804,8 +806,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
             Assert.IsNotNull(dataEntrySettings);
             Assert.AreEqual("StrictInterviewing", dataEntrySettings.Type);
             Assert.AreEqual(30, dataEntrySettings.SessionTimeout);
-            Assert.AreEqual(deleteSessionOnTimeout, dataEntrySettings.DeleteSessionOnTimeout);
-            Assert.AreEqual(deleteSessionOnQuit, dataEntrySettings.DeleteSessionOnQuit);
+            Assert.AreEqual(Timeout, dataEntrySettings.SaveSessionOnTimeout);
+            Assert.AreEqual(Quit, dataEntrySettings.SaveSessionOnQuit);
+            Assert.AreEqual(Timeout, dataEntrySettings.DeleteSessionOnTimeout);
+            Assert.AreEqual(Quit, dataEntrySettings.DeleteSessionOnQuit);
         }
 
 
