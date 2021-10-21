@@ -7,6 +7,8 @@ using Blaise.Nuget.Api.Core.Services;
 using Moq;
 using NUnit.Framework;
 using StatNeth.Blaise.API.Meta;
+using IMode = StatNeth.Blaise.API.Meta.IMode;
+using IModeCollection = StatNeth.Blaise.API.Meta.IModeCollection;
 
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
@@ -78,6 +80,111 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //assert
             Assert.IsNotNull(result);
+            Assert.IsEmpty(result);
+        }
+
+        [Test]
+        public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_List_Of_SurveyEntrySettingsModel_Back()
+        {
+            //arrange
+            var dataEntrySettingsList = new List<IDataEntrySettings>();
+
+            var dataEntrySettingsCollection = new Mock<IDataEntrySettingsCollection>();
+            dataEntrySettingsCollection.Setup(des => des.GetEnumerator())
+                .Returns(dataEntrySettingsList.GetEnumerator());
+
+            var datamodelMock = new Mock<IDatamodel>();
+            datamodelMock.Setup(d => d.DataEntrySettings).Returns(dataEntrySettingsCollection.Object);
+
+            _dataModelServiceMock.Setup(dm => dm.GetDataModel(It.IsAny<ConnectionModel>(),
+                It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
+
+            //act
+            var result = _sut.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<List<SurveyEntrySettingsModel>>(result);
+        }
+
+
+        [Test]
+        public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_Valid_List_Of_SurveyEntrySettingsModel_Back()
+        {
+            //arrange
+
+            //data entry settings 1
+            var dataEntrySettings1Name = "StrictInterviewing";
+            var dataEntrySettings1Timeout = 30;
+            var dataEntrySettings1Mock = new Mock<IDataEntrySettings>();
+            dataEntrySettings1Mock.Setup(de => de.Name).Returns(dataEntrySettings1Name);
+            dataEntrySettings1Mock.As<IDataEntrySettings4>().Setup(de => de.SessionTimeout).Returns(dataEntrySettings1Timeout);
+            dataEntrySettings1Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnTimeout).Returns(true);
+            dataEntrySettings1Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnQuit).Returns(false);
+
+            var dataEntrySettings2Name = "CatiInterviewing";
+            var dataEntrySettings2Timeout = 15;
+            var dataEntrySettings2Mock = new Mock<IDataEntrySettings>();
+            dataEntrySettings2Mock.Setup(de => de.Name).Returns(dataEntrySettings2Name);
+            dataEntrySettings2Mock.As<IDataEntrySettings4>().Setup(de => de.SessionTimeout).Returns(dataEntrySettings2Timeout);
+            dataEntrySettings2Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnTimeout).Returns(false);
+            dataEntrySettings2Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnQuit).Returns(true);
+
+            var dataEntrySettingsList = new List<IDataEntrySettings> { dataEntrySettings1Mock.Object, dataEntrySettings2Mock.Object };
+
+            var dataEntrySettingsCollection = new Mock<IDataEntrySettingsCollection>();
+            dataEntrySettingsCollection.Setup(des => des.GetEnumerator())
+                .Returns(dataEntrySettingsList.GetEnumerator());
+
+            var datamodelMock = new Mock<IDatamodel>();
+            datamodelMock.Setup(d => d.DataEntrySettings).Returns(dataEntrySettingsCollection.Object);
+
+            _dataModelServiceMock.Setup(dm => dm.GetDataModel(It.IsAny<ConnectionModel>(),
+                It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
+
+            //act
+            var result = _sut.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName).ToList();
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<List<SurveyEntrySettingsModel>>(result);
+            Assert.AreEqual(2, result.Count);
+
+            var dataEntrySettings1 = result.FirstOrDefault(n => n.Type == dataEntrySettings1Name);
+            Assert.IsNotNull(dataEntrySettings1);
+            Assert.AreEqual(dataEntrySettings1Timeout, dataEntrySettings1.SessionTimeout);
+            Assert.True(dataEntrySettings1.DeleteSessionOnTimeout);
+            Assert.False(dataEntrySettings1.DeleteSessionOnQuit);
+
+            var dataEntrySettings2 = result.FirstOrDefault(n => n.Type == dataEntrySettings2Name);
+            Assert.IsNotNull(dataEntrySettings2);
+            Assert.AreEqual(dataEntrySettings2Timeout, dataEntrySettings2.SessionTimeout);
+            Assert.False(dataEntrySettings2.DeleteSessionOnTimeout);
+            Assert.True(dataEntrySettings2.DeleteSessionOnQuit);
+        }
+
+        [Test]
+        public void Given_I_Call_GetSurveyDataEntrySettings_And_There_Are_No_Settings_Configured_I_Get_An_Empty_List_Back()
+        {
+            //arrange
+            var dataEntrySettingsList = new List<IDataEntrySettings>();
+
+            var dataEntrySettingsCollection = new Mock<IDataEntrySettingsCollection>();
+            dataEntrySettingsCollection.Setup(des => des.GetEnumerator())
+                .Returns(dataEntrySettingsList.GetEnumerator());
+
+            var datamodelMock = new Mock<IDatamodel>();
+            datamodelMock.Setup(d => d.DataEntrySettings).Returns(dataEntrySettingsCollection.Object);
+
+            _dataModelServiceMock.Setup(dm => dm.GetDataModel(It.IsAny<ConnectionModel>(),
+                It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
+
+            //act
+            var result = _sut.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<List<SurveyEntrySettingsModel>>(result);
             Assert.IsEmpty(result);
         }
     }

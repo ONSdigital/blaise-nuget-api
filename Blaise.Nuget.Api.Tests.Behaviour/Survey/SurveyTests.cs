@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Models;
 using NUnit.Framework;
 using StatNeth.Blaise.API.ServerManager;
 
@@ -93,6 +94,18 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Survey
             Assert.AreEqual(2, result.Count);
             Assert.True(result.Contains("CAWI"));
             Assert.True(result.Contains("CATI"));
+        }
+
+        [Ignore("Integration")]
+        [Test]
+        public void Given_An_Instrument_Is_Installed_In_When_I_Call_GetSurveyDataEntrySettings_I_Get_A_Settings_Model_Back()
+        {
+            //act
+            var result = _sut.GetSurveyDataEntrySettings(InstrumentName, ServerParkName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<SurveyEntrySettingsModel>(result);
         }
     }
 }

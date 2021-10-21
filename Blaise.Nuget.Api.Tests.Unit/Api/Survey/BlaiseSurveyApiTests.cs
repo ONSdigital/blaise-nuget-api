@@ -756,5 +756,89 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
             Assert.AreEqual("instrumentName", exception.ParamName);
         }
 
+        [Test]
+        public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_SurveyEntrySettingsModel_Back()
+        {
+            //arrange
+            _surveyMetaServiceMock.Setup(s => s.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(new List<SurveyEntrySettingsModel>
+                {
+                    new SurveyEntrySettingsModel { Type = "StrictInterviewing", DeleteSessionOnTimeout = true, DeleteSessionOnQuit = true }
+                });
+
+            //act
+            var result = _sut.GetSurveyDataEntrySettings(_instrumentName, _serverParkName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<List<SurveyEntrySettingsModel>>(result);
+        }
+
+        [TestCase(true, true)]
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        [TestCase(false, false)]
+        public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_Valid_SurveyEntrySettingsModel_Back(bool deleteSessionOnTimeout, bool deleteSessionOnQuit)
+        {
+            //arrange
+            _surveyMetaServiceMock.Setup(s => s.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(new List<SurveyEntrySettingsModel>
+                {
+                    new SurveyEntrySettingsModel
+                    {
+                        Type = "StrictInterviewing", 
+                        SessionTimeout = 30,
+                        DeleteSessionOnTimeout = deleteSessionOnTimeout, 
+                        DeleteSessionOnQuit = deleteSessionOnQuit
+                    }
+                });
+
+            //act
+            var result = _sut.GetSurveyDataEntrySettings(_instrumentName, _serverParkName).ToList();
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count());
+
+            var dataEntrySettings = result.First();
+            Assert.IsNotNull(dataEntrySettings);
+            Assert.AreEqual("StrictInterviewing", dataEntrySettings.Type);
+            Assert.AreEqual(30, dataEntrySettings.SessionTimeout);
+            Assert.AreEqual(deleteSessionOnTimeout, dataEntrySettings.DeleteSessionOnTimeout);
+            Assert.AreEqual(deleteSessionOnQuit, dataEntrySettings.DeleteSessionOnQuit);
+        }
+
+
+        [Test]
+        public void Given_An_Empty_ServerParkName_When_I_Call_GetSurveyDataEntrySettings_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetSurveyDataEntrySettings(_instrumentName, string.Empty));
+            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_ServerParkName_When_I_Call_GetSurveyDataEntrySettings_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetSurveyDataEntrySettings(_instrumentName, null));
+            Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_instrumentName_When_I_Call_GetSurveyDataEntrySettings_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetSurveyDataEntrySettings(string.Empty, _serverParkName));
+            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_instrumentName_When_I_Call_GetSurveyDataEntrySettings_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetSurveyDataEntrySettings(null, _serverParkName));
+            Assert.AreEqual("instrumentName", exception.ParamName);
+        }
     }
 }
