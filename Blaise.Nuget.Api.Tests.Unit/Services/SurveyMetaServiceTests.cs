@@ -7,8 +7,6 @@ using Blaise.Nuget.Api.Core.Services;
 using Moq;
 using NUnit.Framework;
 using StatNeth.Blaise.API.Meta;
-using IMode = StatNeth.Blaise.API.Meta.IMode;
-using IModeCollection = StatNeth.Blaise.API.Meta.IModeCollection;
 
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
@@ -107,7 +105,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.IsInstanceOf<List<DataEntrySettingsModel>>(result);
         }
 
-
         [Test]
         public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_Valid_List_Of_SurveyEntrySettingsModel_Back()
         {
@@ -123,6 +120,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             dataEntrySettings1Mock.As<IDataEntrySettings6>().Setup(de => de.SaveOnQuit).Returns(false);
             dataEntrySettings1Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnTimeout).Returns(true);
             dataEntrySettings1Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnQuit).Returns(false);
+            dataEntrySettings1Mock.As<IDataEntrySettings4>().Setup(de => de.ApplyRecordLocking).Returns(true);
 
             var dataEntrySettings2Name = "CatiInterviewing";
             var dataEntrySettings2Timeout = 15;
@@ -133,6 +131,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             dataEntrySettings2Mock.As<IDataEntrySettings6>().Setup(de => de.SaveOnQuit).Returns(true);
             dataEntrySettings2Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnTimeout).Returns(false);
             dataEntrySettings2Mock.As<IDataEntrySettings6>().Setup(de => de.DeleteSessionOnQuit).Returns(true);
+            dataEntrySettings2Mock.As<IDataEntrySettings4>().Setup(de => de.ApplyRecordLocking).Returns(false);
 
             var dataEntrySettingsList = new List<IDataEntrySettings> { dataEntrySettings1Mock.Object, dataEntrySettings2Mock.Object };
 
@@ -161,6 +160,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.False(dataEntrySettings1.SaveSessionOnQuit);
             Assert.True(dataEntrySettings1.DeleteSessionOnTimeout);
             Assert.False(dataEntrySettings1.DeleteSessionOnQuit);
+            Assert.True(dataEntrySettings1.ApplyRecordLocking);
 
             var dataEntrySettings2 = result.FirstOrDefault(n => n.Type == dataEntrySettings2Name);
             Assert.IsNotNull(dataEntrySettings2);
@@ -169,6 +169,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.True(dataEntrySettings2.SaveSessionOnQuit);
             Assert.False(dataEntrySettings2.DeleteSessionOnTimeout);
             Assert.True(dataEntrySettings2.DeleteSessionOnQuit);
+            Assert.False(dataEntrySettings2.ApplyRecordLocking);
         }
 
         [Test]
