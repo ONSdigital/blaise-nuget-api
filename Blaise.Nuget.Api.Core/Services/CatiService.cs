@@ -59,6 +59,23 @@ namespace Blaise.Nuget.Api.Core.Services
                 .CreateDaybatch(dayBatchDate);
         }
 
+        public DayBatchModel GetDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        {
+            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
+
+            var caseEntries = catiManagement.GetKeysInDaybatch(instrumentId).ToList();
+
+            if (!caseEntries.Any())
+            {
+                return null;
+            }
+
+            var dayBatchEntry = catiManagement.GetDaybatchEntry(instrumentId, caseEntries.First());
+
+            return new DayBatchModel(dayBatchEntry.CurrentStartTime.Date, caseEntries);
+        }
+
         public List<DateTime> GetSurveyDays(ConnectionModel connectionModel, string instrumentName, string serverParkName)
         {
             var surveyDays = new List<DateTime>();

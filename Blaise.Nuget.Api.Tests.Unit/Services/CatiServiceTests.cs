@@ -9,6 +9,7 @@ using Blaise.Nuget.Api.Core.Services;
 using Moq;
 using NUnit.Framework;
 using StatNeth.Blaise.API.Cati.Runtime;
+using StatNeth.Blaise.API.Cati.Runtime.Objects;
 using StatNeth.Blaise.API.Cati.Specification;
 using StatNeth.Blaise.API.ServerManager;
 

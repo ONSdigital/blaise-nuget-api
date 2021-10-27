@@ -85,6 +85,7 @@
     <Compile Include="Models\ConnectionModel.cs" />
     <Compile Include="Models\CaseStatusModel.cs" />
     <Compile Include="Models\DataEntrySettingsModel.cs" />
+    <Compile Include="Models\DayBatchModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
