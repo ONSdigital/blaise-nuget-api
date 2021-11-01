@@ -64,16 +64,16 @@ namespace Blaise.Nuget.Api.Core.Services
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
 
-            var caseEntries = catiManagement.GetKeysInDaybatch(instrumentId).ToList();
+            var dayBatchCaseEntries = catiManagement.GetKeysInDaybatch(instrumentId).ToList();
 
-            if (!caseEntries.Any())
+            if (!dayBatchCaseEntries.Any())
             {
                 return null;
             }
 
-            var dayBatchEntry = catiManagement.GetDaybatchEntry(instrumentId, caseEntries.First());
+            var dayBatchDate = catiManagement.GetDaybatchDate(instrumentId);
 
-            return new DayBatchModel(dayBatchEntry.CurrentStartTime.Date, caseEntries);
+            return new DayBatchModel(dayBatchDate, dayBatchCaseEntries);
         }
 
         public List<DateTime> GetSurveyDays(ConnectionModel connectionModel, string instrumentName, string serverParkName)
