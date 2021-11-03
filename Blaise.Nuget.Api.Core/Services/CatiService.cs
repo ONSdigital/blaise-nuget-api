@@ -88,32 +88,15 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var surveyDays = new List<DateTime>();
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var instrumentManager = catiManagement.LoadCatiInstrumentManager(instrumentName);
+            var surveyDateCollection = catiManagement
+                .LoadCatiInstrumentManager(instrumentName)?.Specification?.SurveyDays;
 
-            if (instrumentManager == null)
-            {
-                throw new SurveyConfigurationException($"Could not load instrument manager for '{instrumentName}'");
-            }
-
-            if (instrumentManager.Specification == null)
-            {
-                throw new SurveyConfigurationException($"No specification found for '{instrumentName}'");
-            }
-
-            var surveyDateCollection = instrumentManager.Specification.SurveyDays;
-
-            if (surveyDateCollection == null)
-            {
-                throw new SurveyConfigurationException($"Survey days not initialized for '{instrumentName}'");
-            }
-
-            if (surveyDateCollection.Count == 0)
+            if (surveyDateCollection == null || surveyDateCollection.Count == 0)
             {
                 return surveyDays;
             }
 
-            surveyDays.AddRange(surveyDateCollection.Where(surveyDay => surveyDay.Active)
-                .Select(surveyDay => surveyDay.Date));
+            surveyDays.AddRange(surveyDateCollection.Select(surveyDay => surveyDay.Date));
 
             return surveyDays;
         }
