@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Models;
 using StatNeth.Blaise.API.ServerManager;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
@@ -16,6 +15,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         DayBatchModel GetDayBatch(ConnectionModel connectionModel, string instrumentName,
             string serverParkName);
+
+        void AddToDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName,
+            string primaryKeyValue);
 
         List<DateTime> GetSurveyDays(ConnectionModel connectionModel, string instrumentName, string serverParkName);
 
