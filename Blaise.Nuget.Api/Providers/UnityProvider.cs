@@ -25,21 +25,21 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<IPasswordService, PasswordService>();
 
             //factories
-            UnityContainer.RegisterSingleton<IConnectedServerFactory, ConnectedServerFactory>();
-            UnityContainer.RegisterSingleton<IRemoteDataServerFactory, RemoteDataServerFactory>();
-            UnityContainer.RegisterSingleton<ICatiManagementServerFactory, CatiManagementServerFactory>();
-            UnityContainer.RegisterSingleton<ISecurityManagerFactory, SecurityManagerFactory>();
-            UnityContainer.RegisterSingleton<IDataInterfaceFactory, DataInterfaceFactory>();
+            UnityContainer.RegisterType<IConnectedServerFactory, ConnectedServerFactory>();
+            UnityContainer.RegisterType<IRemoteDataServerFactory, RemoteDataServerFactory>();
+            UnityContainer.RegisterType<ICatiManagementServerFactory, CatiManagementServerFactory>();
+            UnityContainer.RegisterType<ISecurityManagerFactory, SecurityManagerFactory>();
+            UnityContainer.RegisterType<IDataInterfaceFactory, DataInterfaceFactory>();
 
             //mappers
             UnityContainer.RegisterType<IDataMapperService, DataMapperService>();
             UnityContainer.RegisterType<IRolePermissionMapper, RolePermissionMapper>();
 
             //data link providers
-            UnityContainer.RegisterSingleton<ILocalDataLinkProvider, LocalDataLinkProvider>();
-            UnityContainer.RegisterSingleton<IRemoteDataLinkProvider, RemoteDataLinkProvider>();
-            UnityContainer.RegisterSingleton<IDataInterfaceProvider, DataInterfaceProvider>();
-            UnityContainer.RegisterSingleton<IRemoteCatiManagementServerProvider, RemoteCatiManagementServerProvider>();
+            UnityContainer.RegisterType<ILocalDataLinkProvider, LocalDataLinkProvider>();
+            UnityContainer.RegisterType<IRemoteDataLinkProvider, RemoteDataLinkProvider>();
+            UnityContainer.RegisterType<IDataInterfaceProvider, DataInterfaceProvider>();
+            UnityContainer.RegisterType<IRemoteCatiManagementServerProvider, RemoteCatiManagementServerProvider>();
 
             //services
             UnityContainer.RegisterType<IDataModelService, DataModelService>();
@@ -56,7 +56,6 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<ISurveyMetaService, SurveyMetaService>();
             UnityContainer.RegisterType<ISqlService, SqlService>();
         }
-
         public static T Resolve<T>()
         {
             return UnityContainer.Resolve<T>();
