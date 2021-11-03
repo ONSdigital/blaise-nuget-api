@@ -25,10 +25,10 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<IPasswordService, PasswordService>();
 
             //factories
-            UnityContainer.RegisterType<IConnectedServerFactory, ConnectedServerFactory>();
-            UnityContainer.RegisterType<IRemoteDataServerFactory, RemoteDataServerFactory>();
+            UnityContainer.RegisterSingleton<IConnectedServerFactory, ConnectedServerFactory>();
+            UnityContainer.RegisterSingleton<IRemoteDataServerFactory, RemoteDataServerFactory>();
             UnityContainer.RegisterType<ICatiManagementServerFactory, CatiManagementServerFactory>();
-            UnityContainer.RegisterType<ISecurityManagerFactory, SecurityManagerFactory>();
+            UnityContainer.RegisterSingleton<ISecurityManagerFactory, SecurityManagerFactory>();
             UnityContainer.RegisterType<IDataInterfaceFactory, DataInterfaceFactory>();
 
             //mappers
@@ -36,8 +36,8 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<IRolePermissionMapper, RolePermissionMapper>();
 
             //data link providers
-            UnityContainer.RegisterType<ILocalDataLinkProvider, LocalDataLinkProvider>();
-            UnityContainer.RegisterType<IRemoteDataLinkProvider, RemoteDataLinkProvider>();
+            UnityContainer.RegisterSingleton<ILocalDataLinkProvider, LocalDataLinkProvider>();
+            UnityContainer.RegisterSingleton<IRemoteDataLinkProvider, RemoteDataLinkProvider>();
             UnityContainer.RegisterType<IDataInterfaceProvider, DataInterfaceProvider>();
             UnityContainer.RegisterType<IRemoteCatiManagementServerProvider, RemoteCatiManagementServerProvider>();
 
