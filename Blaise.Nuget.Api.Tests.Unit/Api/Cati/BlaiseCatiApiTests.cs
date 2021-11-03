@@ -15,6 +15,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
         private readonly string _serverParkName;
         private readonly string _instrumentName;
+        private readonly string _primaryKeyValue;
+
         private readonly ConnectionModel _connectionModel;
 
         private IBlaiseCatiApi _sut;
@@ -24,6 +26,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             _connectionModel = new ConnectionModel();
             _serverParkName = "Park1";
             _instrumentName = "Instrument1";
+            _primaryKeyValue = "90001";
         }
 
         [SetUp]
@@ -217,6 +220,65 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetDayBatch(_instrumentName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_AddToDayBatch_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //act
+            _sut.AddToDayBatch(_instrumentName, _serverParkName, _primaryKeyValue);
+
+            //assert
+            _catiServiceMock.Verify(v => v.AddToDayBatch(_connectionModel, _instrumentName,
+                _serverParkName, _primaryKeyValue), Times.Once);
+        }
+
+        [Test]
+        public void Given_An_Empty_InstrumentName_When_I_Call_AddToDayBatch_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(string.Empty, _serverParkName, _primaryKeyValue));
+            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_InstrumentName_When_I_Call_AddToDayBatch_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(null, _serverParkName, _primaryKeyValue));
+            Assert.AreEqual("instrumentName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_ServerParkName_When_I_Call_AddToDayBatch_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(_instrumentName, string.Empty, _primaryKeyValue));
+            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_ServerParkName_When_I_Call_AddToDayBatch_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(_instrumentName, null, _primaryKeyValue));
+            Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_AddToDayBatch_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(_instrumentName, _serverParkName, string.Empty));
+            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_PrimaryKeyValue_When_I_Call_AddToDayBatch_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(_instrumentName, _serverParkName, null));
+            Assert.AreEqual("primaryKeyValue", exception.ParamName);
         }
 
         [Test]

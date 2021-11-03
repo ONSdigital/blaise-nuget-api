@@ -76,19 +76,44 @@ namespace Blaise.Nuget.Api.Core.Services
             return new DayBatchModel(dayBatchDate, dayBatchCaseEntries);
         }
 
+        public void AddToDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName, string primaryKeyValue)
+        {
+            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
+
+            catiManagement.AddToDaybatch(instrumentId, primaryKeyValue);
+        }
+
         public List<DateTime> GetSurveyDays(ConnectionModel connectionModel, string instrumentName, string serverParkName)
         {
             var surveyDays = new List<DateTime>();
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var surveyDateCollection = catiManagement
-                .LoadCatiInstrumentManager(instrumentName)?.Specification?.SurveyDays;
+            var instrumentManager = catiManagement.LoadCatiInstrumentManager(instrumentName);
 
-            if (surveyDateCollection == null || surveyDateCollection.Count == 0)
+            if (instrumentManager == null)
+            {
+                throw new SurveyConfigurationException($"Could not load instrument manager for '{instrumentName}'");
+            }
+
+            if (instrumentManager.Specification == null)
+            {
+                throw new SurveyConfigurationException($"No specification found for '{instrumentName}'");
+            }
+
+            var surveyDateCollection = instrumentManager.Specification.SurveyDays;
+
+            if (surveyDateCollection == null)
+            {
+                throw new SurveyConfigurationException($"Survey days not initialized for '{instrumentName}'");
+            }
+
+            if (surveyDateCollection.Count == 0)
             {
                 return surveyDays;
             }
 
-            surveyDays.AddRange(surveyDateCollection.Select(surveyDay => surveyDay.Date));
+            surveyDays.AddRange(surveyDateCollection.Where(surveyDay => surveyDay.Active)
+                .Select(surveyDay => surveyDay.Date));
 
             return surveyDays;
         }

@@ -11,6 +11,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         ISurvey GetInstalledSurvey(string instrumentName, string serverParkName);
         void CreateDayBatch(string instrumentName, string serverParkName, DateTime dayBatchDate);
         DayBatchModel GetDayBatch(string instrumentName, string serverParkName);
+        void AddToDayBatch(string instrumentName, string serverParkName,
+            string primaryKeyValue);
         List<DateTime> GetSurveyDays(string instrumentName, string serverParkName);
         void SetSurveyDay(string instrumentName, string serverParkName, DateTime surveyDay);
         void SetSurveyDays(string instrumentName, string serverParkName, List<DateTime> surveyDays);
