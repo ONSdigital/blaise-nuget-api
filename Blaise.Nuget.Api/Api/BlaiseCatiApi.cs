@@ -46,12 +46,12 @@ namespace Blaise.Nuget.Api.Api
             return _catiService.GetInstalledSurvey(_connectionModel, instrumentName, serverParkName);
         }
 
-        public void CreateDayBatch(string instrumentName, string serverParkName, DateTime dayBatchDate)
+        public DayBatchModel CreateDayBatch(string instrumentName, string serverParkName, DateTime dayBatchDate)
         {
             instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            _catiService.CreateDayBatch(_connectionModel, instrumentName, serverParkName, dayBatchDate);
+            return _catiService.CreateDayBatch(_connectionModel, instrumentName, serverParkName, dayBatchDate);
         }
 
         public DayBatchModel GetDayBatch(string instrumentName, string serverParkName)

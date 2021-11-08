@@ -9,7 +9,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
     {
         IEnumerable<ISurvey> GetInstalledSurveys(string serverParkName);
         ISurvey GetInstalledSurvey(string instrumentName, string serverParkName);
-        void CreateDayBatch(string instrumentName, string serverParkName, DateTime dayBatchDate);
+        DayBatchModel CreateDayBatch(string instrumentName, string serverParkName, DateTime dayBatchDate);
         DayBatchModel GetDayBatch(string instrumentName, string serverParkName);
         void AddToDayBatch(string instrumentName, string serverParkName,
             string primaryKeyValue);

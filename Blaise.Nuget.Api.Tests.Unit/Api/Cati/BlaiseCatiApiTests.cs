@@ -136,6 +136,23 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
+        public void Given_Valid_Arguments_When_I_Call_CreateDayBatch_Then_A_DayBatchModel_Is_Returned()
+        {
+            //arrange
+            var dayBatchDate = DateTime.Now;
+            _catiServiceMock.Setup(cs =>
+                    cs.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, dayBatchDate))
+                .Returns(new DayBatchModel());
+
+            //act
+            var result = _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<DayBatchModel>(result);
+        }
+
+        [Test]
         public void Given_An_Empty_InstrumentName_When_I_Call_CreateDayBatch_Then_An_ArgumentException_Is_Thrown()
         {
             //arrange

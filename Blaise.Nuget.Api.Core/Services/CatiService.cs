@@ -5,6 +5,7 @@ using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
+using StatNeth.Blaise.API.Cati.Runtime;
 using StatNeth.Blaise.API.ServerManager;
 
 namespace Blaise.Nuget.Api.Core.Services
@@ -42,11 +43,12 @@ namespace Blaise.Nuget.Api.Core.Services
             return _surveyService.GetSurvey(connectionModel, instrumentName, serverParkName);
         }
 
-        public void CreateDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName, DateTime dayBatchDate)
+        public DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName, DateTime dayBatchDate)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-
-            if (catiManagement.LoadCatiInstrumentManager(instrumentName)
+            var catiManagementServer = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
+            
+            if (catiManagementServer.LoadCatiInstrumentManager(instrumentId)
                 .Specification
                 .SurveyDays
                 .All(d => d.Date.Date != dayBatchDate.Date))
@@ -54,30 +56,23 @@ namespace Blaise.Nuget.Api.Core.Services
                 throw new DataNotFoundException($"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'");
             }
 
-            catiManagement
-                .LoadCatiInstrumentManager(instrumentName)
+            catiManagementServer
+                .LoadCatiInstrumentManager(instrumentId)
                 .CreateDaybatch(dayBatchDate);
+
+            return GetDayBatch(catiManagementServer, instrumentId);
         }
 
         public DayBatchModel GetDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var catiManagementServer = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
 
-            var dayBatchCaseEntries = catiManagement.GetKeysInDaybatch(instrumentId).ToList();
-
-            if (!dayBatchCaseEntries.Any())
-            {
-                return null;
-            }
-
-            var dayBatchDate = catiManagement.GetDaybatchDate(instrumentId);
-
-            return new DayBatchModel(dayBatchDate, dayBatchCaseEntries);
+            return GetDayBatch(catiManagementServer, instrumentId);
         }
 
         public void AddToDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName, string primaryKeyValue)
-        {
+        { 
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
 
@@ -88,8 +83,9 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var surveyDays = new List<DateTime>();
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
             var surveyDateCollection = catiManagement
-                .LoadCatiInstrumentManager(instrumentName)?.Specification?.SurveyDays;
+                .LoadCatiInstrumentManager(instrumentId)?.Specification?.SurveyDays;
 
             if (surveyDateCollection == null || surveyDateCollection.Count == 0)
             {
@@ -104,7 +100,8 @@ namespace Blaise.Nuget.Api.Core.Services
         public void SetSurveyDay(ConnectionModel connectionModel, string instrumentName, string serverParkName, DateTime surveyDay)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var catiManager = catiManagement.LoadCatiInstrumentManager(instrumentName);
+            var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
+            var catiManager = catiManagement.LoadCatiInstrumentManager(instrumentId);
 
             catiManager.Specification.SurveyDays
                 .AddSurveyDay(surveyDay);
@@ -115,7 +112,8 @@ namespace Blaise.Nuget.Api.Core.Services
         public void SetSurveyDays(ConnectionModel connectionModel, string instrumentName, string serverParkName, List<DateTime> surveyDays)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var catiManager = catiManagement.LoadCatiInstrumentManager(instrumentName);
+            var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
+            var catiManager = catiManagement.LoadCatiInstrumentManager(instrumentId);
 
             catiManager.Specification.SurveyDays
                 .AddSurveyDays(surveyDays);
@@ -127,7 +125,8 @@ namespace Blaise.Nuget.Api.Core.Services
             DateTime surveyDay)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var catiManager = catiManagement.LoadCatiInstrumentManager(instrumentName);
+            var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
+            var catiManager = catiManagement.LoadCatiInstrumentManager(instrumentId);
 
             catiManager.Specification.SurveyDays
                 .RemoveSurveyDay(surveyDay);
@@ -139,7 +138,8 @@ namespace Blaise.Nuget.Api.Core.Services
             List<DateTime> surveyDays)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var catiManager = catiManagement.LoadCatiInstrumentManager(instrumentName);
+            var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
+            var catiManager = catiManagement.LoadCatiInstrumentManager(instrumentId);
 
             catiManager.Specification.SurveyDays
                 .RemoveSurveyDays(surveyDays);
@@ -151,6 +151,20 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             return catiManagement.GetInstalledSurveys();
+        }
+
+        private static DayBatchModel GetDayBatch(IRemoteCatiManagementServer catiManagementServer, Guid instrumentId)
+        {
+            var dayBatchCaseEntries = catiManagementServer.GetKeysInDaybatch(instrumentId).ToList();
+
+            if (!dayBatchCaseEntries.Any())
+            {
+                return null;
+            }
+
+            var dayBatchDate = catiManagementServer.GetDaybatchDate(instrumentId);
+
+            return new DayBatchModel(dayBatchDate, dayBatchCaseEntries);
         }
     }
 }
