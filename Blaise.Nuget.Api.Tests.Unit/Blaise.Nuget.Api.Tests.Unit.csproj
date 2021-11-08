@@ -92,6 +92,7 @@
     <Compile Include="Api\Survey\BlaiseSurveyApiTests.cs" />
     <Compile Include="Api\ServerPark\BlaiseServerParkApiTests.cs" />
     <Compile Include="Extensions\ConfigurationExtensionsTests.cs" />
+    <Compile Include="Mappers\DataMapperServiceTests.cs" />
     <Compile Include="Mappers\RolePermissionMapperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\BlaiseConfigurationProviderTests.cs" />
