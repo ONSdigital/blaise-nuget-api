@@ -252,9 +252,8 @@ namespace Blaise.Nuget.Api.Api
                 _caseService.GetDataRecord(_connectionModel, primaryKeyValue, instrumentName, serverParkName);
                 return false;
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e);
             }
 
             return true;

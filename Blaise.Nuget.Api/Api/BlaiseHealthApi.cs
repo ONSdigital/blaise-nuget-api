@@ -30,8 +30,6 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseHealthApi(ConnectionModel connectionModel = null)
         {
-            Console.WriteLine("Create Nuget BlaiseHealth API - Console");
-            Debug.WriteLine("Create Nuget BlaiseHealth API - Debug");
             _connectedServerFactory = UnityProvider.Resolve<IConnectedServerFactory>();
             _remoteDataServerFactory = UnityProvider.Resolve<IRemoteDataServerFactory>();
             _catiManagementServerFactory = UnityProvider.Resolve<ICatiManagementServerFactory>();

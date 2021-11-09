@@ -21,7 +21,6 @@ namespace Blaise.Nuget.Api.Core.Providers
             IRemoteDataServerFactory connectionFactory,
             ISurveyService surveyService)
         {
-            Console.WriteLine("RemoteDataLinkProvider - Initialise");
             _connectionFactory = connectionFactory;
             _surveyService = surveyService;
 
@@ -30,12 +29,10 @@ namespace Blaise.Nuget.Api.Core.Providers
 
         public IDataLink4 GetDataLink(ConnectionModel connectionModel, string instrumentName, string serverParkName)
         {
-            Console.WriteLine("RemoteDataLinkProvider - GetDataLink");
             var installDate = _surveyService.GetInstallDate(connectionModel, instrumentName, serverParkName);
 
             if (!_dataLinkConnections.ContainsKey(new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)))
             {
-                Console.WriteLine("RemoteDataLinkProvider - No Cache found");
                 return GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
             }
 
@@ -45,11 +42,9 @@ namespace Blaise.Nuget.Api.Core.Providers
 
             if (!expiryDate.HasExpired() && dataLink != null)
             {
-                Console.WriteLine("RemoteDataLinkProvider -  Return cached connection");
                 return dataLink;
             }
 
-            Console.WriteLine("RemoteDataLinkProvider - Return fresh connection");
             return GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
         }
 

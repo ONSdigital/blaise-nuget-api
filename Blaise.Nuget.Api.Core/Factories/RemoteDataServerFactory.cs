@@ -16,19 +16,14 @@ namespace Blaise.Nuget.Api.Core.Factories
 
         public RemoteDataServerFactory(IPasswordService passwordService)
         {
-            Console.WriteLine("RemoteDataServerFactory - Initialise");
-
             _passwordService = passwordService;
             _connections = new Dictionary<string, Tuple<IRemoteDataServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
         public IRemoteDataServer GetConnection(ConnectionModel connectionModel)
         {
-            Console.WriteLine("RemoteDataServerFactory - GetConnection");
-
             if (!_connections.ContainsKey(connectionModel.ServerName))
             {
-                Console.WriteLine("RemoteDataServerFactory - No Cache found");
                 return GetFreshServerConnection(connectionModel);
             }
 
@@ -36,12 +31,10 @@ namespace Blaise.Nuget.Api.Core.Factories
 
             if (!expiryDate.HasExpired() && remoteServer != null)
             {
-                Console.WriteLine("RemoteDataServerFactory -  Return cached connection");
                 return remoteServer;
 
             }
 
-            Console.WriteLine("RemoteDataServerFactory - Return fresh connection");
             return GetFreshServerConnection(connectionModel);
         }
 
