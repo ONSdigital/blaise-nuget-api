@@ -11,7 +11,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         
         ISurvey GetInstalledSurvey(ConnectionModel connectionModel, string instrumentName, string serverParkName);
 
-        DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName, DateTime dayBatchDate);
+        DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName, 
+            DateTime dayBatchDate, bool checkForTreatedCases);
 
         DayBatchModel GetDayBatch(ConnectionModel connectionModel, string instrumentName,
             string serverParkName);

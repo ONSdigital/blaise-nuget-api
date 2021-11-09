@@ -10,7 +10,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         private readonly BlaiseCatiApi _sut;
 
         private const string ServerParkName = "LocalDevelopment";
-        private const string SurveyName = "LMS2102_BK1";
+        private const string SurveyName = "DST2106Z";
 
         public CatiTests()
         {
@@ -108,7 +108,15 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             Assert.IsFalse(result.Contains(DateTime.Today));
             Assert.IsFalse(result.Contains(DateTime.Today.AddDays(1)));
         }
-        
+
+        [Ignore("Integration")]
+        [Test]
+        public void Given_An_Instrument_Has_A_SurveyDay_When_I_Call_GetDayBatch_The_DayBatch_Is_Created()
+        {
+            var result = _sut.CreateDayBatch(SurveyName, ServerParkName, DateTime.Today, true);
+            Assert.NotNull(result);
+        }
+
         [Ignore("Integration")]
         [Test]
         public void Given_An_Instrument_Has_DayBatch_Entries_When_I_Call_GetDayBatch_The_Correct_Entries_Are_Returned()

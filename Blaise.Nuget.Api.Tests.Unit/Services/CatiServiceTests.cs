@@ -19,6 +19,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         private Mock<IRemoteCatiManagementServerProvider> _catiProviderMock;
         private Mock<ISurveyService> _surveyServiceMock;
 
+        private Mock<ICatiInstrumentManager> _catiInstrumentManagerMock;
         private Mock<IRemoteCatiManagementServer> _catiManagementServerMock;
         private Mock<ISurveyDayCollection> _surveyDayCollection;
 
@@ -50,11 +51,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _surveyDayCollection = new Mock<ISurveyDayCollection>();
             _surveyDayCollection.Setup(s => s.GetEnumerator()).Returns(surveyDays.GetEnumerator());
 
+
+            _catiInstrumentManagerMock = new Mock<ICatiInstrumentManager>();
+            _catiInstrumentManagerMock.Setup(cim => cim.CreateDaybatch(It.IsAny<DateTime>()));
+            _catiInstrumentManagerMock.As<ICatiInstrumentManager3>().Setup(cim => cim.CreateDaybatch(It.IsAny<DateTime>(), It.IsAny<bool>()));
+            _catiInstrumentManagerMock.Setup(cim => cim.Specification.SurveyDays).Returns(_surveyDayCollection.Object);
+
             _catiManagementServerMock = new Mock<IRemoteCatiManagementServer>();
             _catiManagementServerMock.Setup(c => c.LoadCatiInstrumentManager(
-                It.IsAny<Guid>()).CreateDaybatch(It.IsAny<DateTime>()));
-            _catiManagementServerMock.Setup(c => c.LoadCatiInstrumentManager(
-                It.IsAny<Guid>()).Specification.SurveyDays).Returns(_surveyDayCollection.Object);
+                It.IsAny<Guid>())).Returns(_catiInstrumentManagerMock.Object);
 
             _catiProviderMock = new Mock<IRemoteCatiManagementServerProvider>();
             _catiProviderMock.Setup(r => r.GetCatiManagementForServerPark(_connectionModel, _serverParkName))
@@ -223,8 +228,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.AreEqual($"No survey called '{_instrumentName}' was found on server park '{_serverParkName}'", exception.Message);
         }
 
-        [Test]
-        public void Given_A_Survey_Day_Exists_For_Day_Batch_Date_When_I_Call_CreateDayBatch_Then_The_Correct_Services_Are_Called()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_A_Survey_Day_Exists_For_Day_Batch_Date_When_I_Call_CreateDayBatch_Then_The_Correct_Services_Are_Called(bool checkForTreatedCases)
         {
             //arrange
             var dayBatchDate = _surveyDay;
@@ -236,24 +242,25 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(dayBatchDate);
 
             //act
-            _sut.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, dayBatchDate);
+            _sut.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases);
 
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
-            _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId)
-                .CreateDaybatch(dayBatchDate), Times.Once);
+            _catiInstrumentManagerMock.As<ICatiInstrumentManager3>().Verify(v => v
+                .CreateDaybatch(dayBatchDate, checkForTreatedCases), Times.Once);
         }
 
-        [Test]
-        public void Given_A_Survey_Day_Does_Not_Exist_For_Day_Batch_Date_When_I_Call_CreateDayBatch_Then_A_DataNotFoundException_Is_Thrown()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_A_Survey_Day_Does_Not_Exist_For_Day_Batch_Date_When_I_Call_CreateDayBatch_Then_A_DataNotFoundException_Is_Thrown(bool checkForTreatedCases)
         {
             //arrange
             var dayBatchDate = _surveyDay.AddDays(1);
 
             //act && assert
-            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, dayBatchDate));
+            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, 
+                dayBatchDate, checkForTreatedCases));
             Assert.AreEqual($"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'", exception.Message);
         }
 

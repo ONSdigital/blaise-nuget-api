@@ -43,22 +43,19 @@ namespace Blaise.Nuget.Api.Core.Services
             return _surveyService.GetSurvey(connectionModel, instrumentName, serverParkName);
         }
 
-        public DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName, DateTime dayBatchDate)
+        public DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName, 
+            DateTime dayBatchDate, bool checkForTreatedCases)
         {
             var catiManagementServer = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
+            var catiInstrumentManager = (ICatiInstrumentManager3)catiManagementServer.LoadCatiInstrumentManager(instrumentId);
             
-            if (catiManagementServer.LoadCatiInstrumentManager(instrumentId)
-                .Specification
-                .SurveyDays
-                .All(d => d.Date.Date != dayBatchDate.Date))
+            if (catiInstrumentManager.Specification.SurveyDays.All(d => d.Date.Date != dayBatchDate.Date))
             {
                 throw new DataNotFoundException($"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'");
             }
 
-            catiManagementServer
-                .LoadCatiInstrumentManager(instrumentId)
-                .CreateDaybatch(dayBatchDate);
+            catiInstrumentManager.CreateDaybatch(dayBatchDate, checkForTreatedCases);
 
             return GetDayBatch(catiManagementServer, instrumentId);
         }

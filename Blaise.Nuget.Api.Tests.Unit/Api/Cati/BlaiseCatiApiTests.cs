@@ -121,31 +121,33 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
-        [Test]
-        public void Given_Valid_Arguments_When_I_Call_CreateDayBatch_Then_The_Correct_Service_Method_Is_Called()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_Valid_Arguments_When_I_Call_CreateDayBatch_Then_The_Correct_Service_Method_Is_Called(bool checkForTreatedCases)
         {
             //arrange
             var dayBatchDate = DateTime.Now;
 
             //act
-            _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate);
+            _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases);
 
             //assert
             _catiServiceMock.Verify(v => v.CreateDayBatch(_connectionModel, _instrumentName, 
-                _serverParkName, dayBatchDate), Times.Once);
+                _serverParkName, dayBatchDate, checkForTreatedCases), Times.Once);
         }
 
-        [Test]
-        public void Given_Valid_Arguments_When_I_Call_CreateDayBatch_Then_A_DayBatchModel_Is_Returned()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_Valid_Arguments_When_I_Call_CreateDayBatch_Then_A_DayBatchModel_Is_Returned(bool checkForTreatedCases)
         {
             //arrange
             var dayBatchDate = DateTime.Now;
             _catiServiceMock.Setup(cs =>
-                    cs.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, dayBatchDate))
+                    cs.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases))
                 .Returns(new DayBatchModel());
 
             //act
-            var result = _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate);
+            var result = _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases);
 
             //assert
             Assert.IsNotNull(result);
@@ -159,7 +161,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var dayBatchDate = DateTime.Now;
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateDayBatch(string.Empty, _serverParkName, dayBatchDate));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateDayBatch(string.Empty, _serverParkName, dayBatchDate, false));
             Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
         }
 
@@ -170,7 +172,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var dayBatchDate = DateTime.Now;
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateDayBatch(null, _serverParkName, dayBatchDate));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateDayBatch(null, _serverParkName, dayBatchDate, false));
             Assert.AreEqual("instrumentName", exception.ParamName);
         }
 
@@ -181,7 +183,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var dayBatchDate = DateTime.Now;
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateDayBatch(_instrumentName, string.Empty, dayBatchDate));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateDayBatch(_instrumentName, string.Empty, dayBatchDate, false));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -192,7 +194,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var dayBatchDate = DateTime.Now;
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateDayBatch(_instrumentName, null, dayBatchDate));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateDayBatch(_instrumentName, null, dayBatchDate, false));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
