@@ -16,6 +16,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
     {
         private Mock<ISurveyService> _surveyServiceMock;
         private Mock<ISurveyMetaService> _surveyMetaServiceMock;
+        private Mock<ICaseService> _caseServiceMock;
 
         private readonly string _serverParkName;
         private readonly string _instrumentName;
@@ -35,10 +36,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
         {
             _surveyServiceMock = new Mock<ISurveyService>();
             _surveyMetaServiceMock = new Mock<ISurveyMetaService>();
+            _caseServiceMock = new Mock<ICaseService>();
 
             _sut = new BlaiseSurveyApi(
                 _surveyServiceMock.Object,
                 _surveyMetaServiceMock.Object,
+                _caseServiceMock.Object,
                 _connectionModel);
         }
 
@@ -530,13 +533,38 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_UninstallSurvey_Then_The_Correct_Service_Method_Is_Called()
+        public void Given_DeleteCases_Is_True_When_I_Call_UninstallSurvey_Then_The_Correct_Service_Methods_Are_Called()
+        {
+            //act
+            _sut.UninstallSurvey(_instrumentName, _serverParkName, true);
+
+            //assert
+            _surveyServiceMock.Verify(v => v.UninstallInstrument(_connectionModel, _instrumentName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(v => v.RemoveDataRecords(_connectionModel, _instrumentName, _serverParkName), Times.Once);
+        }
+
+        [Test]
+        public void Given_DeleteCases_Is_False_When_I_Call_UninstallSurvey_Then_The_Correct_Service_Methods_Are_Called()
+        {
+            //act
+            _sut.UninstallSurvey(_instrumentName, _serverParkName, false);
+
+            //assert
+            _surveyServiceMock.Verify(v => v.UninstallInstrument(_connectionModel, _instrumentName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(v => v.RemoveDataRecords(It.IsAny<ConnectionModel>(), 
+                It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Test]
+        public void Given_DeleteCases_Not_Provided_When_I_Call_UninstallSurvey_Then_The_Correct_Service_Methods_Are_Called()
         {
             //act
             _sut.UninstallSurvey(_instrumentName, _serverParkName);
 
             //assert
             _surveyServiceMock.Verify(v => v.UninstallInstrument(_connectionModel, _instrumentName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(v => v.RemoveDataRecords(It.IsAny<ConnectionModel>(),
+                It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [Test]
@@ -778,7 +806,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
         [TestCase(true, false)]
         [TestCase(false, true)]
         [TestCase(false, false)]
-        public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_Valid_SurveyEntrySettingsModel_Back(bool Timeout, bool Quit)
+        public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_Valid_SurveyEntrySettingsModel_Back(bool timeout, bool quit)
         {
             //arrange
             _surveyMetaServiceMock.Setup(s => s.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName))
@@ -788,10 +816,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
                     {
                         Type = "StrictInterviewing", 
                         SessionTimeout = 30,
-                        SaveSessionOnTimeout = Timeout,
-                        SaveSessionOnQuit = Quit,
-                        DeleteSessionOnTimeout = Timeout, 
-                        DeleteSessionOnQuit = Quit
+                        SaveSessionOnTimeout = timeout,
+                        SaveSessionOnQuit = quit,
+                        DeleteSessionOnTimeout = timeout, 
+                        DeleteSessionOnQuit = quit
                     }
                 });
 
@@ -806,10 +834,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Survey
             Assert.IsNotNull(dataEntrySettings);
             Assert.AreEqual("StrictInterviewing", dataEntrySettings.Type);
             Assert.AreEqual(30, dataEntrySettings.SessionTimeout);
-            Assert.AreEqual(Timeout, dataEntrySettings.SaveSessionOnTimeout);
-            Assert.AreEqual(Quit, dataEntrySettings.SaveSessionOnQuit);
-            Assert.AreEqual(Timeout, dataEntrySettings.DeleteSessionOnTimeout);
-            Assert.AreEqual(Quit, dataEntrySettings.DeleteSessionOnQuit);
+            Assert.AreEqual(timeout, dataEntrySettings.SaveSessionOnTimeout);
+            Assert.AreEqual(quit, dataEntrySettings.SaveSessionOnQuit);
+            Assert.AreEqual(timeout, dataEntrySettings.DeleteSessionOnTimeout);
+            Assert.AreEqual(quit, dataEntrySettings.DeleteSessionOnQuit);
         }
 
 

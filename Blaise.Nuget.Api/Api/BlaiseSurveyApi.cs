@@ -15,15 +15,18 @@ namespace Blaise.Nuget.Api.Api
     {
         private readonly ISurveyService _surveyService;
         private readonly ISurveyMetaService _surveyMetaService;
+        private readonly ICaseService _caseService;
         private readonly ConnectionModel _connectionModel;
 
         internal BlaiseSurveyApi(
             ISurveyService surveyService,
             ISurveyMetaService surveyMetaService,
+            ICaseService caseService,
             ConnectionModel connectionModel)
         {
             _surveyService = surveyService;
             _surveyMetaService = surveyMetaService;
+            _caseService = caseService;
             _connectionModel = connectionModel;
         }
 
@@ -31,6 +34,7 @@ namespace Blaise.Nuget.Api.Api
         {
             _surveyService = UnityProvider.Resolve<ISurveyService>();
             _surveyMetaService = UnityProvider.Resolve<ISurveyMetaService>();
+            _caseService = UnityProvider.Resolve<ICaseService>();
 
             var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
@@ -106,10 +110,15 @@ namespace Blaise.Nuget.Api.Api
                 instrumentFile, surveyInterviewType);
         }
 
-        public void UninstallSurvey(string instrumentName, string serverParkName)
+        public void UninstallSurvey(string instrumentName, string serverParkName, bool deleteCases = false)
         {
             instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            if (deleteCases)
+            {
+                _caseService.RemoveDataRecords(_connectionModel, instrumentName, serverParkName);
+            }
 
             _surveyService.UninstallInstrument(_connectionModel, instrumentName, serverParkName);
         }
