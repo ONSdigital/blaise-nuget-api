@@ -36,7 +36,7 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<IRolePermissionMapper, RolePermissionMapper>();
 
             //data link providers
-            UnityContainer.RegisterSingleton<ILocalDataLinkProvider, LocalDataLinkProvider>();
+            UnityContainer.RegisterType<ILocalDataLinkProvider, LocalDataLinkProvider>();
             UnityContainer.RegisterSingleton<IRemoteDataLinkProvider, RemoteDataLinkProvider>();
             UnityContainer.RegisterType<IDataInterfaceProvider, DataInterfaceProvider>();
             UnityContainer.RegisterType<IRemoteCatiManagementServerProvider, RemoteCatiManagementServerProvider>();
