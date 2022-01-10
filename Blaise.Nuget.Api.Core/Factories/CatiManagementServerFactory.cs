@@ -42,6 +42,7 @@ namespace Blaise.Nuget.Api.Core.Factories
         {
             var remoteConnection = CreateRemoteConnection(connectionModel);
 
+            _connections[connectionModel.ServerName] = null;
             _connections[connectionModel.ServerName] =
                 new Tuple<IRemoteCatiManagementServer, DateTime>(remoteConnection, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
 

@@ -43,6 +43,7 @@ namespace Blaise.Nuget.Api.Core.Factories
         {
             var connectedServer = CreateServerConnection(connectionModel);
 
+            _connections[connectionModel.ServerName] = null;
             _connections[connectionModel.ServerName] =
                 new Tuple<IConnectedServer, DateTime>(connectedServer, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
 

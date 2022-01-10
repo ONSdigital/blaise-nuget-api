@@ -37,6 +37,7 @@ namespace Blaise.Nuget.Api.Core.Providers
         {
             var dataLink = DataLinkManager.GetDataLink(databaseFile) as IDataLink4;
 
+            _connections[databaseFile] = null;
             _connections[databaseFile] = new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
 
             return dataLink;
