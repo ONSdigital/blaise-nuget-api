@@ -40,8 +40,9 @@ namespace Blaise.Nuget.Api.Core.Factories
         {
             var securityConnection = CreateConnection(connectionModel);
 
+            _connections[connectionModel.ServerName] = null;
             _connections[connectionModel.ServerName] =
-                new Tuple<ISecurityServer, DateTime>(securityConnection, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
+                 new Tuple<ISecurityServer, DateTime>(securityConnection, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
 
             return securityConnection;
         }

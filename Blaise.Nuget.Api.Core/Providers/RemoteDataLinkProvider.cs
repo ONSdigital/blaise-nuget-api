@@ -56,9 +56,10 @@ namespace Blaise.Nuget.Api.Core.Providers
             var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
             var connection = _connectionFactory.GetConnection(connectionModel);
             var dataLink = connection.GetDataLink(instrumentId, serverParkName);
-            var dictionaryEntry = new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
-            
-            _dataLinkConnections[new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)] = dictionaryEntry;
+
+            _dataLinkConnections[new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)] = null;
+            _dataLinkConnections[new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)] = 
+                new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate()); ;
 
             return dataLink;
         }
@@ -77,6 +78,7 @@ namespace Blaise.Nuget.Api.Core.Providers
 
             foreach (var deadConnectionKey in deadConnectionKeys)
             {
+                _dataLinkConnections[deadConnectionKey] = null;
                 _dataLinkConnections.Remove(deadConnectionKey);
             }
         }
