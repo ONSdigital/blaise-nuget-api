@@ -387,5 +387,23 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _catiManagementServerMock.Verify(v => v
                 .LoadCatiInstrumentManager(_instrumentId).SaveSpecification(), Times.Once);
         }
+
+        [Test]
+        public void Given_I_Call_MakeSuperAppointment_Then_The_Correct_Services_Are_Called()
+        {
+            //arrange
+            var primaryKeyValue = "900001";
+
+            //act
+            _sut.MakeSuperAppointment(_connectionModel, _instrumentName, _serverParkName, primaryKeyValue);
+
+            //assert
+            _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
+                Times.Once);
+            _catiManagementServerMock.Verify(v => v
+                .LoadCatiInstrumentManager(_instrumentId), Times.Once);
+            _catiManagementServerMock.Verify(v => v
+                .LoadCatiInstrumentManager(_instrumentId).MakeSuperAppointment(primaryKeyValue), Times.Once);
+        }
     }
 }

@@ -111,5 +111,14 @@ namespace Blaise.Nuget.Api.Api
 
             _catiService.RemoveSurveyDays(_connectionModel, instrumentName, serverParkName, surveyDays);
         }
+
+        public bool MakeSuperAppointment(string instrumentName, string serverParkName, string primaryKeyValue)
+        {
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
+
+            return _catiService.MakeSuperAppointment(_connectionModel, instrumentName, serverParkName, primaryKeyValue);
+        }
     }
 }

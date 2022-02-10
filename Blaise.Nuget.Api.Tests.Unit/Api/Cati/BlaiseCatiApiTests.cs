@@ -637,5 +637,64 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(_instrumentName, null, surveyDays));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
+
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_MakeSuperAppointment_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //act
+            _sut.MakeSuperAppointment(_instrumentName, _serverParkName, _primaryKeyValue);
+
+            //assert
+            _catiServiceMock.Verify(v => v.MakeSuperAppointment(_connectionModel, _instrumentName,
+                _serverParkName, _primaryKeyValue), Times.Once);
+        }
+
+        [Test]
+        public void Given_An_Empty_InstrumentName_When_I_Call_MakeSuperAppointment_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(string.Empty, _serverParkName, _primaryKeyValue));
+            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_InstrumentName_When_I_Call_MakeSuperAppointment_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(null, _serverParkName, _primaryKeyValue));
+            Assert.AreEqual("instrumentName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_ServerParkName_When_I_Call_MakeSuperAppointment_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(_instrumentName, string.Empty, _primaryKeyValue));
+            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_ServerParkName_When_I_Call_MakeSuperAppointment_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(_instrumentName, null, _primaryKeyValue));
+            Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_MakeSuperAppointment_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(_instrumentName, _serverParkName, string.Empty));
+            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_PrimaryKeyValue_When_I_Call_MakeSuperAppointment_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(_instrumentName, _serverParkName, null));
+            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+        }
     }
 }

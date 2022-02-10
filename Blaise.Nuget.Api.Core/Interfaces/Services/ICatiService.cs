@@ -31,5 +31,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         void RemoveSurveyDays(ConnectionModel connectionModel, string instrumentName, string serverParkName,
             List<DateTime> surveyDays);
+
+        bool MakeSuperAppointment(ConnectionModel connectionModel, string instrumentName, string serverParkName, string primaryKeyValue);
     }
 }

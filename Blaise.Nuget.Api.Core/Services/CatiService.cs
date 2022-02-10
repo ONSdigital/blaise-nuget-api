@@ -144,6 +144,16 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManager.SaveSpecification();
         }
 
+        public bool MakeSuperAppointment(ConnectionModel connectionModel, string instrumentName, string serverParkName,
+            string primaryKeyValue)
+        {
+            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
+            var catiManager = catiManagement.LoadCatiInstrumentManager(instrumentId);
+
+            return catiManager.MakeSuperAppointment(primaryKeyValue);
+        }
+
         private IDictionary<string, Guid> GetInstalledCatiSurveys(ConnectionModel connectionModel, string serverParkName)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);

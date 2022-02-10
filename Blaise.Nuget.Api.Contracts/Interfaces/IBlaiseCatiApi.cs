@@ -17,11 +17,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         List<DateTime> GetSurveyDays(string instrumentName, string serverParkName);
         void SetSurveyDay(string instrumentName, string serverParkName, DateTime surveyDay);
         void SetSurveyDays(string instrumentName, string serverParkName, List<DateTime> surveyDays);
-
-        void RemoveSurveyDay(string instrumentName, string serverParkName,
-            DateTime surveyDay);
-        void RemoveSurveyDays(string instrumentName, string serverParkName,
-            List<DateTime> surveyDays);
-
+        void RemoveSurveyDay(string instrumentName, string serverParkName, DateTime surveyDay);
+        void RemoveSurveyDays(string instrumentName, string serverParkName, List<DateTime> surveyDays);
+        bool MakeSuperAppointment(string instrumentName, string serverParkName, string primaryKeyValue);
     }
 }
