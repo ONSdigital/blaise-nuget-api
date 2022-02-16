@@ -294,12 +294,21 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetCaseStatus(dataRecord);
         }
 
-        public IEnumerable<CaseStatusModel> GetCaseStatusList(string instrumentName, string serverParkName)
+        public IEnumerable<CaseStatusModel> GetCaseStatusModelList(string instrumentName, string serverParkName)
         {
             instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _caseService.GetCaseStatusList(_connectionModel, instrumentName, serverParkName);
+            return _caseService.GetCaseStatusModelList(_connectionModel, instrumentName, serverParkName);
+        }
+
+        public CaseModel GetCaseModel(string primaryKeyValue, string instrumentName, string serverParkName)
+        {
+            primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
+            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            return _caseService.GetCaseModel(_connectionModel, primaryKeyValue, instrumentName, serverParkName);
         }
     }
 }

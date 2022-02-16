@@ -1819,15 +1819,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         }
 
         [Test]
-        public void Given_A_Valid_Arguments_When_I_Call_GetCaseStatusList_Then_The_Expected_List_Of_CaseStatusModels_Is_Returned()
+        public void Given_A_Valid_Arguments_When_I_Call_GetCaseStatusModelList_Then_The_Expected_List_Of_CaseStatusModels_Is_Returned()
         {
             //arrange
             var caseStatusModelList = new List<CaseStatusModel>();
 
-            _caseServiceMock.Setup(d => d.GetCaseStatusList(_connectionModel, _instrumentName, _serverParkName)).Returns(caseStatusModelList);
+            _caseServiceMock.Setup(d => d.GetCaseStatusModelList(_connectionModel, _instrumentName, _serverParkName)).Returns(caseStatusModelList);
 
             //act
-            var result = _sut.GetCaseStatusList(_instrumentName, _serverParkName);
+            var result = _sut.GetCaseStatusModelList(_instrumentName, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);
@@ -1836,34 +1836,99 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_GetCaseStatusList_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_InstrumentName_When_I_Call_GetCaseStatusModelList_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseStatusList(string.Empty, _serverParkName));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseStatusModelList(string.Empty, _serverParkName));
             Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_GetCaseStatusList_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_InstrumentName_When_I_Call_GetCaseStatusModelList_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseStatusList(null, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseStatusModelList(null, _serverParkName));
             Assert.AreEqual("instrumentName", exception.ParamName);
         }
 
         [Test]
-        public void Given_An_Empty_ServerParkName_When_I_Call_GetCaseStatusList_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_ServerParkName_When_I_Call_GetCaseStatusModelList_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseStatusList(_instrumentName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseStatusModelList(_instrumentName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_ServerParkName_When_I_Call_GetCaseStatusList_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_ServerParkName_When_I_Call_GetCaseStatusModelList_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseStatusList(_instrumentName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseStatusModelList(_instrumentName, null));
+            Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_A_Valid_Arguments_When_I_Call_GetCaseModel_Then_The_Expected_List_Of_CaseStatusModels_Is_Returned()
+        {
+            //arrange
+            var caseModel = new CaseModel(_primaryKeyValue, new Dictionary<string, string>());
+
+            _caseServiceMock.Setup(d => d.GetCaseModel(_connectionModel, _primaryKeyValue, _instrumentName, _serverParkName)).Returns(caseModel);
+
+            //act
+            var result = _sut.GetCaseModel(_primaryKeyValue, _instrumentName, _serverParkName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<CaseModel>(result);
+            Assert.AreSame(caseModel, result);
+        }
+
+        [Test]
+        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_GetCaseModel_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseModel(string.Empty, _instrumentName, _serverParkName));
+            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_PrimaryKeyValue_When_I_Call_GetCaseModel_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseModel(null, _instrumentName, _serverParkName));
+            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_InstrumentName_When_I_Call_GetCaseModel_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseModel(_primaryKeyValue, string.Empty, _serverParkName));
+            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_InstrumentName_When_I_Call_GetCaseModel_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseModel(_primaryKeyValue, null, _serverParkName));
+            Assert.AreEqual("instrumentName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_ServerParkName_When_I_Call_GetCaseModel_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseModel(_primaryKeyValue, _instrumentName, string.Empty));
+            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_ServerParkName_When_I_Call_GetCaseModel_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseModel(_primaryKeyValue, _instrumentName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
     }

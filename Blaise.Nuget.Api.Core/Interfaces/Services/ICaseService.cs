@@ -73,7 +73,10 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         bool CaseInUseInCati(IDataRecord dataRecord);
 
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
-        IEnumerable<CaseStatusModel> GetCaseStatusList(ConnectionModel connectionModel, string instrumentName,
+        IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string instrumentName,
+            string serverParkName);
+
+        CaseModel GetCaseModel(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName,
             string serverParkName);
     }
 }

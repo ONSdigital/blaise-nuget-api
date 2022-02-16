@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Blaise.Nuget.Api.Extensions
 {
@@ -12,6 +14,20 @@ namespace Blaise.Nuget.Api.Extensions
             }
 
             if (string.IsNullOrWhiteSpace(argument))
+            {
+
+                throw new ArgumentException($"A value for the argument '{argumentName}' must be supplied");
+            }
+        }
+
+        public static void ThrowExceptionIfNullOrEmpty<T>(this List<T> argument, string argumentName)
+        {
+            if (argument == null)
+            {
+                throw new ArgumentNullException(argumentName);
+            }
+
+            if (!argument.Any())
             {
 
                 throw new ArgumentException($"A value for the argument '{argumentName}' must be supplied");

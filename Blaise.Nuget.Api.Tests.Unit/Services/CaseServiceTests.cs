@@ -894,7 +894,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_Valid_DataRecord_When_I_Call_MapCaseStatusModel_Then_An_Expected_CaseStatusModel_Is_Returned()
+        public void Given_A_Valid_DataRecord_When_I_Call_GetCaseStatus_Then_An_Expected_CaseStatusModel_Is_Returned()
         {
             //arrange
             const string primaryKeyValue = "900000";
@@ -957,7 +957,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(dataSetMock.Object);
 
             //act
-            var result = _sut.GetCaseStatusList(_connectionModel, _instrumentName, _serverParkName).ToList();
+            var result = _sut.GetCaseStatusModelList(_connectionModel, _instrumentName, _serverParkName).ToList();
 
             //assert
             Assert.IsNotNull(result);
@@ -970,6 +970,28 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 Assert.AreEqual(outCome, caseStatusModel.Outcome);
                 Assert.AreEqual(lastUpdated, caseStatusModel.LastUpdated);
             }
+        }
+
+        [Test]
+        public void Given_A_Valid_DataRecord_When_I_Call_GetCaseModel_Then_An_Expected_CaseModel_Is_Returned()
+        {
+            //arrange
+            const string primaryKeyValue = "900000";
+
+            //arrange
+            var fieldDictionary = new Dictionary<string, string>();
+
+            _mapperServiceMock.Setup(m => m.MapFieldDictionaryFromRecord(_dataRecordMock.Object))
+                .Returns(fieldDictionary);
+
+            //act
+            var result = _sut.GetCaseModel(_connectionModel, primaryKeyValue, _instrumentName, _serverParkName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<CaseModel>(result);
+            Assert.AreEqual(primaryKeyValue, result.CaseId);
+            Assert.AreSame(fieldDictionary, result.FieldData);
         }
     }
 }

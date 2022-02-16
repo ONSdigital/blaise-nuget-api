@@ -357,8 +357,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
-        ///
-        ///
         [Test]
         public void Given_Valid_Arguments_When_I_Call_SetSurveyDays_Then_The_Correct_Service_Method_Is_Called()
         {
@@ -434,6 +432,22 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDays(_instrumentName, null, surveyDays));
             Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_List_Of_SurveyDays_When_I_Call_SetSurveyDays_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDays(_instrumentName, _serverParkName, new List<DateTime>()));
+            Assert.AreEqual("A value for the argument 'surveyDays' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_List_Of_SurveyDays_When_I_Call_SetSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDays(_instrumentName, _serverParkName, null));
+            Assert.AreEqual("surveyDays", exception.ParamName);
         }
 
         [Test]
@@ -561,6 +575,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
+
         [Test]
         public void Given_Valid_Arguments_When_I_Call_RemoveSurveyDays_Then_The_Correct_Service_Method_Is_Called()
         {
@@ -636,6 +651,22 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(_instrumentName, null, surveyDays));
             Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_List_Of_SurveyDays_When_I_Call_RemoveSurveyDays_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDays(_instrumentName, _serverParkName, new List<DateTime>()));
+            Assert.AreEqual("A value for the argument 'surveyDays' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_List_Of_SurveyDays_When_I_Call_RemoveSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(_instrumentName, _serverParkName, null));
+            Assert.AreEqual("surveyDays", exception.ParamName);
         }
 
         [Test]

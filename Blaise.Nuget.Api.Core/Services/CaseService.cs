@@ -254,7 +254,7 @@ namespace Blaise.Nuget.Api.Core.Services
                 GetLastUpdatedAsString(dataRecord));
         }
 
-        public IEnumerable<CaseStatusModel> GetCaseStatusList(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        public IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string instrumentName, string serverParkName)
         {
             var caseStatusList = new List<CaseStatusModel>();
             var cases = GetDataSet(connectionModel, instrumentName, serverParkName);
@@ -269,6 +269,14 @@ namespace Blaise.Nuget.Api.Core.Services
             }
 
             return caseStatusList;
+        }
+
+        public CaseModel GetCaseModel(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName,
+            string serverParkName)
+        {
+            var dataRecord = GetDataRecord(connectionModel, primaryKeyValue, instrumentName, serverParkName);
+
+            return new CaseModel(primaryKeyValue, GetFieldDataFromRecord(dataRecord));
         }
     }
 }
