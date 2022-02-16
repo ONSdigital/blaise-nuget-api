@@ -92,6 +92,7 @@ namespace Blaise.Nuget.Api.Api
         {
             instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            surveyDays.ThrowExceptionIfNullOrEmpty("surveyDays");
 
             _catiService.SetSurveyDays(_connectionModel, instrumentName, serverParkName, surveyDays);
         }
@@ -108,6 +109,7 @@ namespace Blaise.Nuget.Api.Api
         {
             instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            surveyDays.ThrowExceptionIfNullOrEmpty("surveyDays");
 
             _catiService.RemoveSurveyDays(_connectionModel, instrumentName, serverParkName, surveyDays);
         }

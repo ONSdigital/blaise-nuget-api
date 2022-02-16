@@ -73,6 +73,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
 
-        IEnumerable<CaseStatusModel> GetCaseStatusList(string instrumentName, string serverParkName);
+        IEnumerable<CaseStatusModel> GetCaseStatusModelList(string instrumentName, string serverParkName);
+
+        CaseModel GetCaseModel(string primaryKeyValue, string instrumentName, string serverParkName);
     }
 }

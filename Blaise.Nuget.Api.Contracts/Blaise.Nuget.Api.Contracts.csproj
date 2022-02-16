@@ -82,6 +82,7 @@
     <Compile Include="Interfaces\IBlaiseSurveyApi.cs" />
     <Compile Include="Interfaces\IBlaiseUserApi.cs" />
     <Compile Include="Models\CaseIdentifierModel.cs" />
+    <Compile Include="Models\CaseModel.cs" />
     <Compile Include="Models\ConnectionModel.cs" />
     <Compile Include="Models\CaseStatusModel.cs" />
     <Compile Include="Models\DataEntrySettingsModel.cs" />
