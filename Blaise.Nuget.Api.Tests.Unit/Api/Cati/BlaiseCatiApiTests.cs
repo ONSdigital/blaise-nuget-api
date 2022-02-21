@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
+using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -12,6 +13,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
     public class BlaiseCatiApiTests
     {
         private Mock<ICatiService> _catiServiceMock;
+        private Mock<ICaseService> _caseServiceMock;
 
         private readonly string _serverParkName;
         private readonly string _instrumentName;
@@ -33,8 +35,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void SetUpTests()
         {
             _catiServiceMock = new Mock<ICatiService>();
+            _caseServiceMock = new Mock<ICaseService>();
 
-            _sut = new BlaiseCatiApi(_catiServiceMock.Object, _connectionModel);
+            _sut = new BlaiseCatiApi(_catiServiceMock.Object, _caseServiceMock.Object, _connectionModel);
         }
 
         [Test]
@@ -127,6 +130,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //arrange
             var dayBatchDate = DateTime.Now;
+            _caseServiceMock.Setup(c => c.GetNumberOfCases(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(1);
 
             //act
             _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases);
@@ -146,12 +151,30 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
                     cs.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases))
                 .Returns(new DayBatchModel());
 
+            _caseServiceMock.Setup(c => c.GetNumberOfCases(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(1);
+
             //act
             var result = _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases);
 
             //assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<DayBatchModel>(result);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_A_Survey_Has_No_Cases_When_I_Call_CreateDayBatch_Then_A_DataNotFoundException_Is_Thrown(bool checkForTreatedCases)
+        {
+            //arrange
+            var dayBatchDate = DateTime.Now;
+
+            _caseServiceMock.Setup(c => c.GetNumberOfCases(_connectionModel, _instrumentName, _serverParkName))
+                .Returns(0);
+
+            //act && assert
+            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate, false));
+            Assert.AreEqual($"There are no cases available in '{_instrumentName}' to create a daybatch", exception.Message);
         }
 
         [Test]

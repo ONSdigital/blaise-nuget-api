@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -13,20 +14,24 @@ namespace Blaise.Nuget.Api.Api
     public class BlaiseCatiApi : IBlaiseCatiApi
     {
         private readonly ICatiService _catiService;
+        private readonly ICaseService _caseService;
         private readonly ConnectionModel _connectionModel;
 
         internal BlaiseCatiApi(
             ICatiService catiService,
+            ICaseService caseService,
             ConnectionModel connectionModel)
         {
             _catiService = catiService;
+            _caseService = caseService;
             _connectionModel = connectionModel;
         }
 
         public BlaiseCatiApi(ConnectionModel connectionModel = null)
         {
             _catiService = UnityProvider.Resolve<ICatiService>();
-            
+            _caseService = UnityProvider.Resolve<ICaseService>();
+
             var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
@@ -51,6 +56,11 @@ namespace Blaise.Nuget.Api.Api
         {
             instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            if (_caseService.GetNumberOfCases(_connectionModel, instrumentName, serverParkName) == 0)
+            {
+                throw new DataNotFoundException($"There are no cases available in '{instrumentName}' to create a daybatch");
+            }
 
             return _catiService.CreateDayBatch(_connectionModel, instrumentName, serverParkName, dayBatchDate, checkForTreatedCases);
         }
