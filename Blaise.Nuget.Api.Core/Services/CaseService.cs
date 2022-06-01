@@ -37,9 +37,9 @@ namespace Blaise.Nuget.Api.Core.Services
             return _keyService.GetPrimaryKeyValue(dataRecord);
         }
 
-        public IDataSet GetDataSet(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        public IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            return _dataRecordService.GetDataSet(connectionModel, instrumentName, serverParkName);
+            return _dataRecordService.GetDataSet(connectionModel, questionnaireName, serverParkName);
         }
 
         public IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile)
@@ -47,14 +47,14 @@ namespace Blaise.Nuget.Api.Core.Services
             return _dataRecordService.GetDataSet(connectionModel, databaseFile);
         }
 
-        public IDataRecord GetDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName, string serverParkName)
+        public IDataRecord GetDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var primaryKey = _keyService.GetPrimaryKey(dataModel);
 
             _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
 
-            return _dataRecordService.GetDataRecord(connectionModel, primaryKey, instrumentName, serverParkName);
+            return _dataRecordService.GetDataRecord(connectionModel, primaryKey, questionnaireName, serverParkName);
         }
 
         public void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string databaseFile)
@@ -62,29 +62,29 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, databaseFile);
         }
 
-        public bool FieldExists(ConnectionModel connectionModel, string instrumentName, string serverParkName, FieldNameType fieldNameType)
+        public bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName, FieldNameType fieldNameType)
         {
-            return _fieldService.FieldExists(connectionModel, instrumentName, serverParkName, fieldNameType);
+            return _fieldService.FieldExists(connectionModel, questionnaireName, serverParkName, fieldNameType);
         }
 
-        public bool FieldExists(ConnectionModel connectionModel, string instrumentName, string serverParkName, string fieldName)
+        public bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string fieldName)
         {
-            return _fieldService.FieldExists(connectionModel, instrumentName, serverParkName, fieldName);
+            return _fieldService.FieldExists(connectionModel, questionnaireName, serverParkName, fieldName);
         }
 
-        public void RemoveDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName, string serverParkName)
+        public void RemoveDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var primaryKey = _keyService.GetPrimaryKey(dataModel);
 
             _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
 
-            _dataRecordService.DeleteDataRecord(connectionModel, primaryKey, instrumentName, serverParkName);
+            _dataRecordService.DeleteDataRecord(connectionModel, primaryKey, questionnaireName, serverParkName);
         }
 
-        public void RemoveDataRecords(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        public void RemoveDataRecords(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            _dataRecordService.DeleteDataRecords(connectionModel, instrumentName, serverParkName);
+            _dataRecordService.DeleteDataRecords(connectionModel, questionnaireName, serverParkName);
         }
 
         public IDataValue GetFieldValue(IDataRecord dataRecord, FieldNameType fieldNameType)
@@ -102,9 +102,9 @@ namespace Blaise.Nuget.Api.Core.Services
             return _fieldService.FieldExists(dataRecord, fieldNameType);
         }
 
-        public int GetNumberOfCases(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        public int GetNumberOfCases(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            return _dataRecordService.GetNumberOfRecords(connectionModel, instrumentName, serverParkName);
+            return _dataRecordService.GetNumberOfRecords(connectionModel, questionnaireName, serverParkName);
         }
 
         public int GetNumberOfCases(ConnectionModel connectionModel, string databaseFile)
@@ -112,30 +112,30 @@ namespace Blaise.Nuget.Api.Core.Services
             return _dataRecordService.GetNumberOfRecords(connectionModel, databaseFile);
         }
 
-        public bool CaseExists(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName, string serverParkName)
+        public bool CaseExists(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var primaryKey = _keyService.GetPrimaryKey(dataModel);
 
             _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
 
-            return _keyService.KeyExists(connectionModel, primaryKey, instrumentName, serverParkName);
+            return _keyService.KeyExists(connectionModel, primaryKey, questionnaireName, serverParkName);
         }
 
-        public void CreateNewDataRecord(ConnectionModel connectionModel, string primaryKeyValue, Dictionary<string, string> fieldData, string instrumentName, string serverParkName)
+        public void CreateNewDataRecord(ConnectionModel connectionModel, string primaryKeyValue, Dictionary<string, string> fieldData, string questionnaireName, string serverParkName)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var key = _keyService.GetPrimaryKey(dataModel);
             var dataRecord = _dataRecordService.GetDataRecord(dataModel);
 
             dataRecord = _mapperService.MapDataRecordFields(dataRecord, key, primaryKeyValue, fieldData);
 
-            _dataRecordService.WriteDataRecord(connectionModel, dataRecord, instrumentName, serverParkName);
+            _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
 
-        public void CreateNewDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord ,string instrumentName, string serverParkName)
+        public void CreateNewDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord ,string questionnaireName, string serverParkName)
         {
-            _dataRecordService.WriteDataRecord(connectionModel, dataRecord, instrumentName, serverParkName);
+            _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
 
         public void CreateNewDataRecord(ConnectionModel connectionModel, string databaseFile, string primaryKeyValue, Dictionary<string, string> fieldData)
@@ -150,20 +150,20 @@ namespace Blaise.Nuget.Api.Core.Services
         }
 
         public void UpdateDataRecord(ConnectionModel connectionModel, string primaryKeyValue, Dictionary<string, string> fieldData, 
-            string instrumentName, string serverParkName)
+            string questionnaireName, string serverParkName)
         {
-            var dataRecord = GetDataRecord(connectionModel, primaryKeyValue, instrumentName, serverParkName);
+            var dataRecord = GetDataRecord(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
             dataRecord = _mapperService.MapDataRecordFields(dataRecord, fieldData);
-            _dataRecordService.WriteDataRecord(connectionModel, dataRecord, instrumentName, serverParkName);
+            _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
 
         public void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, Dictionary<string, string> fieldData, 
-            string instrumentName, string serverParkName)
+            string questionnaireName, string serverParkName)
         {
             dataRecord = _mapperService.MapDataRecordFields(dataRecord, fieldData);
 
-            _dataRecordService.WriteDataRecord(connectionModel, dataRecord, instrumentName, serverParkName);
+            _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
 
         public Dictionary<string, string> GetFieldDataFromRecord(IDataRecord dataRecord)
@@ -171,24 +171,24 @@ namespace Blaise.Nuget.Api.Core.Services
             return _mapperService.MapFieldDictionaryFromRecord(dataRecord);
         }
 
-        public void LockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName, string serverParkName,
+        public void LockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName,
             string lockId)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var primaryKey = _keyService.GetPrimaryKey(dataModel);
             _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
 
-            _dataRecordService.LockDataRecord(connectionModel, primaryKey, instrumentName, serverParkName, lockId);
+            _dataRecordService.LockDataRecord(connectionModel, primaryKey, questionnaireName, serverParkName, lockId);
         }
 
-        public void UnLockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName, 
+        public void UnLockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, 
             string serverParkName, string lockId)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var primaryKey = _keyService.GetPrimaryKey(dataModel);
             _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
 
-            _dataRecordService.UnLockDataRecord(connectionModel, primaryKey, instrumentName, serverParkName, lockId);
+            _dataRecordService.UnLockDataRecord(connectionModel, primaryKey, questionnaireName, serverParkName, lockId);
         }
 
         public int GetOutcomeCode(IDataRecord dataRecord)
@@ -254,10 +254,10 @@ namespace Blaise.Nuget.Api.Core.Services
                 GetLastUpdatedAsString(dataRecord));
         }
 
-        public IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        public IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var caseStatusList = new List<CaseStatusModel>();
-            var cases = GetDataSet(connectionModel, instrumentName, serverParkName);
+            var cases = GetDataSet(connectionModel, questionnaireName, serverParkName);
 
             while (!cases.EndOfSet)
             {
@@ -271,10 +271,10 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseStatusList;
         }
 
-        public CaseModel GetCaseModel(ConnectionModel connectionModel, string primaryKeyValue, string instrumentName,
+        public CaseModel GetCaseModel(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName,
             string serverParkName)
         {
-            var dataRecord = GetDataRecord(connectionModel, primaryKeyValue, instrumentName, serverParkName);
+            var dataRecord = GetDataRecord(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
             return new CaseModel(primaryKeyValue, GetFieldDataFromRecord(dataRecord));
         }

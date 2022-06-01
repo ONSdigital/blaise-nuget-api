@@ -65,12 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\SqlFieldType.cs" />
-    <Compile Include="Enums\SurveyDataEntryType.cs" />
+    <Compile Include="Enums\QuestionnaireDataEntryType.cs" />
     <Compile Include="Enums\FieldNameType.cs" />
-    <Compile Include="Enums\SurveyInterviewType.cs" />
-    <Compile Include="Enums\SurveyStatusType.cs" />
+    <Compile Include="Enums\QuestionnaireInterviewType.cs" />
+    <Compile Include="Enums\QuestionnaireStatusType.cs" />
     <Compile Include="Exceptions\DataNotFoundException.cs" />
-    <Compile Include="Exceptions\SurveyConfigurationException.cs" />
+    <Compile Include="Exceptions\QuestionnaireConfigurationException.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Interfaces\IBlaiseFileApi.cs" />
     <Compile Include="Interfaces\IBlaiseCaseApi.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Interfaces\IBlaiseServerParkApi.cs" />
     <Compile Include="Interfaces\IBlaiseCatiApi.cs" />
     <Compile Include="Interfaces\IBlaiseSqlApi.cs" />
-    <Compile Include="Interfaces\IBlaiseSurveyApi.cs" />
+    <Compile Include="Interfaces\IBlaiseQuestionnaireApi.cs" />
     <Compile Include="Interfaces\IBlaiseUserApi.cs" />
     <Compile Include="Models\CaseIdentifierModel.cs" />
     <Compile Include="Models\CaseModel.cs" />

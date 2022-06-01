@@ -29,19 +29,19 @@ namespace Blaise.Nuget.Api.Core.Services
             _caseService = caseService;
         }
 
-        public void UpdateInstrumentFileWithData(ConnectionModel connectionModel, string instrumentFile, string instrumentName, string serverParkName)
+        public void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile, string questionnaireName, string serverParkName)
         {
-            var instrumentPath = ExtractInstrumentPackage(instrumentFile);
-            var dataSourceFilePath = GetFullFilePath(instrumentPath, instrumentName, DatabaseSourceExt);
-            var dataInterfaceFilePath = GetFullFilePath(instrumentPath, instrumentName, DatabaseFileNameExt);
-            var dataModelFilePath = GetFullFilePath(instrumentPath, instrumentName, DatabaseModelExt);
+            var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
+            var dataSourceFilePath = GetFullFilePath(questionnairePath, questionnaireName, DatabaseSourceExt);
+            var dataInterfaceFilePath = GetFullFilePath(questionnairePath, questionnaireName, DatabaseFileNameExt);
+            var dataModelFilePath = GetFullFilePath(questionnairePath, questionnaireName, DatabaseModelExt);
 
             DeleteFileIfExists(dataSourceFilePath);
 
             _dataInterfaceService.CreateFileDataInterface(dataSourceFilePath, 
                 dataInterfaceFilePath, dataModelFilePath);
 
-            var cases = _caseService.GetDataSet(connectionModel, instrumentName, serverParkName);
+            var cases = _caseService.GetDataSet(connectionModel, questionnaireName, serverParkName);
 
             while (!cases.EndOfSet)
             {
@@ -50,20 +50,20 @@ namespace Blaise.Nuget.Api.Core.Services
                 cases.MoveNext();
             }
 
-            CreateInstrumentPackage(instrumentPath, instrumentFile);
+            CreateQuestionnairePackage(questionnairePath, questionnaireFile);
         }
 
-        public void UpdateInstrumentPackageWithSqlConnection(string instrumentName, string instrumentFile)
+        public void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName, string questionnaireFile)
         {
-            var instrumentPath = ExtractInstrumentPackage(instrumentFile);
+            var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
-            var fileName = GetFullFilePath(instrumentPath, instrumentName, DatabaseFileNameExt);
-            var dataModelFileName = GetFullFilePath(instrumentPath, instrumentName, DatabaseModelExt);
+            var fileName = GetFullFilePath(questionnairePath, questionnaireName, DatabaseFileNameExt);
+            var dataModelFileName = GetFullFilePath(questionnairePath, questionnaireName, DatabaseModelExt);
 
             _dataInterfaceService.CreateSqlDataInterface(databaseConnectionString, fileName,
                 dataModelFileName);
 
-            CreateInstrumentPackage(instrumentPath, instrumentFile);
+            CreateQuestionnairePackage(questionnairePath, questionnaireFile);
         }
 
         public void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName)
@@ -74,25 +74,25 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataInterfaceService.CreateSettingsDataInterface(databaseConnectionString, applicationType, fileName);
         }
 
-        private static string ExtractInstrumentPackage(string instrumentFile)
+        private static string ExtractQuestionnairePackage(string questionnaireFile)
         {
-            var instrumentPath =  $"{Path.GetDirectoryName(instrumentFile)}\\{Guid.NewGuid()}";
+            var questionnairePath =  $"{Path.GetDirectoryName(questionnaireFile)}\\{Guid.NewGuid()}";
 
-            if (Directory.Exists(instrumentPath))
+            if (Directory.Exists(questionnairePath))
             {
-                Directory.Delete(instrumentPath, true);
+                Directory.Delete(questionnairePath, true);
             }
 
-            ZipFile.ExtractToDirectory(instrumentFile, instrumentPath);
-            File.Delete(instrumentFile);
+            ZipFile.ExtractToDirectory(questionnaireFile, questionnairePath);
+            File.Delete(questionnaireFile);
 
-            return instrumentPath;
+            return questionnairePath;
         }
 
-        private static void CreateInstrumentPackage(string instrumentPath, string instrumentFile)
+        private static void CreateQuestionnairePackage(string questionnairePath, string questionnaireFile)
         {
-            ZipFile.CreateFromDirectory(instrumentPath, instrumentFile);
-            Directory.Delete(instrumentPath, true);
+            ZipFile.CreateFromDirectory(questionnairePath, questionnaireFile);
+            Directory.Delete(questionnairePath, true);
         }
 
         private static void DeleteFileIfExists(string filePath)
@@ -103,9 +103,9 @@ namespace Blaise.Nuget.Api.Core.Services
             }
         }
 
-        private static string GetFullFilePath(string filePath, string instrumentName, string extension)
+        private static string GetFullFilePath(string filePath, string questionnaireName, string extension)
         {
-            return Path.Combine(filePath, $"{instrumentName}.{extension}");
+            return Path.Combine(filePath, $"{questionnaireName}.{extension}");
         }
     }
 }

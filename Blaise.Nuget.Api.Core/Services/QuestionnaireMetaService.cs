@@ -6,32 +6,32 @@ using StatNeth.Blaise.API.Meta;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
-    public class SurveyMetaService : ISurveyMetaService
+    public class QuestionnaireMetaService : IQuestionnaireMetaService
     {
         private readonly IDataModelService _dataModelService;
 
-        public SurveyMetaService(IDataModelService dataModelService)
+        public QuestionnaireMetaService(IDataModelService dataModelService)
         {
             _dataModelService = dataModelService;
         }
 
-        public IEnumerable<string> GetSurveyModes(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        public IEnumerable<string> GetQuestionnaireModes(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName) as IDatamodel2;
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName) as IDatamodel2;
 
             return dataModel == null ? new List<string>() : dataModel.Modes.Select(dm => dm.Name);
         }
 
-        public IEnumerable<DataEntrySettingsModel> GetSurveyDataEntrySettings(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        public IEnumerable<DataEntrySettingsModel> GetQuestionnaireDataEntrySettings(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var dataEntrySettings = dataModel.DataEntrySettings;
             
-            var surveyEntrySettingsModelList = new List<DataEntrySettingsModel>();
+            var questionnaireEntrySettingsModelList = new List<DataEntrySettingsModel>();
 
             foreach (var dataEntrySetting in dataEntrySettings)
             {
-                surveyEntrySettingsModelList.Add(new DataEntrySettingsModel
+                questionnaireEntrySettingsModelList.Add(new DataEntrySettingsModel
                 {
                     Type = dataEntrySetting.Name,
                     SessionTimeout = ((IDataEntrySettings4)dataEntrySetting).SessionTimeout,
@@ -43,7 +43,7 @@ namespace Blaise.Nuget.Api.Core.Services
                 });
             }
 
-            return surveyEntrySettingsModelList;
+            return questionnaireEntrySettingsModelList;
         }
     }
 }

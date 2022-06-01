@@ -48,12 +48,12 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<IFieldService, FieldService>();
             UnityContainer.RegisterType<IKeyService, KeyService>();
             UnityContainer.RegisterType<IServerParkService, ServerParkService>();
-            UnityContainer.RegisterType<ISurveyService, SurveyService>();
+            UnityContainer.RegisterType<IQuestionnaireService, QuestionnaireService>();
             UnityContainer.RegisterType<IUserService, UserService>();
             UnityContainer.RegisterType<IFileService, FileService>();
             UnityContainer.RegisterType<ICatiService, CatiService>();
             UnityContainer.RegisterType<IRoleService, RoleService>();
-            UnityContainer.RegisterType<ISurveyMetaService, SurveyMetaService>();
+            UnityContainer.RegisterType<IQuestionnaireMetaService, QuestionnaireMetaService>();
             UnityContainer.RegisterType<ISqlService, SqlService>();
         }
         public static T Resolve<T>()

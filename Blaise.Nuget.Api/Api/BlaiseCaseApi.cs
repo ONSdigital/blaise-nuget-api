@@ -34,14 +34,14 @@ namespace Blaise.Nuget.Api.Api
            _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        public bool CaseExists(string primaryKeyValue, string instrumentName, 
+        public bool CaseExists(string primaryKeyValue, string questionnaireName, 
             string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _caseService.CaseExists(_connectionModel, primaryKeyValue, instrumentName, serverParkName);
+            return _caseService.CaseExists(_connectionModel, primaryKeyValue, questionnaireName, serverParkName);
         }
 
         public string GetPrimaryKeyValue(IDataRecord dataRecord)
@@ -58,42 +58,42 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetDataSet(_connectionModel, databaseFile);
         }
 
-        public IDataSet GetCases(string instrumentName, string serverParkName)
+        public IDataSet GetCases(string questionnaireName, string serverParkName)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _caseService.GetDataSet(_connectionModel, instrumentName, serverParkName);
+            return _caseService.GetDataSet(_connectionModel, questionnaireName, serverParkName);
         }
 
-        public IDataRecord GetCase(string primaryKeyValue, string instrumentName, 
+        public IDataRecord GetCase(string primaryKeyValue, string questionnaireName, 
             string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _caseService.GetDataRecord(_connectionModel, primaryKeyValue, instrumentName, serverParkName);
+            return _caseService.GetDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName);
         }
 
         public void CreateCase(string primaryKeyValue, Dictionary<string, string> fieldData, 
-            string instrumentName, string serverParkName)
+            string questionnaireName, string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
             fieldData.ThrowExceptionIfNull("fieldData");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            _caseService.CreateNewDataRecord(_connectionModel, primaryKeyValue, fieldData, instrumentName, serverParkName);
+            _caseService.CreateNewDataRecord(_connectionModel, primaryKeyValue, fieldData, questionnaireName, serverParkName);
         }
 
-        public void CreateCase(IDataRecord dataRecord, string instrumentName, string serverParkName)
+        public void CreateCase(IDataRecord dataRecord, string questionnaireName, string serverParkName)
         {
             dataRecord.ThrowExceptionIfNull("dataRecord");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            _caseService.CreateNewDataRecord(_connectionModel, dataRecord, instrumentName, serverParkName);
+            _caseService.CreateNewDataRecord(_connectionModel, dataRecord, questionnaireName, serverParkName);
         }
 
         public void CreateCase(string databaseFile, string primaryKeyValue, Dictionary<string, string> fieldData)
@@ -106,44 +106,44 @@ namespace Blaise.Nuget.Api.Api
         }
         
         public void UpdateCase(string primaryKeyValue, Dictionary<string, string> fieldData, 
-            string instrumentName, string serverParkName)
+            string questionnaireName, string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
             fieldData.ThrowExceptionIfNull("fieldData");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
             _caseService.UpdateDataRecord(_connectionModel, primaryKeyValue, fieldData,
-                instrumentName, serverParkName);
+                questionnaireName, serverParkName);
         }
 
         public void UpdateCase(IDataRecord dataRecord, Dictionary<string, string> fieldData,
-            string instrumentName, string serverParkName)
+            string questionnaireName, string serverParkName)
         {
             dataRecord.ThrowExceptionIfNull("dataRecord");
             fieldData.ThrowExceptionIfNull("fieldData");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            _caseService.UpdateDataRecord(_connectionModel, dataRecord, fieldData, instrumentName, serverParkName);
+            _caseService.UpdateDataRecord(_connectionModel, dataRecord, fieldData, questionnaireName, serverParkName);
         }
 
-        public bool FieldExists(string instrumentName, string serverParkName, FieldNameType fieldNameType)
+        public bool FieldExists(string questionnaireName, string serverParkName, FieldNameType fieldNameType)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _caseService.FieldExists(_connectionModel, instrumentName, serverParkName, fieldNameType);
+            return _caseService.FieldExists(_connectionModel, questionnaireName, serverParkName, fieldNameType);
         }
 
-        public bool FieldExists(string instrumentName, string serverParkName, string fieldName)
+        public bool FieldExists(string questionnaireName, string serverParkName, string fieldName)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             fieldName.ThrowExceptionIfNullOrEmpty("fieldName");
 
-            return _caseService.FieldExists(_connectionModel, instrumentName, serverParkName, fieldName);
+            return _caseService.FieldExists(_connectionModel, questionnaireName, serverParkName, fieldName);
         }
 
         public bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType)
@@ -168,42 +168,42 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetFieldValue(dataRecord, fieldName);
         }
 
-        public IDataValue GetFieldValue(string primaryKeyValue, string instrumentName,
+        public IDataValue GetFieldValue(string primaryKeyValue, string questionnaireName,
             string serverParkName, FieldNameType fieldNameType)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            var dataRecord = _caseService.GetDataRecord(_connectionModel, primaryKeyValue, instrumentName, serverParkName);
+            var dataRecord = _caseService.GetDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
             return GetFieldValue(dataRecord, fieldNameType);
         }
 
-        public void RemoveCase(string primaryKeyValue, string instrumentName, 
+        public void RemoveCase(string primaryKeyValue, string questionnaireName, 
             string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            _caseService.RemoveDataRecord(_connectionModel, primaryKeyValue, instrumentName, serverParkName);
+            _caseService.RemoveDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName);
         }
 
-        public void RemoveCases(string instrumentName, string serverParkName)
+        public void RemoveCases(string questionnaireName, string serverParkName)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            _caseService.RemoveDataRecords(_connectionModel, instrumentName, serverParkName);
+            _caseService.RemoveDataRecords(_connectionModel, questionnaireName, serverParkName);
         }
 
-        public int GetNumberOfCases(string instrumentName, string serverParkName)
+        public int GetNumberOfCases(string questionnaireName, string serverParkName)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _caseService.GetNumberOfCases(_connectionModel, instrumentName, serverParkName);
+            return _caseService.GetNumberOfCases(_connectionModel, questionnaireName, serverParkName);
         }
 
         public int GetNumberOfCases(string databaseFile)
@@ -220,36 +220,36 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetFieldDataFromRecord(dataRecord);
         }
 
-        public void LockDataRecord(string primaryKeyValue, string instrumentName, string serverParkName, string lockId)
+        public void LockDataRecord(string primaryKeyValue, string questionnaireName, string serverParkName, string lockId)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             lockId.ThrowExceptionIfNullOrEmpty("lockId");
 
-           _caseService.LockDataRecord(_connectionModel, primaryKeyValue, instrumentName, serverParkName, lockId);
+           _caseService.LockDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName, lockId);
         }
 
-        public void UnLockDataRecord(string primaryKeyValue, string instrumentName, string serverParkName, string lockId)
+        public void UnLockDataRecord(string primaryKeyValue, string questionnaireName, string serverParkName, string lockId)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             lockId.ThrowExceptionIfNullOrEmpty("lockId");
 
-            _caseService.UnLockDataRecord(_connectionModel, primaryKeyValue, instrumentName, serverParkName, lockId);
+            _caseService.UnLockDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName, lockId);
         }
 
         //Ugghh :(
-        public bool DataRecordIsLocked(string primaryKeyValue, string instrumentName, string serverParkName)
+        public bool DataRecordIsLocked(string primaryKeyValue, string questionnaireName, string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
             try
             {
-                _caseService.GetDataRecord(_connectionModel, primaryKeyValue, instrumentName, serverParkName);
+                _caseService.GetDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName);
                 return false;
             }
             catch
@@ -294,21 +294,21 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetCaseStatus(dataRecord);
         }
 
-        public IEnumerable<CaseStatusModel> GetCaseStatusModelList(string instrumentName, string serverParkName)
+        public IEnumerable<CaseStatusModel> GetCaseStatusModelList(string questionnaireName, string serverParkName)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _caseService.GetCaseStatusModelList(_connectionModel, instrumentName, serverParkName);
+            return _caseService.GetCaseStatusModelList(_connectionModel, questionnaireName, serverParkName);
         }
 
-        public CaseModel GetCaseModel(string primaryKeyValue, string instrumentName, string serverParkName)
+        public CaseModel GetCaseModel(string primaryKeyValue, string questionnaireName, string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _caseService.GetCaseModel(_connectionModel, primaryKeyValue, instrumentName, serverParkName);
+            return _caseService.GetCaseModel(_connectionModel, primaryKeyValue, questionnaireName, serverParkName);
         }
     }
 }

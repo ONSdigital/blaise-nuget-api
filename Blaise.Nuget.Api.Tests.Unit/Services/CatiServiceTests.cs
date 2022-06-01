@@ -17,16 +17,16 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
     public class CatiServiceTests
     {
         private Mock<IRemoteCatiManagementServerProvider> _catiProviderMock;
-        private Mock<ISurveyService> _surveyServiceMock;
+        private Mock<IQuestionnaireService> _questionnaireServiceMock;
 
-        private Mock<ICatiInstrumentManager> _catiInstrumentManagerMock;
+        private Mock<ICatiInstrumentManager> _catiQuestionnaireManagerMock;
         private Mock<IRemoteCatiManagementServer> _catiManagementServerMock;
         private Mock<ISurveyDayCollection> _surveyDayCollection;
 
         private readonly ConnectionModel _connectionModel;
-        private readonly string _instrumentName;
+        private readonly string _questionnaireName;
         private readonly string _serverParkName;
-        private readonly Guid _instrumentId;
+        private readonly Guid _questionnaireId;
         private readonly DateTime _surveyDay;
 
         private CatiService _sut;
@@ -34,9 +34,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public CatiServiceTests()
         {
             _connectionModel = new ConnectionModel();
-            _instrumentName = "TestInstrumentName";
+            _questionnaireName = $"TestQuestionnaireName";
             _serverParkName = "TestServerParkName";
-            _instrumentId = Guid.NewGuid();
+            _questionnaireId = Guid.NewGuid();
 
             _surveyDay = DateTime.Today;
         }
@@ -52,76 +52,76 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _surveyDayCollection.Setup(s => s.GetEnumerator()).Returns(surveyDays.GetEnumerator());
 
 
-            _catiInstrumentManagerMock = new Mock<ICatiInstrumentManager>();
-            _catiInstrumentManagerMock.Setup(cim => cim.CreateDaybatch(It.IsAny<DateTime>()));
-            _catiInstrumentManagerMock.As<ICatiInstrumentManager3>().Setup(cim => cim.CreateDaybatch(It.IsAny<DateTime>(), It.IsAny<bool>()));
-            _catiInstrumentManagerMock.Setup(cim => cim.Specification.SurveyDays).Returns(_surveyDayCollection.Object);
+            _catiQuestionnaireManagerMock = new Mock<ICatiInstrumentManager>();
+            _catiQuestionnaireManagerMock.Setup(cim => cim.CreateDaybatch(It.IsAny<DateTime>()));
+            _catiQuestionnaireManagerMock.As<ICatiInstrumentManager3>().Setup(cim => cim.CreateDaybatch(It.IsAny<DateTime>(), It.IsAny<bool>()));
+            _catiQuestionnaireManagerMock.Setup(cim => cim.Specification.SurveyDays).Returns(_surveyDayCollection.Object);
 
             _catiManagementServerMock = new Mock<IRemoteCatiManagementServer>();
             _catiManagementServerMock.Setup(c => c.LoadCatiInstrumentManager(
-                It.IsAny<Guid>())).Returns(_catiInstrumentManagerMock.Object);
+                It.IsAny<Guid>())).Returns(_catiQuestionnaireManagerMock.Object);
 
             _catiProviderMock = new Mock<IRemoteCatiManagementServerProvider>();
             _catiProviderMock.Setup(r => r.GetCatiManagementForServerPark(_connectionModel, _serverParkName))
                 .Returns(_catiManagementServerMock.Object);
 
-            _surveyServiceMock = new Mock<ISurveyService>();
-            _surveyServiceMock.Setup(ss => ss.GetInstrumentId(_connectionModel, _instrumentName, _serverParkName))
-                .Returns(_instrumentId);
+            _questionnaireServiceMock = new Mock<IQuestionnaireService>();
+            _questionnaireServiceMock.Setup(ss => ss.GetQuestionnaireId(_connectionModel, _questionnaireName, _serverParkName))
+                .Returns(_questionnaireId);
 
             //setup service under test
-            _sut = new CatiService(_catiProviderMock.Object, _surveyServiceMock.Object);
+            _sut = new CatiService(_catiProviderMock.Object, _questionnaireServiceMock.Object);
         }
 
         [Test]
-        public void Given_Surveys_Are_Installed_When_I_Call_GetInstalledSurveys_Then_The_Correct_Services_Are_Called()
+        public void Given_Questionnaires_Are_Installed_When_I_Call_GetInstalledQuestionnaires_Then_The_Correct_Services_Are_Called()
         {
             //arrange
-            const string instrument1 = "OPN2004a";
-            const string instrument2 = "OPN2010a";
-            var installedSurveys = new Dictionary<string, Guid>
+            const string questionnaire1 = "OPN2004a";
+            const string questionnaire2 = "OPN2010a";
+            var installedQuestionnaires = new Dictionary<string, Guid>
             {
-                {instrument1, Guid.NewGuid()},
-                {instrument2, Guid.NewGuid()}
+                {questionnaire1, Guid.NewGuid()},
+                {questionnaire2, Guid.NewGuid()}
             };
 
-            var surveyMock = new Mock<ISurvey>();
+            var questionnaireMock = new Mock<ISurvey>();
 
-            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedSurveys);
-            _surveyServiceMock.Setup(s => s.GetSurvey(_connectionModel, It.IsAny<string>(), _serverParkName))
-                .Returns(surveyMock.Object);
+            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedQuestionnaires);
+            _questionnaireServiceMock.Setup(s => s.GetQuestionnaire(_connectionModel, It.IsAny<string>(), _serverParkName))
+                .Returns(questionnaireMock.Object);
 
             //act
-            _sut.GetInstalledSurveys(_connectionModel, _serverParkName);
+            _sut.GetInstalledQuestionnaires(_connectionModel, _serverParkName);
 
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
 
-            _surveyServiceMock.Verify(v => v.GetSurvey(_connectionModel, instrument1, _serverParkName), Times.Once);
-            _surveyServiceMock.Verify(v => v.GetSurvey(_connectionModel, instrument2, _serverParkName), Times.Once);
+            _questionnaireServiceMock.Verify(v => v.GetQuestionnaire(_connectionModel, questionnaire1, _serverParkName), Times.Once);
+            _questionnaireServiceMock.Verify(v => v.GetQuestionnaire(_connectionModel, questionnaire2, _serverParkName), Times.Once);
         }
 
         [Test]
-        public void Given_Surveys_Are_Installed_When_I_Call_GetInstalledSurveys_Then_An_Correct_List_Is_Returned()
+        public void Given_Questionnaires_Are_Installed_When_I_Call_GetInstalledQuestionnaires_Then_An_Correct_List_Is_Returned()
         {
             //arrange
-            const string instrument1 = "OPN2004a";
-            const string instrument2 = "OPN2010a";
-            var installedSurveys = new Dictionary<string, Guid>
+            const string questionnaire1 = "OPN2004a";
+            const string questionnaire2 = "OPN2010a";
+            var installedQuestionnaires = new Dictionary<string, Guid>
             {
-                {instrument1, Guid.NewGuid()},
-                {instrument2, Guid.NewGuid()}
+                {questionnaire1, Guid.NewGuid()},
+                {questionnaire2, Guid.NewGuid()}
             };
 
-            var surveyMock = new Mock<ISurvey>();
+            var questionnaireMock = new Mock<ISurvey>();
 
-            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedSurveys);
-            _surveyServiceMock.Setup(s => s.GetSurvey(_connectionModel, It.IsAny<string>(), _serverParkName))
-                .Returns(surveyMock.Object);
+            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedQuestionnaires);
+            _questionnaireServiceMock.Setup(s => s.GetQuestionnaire(_connectionModel, It.IsAny<string>(), _serverParkName))
+                .Returns(questionnaireMock.Object);
 
             //act
-            var result = _sut.GetInstalledSurveys(_connectionModel, _serverParkName);
+            var result = _sut.GetInstalledQuestionnaires(_connectionModel, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);
@@ -130,15 +130,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_No_Surveys_Are_Installed_When_I_Call_GetInstalledSurveys_Then_An_Empty_List_Is_Returned()
+        public void Given_No_Questionnaires_Are_Installed_When_I_Call_GetInstalledQuestionnaires_Then_An_Empty_List_Is_Returned()
         {
             //arrange
-            var installedSurveys = new Dictionary<string, Guid>();
+            var installedQuestionnaires = new Dictionary<string, Guid>();
 
-            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedSurveys);
+            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedQuestionnaires);
 
             //act
-            var result = _sut.GetInstalledSurveys(_connectionModel, _serverParkName);
+            var result = _sut.GetInstalledQuestionnaires(_connectionModel, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);
@@ -147,85 +147,85 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_Survey_Is_Installed_When_I_Call_GetInstalledSurvey_Then_The_Correct_Services_Are_Called()
+        public void Given_A_Questionnaires_Is_Installed_When_I_Call_GetInstalledQuestionnaire_Then_The_Correct_Services_Are_Called()
         {
             //arrange
-            const string instrument1 = "OPN2004a";
-            const string instrument2 = "OPN2010a";
-            var installedSurveys = new Dictionary<string, Guid>
+            const string questionnaire1 = "OPN2004a";
+            const string questionnaire2 = "OPN2010a";
+            var installedQuestionnaires = new Dictionary<string, Guid>
             {
-                {instrument1, Guid.NewGuid()},
-                {instrument2, Guid.NewGuid()},
-                {_instrumentName, Guid.NewGuid()}
+                {questionnaire1, Guid.NewGuid()},
+                {questionnaire2, Guid.NewGuid()},
+                {_questionnaireName, Guid.NewGuid()}
             };
 
-            var surveyMock = new Mock<ISurvey>();
+            var questionnaireMock = new Mock<ISurvey>();
 
-            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedSurveys);
-            _surveyServiceMock.Setup(s => s.GetSurvey(_connectionModel, It.IsAny<string>(), _serverParkName))
-                .Returns(surveyMock.Object);
+            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedQuestionnaires);
+            _questionnaireServiceMock.Setup(s => s.GetQuestionnaire(_connectionModel, It.IsAny<string>(), _serverParkName))
+                .Returns(questionnaireMock.Object);
 
             //act
-            _sut.GetInstalledSurvey(_connectionModel, _instrumentName, _serverParkName);
+            _sut.GetInstalledQuestionnaire(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
 
-            _surveyServiceMock.Verify(v => v.GetSurvey(_connectionModel, _instrumentName, _serverParkName), Times.Once);
-            _surveyServiceMock.VerifyNoOtherCalls();
+            _questionnaireServiceMock.Verify(v => v.GetQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
+            _questionnaireServiceMock.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void Given_A_Survey_Is_Installed_When_I_Call_GetInstalledSurvey_Then_The_Correct_Survey_Is_Returned()
+        public void Given_A_Questionnaire_Is_Installed_When_I_Call_GetInstalledQuestionnaire_Then_The_Correct_Questionnaire_Is_Returned()
         {
             //arrange
-            const string instrument1 = "OPN2004a";
-            const string instrument2 = "OPN2010a";
-            var installedSurveys = new Dictionary<string, Guid>
+            const string questionnaire1 = "OPN2004a";
+            const string questionnaire2 = "OPN2010a";
+            var installedQuestionnaires = new Dictionary<string, Guid>
             {
-                {instrument1, Guid.NewGuid()},
-                {instrument2, Guid.NewGuid()},
-                {_instrumentName, Guid.NewGuid()}
+                {questionnaire1, Guid.NewGuid()},
+                {questionnaire2, Guid.NewGuid()},
+                {_questionnaireName, Guid.NewGuid()}
             };
 
-            var surveyMock = new Mock<ISurvey>();
+            var questionnaireMock = new Mock<ISurvey>();
 
-            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedSurveys);
-            _surveyServiceMock.Setup(s => s.GetSurvey(_connectionModel, _instrumentName, _serverParkName))
-                .Returns(surveyMock.Object);
+            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedQuestionnaires);
+            _questionnaireServiceMock.Setup(s => s.GetQuestionnaire(_connectionModel, _questionnaireName, _serverParkName))
+                .Returns(questionnaireMock.Object);
 
             //act
-            var result = _sut.GetInstalledSurvey(_connectionModel, _instrumentName, _serverParkName);
+            var result = _sut.GetInstalledQuestionnaire(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
             //assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<ISurvey>(result);
-            Assert.AreSame(surveyMock.Object, result);
+            Assert.AreSame(questionnaireMock.Object, result);
         }
 
         [Test]
-        public void Given_A_Survey_Is_Not_Installed_When_I_Call_GetInstalledSurvey_Then_A_DataNotFound_Exception_Is_Thrown()
+        public void Given_A_Questionnaire_Is_Not_Installed_When_I_Call_GetInstalledQuestionnaire_Then_A_DataNotFound_Exception_Is_Thrown()
         {
             //arrange
-            const string instrument1 = "OPN2004a";
-            const string instrument2 = "OPN2010a";
-            var installedSurveys = new Dictionary<string, Guid>
+            const string questionnaire1 = "OPN2004a";
+            const string questionnaire2 = "OPN2010a";
+            var installedQuestionnaires = new Dictionary<string, Guid>
             {
-                {instrument1, Guid.NewGuid()},
-                {instrument2, Guid.NewGuid()}
+                {questionnaire1, Guid.NewGuid()},
+                {questionnaire2, Guid.NewGuid()}
             };
 
-            var surveyMock = new Mock<ISurvey>();
+            var questionnaireMock = new Mock<ISurvey>();
 
-            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedSurveys);
-            _surveyServiceMock.Setup(s => s.GetSurvey(_connectionModel, It.IsAny<string>(), _serverParkName))
-                .Returns(surveyMock.Object);
+            _catiManagementServerMock.Setup(c => c.GetInstalledSurveys()).Returns(installedQuestionnaires);
+            _questionnaireServiceMock.Setup(s => s.GetQuestionnaire(_connectionModel, It.IsAny<string>(), _serverParkName))
+                .Returns(questionnaireMock.Object);
 
             //act && assert
-            var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetInstalledSurvey(_connectionModel, _instrumentName, _serverParkName));
-            Assert.AreEqual($"No survey called '{_instrumentName}' was found on server park '{_serverParkName}'", exception.Message);
+            var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetInstalledQuestionnaire(_connectionModel, _questionnaireName, _serverParkName));
+            Assert.AreEqual($"No questionnaire called '{_questionnaireName}' was found on server park '{_serverParkName}'", exception.Message);
         }
 
         [TestCase(true)]
@@ -236,18 +236,18 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dayBatchDate = _surveyDay;
             var caseIds = new List<string> { "90001", "90002" };
 
-            _catiManagementServerMock.Setup(cm => cm.GetKeysInDaybatch(_instrumentId, null))
+            _catiManagementServerMock.Setup(cm => cm.GetKeysInDaybatch(_questionnaireId, null))
                 .Returns(caseIds);
-            _catiManagementServerMock.Setup(cm => cm.GetDaybatchDate(_instrumentId))
+            _catiManagementServerMock.Setup(cm => cm.GetDaybatchDate(_questionnaireId))
                 .Returns(dayBatchDate);
 
             //act
-            _sut.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases);
+            _sut.CreateDayBatch(_connectionModel, _questionnaireName, _serverParkName, dayBatchDate, checkForTreatedCases);
 
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
-            _catiInstrumentManagerMock.As<ICatiInstrumentManager3>().Verify(v => v
+            _catiQuestionnaireManagerMock.As<ICatiInstrumentManager3>().Verify(v => v
                 .CreateDaybatch(dayBatchDate, checkForTreatedCases), Times.Once);
         }
 
@@ -259,7 +259,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dayBatchDate = _surveyDay.AddDays(1);
 
             //act && assert
-            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, 
+            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_connectionModel, _questionnaireName, _serverParkName, 
                 dayBatchDate, checkForTreatedCases));
             Assert.AreEqual($"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'", exception.Message);
         }
@@ -271,13 +271,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dayBatchDate = _surveyDay;
             var caseIds = new List<string> { "90001", "90002" };
 
-            _catiManagementServerMock.Setup(cm => cm.GetKeysInDaybatch(_instrumentId, ""))
+            _catiManagementServerMock.Setup(cm => cm.GetKeysInDaybatch(_questionnaireId, ""))
                 .Returns(caseIds);
-            _catiManagementServerMock.Setup(cm => cm.GetDaybatchDate(_instrumentId))
+            _catiManagementServerMock.Setup(cm => cm.GetDaybatchDate(_questionnaireId))
                 .Returns(dayBatchDate);
 
             //act
-            var result = _sut.GetDayBatch(_connectionModel, _instrumentName, _serverParkName);
+            var result = _sut.GetDayBatch(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
            Assert.IsNotNull(result);
@@ -290,13 +290,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_A_Day_Batch_Does_Not_Exist_When_I_Call_GetDayBatch_Then_Null_Is_Returned()
         {
             //arrange
-            _catiManagementServerMock.Setup(cm => cm.GetKeysInDaybatch(_instrumentId, ""))
+            _catiManagementServerMock.Setup(cm => cm.GetKeysInDaybatch(_questionnaireId, ""))
                 .Returns(new List<string>());
-            _catiManagementServerMock.Setup(cm => cm.GetDaybatchDate(_instrumentId))
+            _catiManagementServerMock.Setup(cm => cm.GetDaybatchDate(_questionnaireId))
                 .Returns(null);
 
             //act
-            var result = _sut.GetDayBatch(_connectionModel, _instrumentName, _serverParkName);
+            var result = _sut.GetDayBatch(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
             Assert.IsNull(result);
@@ -306,15 +306,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_I_Call_SetSurveyDay_Then_The_Correct_Services_Are_Called()
         {
             //act
-            _sut.SetSurveyDay(_connectionModel, _instrumentName, _serverParkName, DateTime.Today);
+            _sut.SetSurveyDay(_connectionModel, _questionnaireName, _serverParkName, DateTime.Today);
 
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId).Specification.SurveyDays.AddSurveyDay(DateTime.Today), Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId).Specification.SurveyDays.AddSurveyDay(DateTime.Today), Times.Once);
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId).SaveSpecification(), Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId).SaveSpecification(), Times.Once);
         }
 
         [Test]
@@ -327,44 +327,44 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 DateTime.Today.AddDays(1)
             };
             //act
-            _sut.SetSurveyDays(_connectionModel, _instrumentName, _serverParkName, surveyDays);
+            _sut.SetSurveyDays(_connectionModel, _questionnaireName, _serverParkName, surveyDays);
 
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId).Specification.SurveyDays.AddSurveyDays(surveyDays), Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId).Specification.SurveyDays.AddSurveyDays(surveyDays), Times.Once);
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId).SaveSpecification(), Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId).SaveSpecification(), Times.Once);
         }
 
         [Test]
         public void Given_I_Call_GetSurveyDays_Then_The_Correct_Services_Are_Called()
         {
             //act
-            _sut.GetSurveyDays(_connectionModel, _instrumentName, _serverParkName);
+            _sut.GetSurveyDays(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
 
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId).Specification.SurveyDays, Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId).Specification.SurveyDays, Times.Once);
         }
 
         [Test]
         public void Given_I_Call_RemoveSurveyDay_Then_The_Correct_Services_Are_Called()
         {
             //act
-            _sut.RemoveSurveyDay(_connectionModel, _instrumentName, _serverParkName, DateTime.Today);
+            _sut.RemoveSurveyDay(_connectionModel, _questionnaireName, _serverParkName, DateTime.Today);
 
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId).Specification.SurveyDays.RemoveSurveyDay(DateTime.Today), Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId).Specification.SurveyDays.RemoveSurveyDay(DateTime.Today), Times.Once);
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId).SaveSpecification(), Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId).SaveSpecification(), Times.Once);
         }
 
         [Test]
@@ -377,15 +377,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 DateTime.Today.AddDays(1)
             };
             //act
-            _sut.RemoveSurveyDays(_connectionModel, _instrumentName, _serverParkName, surveyDays);
+            _sut.RemoveSurveyDays(_connectionModel, _questionnaireName, _serverParkName, surveyDays);
 
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId).Specification.SurveyDays.RemoveSurveyDays(surveyDays), Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId).Specification.SurveyDays.RemoveSurveyDays(surveyDays), Times.Once);
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId).SaveSpecification(), Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId).SaveSpecification(), Times.Once);
         }
 
         [Test]
@@ -395,15 +395,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var primaryKeyValue = "900001";
 
             //act
-            _sut.MakeSuperAppointment(_connectionModel, _instrumentName, _serverParkName, primaryKeyValue);
+            _sut.MakeSuperAppointment(_connectionModel, _questionnaireName, _serverParkName, primaryKeyValue);
 
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId), Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId), Times.Once);
             _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_instrumentId).MakeSuperAppointment(primaryKeyValue), Times.Once);
+                .LoadCatiInstrumentManager(_questionnaireId).MakeSuperAppointment(primaryKeyValue), Times.Once);
         }
     }
 }

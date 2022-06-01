@@ -2,7 +2,7 @@
 
 namespace Blaise.Nuget.Api.Contracts.Enums
 {
-    public enum SurveyInterviewType
+    public enum QuestionnaireInterviewType
     {
         [Description("CATI")]
         Cati,

@@ -5,10 +5,10 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
     public interface IBlaiseSqlApi
     {
-        IEnumerable<string> GetCaseIds(string instrumentName);
+        IEnumerable<string> GetCaseIds(string questionnaireName);
 
-        IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string instrumentName);
+        IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string questionnaireName);
 
-        string GetPostCode(string instrumentName, string primaryKey);
+        string GetPostCode(string questionnaireName, string primaryKey);
     }
 }

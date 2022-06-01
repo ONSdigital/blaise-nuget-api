@@ -27,26 +27,26 @@ namespace Blaise.Nuget.Api.Api
             _configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
         }
         
-        public IEnumerable<string> GetCaseIds(string instrumentName)
+        public IEnumerable<string> GetCaseIds(string questionnaireName)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
 
-            return _mySqlService.GetCaseIds(_configurationProvider.DatabaseConnectionString, instrumentName);
+            return _mySqlService.GetCaseIds(_configurationProvider.DatabaseConnectionString, questionnaireName);
         }
 
-        public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string instrumentName)
+        public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string questionnaireName)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
 
-            return _mySqlService.GetCaseIdentifiers(_configurationProvider.DatabaseConnectionString, instrumentName);
+            return _mySqlService.GetCaseIdentifiers(_configurationProvider.DatabaseConnectionString, questionnaireName);
         }
 
-        public string GetPostCode(string instrumentName, string primaryKey)
+        public string GetPostCode(string questionnaireName, string primaryKey)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             primaryKey.ThrowExceptionIfNullOrEmpty("primaryKey");
 
-            return _mySqlService.GetPostCode(_configurationProvider.DatabaseConnectionString, instrumentName, primaryKey);
+            return _mySqlService.GetPostCode(_configurationProvider.DatabaseConnectionString, questionnaireName, primaryKey);
         }
     }
 }

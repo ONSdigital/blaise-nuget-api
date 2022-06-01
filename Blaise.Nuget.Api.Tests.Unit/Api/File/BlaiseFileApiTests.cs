@@ -14,18 +14,18 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         private Mock<IFileService> _fileServiceMock;
 
         private readonly ConnectionModel _connectionModel;
-        private readonly string _instrumentName;
+        private readonly string _questionnaireName;
         private readonly string _serverParkName;
-        private readonly string _instrumentFile;
+        private readonly string _questionnaireFile;
 
         private IBlaiseFileApi _sut;
 
         public BlaiseFileApiTests()
         {
             _connectionModel = new ConnectionModel();
-            _instrumentName = "Instrument1";
+            _questionnaireName = "Questionnaire1";
             _serverParkName = "Park1";
-            _instrumentFile = "OPN2021a.zip";
+            _questionnaireFile = "OPN2021a.zip";
         }
         [SetUp]
         public void SetUpTests()
@@ -58,116 +58,116 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         {
             //arrange
 
-            _fileServiceMock.Setup(f => f.UpdateInstrumentFileWithData(It.IsAny<ConnectionModel>(),
+            _fileServiceMock.Setup(f => f.UpdateQuestionnaireFileWithData(It.IsAny<ConnectionModel>(),
                 It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
 
             //act
-            _sut.UpdateInstrumentFileWithData(_serverParkName, _instrumentName, _instrumentFile);
+            _sut.UpdateQuestionnaireFileWithData(_serverParkName, _questionnaireName, _questionnaireFile);
 
             //assert
-            _fileServiceMock.Verify(f => f.UpdateInstrumentFileWithData(_connectionModel,
-                _instrumentFile,_instrumentName, _serverParkName), Times.Once);
+            _fileServiceMock.Verify(f => f.UpdateQuestionnaireFileWithData(_connectionModel,
+                _questionnaireFile,_questionnaireName, _serverParkName), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_ServerParkName_When_I_Call_UpdateInstrumentFileWithData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_ServerParkName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateInstrumentFileWithData(string.Empty, 
-                _instrumentName, _instrumentFile));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithData(string.Empty, 
+                _questionnaireName, _questionnaireFile));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_ServerParkName_When_I_Call_UpdateInstrumentFileWithData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_ServerParkName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateInstrumentFileWithData(null, 
-                _instrumentName, _instrumentFile));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(null, 
+                _questionnaireName, _questionnaireFile));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_UpdateInstrumentFileWithData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateInstrumentFileWithData(_serverParkName,
-                string.Empty, _instrumentFile));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithData(_serverParkName,
+                string.Empty, _questionnaireFile));
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_UpdateInstrumentFileWithData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateInstrumentFileWithData(_serverParkName, 
-                null, _instrumentFile));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(_serverParkName, 
+                null, _questionnaireFile));
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
-        public void Given_An_Empty_DestinationFilePath_When_I_Call_UpdateInstrumentFileWithData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_DestinationFilePath_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateInstrumentFileWithData(_serverParkName, 
-                _instrumentName, string.Empty));
-            Assert.AreEqual("A value for the argument 'instrumentFile' must be supplied", exception.Message);
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithData(_serverParkName, 
+                _questionnaireName, string.Empty));
+            Assert.AreEqual("A value for the argument 'questionnaireFile' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_DestinationFilePath_When_I_Call_UpdateInstrumentFileWithData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_DestinationFilePath_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateInstrumentFileWithData(_serverParkName, 
-                _instrumentName, null));
-            Assert.AreEqual("instrumentFile", exception.ParamName);
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(_serverParkName, 
+                _questionnaireName, null));
+            Assert.AreEqual("questionnaireFile", exception.ParamName);
         }
 
         [Test]
-        public void Given_Valid_Parameters_When_I_Call_UpdateInstrumentFileWithSqlConnection_The_Correct_Services_Are_Called()
+        public void Given_Valid_Parameters_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_The_Correct_Services_Are_Called()
         {
             //arrange
-            _fileServiceMock.Setup(f => f.UpdateInstrumentPackageWithSqlConnection(It.IsAny<string>(), It.IsAny<string>()));
+            _fileServiceMock.Setup(f => f.UpdateQuestionnairePackageWithSqlConnection(It.IsAny<string>(), It.IsAny<string>()));
 
             //act
-            _sut.UpdateInstrumentFileWithSqlConnection(_instrumentName, _instrumentFile);
+            _sut.UpdateQuestionnaireFileWithSqlConnection(_questionnaireName, _questionnaireFile);
 
             //assert
-            _fileServiceMock.Verify(f => f.UpdateInstrumentPackageWithSqlConnection(_instrumentName,
-                _instrumentFile), Times.Once);
+            _fileServiceMock.Verify(f => f.UpdateQuestionnairePackageWithSqlConnection(_questionnaireName,
+                _questionnaireFile), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_UpdateInstrumentFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateInstrumentFileWithSqlConnection(string.Empty, _instrumentFile));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithSqlConnection(string.Empty, _questionnaireFile));
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_UpdateInstrumentFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateInstrumentFileWithSqlConnection(null, _instrumentFile));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithSqlConnection(null, _questionnaireFile));
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentFile_When_I_Call_UpdateInstrumentFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireFile_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateInstrumentFileWithSqlConnection(_instrumentName, 
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithSqlConnection(_questionnaireName, 
                 string.Empty));
-            Assert.AreEqual("A value for the argument 'instrumentFile' must be supplied", exception.Message);
+            Assert.AreEqual("A value for the argument 'questionnaireFile' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentFile_When_I_Call_UpdateInstrumentFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireFile_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateInstrumentFileWithSqlConnection(_instrumentName, null));
-            Assert.AreEqual("instrumentFile", exception.ParamName);
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithSqlConnection(_questionnaireName, null));
+            Assert.AreEqual("questionnaireFile", exception.ParamName);
         }
 
         [TestCase(ApplicationType.Cati)]

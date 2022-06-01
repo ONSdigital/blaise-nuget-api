@@ -128,7 +128,7 @@
     <Compile Include="Factories\RemoteDataServerFactory.cs" />
     <Compile Include="Interfaces\Factories\IConnectedServerFactory.cs" />
     <Compile Include="Interfaces\Providers\IBlaiseConfigurationProvider.cs" />
-    <Compile Include="Interfaces\Services\ISurveyMetaService.cs" />
+    <Compile Include="Interfaces\Services\IQuestionnaireMetaService.cs" />
     <Compile Include="Mappers\DataMapperService.cs" />
     <Compile Include="Interfaces\Mappers\IDataMapperService.cs" />
     <Compile Include="Interfaces\Providers\IRemoteDataLinkProvider.cs" />
@@ -141,7 +141,7 @@
     <Compile Include="Interfaces\Services\IServerParkService.cs" />
     <Compile Include="Interfaces\Services\IPasswordService.cs" />
     <Compile Include="Interfaces\Factories\IRemoteDataServerFactory.cs" />
-    <Compile Include="Interfaces\Services\ISurveyService.cs" />
+    <Compile Include="Interfaces\Services\IQuestionnaireService.cs" />
     <Compile Include="Interfaces\Mappers\IRolePermissionMapper.cs" />
     <Compile Include="Mappers\RolePermissionMapper.cs" />
     <Compile Include="Models\ActionPermissionModel.cs" />
@@ -168,8 +168,8 @@
     <Compile Include="Services\ServerParkService.cs" />
     <Compile Include="Services\PasswordService.cs" />
     <Compile Include="Services\CatiService.cs" />
-    <Compile Include="Services\SurveyMetaService.cs" />
-    <Compile Include="Services\SurveyService.cs" />
+    <Compile Include="Services\QuestionnaireMetaService.cs" />
+    <Compile Include="Services\QuestionnaireService.cs" />
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>

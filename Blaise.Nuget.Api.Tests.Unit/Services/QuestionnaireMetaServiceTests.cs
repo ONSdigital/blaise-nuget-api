@@ -10,30 +10,30 @@ using StatNeth.Blaise.API.Meta;
 
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
-    public class SurveyMetaServiceTests
+    public class QuestionnaireMetaServiceTests
     {
         private ConnectionModel _connectionModel;
-        private string _instrumentName;
+        private string _questionnaireName;
         private string _serverParkName;
 
         private Mock<IDataModelService> _dataModelServiceMock;
 
-        private ISurveyMetaService _sut;
+        private IQuestionnaireMetaService _sut;
 
         [SetUp]
         public void SetupTests()
         {
             _connectionModel = new ConnectionModel();
-            _instrumentName = "TestInstrumentName";
+            _questionnaireName = "TestQuestionnaireName";
             _serverParkName = "TestServerParkName";
 
             _dataModelServiceMock = new Mock<IDataModelService>();
 
-            _sut = new SurveyMetaService(_dataModelServiceMock.Object);
+            _sut = new QuestionnaireMetaService(_dataModelServiceMock.Object);
         }
 
         [Test]
-        public void Given_An_Instrument_Is_Installed_In_Cati_And_Cawi_Mode_When_I_Call_GetSurveyModes_The_Correct_Modes_Are_Returned()
+        public void Given_A_Questionnaire_Is_Installed_In_Cati_And_Cawi_Mode_When_I_Call_GetQuestionnaireModes_The_Correct_Modes_Are_Returned()
         {
             //arrange
             const string mode1 = "CATI";
@@ -53,10 +53,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             dataModelMock.Setup(dm => dm.Modes).Returns(modeCollection.Object);
 
             _dataModelServiceMock.Setup(dm => dm.GetDataModel(_connectionModel,
-                _instrumentName, _serverParkName)).Returns(dataModelMock.Object);
+                _questionnaireName, _serverParkName)).Returns(dataModelMock.Object);
 
             //act
-            var result = _sut.GetSurveyModes(_connectionModel, _instrumentName, _serverParkName).ToList();
+            var result = _sut.GetQuestionnaireModes(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
             //assert
             Assert.IsNotNull(result);
@@ -67,14 +67,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_An_Instrument_Has_No_DataModel_When_I_Call_GetSurveyModes_Then_An_Empty_List_Is_Returned()
+        public void Given_A_Questionnaire_Has_No_DataModel_When_I_Call_GetQuestionnaireModes_Then_An_Empty_List_Is_Returned()
         {
             //arrange
             _dataModelServiceMock.Setup(dm => dm.GetDataModel(It.IsAny<ConnectionModel>(),
                 It.IsAny<string>(), It.IsAny<string>())).Returns(null as IDatamodel);
 
             //act
-            var result = _sut.GetSurveyModes(_connectionModel, _instrumentName, _serverParkName).ToList();
+            var result = _sut.GetQuestionnaireModes(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
             //assert
             Assert.IsNotNull(result);
@@ -82,7 +82,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_List_Of_SurveyEntrySettingsModel_Back()
+        public void Given_I_Call_GetQuestionnaireDataEntrySettings_I_Get_A_List_Of_DataEntrySettingsModel_Back()
         {
             //arrange
             var dataEntrySettingsList = new List<IDataEntrySettings>();
@@ -98,7 +98,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
 
             //act
-            var result = _sut.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName);
+            var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);
@@ -106,7 +106,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetSurveyDataEntrySettings_I_Get_A_Valid_List_Of_SurveyEntrySettingsModel_Back()
+        public void Given_I_Call_GetQuestionnaireDataEntrySettings_I_Get_A_Valid_List_Of_DataEntrySettingsModel_Back()
         {
             //arrange
 
@@ -146,7 +146,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
 
             //act
-            var result = _sut.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName).ToList();
+            var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
             //assert
             Assert.IsNotNull(result);
@@ -173,7 +173,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetSurveyDataEntrySettings_And_There_Are_No_Settings_Configured_I_Get_An_Empty_List_Back()
+        public void Given_I_Call_GetQuestionnaireDataEntrySettings_And_There_Are_No_Settings_Configured_I_Get_An_Empty_List_Back()
         {
             //arrange
             var dataEntrySettingsList = new List<IDataEntrySettings>();
@@ -189,7 +189,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
 
             //act
-            var result = _sut.GetSurveyDataEntrySettings(_connectionModel, _instrumentName, _serverParkName);
+            var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);

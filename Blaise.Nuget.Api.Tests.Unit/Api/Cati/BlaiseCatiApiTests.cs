@@ -16,7 +16,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         private Mock<ICaseService> _caseServiceMock;
 
         private readonly string _serverParkName;
-        private readonly string _instrumentName;
+        private readonly string _questionnaireName;
         private readonly string _primaryKeyValue;
 
         private readonly ConnectionModel _connectionModel;
@@ -27,7 +27,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             _connectionModel = new ConnectionModel();
             _serverParkName = "Park1";
-            _instrumentName = "Instrument1";
+            _questionnaireName = "Questionnaire1";
             _primaryKeyValue = "90001";
         }
 
@@ -57,70 +57,70 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetInstalledSurveys_Then_The_Correct_Service_Method_Is_Called()
+        public void Given_Valid_Arguments_When_I_Call_GetInstalledQuestionnaires_Then_The_Correct_Service_Method_Is_Called()
         {
             //act
-            _sut.GetInstalledSurveys(_serverParkName);
+            _sut.GetInstalledQuestionnaires(_serverParkName);
 
             //assert
-            _catiServiceMock.Verify(v => v.GetInstalledSurveys(_connectionModel, _serverParkName), Times.Once);
+            _catiServiceMock.Verify(v => v.GetInstalledQuestionnaires(_connectionModel, _serverParkName), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_ServerParkName_When_I_Call_GetInstalledSurveys_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_ServerParkName_When_I_Call_GetInstalledQuestionnaires_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetInstalledSurveys(string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetInstalledQuestionnaires(string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_ServerParkName_When_I_Call_GetInstalledSurveys_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_ServerParkName_When_I_Call_GetInstalledQuestionnaires_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetInstalledSurveys(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetInstalledQuestionnaires(null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetInstalledSurvey_Then_The_Correct_Service_Method_Is_Called()
+        public void Given_Valid_Arguments_When_I_Call_GetInstalledQuestionnaire_Then_The_Correct_Service_Method_Is_Called()
         {
             //act
-            _sut.GetInstalledSurvey(_instrumentName, _serverParkName);
+            _sut.GetInstalledQuestionnaire(_questionnaireName, _serverParkName);
 
             //assert
-            _catiServiceMock.Verify(v => v.GetInstalledSurvey(_connectionModel, _instrumentName, _serverParkName), Times.Once);
+            _catiServiceMock.Verify(v => v.GetInstalledQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_GetInstalledSurvey_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_GetInstalledQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetInstalledSurvey(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetInstalledQuestionnaire(string.Empty, _serverParkName));
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_GetInstalledSurvey_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_GetInstalledQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetInstalledSurvey(null, _serverParkName));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetInstalledQuestionnaire(null, _serverParkName));
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
-        public void Given_An_Empty_ServerParkName_When_I_Call_GetInstalledSurvey_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_ServerParkName_When_I_Call_GetInstalledQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetInstalledSurvey(_instrumentName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetInstalledQuestionnaire(_questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_ServerParkName_When_I_Call_GetInstalledSurvey_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_ServerParkName_When_I_Call_GetInstalledQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetInstalledSurvey(_instrumentName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetInstalledQuestionnaire(_questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
@@ -130,14 +130,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //arrange
             var dayBatchDate = DateTime.Now;
-            _caseServiceMock.Setup(c => c.GetNumberOfCases(_connectionModel, _instrumentName, _serverParkName))
+            _caseServiceMock.Setup(c => c.GetNumberOfCases(_connectionModel, _questionnaireName, _serverParkName))
                 .Returns(1);
 
             //act
-            _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases);
+            _sut.CreateDayBatch(_questionnaireName, _serverParkName, dayBatchDate, checkForTreatedCases);
 
             //assert
-            _catiServiceMock.Verify(v => v.CreateDayBatch(_connectionModel, _instrumentName, 
+            _catiServiceMock.Verify(v => v.CreateDayBatch(_connectionModel, _questionnaireName, 
                 _serverParkName, dayBatchDate, checkForTreatedCases), Times.Once);
         }
 
@@ -148,14 +148,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             //arrange
             var dayBatchDate = DateTime.Now;
             _catiServiceMock.Setup(cs =>
-                    cs.CreateDayBatch(_connectionModel, _instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases))
+                    cs.CreateDayBatch(_connectionModel, _questionnaireName, _serverParkName, dayBatchDate, checkForTreatedCases))
                 .Returns(new DayBatchModel());
 
-            _caseServiceMock.Setup(c => c.GetNumberOfCases(_connectionModel, _instrumentName, _serverParkName))
+            _caseServiceMock.Setup(c => c.GetNumberOfCases(_connectionModel, _questionnaireName, _serverParkName))
                 .Returns(1);
 
             //act
-            var result = _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate, checkForTreatedCases);
+            var result = _sut.CreateDayBatch(_questionnaireName, _serverParkName, dayBatchDate, checkForTreatedCases);
 
             //assert
             Assert.IsNotNull(result);
@@ -164,39 +164,39 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Given_A_Survey_Has_No_Cases_When_I_Call_CreateDayBatch_Then_A_DataNotFoundException_Is_Thrown(bool checkForTreatedCases)
+        public void Given_A_Questionnaire_Has_No_Cases_When_I_Call_CreateDayBatch_Then_A_DataNotFoundException_Is_Thrown(bool checkForTreatedCases)
         {
             //arrange
             var dayBatchDate = DateTime.Now;
 
-            _caseServiceMock.Setup(c => c.GetNumberOfCases(_connectionModel, _instrumentName, _serverParkName))
+            _caseServiceMock.Setup(c => c.GetNumberOfCases(_connectionModel, _questionnaireName, _serverParkName))
                 .Returns(0);
 
             //act && assert
-            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_instrumentName, _serverParkName, dayBatchDate, false));
-            Assert.AreEqual($"There are no cases available in '{_instrumentName}' to create a daybatch", exception.Message);
+            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_questionnaireName, _serverParkName, dayBatchDate, checkForTreatedCases));
+            Assert.AreEqual($"There are no cases available in '{_questionnaireName}' to create a daybatch", exception.Message);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_CreateDayBatch_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_CreateDayBatch_Then_An_ArgumentException_Is_Thrown()
         {
             //arrange
             var dayBatchDate = DateTime.Now;
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.CreateDayBatch(string.Empty, _serverParkName, dayBatchDate, false));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_CreateDayBatchForSurvey_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_CreateDayBatch_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange
             var dayBatchDate = DateTime.Now;
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateDayBatch(null, _serverParkName, dayBatchDate, false));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
@@ -206,7 +206,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var dayBatchDate = DateTime.Now;
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateDayBatch(_instrumentName, string.Empty, dayBatchDate, false));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateDayBatch(_questionnaireName, string.Empty, dayBatchDate, false));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -217,7 +217,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var dayBatchDate = DateTime.Now;
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateDayBatch(_instrumentName, null, dayBatchDate, false));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateDayBatch(_questionnaireName, null, dayBatchDate, false));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
@@ -225,34 +225,34 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_Valid_Arguments_When_I_Call_GetDayBatch_Then_The_Correct_Service_Method_Is_Called()
         {
             //act
-            _sut.GetDayBatch(_instrumentName, _serverParkName);
+            _sut.GetDayBatch(_questionnaireName, _serverParkName);
 
             //assert
-            _catiServiceMock.Verify(v => v.GetDayBatch(_connectionModel, _instrumentName,
+            _catiServiceMock.Verify(v => v.GetDayBatch(_connectionModel, _questionnaireName,
                 _serverParkName), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_GetDayBatch_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_GetDayBatch_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetDayBatch(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_GetDayBatch_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_GetDayBatch_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetDayBatch(null, _serverParkName));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_GetDayBatch_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetDayBatch(_instrumentName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetDayBatch(_questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -260,7 +260,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_A_Null_ServerParkName_When_I_Call_GetDayBatch_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetDayBatch(_instrumentName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetDayBatch(_questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
@@ -268,34 +268,34 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_Valid_Arguments_When_I_Call_AddToDayBatch_Then_The_Correct_Service_Method_Is_Called()
         {
             //act
-            _sut.AddToDayBatch(_instrumentName, _serverParkName, _primaryKeyValue);
+            _sut.AddToDayBatch(_questionnaireName, _serverParkName, _primaryKeyValue);
 
             //assert
-            _catiServiceMock.Verify(v => v.AddToDayBatch(_connectionModel, _instrumentName,
+            _catiServiceMock.Verify(v => v.AddToDayBatch(_connectionModel, _questionnaireName,
                 _serverParkName, _primaryKeyValue), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_AddToDayBatch_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_AddToDayBatch_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(string.Empty, _serverParkName, _primaryKeyValue));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_AddToDayBatch_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_AddToDayBatch_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(null, _serverParkName, _primaryKeyValue));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_AddToDayBatch_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(_instrumentName, string.Empty, _primaryKeyValue));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(_questionnaireName, string.Empty, _primaryKeyValue));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -303,7 +303,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_A_Null_ServerParkName_When_I_Call_AddToDayBatch_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(_instrumentName, null, _primaryKeyValue));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(_questionnaireName, null, _primaryKeyValue));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
@@ -311,7 +311,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_An_Empty_PrimaryKeyValue_When_I_Call_AddToDayBatch_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(_instrumentName, _serverParkName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(_questionnaireName, _serverParkName, string.Empty));
             Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
         }
 
@@ -319,7 +319,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_A_Null_PrimaryKeyValue_When_I_Call_AddToDayBatch_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(_instrumentName, _serverParkName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(_questionnaireName, _serverParkName, null));
             Assert.AreEqual("primaryKeyValue", exception.ParamName);
         }
 
@@ -330,32 +330,32 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDay = DateTime.Now;
 
             //act
-            _sut.SetSurveyDay(_instrumentName, _serverParkName, surveyDay);
+            _sut.SetSurveyDay(_questionnaireName, _serverParkName, surveyDay);
 
             //assert
-            _catiServiceMock.Verify(v => v.SetSurveyDay(_connectionModel, _instrumentName, _serverParkName, surveyDay), Times.Once);
+            _catiServiceMock.Verify(v => v.SetSurveyDay(_connectionModel, _questionnaireName, _serverParkName, surveyDay), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_SetSurveyDay_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_SetSurveyDay_Then_An_ArgumentException_Is_Thrown()
         {
             //arrange
             var surveyDay = DateTime.Now;
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDay(string.Empty, _serverParkName, surveyDay));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_SetSurveyDay_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_SetSurveyDay_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange
             var surveyDay = DateTime.Now;
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDay(null, _serverParkName, surveyDay));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
@@ -365,7 +365,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDay = DateTime.Now;
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDay(_instrumentName, string.Empty, surveyDay));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDay(_questionnaireName, string.Empty, surveyDay));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -376,7 +376,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDay = DateTime.Now;
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDay(_instrumentName, null, surveyDay));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDay(_questionnaireName, null, surveyDay));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
@@ -391,14 +391,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             };
 
             //act
-            _sut.SetSurveyDays(_instrumentName, _serverParkName, surveyDays);
+            _sut.SetSurveyDays(_questionnaireName, _serverParkName, surveyDays);
 
             //assert
-            _catiServiceMock.Verify(v => v.SetSurveyDays(_connectionModel, _instrumentName, _serverParkName, surveyDays), Times.Once);
+            _catiServiceMock.Verify(v => v.SetSurveyDays(_connectionModel, _questionnaireName, _serverParkName, surveyDays), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_SetSurveyDays_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_SetSurveyDays_Then_An_ArgumentException_Is_Thrown()
         {
             //arrange
             var surveyDays = new List<DateTime>
@@ -409,11 +409,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDays(string.Empty, _serverParkName, surveyDays));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_SetSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_SetSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange
             var surveyDays = new List<DateTime>
@@ -424,7 +424,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDays(null, _serverParkName, surveyDays));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
@@ -438,7 +438,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             };
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDays(_instrumentName, string.Empty, surveyDays));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDays(_questionnaireName, string.Empty, surveyDays));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -453,7 +453,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             };
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDays(_instrumentName, null, surveyDays));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDays(_questionnaireName, null, surveyDays));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
@@ -461,7 +461,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_An_Empty_List_Of_SurveyDays_When_I_Call_SetSurveyDays_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDays(_instrumentName, _serverParkName, new List<DateTime>()));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDays(_questionnaireName, _serverParkName, new List<DateTime>()));
             Assert.AreEqual("A value for the argument 'surveyDays' must be supplied", exception.Message);
         }
 
@@ -469,7 +469,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_A_Null_List_Of_SurveyDays_When_I_Call_SetSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDays(_instrumentName, _serverParkName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDays(_questionnaireName, _serverParkName, null));
             Assert.AreEqual("surveyDays", exception.ParamName);
         }
 
@@ -482,10 +482,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
                 new DateTime(2020, 12, 11)
             };
             //arrange
-            _catiServiceMock.Setup(p => p.GetSurveyDays(_connectionModel, _instrumentName, _serverParkName)).Returns(surveyDays);
+            _catiServiceMock.Setup(p => p.GetSurveyDays(_connectionModel, _questionnaireName, _serverParkName)).Returns(surveyDays);
 
             //act            
-            var result = _sut.GetSurveyDays(_instrumentName, _serverParkName);
+            var result = _sut.GetSurveyDays(_questionnaireName, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);
@@ -494,14 +494,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_There_Are_No_SurveyDays_In_The_Instrument_When_I_Call_GetSurveyDays_Then_A_Blank_List_Is_Returned()
+        public void Given_There_Are_No_SurveyDays_In_The_Questionnaire_When_I_Call_GetSurveyDays_Then_A_Blank_List_Is_Returned()
         {
             var surveyDays = new List<DateTime>();
             //arrange
-            _catiServiceMock.Setup(p => p.GetSurveyDays(_connectionModel, _instrumentName, _serverParkName)).Returns(surveyDays);
+            _catiServiceMock.Setup(p => p.GetSurveyDays(_connectionModel, _questionnaireName, _serverParkName)).Returns(surveyDays);
 
             //act            
-            var result = _sut.GetSurveyDays(_instrumentName, _serverParkName);
+            var result = _sut.GetSurveyDays(_questionnaireName, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);
@@ -510,26 +510,26 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_GetSurveyDays_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_GetSurveyDays_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetSurveyDays(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_GetSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_GetSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetSurveyDays(null, _serverParkName));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_GetSurveyDays_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetSurveyDays(_instrumentName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetSurveyDays(_questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -537,7 +537,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_A_Null_ServerParkName_When_I_Call_GetSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetSurveyDays(_instrumentName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetSurveyDays(_questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
@@ -548,32 +548,32 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDay = DateTime.Now;
 
             //act
-            _sut.RemoveSurveyDay(_instrumentName, _serverParkName, surveyDay);
+            _sut.RemoveSurveyDay(_questionnaireName, _serverParkName, surveyDay);
 
             //assert
-            _catiServiceMock.Verify(v => v.RemoveSurveyDay(_connectionModel, _instrumentName, _serverParkName, surveyDay), Times.Once);
+            _catiServiceMock.Verify(v => v.RemoveSurveyDay(_connectionModel, _questionnaireName, _serverParkName, surveyDay), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_RemoveSurveyDay_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_RemoveSurveyDay_Then_An_ArgumentException_Is_Thrown()
         {
             //arrange
             var surveyDay = DateTime.Now;
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDay(string.Empty, _serverParkName, surveyDay));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_RemoveSurveyDay_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_RemoveSurveyDay_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange
             var surveyDay = DateTime.Now;
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDay(null, _serverParkName, surveyDay));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
@@ -583,7 +583,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDay = DateTime.Now;
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDay(_instrumentName, string.Empty, surveyDay));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDay(_questionnaireName, string.Empty, surveyDay));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -594,7 +594,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDay = DateTime.Now;
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDay(_instrumentName, null, surveyDay));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDay(_questionnaireName, null, surveyDay));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
@@ -610,14 +610,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             };
 
             //act
-            _sut.RemoveSurveyDays(_instrumentName, _serverParkName, surveyDays);
+            _sut.RemoveSurveyDays(_questionnaireName, _serverParkName, surveyDays);
 
             //assert
-            _catiServiceMock.Verify(v => v.RemoveSurveyDays(_connectionModel, _instrumentName, _serverParkName, surveyDays), Times.Once);
+            _catiServiceMock.Verify(v => v.RemoveSurveyDays(_connectionModel, _questionnaireName, _serverParkName, surveyDays), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_RemoveSurveyDays_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_RemoveSurveyDays_Then_An_ArgumentException_Is_Thrown()
         {
             //arrange
             var surveyDays = new List<DateTime>
@@ -628,11 +628,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDays(string.Empty, _serverParkName, surveyDays));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_RemoveSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_RemoveSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange
             var surveyDays = new List<DateTime>
@@ -643,7 +643,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(null, _serverParkName, surveyDays));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
@@ -657,7 +657,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             };
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDays(_instrumentName, string.Empty, surveyDays));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDays(_questionnaireName, string.Empty, surveyDays));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -672,7 +672,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             };
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(_instrumentName, null, surveyDays));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(_questionnaireName, null, surveyDays));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
@@ -680,7 +680,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_An_Empty_List_Of_SurveyDays_When_I_Call_RemoveSurveyDays_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDays(_instrumentName, _serverParkName, new List<DateTime>()));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDays(_questionnaireName, _serverParkName, new List<DateTime>()));
             Assert.AreEqual("A value for the argument 'surveyDays' must be supplied", exception.Message);
         }
 
@@ -688,7 +688,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_A_Null_List_Of_SurveyDays_When_I_Call_RemoveSurveyDays_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(_instrumentName, _serverParkName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(_questionnaireName, _serverParkName, null));
             Assert.AreEqual("surveyDays", exception.ParamName);
         }
 
@@ -696,34 +696,34 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_Valid_Arguments_When_I_Call_MakeSuperAppointment_Then_The_Correct_Service_Method_Is_Called()
         {
             //act
-            _sut.MakeSuperAppointment(_instrumentName, _serverParkName, _primaryKeyValue);
+            _sut.MakeSuperAppointment(_questionnaireName, _serverParkName, _primaryKeyValue);
 
             //assert
-            _catiServiceMock.Verify(v => v.MakeSuperAppointment(_connectionModel, _instrumentName,
+            _catiServiceMock.Verify(v => v.MakeSuperAppointment(_connectionModel, _questionnaireName,
                 _serverParkName, _primaryKeyValue), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_InstrumentName_When_I_Call_MakeSuperAppointment_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_MakeSuperAppointment_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(string.Empty, _serverParkName, _primaryKeyValue));
-            Assert.AreEqual("A value for the argument 'instrumentName' must be supplied", exception.Message);
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_InstrumentName_When_I_Call_MakeSuperAppointment_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_MakeSuperAppointment_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(null, _serverParkName, _primaryKeyValue));
-            Assert.AreEqual("instrumentName", exception.ParamName);
+            Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_MakeSuperAppointment_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(_instrumentName, string.Empty, _primaryKeyValue));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(_questionnaireName, string.Empty, _primaryKeyValue));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -731,7 +731,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_A_Null_ServerParkName_When_I_Call_MakeSuperAppointment_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(_instrumentName, null, _primaryKeyValue));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(_questionnaireName, null, _primaryKeyValue));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
@@ -739,7 +739,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_An_Empty_PrimaryKeyValue_When_I_Call_MakeSuperAppointment_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(_instrumentName, _serverParkName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(_questionnaireName, _serverParkName, string.Empty));
             Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
         }
 
@@ -747,7 +747,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_A_Null_PrimaryKeyValue_When_I_Call_MakeSuperAppointment_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(_instrumentName, _serverParkName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(_questionnaireName, _serverParkName, null));
             Assert.AreEqual("primaryKeyValue", exception.ParamName);
         }
     }

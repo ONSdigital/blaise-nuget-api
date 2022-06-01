@@ -89,7 +89,7 @@
     <Compile Include="Api\Role\BlaiseRoleApiTests.cs" />
     <Compile Include="Api\Sql\BlaiseSqlApiTests.cs" />
     <Compile Include="Api\User\BlaiseUserApiTests.cs" />
-    <Compile Include="Api\Survey\BlaiseSurveyApiTests.cs" />
+    <Compile Include="Api\Questionnaire\BlaiseQuestionnaireApiTests.cs" />
     <Compile Include="Api\ServerPark\BlaiseServerParkApiTests.cs" />
     <Compile Include="Extensions\ConfigurationExtensionsTests.cs" />
     <Compile Include="Mappers\DataMapperServiceTests.cs" />
@@ -105,8 +105,8 @@
     <Compile Include="Services\KeyServiceTests.cs" />
     <Compile Include="Services\DataModelServiceTests.cs" />
     <Compile Include="Providers\DataInterfaceProviderTests.cs" />
-    <Compile Include="Services\SurveyMetaServiceTests.cs" />
-    <Compile Include="Services\SurveyServiceTests.cs" />
+    <Compile Include="Services\QuestionnaireMetaServiceTests.cs" />
+    <Compile Include="Services\QuestionnaireServiceTests.cs" />
     <Compile Include="Providers\RemoteDataLinkProviderTests.cs" />
     <Compile Include="Services\CaseServiceTests.cs" />
     <Compile Include="Services\ServerParkServiceTests.cs" />

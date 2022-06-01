@@ -4,9 +4,9 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
     public interface IBlaiseFileApi
     {
-        void UpdateInstrumentFileWithData(string serverParkName, string instrumentName, string instrumentFile);
+        void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile);
 
-        void UpdateInstrumentFileWithSqlConnection(string instrumentName, string instrumentFile);
+        void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile);
 
         void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName);
     }

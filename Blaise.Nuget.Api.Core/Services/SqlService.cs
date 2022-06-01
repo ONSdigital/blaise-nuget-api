@@ -9,10 +9,10 @@ namespace Blaise.Nuget.Api.Core.Services
 {
     public class SqlService : ISqlService
     {
-        public IEnumerable<string> GetCaseIds(string connectionString, string instrumentName)
+        public IEnumerable<string> GetCaseIds(string connectionString, string questionnaireName)
         {
             var caseIds = new List<string>();
-            var databaseTableName = GetDatabaseTableName(instrumentName);
+            var databaseTableName = GetDatabaseTableName(questionnaireName);
             using (var con = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand())
             {
@@ -34,10 +34,10 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIds;
         }
 
-        public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string connectionString, string instrumentName)
+        public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string connectionString, string questionnaireName)
         {
             var caseIdentifiers = new List<CaseIdentifierModel>();
-            var databaseTableName = GetDatabaseTableName(instrumentName);
+            var databaseTableName = GetDatabaseTableName(questionnaireName);
             using (var con = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand())
             {
@@ -59,10 +59,10 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIdentifiers;
         }
 
-        public string GetPostCode(string connectionString, string instrumentName, string primaryKey)
+        public string GetPostCode(string connectionString, string questionnaireName, string primaryKey)
         {
             string postCode;
-            var databaseTableName = GetDatabaseTableName(instrumentName);
+            var databaseTableName = GetDatabaseTableName(questionnaireName);
             using (var con = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand())
             {
@@ -83,9 +83,9 @@ namespace Blaise.Nuget.Api.Core.Services
             return postCode;
         }
 
-        private static string GetDatabaseTableName(string instrumentName)
+        private static string GetDatabaseTableName(string questionnaireName)
         {
-            return $"{instrumentName.ToUpper()}_Form";
+            return $"{questionnaireName.ToUpper()}_Form";
         }
     }
 }
