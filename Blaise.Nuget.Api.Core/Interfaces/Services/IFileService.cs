@@ -5,11 +5,11 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
     public interface IFileService
     {
-        void UpdateInstrumentFileWithData(ConnectionModel connectionModel, string instrumentFile,
-            string instrumentName, string serverParkName);
+        void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile,
+            string questionnaireName, string serverParkName);
 
-        void UpdateInstrumentPackageWithSqlConnection(string instrumentName,
-            string instrumentFile);
+        void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName,
+            string questionnaireFile);
 
         void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName);
     }

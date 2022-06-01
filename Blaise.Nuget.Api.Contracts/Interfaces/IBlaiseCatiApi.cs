@@ -7,18 +7,18 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
     public interface IBlaiseCatiApi
     {
-        IEnumerable<ISurvey> GetInstalledSurveys(string serverParkName);
-        ISurvey GetInstalledSurvey(string instrumentName, string serverParkName);
-        DayBatchModel CreateDayBatch(string instrumentName, string serverParkName, 
+        IEnumerable<ISurvey> GetInstalledQuestionnaires(string serverParkName);
+        ISurvey GetInstalledQuestionnaire(string questionnaireName, string serverParkName);
+        DayBatchModel CreateDayBatch(string questionnaireName, string serverParkName, 
             DateTime dayBatchDate, bool checkForTreatedCases);
-        DayBatchModel GetDayBatch(string instrumentName, string serverParkName);
-        void AddToDayBatch(string instrumentName, string serverParkName,
+        DayBatchModel GetDayBatch(string questionnaireName, string serverParkName);
+        void AddToDayBatch(string questionnaireName, string serverParkName,
             string primaryKeyValue);
-        List<DateTime> GetSurveyDays(string instrumentName, string serverParkName);
-        void SetSurveyDay(string instrumentName, string serverParkName, DateTime surveyDay);
-        void SetSurveyDays(string instrumentName, string serverParkName, List<DateTime> surveyDays);
-        void RemoveSurveyDay(string instrumentName, string serverParkName, DateTime surveyDay);
-        void RemoveSurveyDays(string instrumentName, string serverParkName, List<DateTime> surveyDays);
-        bool MakeSuperAppointment(string instrumentName, string serverParkName, string primaryKeyValue);
+        List<DateTime> GetSurveyDays(string questionnaireName, string serverParkName);
+        void SetSurveyDay(string questionnaireName, string serverParkName, DateTime surveyDay);
+        void SetSurveyDays(string questionnaireName, string serverParkName, List<DateTime> surveyDays);
+        void RemoveSurveyDay(string questionnaireName, string serverParkName, DateTime surveyDay);
+        void RemoveSurveyDays(string questionnaireName, string serverParkName, List<DateTime> surveyDays);
+        bool MakeSuperAppointment(string questionnaireName, string serverParkName, string primaryKeyValue);
     }
 }

@@ -13,31 +13,31 @@ namespace Blaise.Nuget.Api.Core.Providers
     public class RemoteDataLinkProvider : IRemoteDataLinkProvider
     {
         private readonly IRemoteDataServerFactory _connectionFactory;
-        private readonly ISurveyService _surveyService;
+        private readonly IQuestionnaireService _questionnaireService;
 
         private readonly Dictionary<Tuple<string, string, DateTime>, Tuple<IDataLink4, DateTime>> _dataLinkConnections;
         
         public RemoteDataLinkProvider(
             IRemoteDataServerFactory connectionFactory,
-            ISurveyService surveyService)
+            IQuestionnaireService questionnaireService)
         {
             _connectionFactory = connectionFactory;
-            _surveyService = surveyService;
+            _questionnaireService = questionnaireService;
 
             _dataLinkConnections = new Dictionary<Tuple<string, string, DateTime>, Tuple<IDataLink4, DateTime>>(new RemoteDataLinkKeyComparison());
         }
 
-        public IDataLink4 GetDataLink(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        public IDataLink4 GetDataLink(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            var installDate = _surveyService.GetInstallDate(connectionModel, instrumentName, serverParkName);
+            var installDate = _questionnaireService.GetInstallDate(connectionModel, questionnaireName, serverParkName);
 
-            if (!_dataLinkConnections.ContainsKey(new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)))
+            if (!_dataLinkConnections.ContainsKey(new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)))
             {
-                return GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
+                return GetFreshConnection(connectionModel, questionnaireName, serverParkName, installDate);
             }
 
             var (dataLink, expiryDate) = 
-                _dataLinkConnections[new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)];
+                _dataLinkConnections[new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)];
 
 
             if (!expiryDate.HasExpired() && dataLink != null)
@@ -45,32 +45,32 @@ namespace Blaise.Nuget.Api.Core.Providers
                 return dataLink;
             }
 
-            return GetFreshConnection(connectionModel, instrumentName, serverParkName, installDate);
+            return GetFreshConnection(connectionModel, questionnaireName, serverParkName, installDate);
         }
 
-        private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string instrumentName, string serverParkName,
+        private IDataLink4 GetFreshConnection(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             DateTime installDate)
         {
-            RemoveDeadConnections(instrumentName, serverParkName);
+            RemoveDeadConnections(questionnaireName, serverParkName);
 
-            var instrumentId = _surveyService.GetInstrumentId(connectionModel, instrumentName, serverParkName);
+            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             var connection = _connectionFactory.GetConnection(connectionModel);
-            var dataLink = connection.GetDataLink(instrumentId, serverParkName);
+            var dataLink = connection.GetDataLink(questionnaireId, serverParkName);
 
-            _dataLinkConnections[new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)] = null;
-            _dataLinkConnections[new Tuple<string, string, DateTime>(instrumentName, serverParkName, installDate)] = 
+            _dataLinkConnections[new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)] = null;
+            _dataLinkConnections[new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)] = 
                 new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate()); ;
 
             return dataLink;
         }
 
-        private void RemoveDeadConnections(string instrumentName, string serverParkName)
+        private void RemoveDeadConnections(string questionnaireName, string serverParkName)
         {
             var deadConnectionKeys = new List<Tuple<string, string, DateTime>>();
 
             foreach (var entry in _dataLinkConnections)
             {
-                if (entry.Key.Item1 == instrumentName && entry.Key.Item2 == serverParkName)
+                if (entry.Key.Item1 == questionnaireName && entry.Key.Item2 == serverParkName)
                 {
                     deadConnectionKeys.Add(entry.Key);
                 }

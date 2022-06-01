@@ -6,7 +6,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
     public interface IKeyService
     {
-        bool KeyExists(ConnectionModel connectionModel, IKey key, string instrumentName, string serverParkName);
+        bool KeyExists(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName);
 
         IKey GetKey(IDatamodel datamodel, string keyName);
 

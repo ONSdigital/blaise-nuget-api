@@ -14,13 +14,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
 
         [Ignore("Integration")]
         [Test]
-        public void Given_An_InstrumentName_When_I_Call_GetCaseIds_I_Get_A_List_Of_CaseIds_Back()
+        public void Given_A_QuestionnaireName_When_I_Call_GetCaseIds_I_Get_A_List_Of_CaseIds_Back()
         {
             //arrange
-            const string instrumentName = "OPN2105F";
+            const string questionnaireName = "OPN2105F";
 
             //act
-            var result = _sut.GetCaseIds(instrumentName);
+            var result = _sut.GetCaseIds(questionnaireName);
 
             //assert
             Assert.IsNotNull(result);
@@ -29,13 +29,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
 
         [Ignore("Integration")]
         [Test]
-        public void Given_An_InstrumentName_When_I_Call_GetCaseIdentifiers_I_Get_A_List_Of_CaseIdentifiers_Back()
+        public void Given_A_QuestionnaireName_When_I_Call_GetCaseIdentifiers_I_Get_A_List_Of_CaseIdentifiers_Back()
         {
             //arrange
-            const string instrumentName = "OPN2105F";
+            const string questionnaireName = "OPN2105F";
 
             //act
-            var result = _sut.GetCaseIdentifiers(instrumentName);
+            var result = _sut.GetCaseIdentifiers(questionnaireName);
 
             //assert
             Assert.IsNotNull(result);

@@ -9,32 +9,32 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
     public interface IBlaiseCaseApi
     {
-        bool CaseExists(string primaryKeyValue, string instrumentName, 
+        bool CaseExists(string primaryKeyValue, string questionnaireName, 
             string serverParkName);
 
         string GetPrimaryKeyValue(IDataRecord dataRecord);
         IDataSet GetCases(string databaseFile);
-        IDataSet GetCases(string instrumentName, string serverParkName);
+        IDataSet GetCases(string questionnaireName, string serverParkName);
 
-        IDataRecord GetCase(string primaryKeyValue, string instrumentName, 
+        IDataRecord GetCase(string primaryKeyValue, string questionnaireName, 
             string serverParkName);
 
         void CreateCase(string primaryKeyValue, Dictionary<string, string> fieldData, 
-            string instrumentName, string serverParkName);
+            string questionnaireName, string serverParkName);
 
-        void CreateCase(IDataRecord dataRecord, string instrumentName, string serverParkName);
+        void CreateCase(IDataRecord dataRecord, string questionnaireName, string serverParkName);
 
         void CreateCase(string databaseFile, string primaryKeyValue, Dictionary<string, string> fieldData);
 
         void UpdateCase(string primaryKeyValue, Dictionary<string, string> fieldData,
-            string instrumentName, string serverParkName);
+            string questionnaireName, string serverParkName);
 
         void UpdateCase(IDataRecord dataRecord, Dictionary<string, string> fieldData,
-            string instrumentName, string serverParkName);
+            string questionnaireName, string serverParkName);
 
-        bool FieldExists(string instrumentName, string serverParkName, FieldNameType fieldNameType);
+        bool FieldExists(string questionnaireName, string serverParkName, FieldNameType fieldNameType);
 
-        bool FieldExists(string instrumentName, string serverParkName, string fieldName);
+        bool FieldExists(string questionnaireName, string serverParkName, string fieldName);
 
         bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType);
 
@@ -42,28 +42,28 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IDataValue GetFieldValue(IDataRecord dataRecord, string fieldName);
 
-        IDataValue GetFieldValue(string primaryKeyValue, string instrumentName,
+        IDataValue GetFieldValue(string primaryKeyValue, string questionnaireName,
             string serverParkName, FieldNameType fieldNameType);
 
-        void RemoveCase(string primaryKeyValue, string instrumentName, 
+        void RemoveCase(string primaryKeyValue, string questionnaireName, 
             string serverParkName);
 
-        void RemoveCases(string instrumentName, string serverParkName);
+        void RemoveCases(string questionnaireName, string serverParkName);
 
-        int GetNumberOfCases(string instrumentName, string serverParkName);
+        int GetNumberOfCases(string questionnaireName, string serverParkName);
         int GetNumberOfCases(string databaseFile);
 
         Dictionary<string, string> GetRecordDataFields(IDataRecord dataRecord);
 
         int GetOutcomeCode(IDataRecord dataRecord);
 
-        void LockDataRecord(string primaryKeyValue, string instrumentName, string serverParkName,
+        void LockDataRecord(string primaryKeyValue, string questionnaireName, string serverParkName,
             string lockId);
 
-        void UnLockDataRecord(string primaryKeyValue, string instrumentName, string serverParkName,
+        void UnLockDataRecord(string primaryKeyValue, string questionnaireName, string serverParkName,
            string lockId);
         
-        bool DataRecordIsLocked(string primaryKeyValue, string instrumentName, string serverParkName);
+        bool DataRecordIsLocked(string primaryKeyValue, string questionnaireName, string serverParkName);
 
         DateTime? GetLastUpdated(IDataRecord dataRecord);
 
@@ -73,8 +73,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
 
-        IEnumerable<CaseStatusModel> GetCaseStatusModelList(string instrumentName, string serverParkName);
+        IEnumerable<CaseStatusModel> GetCaseStatusModelList(string questionnaireName, string serverParkName);
 
-        CaseModel GetCaseModel(string primaryKeyValue, string instrumentName, string serverParkName);
+        CaseModel GetCaseModel(string primaryKeyValue, string questionnaireName, string serverParkName);
     }
 }

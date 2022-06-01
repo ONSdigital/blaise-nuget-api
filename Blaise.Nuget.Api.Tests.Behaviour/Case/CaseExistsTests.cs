@@ -23,7 +23,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2101A";
+            const string questionnaireName = "OPN2101A";
 
             var fieldData = new Dictionary<string, string>
             {
@@ -31,16 +31,16 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                 {FieldNameType.TelNo.FullName(), "07000000000"}
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, instrumentName, serverParkName);
+            _sut.CreateCase(_primaryKey, fieldData, questionnaireName, serverParkName);
 
             //act
-            var result = _sut.CaseExists(_primaryKey, instrumentName, serverParkName);
+            var result = _sut.CaseExists(_primaryKey, questionnaireName, serverParkName);
 
             //assert
             Assert.IsTrue(result);
 
             //cleanup
-            _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
+            _sut.RemoveCase(_primaryKey, questionnaireName, serverParkName);
         }
 
         [Ignore("Integration")]
@@ -49,10 +49,10 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2101A";
+            const string questionnaireName = "OPN2101A";
 
             //act
-            var result = _sut.CaseExists(_primaryKey, instrumentName, serverParkName);
+            var result = _sut.CaseExists(_primaryKey, questionnaireName, serverParkName);
 
             //assert
             Assert.IsFalse(result);
@@ -64,7 +64,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2101A";
+            const string questionnaireName = "OPN2101A";
             const string lockId = "Lock123";
 
             var fieldData = new Dictionary<string, string>
@@ -73,18 +73,18 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                 {FieldNameType.TelNo.FullName(), "07000000000"}
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, instrumentName, serverParkName);
-            _sut.LockDataRecord(_primaryKey, instrumentName, serverParkName, lockId);
+            _sut.CreateCase(_primaryKey, fieldData, questionnaireName, serverParkName);
+            _sut.LockDataRecord(_primaryKey, questionnaireName, serverParkName, lockId);
 
             //act
-            var result = _sut.CaseExists(_primaryKey, instrumentName, serverParkName);
+            var result = _sut.CaseExists(_primaryKey, questionnaireName, serverParkName);
 
             //assert
             Assert.IsTrue(result);
 
             //cleanup
-            _sut.UnLockDataRecord(_primaryKey, instrumentName, serverParkName, lockId);
-            _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
+            _sut.UnLockDataRecord(_primaryKey, questionnaireName, serverParkName, lockId);
+            _sut.RemoveCase(_primaryKey, questionnaireName, serverParkName);
         }
     }
 }

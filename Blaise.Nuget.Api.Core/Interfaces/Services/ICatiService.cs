@@ -7,31 +7,31 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
     public interface ICatiService
     {
-        IEnumerable<ISurvey> GetInstalledSurveys(ConnectionModel connectionModel, string serverParkName);
+        IEnumerable<ISurvey> GetInstalledQuestionnaires(ConnectionModel connectionModel, string serverParkName);
         
-        ISurvey GetInstalledSurvey(ConnectionModel connectionModel, string instrumentName, string serverParkName);
+        ISurvey GetInstalledQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
 
-        DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName, 
+        DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName, 
             DateTime dayBatchDate, bool checkForTreatedCases);
 
-        DayBatchModel GetDayBatch(ConnectionModel connectionModel, string instrumentName,
+        DayBatchModel GetDayBatch(ConnectionModel connectionModel, string questionnaireName,
             string serverParkName);
 
-        void AddToDayBatch(ConnectionModel connectionModel, string instrumentName, string serverParkName,
+        void AddToDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             string primaryKeyValue);
 
-        List<DateTime> GetSurveyDays(ConnectionModel connectionModel, string instrumentName, string serverParkName);
+        List<DateTime> GetSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
 
-        void SetSurveyDay(ConnectionModel connectionModel, string instrumentName, string serverParkName,
+        void SetSurveyDay(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             DateTime surveyDay);
-        void SetSurveyDays(ConnectionModel connectionModel, string instrumentName, string serverParkName, List<DateTime> surveyDays);
+        void SetSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName, List<DateTime> surveyDays);
 
-        void RemoveSurveyDay(ConnectionModel connectionModel, string instrumentName, string serverParkName,
+        void RemoveSurveyDay(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             DateTime surveyDay);
 
-        void RemoveSurveyDays(ConnectionModel connectionModel, string instrumentName, string serverParkName,
+        void RemoveSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             List<DateTime> surveyDays);
 
-        bool MakeSuperAppointment(ConnectionModel connectionModel, string instrumentName, string serverParkName, string primaryKeyValue);
+        bool MakeSuperAppointment(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string primaryKeyValue);
     }
 }

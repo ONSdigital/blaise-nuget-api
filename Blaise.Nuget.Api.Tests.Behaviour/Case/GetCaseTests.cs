@@ -23,23 +23,23 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2102R";
+            const string questionnaireName = "OPN2102R";
             var fieldData = new Dictionary<string, string>
             {
                 {FieldNameType.HOut.FullName(), "110"},
                 {FieldNameType.TelNo.FullName(), "07000000000"}
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, instrumentName, serverParkName);
+            _sut.CreateCase(_primaryKey, fieldData, questionnaireName, serverParkName);
 
             //act
-            var result = _sut.GetCase(_primaryKey,  instrumentName, serverParkName);
+            var result = _sut.GetCase(_primaryKey,  questionnaireName, serverParkName);
 
             //arrange
             Assert.AreEqual(_primaryKey, _sut.GetPrimaryKeyValue(result));
 
             //cleanup
-            _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
+            _sut.RemoveCase(_primaryKey, questionnaireName, serverParkName);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2101A";
+            const string questionnaireName = "OPN2101A";
             var fieldData = new Dictionary<string, string>
             {
                 {FieldNameType.HOut.FullName(), "110"},
@@ -32,13 +32,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             };
 
             //act
-            _sut.CreateCase(_primaryKey, fieldData, instrumentName, serverParkName);
+            _sut.CreateCase(_primaryKey, fieldData, questionnaireName, serverParkName);
 
             //arrange
-            Assert.IsTrue(_sut.CaseExists(_primaryKey, instrumentName, serverParkName));
+            Assert.IsTrue(_sut.CaseExists(_primaryKey, questionnaireName, serverParkName));
 
             //cleanup
-            _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
+            _sut.RemoveCase(_primaryKey, questionnaireName, serverParkName);
         }
     }
 }

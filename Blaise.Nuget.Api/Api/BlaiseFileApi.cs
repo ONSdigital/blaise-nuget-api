@@ -29,21 +29,21 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        public void UpdateInstrumentFileWithData(string serverParkName, string instrumentName, string instrumentFile)
+        public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
-            instrumentFile.ThrowExceptionIfNullOrEmpty("instrumentFile");
+            questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
-            _fileService.UpdateInstrumentFileWithData(_connectionModel, instrumentFile, instrumentName, serverParkName);
+            _fileService.UpdateQuestionnaireFileWithData(_connectionModel, questionnaireFile, questionnaireName, serverParkName);
         }
 
-        public void UpdateInstrumentFileWithSqlConnection(string instrumentName, string instrumentFile)
+        public void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
-            instrumentFile.ThrowExceptionIfNullOrEmpty("instrumentFile");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
-            _fileService.UpdateInstrumentPackageWithSqlConnection(instrumentName, instrumentFile);
+            _fileService.UpdateQuestionnairePackageWithSqlConnection(questionnaireName, questionnaireFile);
         }
 
         public void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName)

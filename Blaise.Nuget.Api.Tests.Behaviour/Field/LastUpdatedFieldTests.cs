@@ -25,7 +25,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2102R";
+            const string questionnaireName = "OPN2102R";
             const string dateValue = "02-12-2021";
             const string timeValue = "09:23:59";
 
@@ -39,10 +39,10 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
                 {FieldNameType.LastUpdatedTime.FullName(), timeValue}
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, instrumentName, serverParkName);
+            _sut.CreateCase(_primaryKey, fieldData, questionnaireName, serverParkName);
 
             //act
-            var dataRecord = _sut.GetCase(_primaryKey, instrumentName, serverParkName);
+            var dataRecord = _sut.GetCase(_primaryKey, questionnaireName, serverParkName);
 
             var result = _sut.GetLastUpdated(dataRecord);
 
@@ -50,7 +50,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
             Assert.AreEqual(lastUpdated, result);
 
             //cleanup
-            _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
+            _sut.RemoveCase(_primaryKey, questionnaireName, serverParkName);
         }
     }
 }

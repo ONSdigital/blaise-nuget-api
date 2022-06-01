@@ -5,10 +5,10 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
     public interface ISqlService
     {
-        IEnumerable<string> GetCaseIds(string connectionString, string instrumentName);
+        IEnumerable<string> GetCaseIds(string connectionString, string questionnaireName);
 
-        IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string connectionString, string instrumentName);
+        IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string connectionString, string questionnaireName);
 
-        string GetPostCode(string connectionString, string instrumentName, string primaryKey);
+        string GetPostCode(string connectionString, string questionnaireName, string primaryKey);
     }
 }

@@ -36,101 +36,101 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
         
-        public IEnumerable<ISurvey> GetInstalledSurveys(string serverParkName)
+        public IEnumerable<ISurvey> GetInstalledQuestionnaires(string serverParkName)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _catiService.GetInstalledSurveys(_connectionModel, serverParkName);
+            return _catiService.GetInstalledQuestionnaires(_connectionModel, serverParkName);
         }
 
-        public ISurvey GetInstalledSurvey(string instrumentName, string serverParkName)
+        public ISurvey GetInstalledQuestionnaire(string questionnaireName, string serverParkName)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _catiService.GetInstalledSurvey(_connectionModel, instrumentName, serverParkName);
+            return _catiService.GetInstalledQuestionnaire(_connectionModel, questionnaireName, serverParkName);
         }
 
-        public DayBatchModel CreateDayBatch(string instrumentName, string serverParkName, 
+        public DayBatchModel CreateDayBatch(string questionnaireName, string serverParkName, 
             DateTime dayBatchDate, bool checkForTreatedCases)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            if (_caseService.GetNumberOfCases(_connectionModel, instrumentName, serverParkName) == 0)
+            if (_caseService.GetNumberOfCases(_connectionModel, questionnaireName, serverParkName) == 0)
             {
-                throw new DataNotFoundException($"There are no cases available in '{instrumentName}' to create a daybatch");
+                throw new DataNotFoundException($"There are no cases available in '{questionnaireName}' to create a daybatch");
             }
 
-            return _catiService.CreateDayBatch(_connectionModel, instrumentName, serverParkName, dayBatchDate, checkForTreatedCases);
+            return _catiService.CreateDayBatch(_connectionModel, questionnaireName, serverParkName, dayBatchDate, checkForTreatedCases);
         }
 
-        public DayBatchModel GetDayBatch(string instrumentName, string serverParkName)
+        public DayBatchModel GetDayBatch(string questionnaireName, string serverParkName)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _catiService.GetDayBatch(_connectionModel, instrumentName, serverParkName);
+            return _catiService.GetDayBatch(_connectionModel, questionnaireName, serverParkName);
         }
 
-        public void AddToDayBatch(string instrumentName, string serverParkName, string primaryKeyValue)
+        public void AddToDayBatch(string questionnaireName, string serverParkName, string primaryKeyValue)
         {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
-            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
-            primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
-
-            _catiService.AddToDayBatch(_connectionModel, instrumentName, serverParkName, primaryKeyValue);
-        }
-
-        public List<DateTime> GetSurveyDays(string instrumentName, string serverParkName)
-        {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
-            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
-
-            return _catiService.GetSurveyDays(_connectionModel, instrumentName, serverParkName);
-        }
-
-        public void SetSurveyDay(string instrumentName, string serverParkName, DateTime surveyDay)
-        {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
-            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
-
-            _catiService.SetSurveyDay(_connectionModel, instrumentName, serverParkName, surveyDay);
-        }
-
-        public void SetSurveyDays(string instrumentName, string serverParkName, List<DateTime> surveyDays)
-        {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
-            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
-            surveyDays.ThrowExceptionIfNullOrEmpty("surveyDays");
-
-            _catiService.SetSurveyDays(_connectionModel, instrumentName, serverParkName, surveyDays);
-        }
-
-        public void RemoveSurveyDay(string instrumentName, string serverParkName, DateTime surveyDay)
-        {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
-            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
-
-            _catiService.RemoveSurveyDay(_connectionModel, instrumentName, serverParkName, surveyDay);
-        }
-
-        public void RemoveSurveyDays(string instrumentName, string serverParkName, List<DateTime> surveyDays)
-        {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
-            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
-            surveyDays.ThrowExceptionIfNullOrEmpty("surveyDays");
-
-            _catiService.RemoveSurveyDays(_connectionModel, instrumentName, serverParkName, surveyDays);
-        }
-
-        public bool MakeSuperAppointment(string instrumentName, string serverParkName, string primaryKeyValue)
-        {
-            instrumentName.ThrowExceptionIfNullOrEmpty("instrumentName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
 
-            return _catiService.MakeSuperAppointment(_connectionModel, instrumentName, serverParkName, primaryKeyValue);
+            _catiService.AddToDayBatch(_connectionModel, questionnaireName, serverParkName, primaryKeyValue);
+        }
+
+        public List<DateTime> GetSurveyDays(string questionnaireName, string serverParkName)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            return _catiService.GetSurveyDays(_connectionModel, questionnaireName, serverParkName);
+        }
+
+        public void SetSurveyDay(string questionnaireName, string serverParkName, DateTime surveyDay)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            _catiService.SetSurveyDay(_connectionModel, questionnaireName, serverParkName, surveyDay);
+        }
+
+        public void SetSurveyDays(string questionnaireName, string serverParkName, List<DateTime> surveyDays)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            surveyDays.ThrowExceptionIfNullOrEmpty("surveyDays");
+
+            _catiService.SetSurveyDays(_connectionModel, questionnaireName, serverParkName, surveyDays);
+        }
+
+        public void RemoveSurveyDay(string questionnaireName, string serverParkName, DateTime surveyDay)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            _catiService.RemoveSurveyDay(_connectionModel, questionnaireName, serverParkName, surveyDay);
+        }
+
+        public void RemoveSurveyDays(string questionnaireName, string serverParkName, List<DateTime> surveyDays)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            surveyDays.ThrowExceptionIfNullOrEmpty("surveyDays");
+
+            _catiService.RemoveSurveyDays(_connectionModel, questionnaireName, serverParkName, surveyDays);
+        }
+
+        public bool MakeSuperAppointment(string questionnaireName, string serverParkName, string primaryKeyValue)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
+
+            return _catiService.MakeSuperAppointment(_connectionModel, questionnaireName, serverParkName, primaryKeyValue);
         }
     }
 }

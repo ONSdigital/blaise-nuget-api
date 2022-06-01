@@ -135,14 +135,14 @@
     <Compile Include="Case\DeleteCaseTests.cs" />
     <Compile Include="Case\UpdateCaseTests.cs" />
     <Compile Include="Field\LastUpdatedFieldTests.cs" />
-    <Compile Include="InstrumentFile\InstrumentFileTests.cs" />
+    <Compile Include="QuestionnaireFile\QuestionnaireFileTests.cs" />
     <Compile Include="Case\GetCaseTests.cs" />
     <Compile Include="Case\CreateCaseTests.cs" />
     <Compile Include="Cati\CatiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sql\PostCodeTests.cs" />
     <Compile Include="Sql\CaseIdTests.cs" />
-    <Compile Include="Survey\SurveyTests.cs" />
+    <Compile Include="Questionnaire\QuestionnaireTests.cs" />
     <Compile Include="Users\UserTests.cs" />
   </ItemGroup>
   <ItemGroup>

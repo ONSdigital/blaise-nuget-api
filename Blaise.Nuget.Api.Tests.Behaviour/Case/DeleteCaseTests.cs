@@ -21,7 +21,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2101A";
+            const string questionnaireName = "OPN2101A";
             var primaryKey = 9000001;
 
             var fieldData = new Dictionary<string, string>
@@ -32,13 +32,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 
             for (var i = 0; i < 1000; i++)
             {
-                _sut.CreateCase(primaryKey.ToString(), fieldData, instrumentName, serverParkName);
+                _sut.CreateCase(primaryKey.ToString(), fieldData, questionnaireName, serverParkName);
                 primaryKey++;
             }
 
             //act
-            _sut.RemoveCases(instrumentName, serverParkName);
-            var result = _sut.GetNumberOfCases(instrumentName, serverParkName);
+            _sut.RemoveCases(questionnaireName, serverParkName);
+            var result = _sut.GetNumberOfCases(questionnaireName, serverParkName);
 
             //arrange
             Assert.AreEqual(0, result);

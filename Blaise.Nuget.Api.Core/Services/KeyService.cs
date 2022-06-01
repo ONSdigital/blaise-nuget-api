@@ -16,9 +16,9 @@ namespace Blaise.Nuget.Api.Core.Services
             _remoteDataLinkProvider = remoteDataLinkProvider;
         }
 
-        public bool KeyExists(ConnectionModel connectionModel, IKey key, string instrumentName, string serverParkName)
+        public bool KeyExists(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName)
         {
-            var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, instrumentName, serverParkName);
+            var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
             return dataLink.KeyExists(key);
         }

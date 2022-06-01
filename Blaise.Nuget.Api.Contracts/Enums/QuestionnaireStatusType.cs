@@ -1,6 +1,6 @@
 ﻿namespace Blaise.Nuget.Api.Contracts.Enums
 {
-    public enum SurveyStatusType
+    public enum QuestionnaireStatusType
     {
         Other = 0,
         Installing,

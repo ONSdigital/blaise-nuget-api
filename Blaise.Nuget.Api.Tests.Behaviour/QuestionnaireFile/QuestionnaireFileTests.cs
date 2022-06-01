@@ -3,45 +3,45 @@ using Blaise.Nuget.Api.Api;
 using NUnit.Framework;
 using StatNeth.Blaise.API.DataInterface;
 
-namespace Blaise.Nuget.Api.Tests.Behaviour.InstrumentFile
+namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
 {
-    public class InstrumentFileTests
+    public class QuestionnaireFileTests
     {
         private readonly BlaiseFileApi _sut;
-        public InstrumentFileTests()
+        public QuestionnaireFileTests()
         {
             _sut = new BlaiseFileApi();
         }
 
         [Ignore("Integration")]
         [Test]
-        public void Given_I_Call_UpdateInstrumentFileWithData_Then_The_Instrument_Is_Updated()
+        public void Given_I_Call_UpdateQuestionnaireFileWithData_Then_The_Questionnaire_Is_Updated()
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "opn2101a";
-            const string instrumentFile = @"D:\Opn\Temp\OPN2101A.bpkg";
+            const string questionnaireName = "opn2101a";
+            const string questionnaireFile = @"D:\Opn\Temp\OPN2101A.bpkg";
 
-            CreateCases(100, instrumentName, serverParkName);
+            CreateCases(100, questionnaireName, serverParkName);
 
             //act && assert
-            Assert.DoesNotThrow(() => _sut.UpdateInstrumentFileWithData(serverParkName, instrumentName, instrumentFile));
+            Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithData(serverParkName, questionnaireName, questionnaireFile));
 
             //cleanup
-            DeleteCasesInDatabase(instrumentName, serverParkName);
+            DeleteCasesInDatabase(questionnaireName, serverParkName);
         }
 
         [Ignore("Integration")]
         [Test]
-        public void Given_I_Call_UpdateInstrumentFileWithSqlConnection_Then_The_Instrument_Is_Updated()
+        public void Given_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_The_Questionnaire_Is_Updated()
         {
             //arrange
-            const string instrumentName = "LMS2101_AA1";
-            const string instrumentFile = @"D:\Blaise\Instruments\LMS2101_AA1.bpkg";
+            const string questionnaireName = "LMS2101_AA1";
+            const string questionnaireFile = @"D:\Blaise\Questionnaires\LMS2101_AA1.bpkg";
 
             //act && assert
-            Assert.DoesNotThrow(() => _sut.UpdateInstrumentFileWithSqlConnection(instrumentName,
-                instrumentFile));
+            Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithSqlConnection(questionnaireName,
+                questionnaireFile));
         }
 
         [Ignore("Integration")]
@@ -56,7 +56,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.InstrumentFile
             Assert.DoesNotThrow(() => _sut.CreateSettingsDataInterfaceFile(applicationType, fileName));
         }
 
-        private static void CreateCases(int numberOfCases, string instrumentName, string serverParkName)
+        private static void CreateCases(int numberOfCases, string questionnaireName, string serverParkName)
         {
             var blaiseCaseApi = new BlaiseCaseApi();
             var primaryKey = 90000;
@@ -65,22 +65,22 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.InstrumentFile
             {
                 var dictionary = new Dictionary<string, string> { { "serial_number", primaryKey.ToString() } };
 
-                blaiseCaseApi.CreateCase(primaryKey.ToString(), dictionary, instrumentName, serverParkName);
+                blaiseCaseApi.CreateCase(primaryKey.ToString(), dictionary, questionnaireName, serverParkName);
                 primaryKey++;
             }
         }
 
-        private static void DeleteCasesInDatabase(string instrumentName, string serverParkName)
+        private static void DeleteCasesInDatabase(string questionnaireName, string serverParkName)
         {
             var blaiseCaseApi = new BlaiseCaseApi();
 
-            var cases = blaiseCaseApi.GetCases(instrumentName, serverParkName);
+            var cases = blaiseCaseApi.GetCases(questionnaireName, serverParkName);
 
             while (!cases.EndOfSet)
             {
                 var primaryKey = blaiseCaseApi.GetPrimaryKeyValue(cases.ActiveRecord);
 
-                blaiseCaseApi.RemoveCase(primaryKey, instrumentName, serverParkName);
+                blaiseCaseApi.RemoveCase(primaryKey, questionnaireName, serverParkName);
 
                 cases.MoveNext();
             }

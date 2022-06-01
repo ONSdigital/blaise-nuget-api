@@ -17,7 +17,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         private Mock<IDataModelService> _dataModelServiceMock;
 
         private readonly ConnectionModel _connectionModel;
-        private readonly string _instrumentName;
+        private readonly string _questionnaireName;
         private readonly string _serverParkName;
 
         private IFieldService _sut;
@@ -25,7 +25,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public FieldServiceTests()
         {
             _connectionModel = new ConnectionModel();
-            _instrumentName = "TestInstrumentName";
+            _questionnaireName = "TestQuestionnaireName";
             _serverParkName = "TestServerParkName";
         }
 
@@ -52,10 +52,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(dataModelMock.Object);
 
             //act
-            _sut.FieldExists(_connectionModel, _instrumentName, _serverParkName, fieldNameType);
+            _sut.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldNameType);
 
             //assert
-            _dataModelServiceMock.Verify(d => d.GetDataModel(_connectionModel, _instrumentName, _serverParkName), Times.Once);
+            _dataModelServiceMock.Verify(d => d.GetDataModel(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
 
         [TestCase(true)]
@@ -70,7 +70,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(dataModelMock.Object);
 
             //act
-            var result = _sut.FieldExists(_connectionModel, _instrumentName, _serverParkName, FieldNameType.HOut);
+            var result = _sut.FieldExists(_connectionModel, _questionnaireName, _serverParkName, FieldNameType.HOut);
 
             //assert
             Assert.NotNull(result);
@@ -90,10 +90,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(dataModelMock.Object);
 
             //act
-            _sut.FieldExists(_connectionModel, _instrumentName, _serverParkName, fieldName);
+            _sut.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldName);
 
             //assert
-            _dataModelServiceMock.Verify(d => d.GetDataModel(_connectionModel, _instrumentName, _serverParkName), Times.Once);
+            _dataModelServiceMock.Verify(d => d.GetDataModel(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
 
         [TestCase(true)]
@@ -109,7 +109,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(dataModelMock.Object);
 
             //act
-            var result = _sut.FieldExists(_connectionModel, _instrumentName, _serverParkName, fieldName);
+            var result = _sut.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldName);
 
             //assert
             Assert.NotNull(result);

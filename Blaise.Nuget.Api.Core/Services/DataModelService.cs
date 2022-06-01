@@ -19,13 +19,13 @@ namespace Blaise.Nuget.Api.Core.Services
             _localDataLinkProvider = localDataLinkProvider;
         }
 
-        public IDatamodel GetDataModel(ConnectionModel connectionModel, string instrumentName, string serverParkName)
+        public IDatamodel GetDataModel(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, instrumentName, serverParkName);
+            var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
             if (dataLink?.Datamodel == null)
             {
-                throw new NullReferenceException($"No datamodel was found for instrument '{instrumentName}' on server park '{serverParkName}'");
+                throw new NullReferenceException($"No datamodel was found for questionnaire '{questionnaireName}' on server park '{serverParkName}'");
             }
 
             return dataLink.Datamodel;

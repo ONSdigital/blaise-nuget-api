@@ -27,7 +27,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         [SetUp]
         public void SetUpTests()
         {
-            //setup surveys
             _dataInterfaceMock = new Mock<IDataInterface>();
             _dataInterfaceMock.Setup(d => d.ConnectionInfo.SetConnectionString(It.IsAny<string>(), It.IsAny<string>()));
             _dataInterfaceMock.Setup(d => d.CreateTableDefinitions());

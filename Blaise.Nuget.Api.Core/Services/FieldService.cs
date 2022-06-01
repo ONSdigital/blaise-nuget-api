@@ -17,17 +17,17 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataModelService = dataModelService;
         }
 
-        public bool FieldExists(ConnectionModel connectionModel, string instrumentName, string serverParkName, FieldNameType fieldNameType)
+        public bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName, FieldNameType fieldNameType)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var definitionScope = (IDefinitionScope2)dataModel;
 
             return definitionScope.FieldExists(fieldNameType.FullName());
         }
 
-        public bool FieldExists(ConnectionModel connectionModel, string instrumentName, string serverParkName, string fieldName)
+        public bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string fieldName)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, instrumentName, serverParkName);
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var definitionScope = (IDefinitionScope2)dataModel;
 
             return definitionScope.FieldExists(fieldName);
