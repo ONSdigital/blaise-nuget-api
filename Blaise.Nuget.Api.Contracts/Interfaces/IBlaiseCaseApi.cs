@@ -13,11 +13,15 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
             string serverParkName);
 
         string GetPrimaryKeyValue(IDataRecord dataRecord);
+
         IDataSet GetCases(string databaseFile);
+
         IDataSet GetCases(string questionnaireName, string serverParkName);
 
         IDataRecord GetCase(string primaryKeyValue, string questionnaireName, 
             string serverParkName);
+
+        IDataRecord GetCase(string primaryKeyValue, string databaseFile);
 
         void CreateCase(string primaryKeyValue, Dictionary<string, string> fieldData, 
             string questionnaireName, string serverParkName);
@@ -74,6 +78,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
 
         IEnumerable<CaseStatusModel> GetCaseStatusModelList(string questionnaireName, string serverParkName);
+
+        IEnumerable<CaseStatusModel> GetCaseStatusModelList(string databaseFile);
 
         CaseModel GetCaseModel(string primaryKeyValue, string questionnaireName, string serverParkName);
     }

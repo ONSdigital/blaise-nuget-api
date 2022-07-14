@@ -57,6 +57,16 @@ namespace Blaise.Nuget.Api.Core.Services
             return _dataRecordService.GetDataRecord(connectionModel, primaryKey, questionnaireName, serverParkName);
         }
 
+        public IDataRecord GetDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string databaseFile)
+        {
+            var dataModel = _dataModelService.GetDataModel(connectionModel, databaseFile);
+            var primaryKey = _keyService.GetPrimaryKey(dataModel);
+
+            _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
+
+            return _dataRecordService.GetDataRecord(connectionModel, databaseFile, primaryKey);
+        }
+
         public void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string databaseFile)
         {
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, databaseFile);
@@ -258,6 +268,23 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var caseStatusList = new List<CaseStatusModel>();
             var cases = GetDataSet(connectionModel, questionnaireName, serverParkName);
+
+            while (!cases.EndOfSet)
+            {
+                var record = cases.ActiveRecord;
+
+                caseStatusList.Add(GetCaseStatus(record));
+
+                cases.MoveNext();
+            }
+
+            return caseStatusList;
+        }
+
+        public IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string databaseFile)
+        {
+            var caseStatusList = new List<CaseStatusModel>();
+            var cases = GetDataSet(connectionModel, databaseFile);
 
             while (!cases.EndOfSet)
             {

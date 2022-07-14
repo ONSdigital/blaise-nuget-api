@@ -13,6 +13,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         IDataRecord GetDataRecord(IDatamodel dataModel);
 
+        IDataRecord GetDataRecord(ConnectionModel connectionModel, string databaseFile, IKey primaryKey);
+
         IDataRecord GetDataRecord(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName);
 
         void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string questionnaireName, string serverParkName);

@@ -19,6 +19,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         IDataRecord GetDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName);
 
+        IDataRecord GetDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string databaseFile);
+
         void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string databaseFile);
 
         void CreateNewDataRecord(ConnectionModel connectionModel, string primaryKeyValue, 
@@ -75,6 +77,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
         IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string questionnaireName,
             string serverParkName);
+        
+        IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string databaseFile);
 
         CaseModel GetCaseModel(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName,
             string serverParkName);
