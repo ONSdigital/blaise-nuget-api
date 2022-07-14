@@ -344,6 +344,23 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
+        public void Given_A_DataRecord_And_A_FileName_When_I_Call_UpdateDataRecord_Then_The_Correct_Services_Are_Called()
+        {
+            //arrange
+            var fieldData = new Dictionary<string, string>();
+
+            _mapperServiceMock.Setup(m => m.MapDataRecordFields(It.IsAny<IDataRecord>(),
+                It.IsAny<Dictionary<string, string>>())).Returns(_dataRecordMock.Object);
+
+            //act
+            _sut.UpdateDataRecord(_connectionModel, _dataRecordMock.Object, fieldData, _databaseFile);
+
+            //assert
+            _mapperServiceMock.Verify(v => v.MapDataRecordFields(_dataRecordMock.Object, fieldData), Times.Once);
+            _dataRecordServiceMock.Verify(v => v.WriteDataRecord(_connectionModel, _dataRecordMock.Object, _databaseFile), Times.Once);
+        }
+
+        [Test]
         public void Given_A_KeyValue_And_An_QuestionnaireName_And_ServerParkName_When_I_Call_RemoveDataRecord_Then_The_Correct_Services_Are_Called()
         {
             //act

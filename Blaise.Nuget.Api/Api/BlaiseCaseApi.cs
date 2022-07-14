@@ -136,6 +136,16 @@ namespace Blaise.Nuget.Api.Api
             _caseService.UpdateDataRecord(_connectionModel, dataRecord, fieldData, questionnaireName, serverParkName);
         }
 
+        public void UpdateCase(IDataRecord dataRecord, Dictionary<string, string> fieldData,
+            string databaseFile)
+        {
+            dataRecord.ThrowExceptionIfNull("dataRecord");
+            fieldData.ThrowExceptionIfNull("fieldData");
+            databaseFile.ThrowExceptionIfNullOrEmpty("databaseFile");
+
+            _caseService.UpdateDataRecord(_connectionModel, dataRecord, fieldData, databaseFile);
+        }
+
         public bool FieldExists(string questionnaireName, string serverParkName, FieldNameType fieldNameType)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");

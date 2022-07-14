@@ -36,6 +36,9 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         void UpdateCase(IDataRecord dataRecord, Dictionary<string, string> fieldData,
             string questionnaireName, string serverParkName);
 
+        void UpdateCase(IDataRecord dataRecord, Dictionary<string, string> fieldData,
+            string databaseFile);
+
         bool FieldExists(string questionnaireName, string serverParkName, FieldNameType fieldNameType);
 
         bool FieldExists(string questionnaireName, string serverParkName, string fieldName);

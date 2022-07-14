@@ -786,6 +786,72 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         }
 
         [Test]
+        public void Given_Valid_Arguments_When_I_Call_UpdateCase_With_DataRecord_And_A_Database_File_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //arrange
+            var dataRecordMock = new Mock<IDataRecord>();
+            var fieldData = new Dictionary<string, string>();
+
+            _caseServiceMock.Setup(d => d.UpdateDataRecord(_connectionModel, It.IsAny<IDataRecord>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<string>()));
+
+            //act
+            _sut.UpdateCase(dataRecordMock.Object, fieldData, _databaseFile);
+
+            //assert
+            _caseServiceMock.Verify(v => v.UpdateDataRecord(_connectionModel, dataRecordMock.Object, fieldData,
+                _databaseFile), Times.Once);
+        }
+
+        [Test]
+        public void Given_A_Null_DataRecord_When_I_Call_UpdateCase_With_DataRecord_And_A_Database_File_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            var fieldData = new Dictionary<string, string>();
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase((IDataRecord)null, fieldData,
+                _databaseFile));
+            Assert.AreEqual("The argument 'dataRecord' must be supplied", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_A_Null_Dictionary_Of_FieldData_When_I_Call_UpdateCase_With_DataRecord_And_A_Database_File_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            var dataRecordMock = new Mock<IDataRecord>();
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(dataRecordMock.Object, null,
+                _databaseFile));
+            Assert.AreEqual("The argument 'fieldData' must be supplied", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_DatabaseFile_When_I_Call_UpdateCase_With_DataRecord_And_A_Database_File_Then_An_ArgumentException_Is_Thrown()
+        {
+            //arrange
+            var dataRecordMock = new Mock<IDataRecord>();
+            var fieldData = new Dictionary<string, string>();
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(dataRecordMock.Object, fieldData, string.Empty));
+            Assert.AreEqual("A value for the argument 'databaseFile' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_DatabaseFile_When_I_Call_UpdateCase_With_DataRecord_And_A_Database_File_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            var dataRecordMock = new Mock<IDataRecord>();
+            var fieldData = new Dictionary<string, string>();
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(dataRecordMock.Object, fieldData,
+                null));
+            Assert.AreEqual("databaseFile", exception.ParamName);
+        }
+
+        [Test]
         public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Correct_Service_Method_Is_Called()
         {
             //arrange

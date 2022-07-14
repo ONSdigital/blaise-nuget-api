@@ -176,6 +176,14 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
 
+        public void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, Dictionary<string, string> fieldData,
+            string databaseFile)
+        {
+            dataRecord = _mapperService.MapDataRecordFields(dataRecord, fieldData);
+
+            _dataRecordService.WriteDataRecord(connectionModel, dataRecord, databaseFile);
+        }
+
         public Dictionary<string, string> GetFieldDataFromRecord(IDataRecord dataRecord)
         {
             return _mapperService.MapFieldDictionaryFromRecord(dataRecord);

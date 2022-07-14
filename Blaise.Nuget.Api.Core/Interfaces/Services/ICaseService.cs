@@ -37,6 +37,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, 
             Dictionary<string, string> fieldData, string questionnaireName, string serverParkName);
 
+        void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord,
+            Dictionary<string, string> fieldData, string databaseFile);
+
         bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName, 
             FieldNameType fieldNameType);
 
