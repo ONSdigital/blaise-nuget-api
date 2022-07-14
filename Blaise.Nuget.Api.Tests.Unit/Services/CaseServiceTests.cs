@@ -32,6 +32,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         private readonly string _serverParkName;
         private readonly string _databaseFile;
         private readonly string _keyName;
+        private readonly string _primaryKeyValue;
 
 
         private CaseService _sut;
@@ -43,6 +44,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _serverParkName = "TestServerParkName";
             _databaseFile = "c:\\filePath\\opn2010.bdbx";
             _keyName = "TestKeyName";
+            _primaryKeyValue = "100001";
         }
 
         [SetUp]
@@ -125,13 +127,23 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_KeyValue_And_An_QuestionnaireName_And_ServerParkName_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
+        public void Given_A_PrimaryKeyValue_And_An_QuestionnaireName_And_ServerParkName_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
         {
             //act
-            _sut.GetDataRecord(_connectionModel, _keyName, _questionnaireName, _serverParkName);
+            _sut.GetDataRecord(_connectionModel, _primaryKeyValue, _questionnaireName, _serverParkName);
 
             //assert
             _dataRecordServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName), Times.Once);
+        }
+
+        [Test]
+        public void Given_A_PrimaryKeyValue_And_A_DatabaseFile_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
+        {
+            //act
+            _sut.GetDataRecord(_connectionModel, _primaryKeyValue, _databaseFile);
+
+            //assert
+            _dataRecordServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _databaseFile, _keyMock.Object), Times.Once);
         }
 
         [Test]
@@ -926,7 +938,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_Valid_DataSet_When_I_Call_GetCaseStatusList_Then_An_Expected_List_Of_CaseStatusModel_Is_Returned()
+        public void Given_A_Valid_DataSet_When_I_Call_GetCaseStatusModelList_Then_An_Expected_List_Of_CaseStatusModel_Is_Returned()
         {
             //arrange
             const string primaryKeyValue = "900000";
@@ -958,6 +970,53 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act
             var result = _sut.GetCaseStatusModelList(_connectionModel, _questionnaireName, _serverParkName).ToList();
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<IEnumerable<CaseStatusModel>>(result);
+            Assert.AreEqual(2, result.Count);
+
+            foreach (var caseStatusModel in result)
+            {
+                Assert.AreEqual(primaryKeyValue, caseStatusModel.PrimaryKey);
+                Assert.AreEqual(outCome, caseStatusModel.Outcome);
+                Assert.AreEqual(lastUpdated, caseStatusModel.LastUpdated);
+            }
+        }
+
+        [Test]
+        public void Given_A_Valid_DataSet_When_I_Call_GetCaseStatusModelList_For_A_File_Then_An_Expected_List_Of_CaseStatusModel_Is_Returned()
+        {
+            //arrange
+            const string primaryKeyValue = "900000";
+            const int outCome = 110;
+            var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+
+            _keyServiceMock.Setup(k => k.GetPrimaryKeyValue(_dataRecordMock.Object)).Returns(primaryKeyValue);
+
+            var outcomeFieldValue = new Mock<IDataValue>();
+            outcomeFieldValue.Setup(f => f.IntegerValue).Returns(outCome);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.HOut).DataValue).Returns(outcomeFieldValue.Object);
+
+            var dateFieldValue = new Mock<IDataValue>();
+            var dateFieldMock = new Mock<IField>();
+            dateFieldValue.Setup(d => d.ValueAsText).Returns(lastUpdated);
+            dateFieldMock.Setup(f => f.DataValue).Returns(dateFieldValue.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated)).Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated)).Returns(dateFieldMock.Object);
+
+            var dataSetMock = new Mock<IDataSet>();
+            dataSetMock.Setup(d => d.ActiveRecord).Returns(_dataRecordMock.Object);
+            dataSetMock.SetupSequence(ds => ds.EndOfSet)
+                    .Returns(false)
+                    .Returns(false)
+                    .Returns(true);
+
+            _dataRecordServiceMock.Setup(d => d.GetDataSet(_connectionModel, _databaseFile))
+                .Returns(dataSetMock.Object);
+
+            //act
+            var result = _sut.GetCaseStatusModelList(_connectionModel, _databaseFile).ToList();
 
             //assert
             Assert.IsNotNull(result);

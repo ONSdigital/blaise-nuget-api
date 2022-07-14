@@ -290,11 +290,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_GetCase_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //arrange
-            const string primaryKeyValue = "Key1";
-
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(primaryKeyValue, null, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(_primaryKeyValue, null, _serverParkName));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
@@ -314,6 +311,52 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(_primaryKeyValue,
                 _questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_GetCase_For_A_File_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //arrange
+            _caseServiceMock.Setup(d => d.GetDataRecord(_connectionModel, It.IsAny<string>(), It.IsAny<string>()));
+
+            //act
+            _sut.GetCase(_primaryKeyValue, _databaseFile);
+
+            //assert
+            _caseServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _primaryKeyValue, _databaseFile), Times.Once);
+        }
+
+        [Test]
+        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_GetCase_For_A_File_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(string.Empty, _databaseFile));
+            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_PrimaryKeyValue_When_I_Call_GetCase_For_A_File_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(null, _databaseFile));
+            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_GetCase_For_A_File_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(_primaryKeyValue,
+                string.Empty));
+            Assert.AreEqual("A value for the argument 'databaseFile' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_QuestionnaireName_When_I_Call_GetCase_For_A_File_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(_primaryKeyValue, null));
+            Assert.AreEqual("databaseFile", exception.ParamName);
         }
 
         [Test]
@@ -1865,6 +1908,39 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseStatusModelList(_questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_A_Valid_Arguments_When_I_Call_GetCaseStatusModelList_For_A_File_Then_The_Expected_List_Of_CaseStatusModels_Is_Returned()
+        {
+            //arrange
+            var caseStatusModelList = new List<CaseStatusModel>();
+
+            _caseServiceMock.Setup(d => d.GetCaseStatusModelList(_connectionModel, _databaseFile)).Returns(caseStatusModelList);
+
+            //act
+            var result = _sut.GetCaseStatusModelList(_databaseFile);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<IEnumerable<CaseStatusModel>>(result);
+            Assert.AreSame(caseStatusModelList, result);
+        }
+
+        [Test]
+        public void Given_An_Empty_DatabaseFile_When_I_Call_GetCaseStatusModelList_For_A_File_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseStatusModelList(string.Empty));
+            Assert.AreEqual("A value for the argument 'databaseFile' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_DatabaseFile_When_I_Call_GetCaseStatusModelList_For_A_File_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseStatusModelList(null));
+            Assert.AreEqual("databaseFile", exception.ParamName);
         }
 
         [Test]

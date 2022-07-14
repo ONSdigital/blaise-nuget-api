@@ -76,6 +76,14 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName);
         }
 
+        public IDataRecord GetCase(string primaryKeyValue, string databaseFile)
+        {
+            primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
+            databaseFile.ThrowExceptionIfNullOrEmpty("databaseFile");
+
+            return _caseService.GetDataRecord(_connectionModel, primaryKeyValue, databaseFile);
+        }
+
         public void CreateCase(string primaryKeyValue, Dictionary<string, string> fieldData, 
             string questionnaireName, string serverParkName)
         {
@@ -300,6 +308,13 @@ namespace Blaise.Nuget.Api.Api
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
             return _caseService.GetCaseStatusModelList(_connectionModel, questionnaireName, serverParkName);
+        }
+
+        public IEnumerable<CaseStatusModel> GetCaseStatusModelList(string databaseFile)
+        {
+            databaseFile.ThrowExceptionIfNullOrEmpty("databaseFile");
+
+            return _caseService.GetCaseStatusModelList(_connectionModel, databaseFile);
         }
 
         public CaseModel GetCaseModel(string primaryKeyValue, string questionnaireName, string serverParkName)
