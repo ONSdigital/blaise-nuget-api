@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -134,6 +135,19 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //assert
             _dataRecordServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName), Times.Once);
+        }
+
+        [Test]
+        public void Given_A_Record_Does_Not_Exist_When_I_Call_GetDataRecord_Then_A_DataNotFoundException_Is_Thrown()
+        {
+            //arrange
+            _keyServiceMock.Setup(k => k.KeyExists(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName))
+                .Returns(false);
+
+
+            //act && assert
+            Assert.Throws<DataNotFoundException>(() =>
+                _sut.GetDataRecord(_connectionModel, _primaryKeyValue, _questionnaireName, _serverParkName));
         }
 
         [Test]

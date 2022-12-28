@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -49,10 +50,12 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public IDataRecord GetDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
-            var primaryKey = _keyService.GetPrimaryKey(dataModel);
+            var primaryKey = GetPrimaryKey(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
-            _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
+            if (!_keyService.KeyExists(connectionModel, primaryKey, questionnaireName, serverParkName))
+            {
+                throw new DataNotFoundException($"Case '{primaryKeyValue}' not found for '{questionnaireName}' on server park '{serverParkName}'");
+            }
 
             return _dataRecordService.GetDataRecord(connectionModel, primaryKey, questionnaireName, serverParkName);
         }
@@ -84,10 +87,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public void RemoveDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
-            var primaryKey = _keyService.GetPrimaryKey(dataModel);
-
-            _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
+            var primaryKey = GetPrimaryKey(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
             _dataRecordService.DeleteDataRecord(connectionModel, primaryKey, questionnaireName, serverParkName);
         }
@@ -124,10 +124,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public bool CaseExists(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
-            var primaryKey = _keyService.GetPrimaryKey(dataModel);
-
-            _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
+            var primaryKey = GetPrimaryKey(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
             return _keyService.KeyExists(connectionModel, primaryKey, questionnaireName, serverParkName);
         }
@@ -192,9 +189,7 @@ namespace Blaise.Nuget.Api.Core.Services
         public void LockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName,
             string lockId)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
-            var primaryKey = _keyService.GetPrimaryKey(dataModel);
-            _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
+            var primaryKey = GetPrimaryKey(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
             _dataRecordService.LockDataRecord(connectionModel, primaryKey, questionnaireName, serverParkName, lockId);
         }
@@ -202,9 +197,7 @@ namespace Blaise.Nuget.Api.Core.Services
         public void UnLockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, 
             string serverParkName, string lockId)
         {
-            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
-            var primaryKey = _keyService.GetPrimaryKey(dataModel);
-            _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
+            var primaryKey = GetPrimaryKey(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
             _dataRecordService.UnLockDataRecord(connectionModel, primaryKey, questionnaireName, serverParkName, lockId);
         }
@@ -312,6 +305,16 @@ namespace Blaise.Nuget.Api.Core.Services
             var dataRecord = GetDataRecord(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
             return new CaseModel(primaryKeyValue, GetFieldDataFromRecord(dataRecord));
+        }
+
+        private IKey GetPrimaryKey(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName)
+        {
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
+            var primaryKey = _keyService.GetPrimaryKey(dataModel);
+
+            _keyService.AssignPrimaryKeyValue(primaryKey, primaryKeyValue);
+
+            return primaryKey;
         }
     }
 }
