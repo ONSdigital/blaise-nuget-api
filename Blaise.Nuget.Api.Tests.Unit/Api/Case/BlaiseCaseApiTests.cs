@@ -809,7 +809,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase((IDataRecord)null, fieldData,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(null, fieldData,
                 _databaseFile));
             Assert.AreEqual("The argument 'dataRecord' must be supplied", exception.ParamName);
         }

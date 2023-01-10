@@ -34,7 +34,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public CatiServiceTests()
         {
             _connectionModel = new ConnectionModel();
-            _questionnaireName = $"TestQuestionnaireName";
+            _questionnaireName = "TestQuestionnaireName";
             _serverParkName = "TestServerParkName";
             _questionnaireId = Guid.NewGuid();
 

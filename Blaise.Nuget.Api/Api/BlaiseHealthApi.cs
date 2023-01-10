@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Blaise.Nuget.Api.Contracts.Interfaces;
+﻿using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
