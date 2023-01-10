@@ -828,7 +828,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
 
             //assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(1, result.Count);
 
             var dataEntrySettings = result.First();
             Assert.IsNotNull(dataEntrySettings);
