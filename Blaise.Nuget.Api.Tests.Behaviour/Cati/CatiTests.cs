@@ -124,5 +124,11 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             var result = _sut.GetDayBatch(questionnaireName, ServerParkName);
             Assert.NotNull(result);
         }
+
+        [Test]
+        public void cati_test()
+        {
+            _sut.ClearCatiDataForQuestionnaire("LMS2212_EY1", "gusty");
+        }
     }
 }

@@ -132,5 +132,13 @@ namespace Blaise.Nuget.Api.Api
 
             return _catiService.MakeSuperAppointment(_connectionModel, questionnaireName, serverParkName, primaryKeyValue);
         }
+
+        public void ClearCatiDataForQuestionnaire(string questionnaireName, string serverParkName)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            _catiService.ClearCatiDataForQuestionnaire(_connectionModel, questionnaireName, serverParkName);
+        }
     }
 }

@@ -173,5 +173,14 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return new DayBatchModel(dayBatchDate, dayBatchCaseEntries);
         }
+
+        public void ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        {
+            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var catiManagement5 = catiManagement as IRemoteCatiManagementServer5;
+
+            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            catiManagement5?.ClearInstrumentData(questionnaireId);
+        }
     }
 }
