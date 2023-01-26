@@ -146,6 +146,9 @@ namespace Blaise.Nuget.Api.Api
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
+            if (primaryKeys == null || primaryKeys.Count == 0)
+                return 0;
+
             return _catiService.ClearAppointments(_connectionModel, questionnaireName, serverParkName, primaryKeys);
         }
     }

@@ -148,16 +148,33 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             {
                 var result = _sut.ClearCatiDataForQuestionnaire("", _serverParkName);
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
                 Assert.Pass();
             }
         }
 
         [Test]
-        public void appt_clear()
+        public void Given_An_Appointment_Already_Exists_When_I_Call_ClearAppointments_It_Deletes_The_Specified_Appointments()
         {
-            var result = _sut.ClearAppointments(_questionnaireNameRemoveCaseData, _serverParkName);
+            //Arrange
+            var listOfPrimaryKeys = new List<string> { "900001" };
+
+            //Act
+            var result = _sut.ClearAppointments(_questionnaireNameRemoveCaseData, _serverParkName, listOfPrimaryKeys);
+
+            //Assert
+            Assert.Greater(result, 0);
+        }
+
+        [Test]
+        public void Given_I_Call_ClearAppointments_With_No_Primary_Keys_Zero_Is_Returned()
+        {
+            //Act
+            var result = _sut.ClearAppointments(_questionnaireNameRemoveCaseData, _serverParkName, null);
+
+            //Assert
+            Assert.AreEqual(0, result);
         }
     }
 }

@@ -37,6 +37,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         int ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName,
             string serverParkName);
 
-        int ClearAppointments(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
+        int ClearAppointments(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+            List<string> primaryKeys);
     }
 }
