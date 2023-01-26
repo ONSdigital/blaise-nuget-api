@@ -34,7 +34,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         bool MakeSuperAppointment(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string primaryKeyValue);
 
-        void ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName,
+        int ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName,
             string serverParkName);
+
+        int ClearAppointments(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
     }
 }

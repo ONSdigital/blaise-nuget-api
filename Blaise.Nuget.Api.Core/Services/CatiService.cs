@@ -174,13 +174,22 @@ namespace Blaise.Nuget.Api.Core.Services
             return new DayBatchModel(dayBatchDate, dayBatchCaseEntries);
         }
 
-        public void ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public int ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var catiManagement5 = catiManagement as IRemoteCatiManagementServer5;
 
             var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
-            catiManagement5?.ClearInstrumentData(questionnaireId);
+            return catiManagement5?.ClearInstrumentData(questionnaireId) ?? 0;
+        }
+
+        public int ClearAppointments(ConnectionModel connectionModel, string questionnaireName, string serverParkName, List<string> primaryKeys)
+        {
+            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var catiManagement6 = catiManagement as IRemoteCatiManagementServer6;
+
+            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            return catiManagement6?.ClearAppointments(questionnaireId, primaryKeys) ?? 0;
         }
     }
 }
