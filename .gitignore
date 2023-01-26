@@ -338,3 +338,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/Blaise.Nuget.Api.Tests.Behaviour/app.config
