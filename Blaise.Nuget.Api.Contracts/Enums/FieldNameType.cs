@@ -13,6 +13,9 @@ namespace Blaise.Nuget.Api.Contracts.Enums
         [Description("QDataBag.TelNo")]
         TelNo,
 
+        [Description("QDataBag.TelNo2")]
+        TelNo2,
+
         [Description("DateTimeStamp")]
         LastUpdated,
 

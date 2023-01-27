@@ -39,5 +39,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         int ClearAppointments(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             List<string> primaryKeys);
+
+        int CreateAppointment(ConnectionModel connectionModel, string questionnaireName
+            , string serverParkName, string primaryKey, DateTime appointmentStartDate
+            , string notes = null, int updateMode = 1, string toWhom = null);
     }
 }

@@ -8,6 +8,7 @@ using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Extensions;
 using Blaise.Nuget.Api.Providers;
 using StatNeth.Blaise.API.ServerManager;
+using StatNeth.Blaise.Runtime.DataContract.Cati;
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -150,6 +151,20 @@ namespace Blaise.Nuget.Api.Api
                 return 0;
 
             return _catiService.ClearAppointments(_connectionModel, questionnaireName, serverParkName, primaryKeys);
+        }
+
+        public int CreateAppointment(string questionnaireName, string serverParkName
+                                                        , string primaryKey, DateTime appointmentDateTime, string notes = null
+                                                        , int updateMode = 1, string toWhom = null)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            primaryKey.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
+
+            var result
+                = _catiService.CreateAppointment(_connectionModel, questionnaireName, serverParkName, primaryKey,
+                    appointmentDateTime, notes, updateMode, toWhom);
+            return result;
         }
     }
 }

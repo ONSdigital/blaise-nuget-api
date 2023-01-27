@@ -7,6 +7,7 @@ using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.Cati.Runtime;
 using StatNeth.Blaise.API.ServerManager;
+// ReSharper disable PossibleInvalidOperationException
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -191,5 +192,20 @@ namespace Blaise.Nuget.Api.Core.Services
             var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             return catiManagement6?.ClearAppointments(questionnaireId, primaryKeys) ?? 0;
         }
+
+        public int CreateAppointment(ConnectionModel connectionModel, string questionnaireName
+                                        , string serverParkName, string primaryKey, DateTime appointmentStartDate
+                                        , string notes = null, int updateMode = 1, string toWhom = null)
+        {
+            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var catiManagement6 = catiManagement as IRemoteCatiManagementServer6;
+
+            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var result =  (int)(catiManagement6?.MakeHardAppointment(questionnaireId, primaryKey, appointmentStartDate, notes
+                                                        , updateMode, toWhom));
+            catiManagement6.SynchronizeCatiDatabase(questionnaireId, new List<string> { primaryKey });
+            return result;
+        }
     }
+    
 }
