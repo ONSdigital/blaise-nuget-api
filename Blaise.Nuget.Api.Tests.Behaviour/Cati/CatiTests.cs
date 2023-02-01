@@ -237,7 +237,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             _caseApi.RemoveCases(questionnaire, _serverParkName);
 
             //Create a new case
-            CreateACase(questionnaire, _serverParkName, primaryKey);
+            CreateACaseConfig(questionnaire, _serverParkName, primaryKey);
 
             //Act
             var result = _sut.ClearAppointments(questionnaire, _serverParkName, null);
@@ -272,7 +272,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             Assert.Greater(result, 0);
         }
 
-        private void ConfigurePartialTestWithSurveyDayAndDaybatch(string questionnaire, string serverParkName
+        private void ConfigurePartialTestWithSurveyDayAndDayBatch(string questionnaire, string serverParkName
                                                                 , string primaryKey, DateTime surveyDayDateTime
                                                                 , bool clearCatiData = false)
         {
@@ -285,7 +285,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             _caseApi.RemoveCases(questionnaire, _serverParkName);
 
             //Create a new case
-            CreateACase(questionnaire, serverParkName, primaryKey);
+            CreateACaseConfig(questionnaire, serverParkName, primaryKey);
 
             //Add survey day
             var surveyDays = _sut.GetSurveyDays(questionnaire, serverParkName);
@@ -306,8 +306,9 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
                 _sut.CreateDayBatch(questionnaire, serverParkName, surveyDayDateTime, true);
         }
 
-        private void CreateACase(string questionnaire, string serverPark, string primaryKey)
+        private void CreateACaseConfig(string questionnaire, string serverPark, string primaryKey)
         {
+            //Field data for creating a case
             var fieldData = new Dictionary<string, string>
             {
                 {
@@ -387,12 +388,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
                 //    "CatiMana.CatiAppoint.DateStart", DateTime.Now.AddDays(1).ToString("dd-MM-yyyy")
                 //}
             };
-
-            //Does the case already exist
-            if (!_caseApi.CaseExists(primaryKey, questionnaire, serverPark))
-            {
-                _caseApi.CreateCase(primaryKey, fieldData, questionnaire, serverPark);
-            }
         }
     }
 }
