@@ -20,3 +20,9 @@ mocks where you will not need to consume the complete functionality.
 You can use the fluid API style class 'FluentBlaiseApi' which implements the 'IFluentBlaiseApi' interface.
 		
 Copyright (c) 2021 Crown Copyright (Government Digital Service)		
+
+# Azure Pipeline
+
+In the root of the repository is the 'build-api.yml' file. This file contains various config and is used to create/configure an azure pipeline. This is triggered whenever changes are pushed to main by default.
+
+To update the pipeline, make changes and then commit to this GitHub repository. If you need to test on a feature branch, commit/push changes and then go into Azure DevOps. From there you can run the pipeline manually by selecting the relevant branch. 
