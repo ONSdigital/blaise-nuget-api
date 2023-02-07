@@ -1,0 +1,104 @@
+trigger:
+  branches:
+    include:
+    - main
+name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/main
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: windows-latest
+  steps:
+  - checkout: self
+    fetchTags: true
+  - task: PowerShell@2
+    displayName: PowerShell Script
+    inputs:
+      targetType: inline
+      script: >
+        $Branch = "$(Build.SourceBranchName)"
+
+
+        if ("$Branch" -ne "main")
+
+        {
+              $Branch =  $Branch.Replace(".", "")
+              $Branch =  $Branch.Replace("-", "")
+              $branch  = "-$Branch"
+              echo $(Build.SourceBranchName)" changed to $Branch"
+        }
+
+        else
+
+        {
+                $Branch  = ""
+        }
+
+
+        $Version="$(Build.BuildNumber)"
+
+        $Version=$Version -replace "^[^_]+_", ""
+
+        $Version="$Version$Branch"
+
+
+        echo $("Version: $Version")
+
+
+        Write-Host "##vso[task.setvariable variable=Version;]$Version"
+
+
+        Write-Host "##vso[task.setvariable variable=Branch;]$Branch"
+  - task: NuGetToolInstaller@1
+    displayName: Use NuGet 4.4.1
+    inputs:
+      versionSpec: 4.4.1
+  - task: NuGetCommand@2
+    displayName: NuGet restore
+    inputs:
+      feedRestore: fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0
+  - task: VSBuild@1
+    displayName: Build solution **\*.sln
+    inputs:
+      platform: $(BuildPlatform)
+      configuration: $(BuildConfiguration)
+  - task: VSTest@2
+    displayName: Run tests
+    inputs:
+      testAssemblyVer2: >-
+        **\*test*.dll
+
+        !**\*Behaviour*.dll
+
+        !**\*TestAdapter.dll
+
+        !**\obj\**
+  - task: CopyFiles@2
+    displayName: Copy build to staging
+    inputs:
+      SourceFolder: $(system.defaultworkingdirectory)
+      Contents: '**\bin\$(BuildConfiguration)\**'
+      TargetFolder: $(build.artifactstagingdirectory)
+  - task: PublishBuildArtifacts@1
+    displayName: Publish build
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+  - task: NuGetCommand@2
+    displayName: NuGet pack
+    inputs:
+      command: pack
+      searchPatternPack: '**\*.nuspec'
+      versioningScheme: byEnvVar
+      versionEnvVar: Version
+      buildProperties: version="$(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)"
+  - task: NuGetCommand@2
+    displayName: NuGet push
+    inputs:
+      command: push
+      feedPublish: fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0
+...
