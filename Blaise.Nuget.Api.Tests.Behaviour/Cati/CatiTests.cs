@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Threading;
 using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Exceptions;
-using Blaise.Nuget.Api.Contracts.Extensions;
 using NUnit.Framework;
 // ReSharper disable InconsistentNaming
 
@@ -19,7 +14,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
 
         private const string _serverParkName = "LocalDevelopment";
         private const string _questionnaireName = "DST2111Z";
-        private const string _questionnaireNameRemoveCaseData = "LMS2211_EW1";
 
         public CatiTests()
         {
@@ -144,8 +138,10 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         public void
             Given_A_Questionnaire_Is_Installed_And_Has_Case_Information_When_I_Call_ClearCatiDataForQuestionnaire_The_Case_Information_Is_Removed()
         {
+            //***************************************************************
             //ARRANGE
             //Remove any old cases and create a new case
+            //***************************************************************
             const string questionnaire = "DST2111Z";
             const string primaryKey = "900010";
             var surveyDayDateTime = DateTime.Now.AddHours(1);
@@ -159,15 +155,21 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
 
             ConfigurePartialTestWithSurveyDayAndDayBatch(questionnaire, _serverParkName, primaryKey, surveyDayDateTime);
 
+            //***************************************************************
             //ACT
             //Delete the cati data
+            //***************************************************************
             var result = _sut.ClearCatiDataForQuestionnaire(questionnaire, _serverParkName);
 
-            //clean up
+            //***************************************************************
+            //Clean up
+            //***************************************************************
             var dates = _sut.GetSurveyDays(questionnaire, _serverParkName);
             _sut.RemoveSurveyDays(questionnaire, _serverParkName, dates);
 
+            //***************************************************************
             //ASSERT
+            //***************************************************************
             Assert.Greater(result, 0);
         }
 
@@ -193,7 +195,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
                 ConfigurePartialTestWithSurveyDayAndDayBatch(questionnaire, _serverParkName, primaryKey, surveyDayDateTime);
 
                 //Act
-                var result = _sut.ClearCatiDataForQuestionnaire("", _serverParkName);
+                _sut.ClearCatiDataForQuestionnaire("", _serverParkName);
             }
             catch (ArgumentException)
             {
@@ -210,7 +212,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             //ARRANGE
             const string questionnaire = "DST2111Z";
             const string primaryKey = "900010";
-            var surveyDayDateTime = DateTime.Now.AddHours(1);
 
             var installedQuestionnaires = _sut.GetInstalledQuestionnaires(_serverParkName).ToList();
             if (installedQuestionnaires.FirstOrDefault(o => o.Name.Equals(questionnaire, StringComparison.InvariantCultureIgnoreCase)) == null)
@@ -236,8 +237,11 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
 
             _caseApi.RemoveCases(questionnaire, _serverParkName);
 
-            //Create a new case
-            CreateACaseConfig(questionnaire, _serverParkName, primaryKey);
+            //***************************************************************
+            //Create a case data and case
+            //***************************************************************
+            var data = CreateACaseConfig();
+            _caseApi.CreateCase(primaryKey, data, questionnaire, _serverParkName);
 
             //Act
             var result = _sut.ClearAppointments(questionnaire, _serverParkName, null);
@@ -251,7 +255,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         public void Given_I_Have_An_Existing_Case_And_Call_CreateAppointment_A_New_Appointment_Is_Created()
         {
             //ARRANGE
-            //Remove any old cases and create a new case
             const string questionnaire = "DST2111Z";
             const string primaryKey = "900010";
             var surveyDayDateTime = DateTime.Now.AddHours(1);
@@ -276,20 +279,28 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
                                                                 , string primaryKey, DateTime surveyDayDateTime
                                                                 , bool clearCatiData = false)
         {
+            //***************************************************************
+            //Clear all CATI data
+            //***************************************************************
             if (clearCatiData)
             {
                 _sut.ClearCatiDataForQuestionnaire(questionnaire, _serverParkName);
             }
 
+            //***************************************************************
             //Remove cases
+            //***************************************************************
             _caseApi.RemoveCases(questionnaire, _serverParkName);
 
-            //Create a new case
-            var data = CreateACaseConfig(questionnaire, serverParkName, primaryKey);
+            //***************************************************************
+            //Create a case data and case
+            //***************************************************************
+            var data = CreateACaseConfig();
             _caseApi.CreateCase(primaryKey, data, questionnaire, serverParkName);
 
-
+            //***************************************************************
             //Add survey day
+            //***************************************************************
             var surveyDays = _sut.GetSurveyDays(questionnaire, serverParkName);
             if (surveyDays != null && surveyDays.Count > 0 && !surveyDays.Contains(DateTime.Now.Date))
             {
@@ -298,19 +309,26 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
 
                 _sut.SetSurveyDay(questionnaire, serverParkName, surveyDayDateTime);
             }
-            //else
-            //{
-            //    _sut.SetSurveyDay(questionnaire, serverParkName, surveyDayDateTime);
-            //}
+            else
+            {
+                if (surveyDays != null && !surveyDays.Contains(DateTime.Now.Date))
+                {
+                    _sut.SetSurveyDay(questionnaire, serverParkName, surveyDayDateTime);
+                }
+            }
 
+            //***************************************************************
             //Add daybatch
+            //***************************************************************
             if (_sut.GetDayBatch(questionnaire, serverParkName) == null)
                 _sut.CreateDayBatch(questionnaire, serverParkName, surveyDayDateTime, true);
         }
 
-        private Dictionary<string, string> CreateACaseConfig(string questionnaire, string serverPark, string primaryKey)
+        private static Dictionary<string, string> CreateACaseConfig()
         {
+            //***************************************************************
             //Field data for creating a case
+            //***************************************************************
             var fieldData = new Dictionary<string, string>
             {
                 {
