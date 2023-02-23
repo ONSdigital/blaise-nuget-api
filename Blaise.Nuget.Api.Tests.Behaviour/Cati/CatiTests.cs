@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define USE_BLAISE_5_13_3
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Api;
@@ -132,7 +134,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             Assert.NotNull(result);
         }
 
-        #region ClearCatiDataForQuestionnaire
+#if USE_BLAISE_5_13_3
 
         [Test]
         public void
@@ -203,9 +205,9 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
                 Assert.Pass();
             }
         }
-        #endregion
 
-        #region ClearAppointments        
+
+   
         [Test]
         public void Given_An_Appointment_Already_Exists_When_I_Call_ClearAppointments_It_Deletes_The_Specified_Appointments()
         {
@@ -249,7 +251,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             //Assert
             Assert.AreEqual(0, result);
         }
-        #endregion
+
 
         [Test]
         public void Given_I_Have_An_Existing_Case_And_Call_CreateAppointment_A_New_Appointment_Is_Created()
@@ -410,6 +412,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             };
             return fieldData;
         }
+#endif
     }
 }
 
