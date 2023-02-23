@@ -1,4 +1,4 @@
-﻿//#define USE_BLAISE_5_13_3
+﻿#define USE_BLAISE_5_13_3
 
 using System;
 using System.Collections.Generic;

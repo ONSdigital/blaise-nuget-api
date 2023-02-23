@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define USE_BLAISE_5_13_3
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Exceptions;
@@ -175,6 +177,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return new DayBatchModel(dayBatchDate, dayBatchCaseEntries);
         }
 
+#if USE_BLAISE_5_13_3
         public int ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
@@ -206,6 +209,25 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManagement6.SynchronizeCatiDatabase(questionnaireId, new List<string> { primaryKey });
             return result;
         }
-    }
-    
+#else
+        public int ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ClearAppointments(ConnectionModel connectionModel, string questionnaireName, string serverParkName, List<string> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CreateAppointment(ConnectionModel connectionModel, string questionnaireName
+            , string serverParkName, string primaryKey, DateTime appointmentStartDate
+            , string notes = null, int updateMode = 1, string toWhom = null)
+        {
+            throw new NotImplementedException();
+        }
+
+#endif
+        }
+
 }
