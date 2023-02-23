@@ -20,5 +20,12 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         void RemoveSurveyDay(string questionnaireName, string serverParkName, DateTime surveyDay);
         void RemoveSurveyDays(string questionnaireName, string serverParkName, List<DateTime> surveyDays);
         bool MakeSuperAppointment(string questionnaireName, string serverParkName, string primaryKeyValue);
+
+        int ClearAppointments(string questionnaireName, string serverParkName, List<string> primaryKeys);
+
+        int CreateAppointment(string questionnaireName, string serverParkName
+            , string primaryKey, DateTime appointmentDateTime, string notes = null
+            , int updateMode = 1, string toWhom = null);
+
     }
 }
