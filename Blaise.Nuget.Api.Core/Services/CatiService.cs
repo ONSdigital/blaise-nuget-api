@@ -31,31 +31,39 @@ namespace Blaise.Nuget.Api.Core.Services
             var questionnaires = GetInstalledCatiQuestionnaires(connectionModel, serverParkName);
             var questionnaireNames = questionnaires.Keys;
 
-            return questionnaireNames.Select(questionnaireName => _questionnaireService.GetQuestionnaire(connectionModel, questionnaireName, serverParkName)).ToList();
+            return questionnaireNames.Select(questionnaireName =>
+                _questionnaireService.GetQuestionnaire(connectionModel, questionnaireName, serverParkName)).ToList();
         }
 
-        public ISurvey GetInstalledQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public ISurvey GetInstalledQuestionnaire(ConnectionModel connectionModel, string questionnaireName,
+            string serverParkName)
         {
             var questionnaires = GetInstalledCatiQuestionnaires(connectionModel, serverParkName);
 
             if (!questionnaires.ContainsKey(questionnaireName))
             {
-                throw new DataNotFoundException($"No questionnaire called '{questionnaireName}' was found on server park '{serverParkName}'");
+                throw new DataNotFoundException(
+                    $"No questionnaire called '{questionnaireName}' was found on server park '{serverParkName}'");
             }
 
             return _questionnaireService.GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
         }
 
-        public DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName, 
+        public DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string questionnaireName,
+            string serverParkName,
             DateTime dayBatchDate, bool checkForTreatedCases)
         {
-            var catiManagementServer = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
-            var catiQuestionnaireManager = (ICatiInstrumentManager3)catiManagementServer.LoadCatiInstrumentManager(questionnaireId);
-            
+            var catiManagementServer =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var catiQuestionnaireManager =
+                (ICatiInstrumentManager3)catiManagementServer.LoadCatiInstrumentManager(questionnaireId);
+
             if (catiQuestionnaireManager.Specification.SurveyDays.All(d => d.Date.Date != dayBatchDate.Date))
             {
-                throw new DataNotFoundException($"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'");
+                throw new DataNotFoundException(
+                    $"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'");
             }
 
             catiQuestionnaireManager.CreateDaybatch(dayBatchDate, checkForTreatedCases);
@@ -63,27 +71,36 @@ namespace Blaise.Nuget.Api.Core.Services
             return GetDayBatch(catiManagementServer, questionnaireId);
         }
 
-        public DayBatchModel GetDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public DayBatchModel GetDayBatch(ConnectionModel connectionModel, string questionnaireName,
+            string serverParkName)
         {
-            var catiManagementServer = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var catiManagementServer =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
 
             return GetDayBatch(catiManagementServer, questionnaireId);
         }
 
-        public void AddToDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string primaryKeyValue)
-        { 
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+        public void AddToDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+            string primaryKeyValue)
+        {
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
 
             catiManagement.AddToDaybatch(questionnaireId, primaryKeyValue);
         }
 
-        public List<DateTime> GetSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public List<DateTime> GetSurveyDays(ConnectionModel connectionModel, string questionnaireName,
+            string serverParkName)
         {
             var surveyDays = new List<DateTime>();
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             var surveyDateCollection = catiManagement
                 .LoadCatiInstrumentManager(questionnaireId)?.Specification?.SurveyDays;
 
@@ -97,10 +114,13 @@ namespace Blaise.Nuget.Api.Core.Services
             return surveyDays;
         }
 
-        public void SetSurveyDay(ConnectionModel connectionModel, string questionnaireName, string serverParkName, DateTime surveyDay)
+        public void SetSurveyDay(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+            DateTime surveyDay)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             var catiManager = catiManagement.LoadCatiInstrumentManager(questionnaireId);
 
             catiManager.Specification.SurveyDays
@@ -109,10 +129,13 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManager.SaveSpecification();
         }
 
-        public void SetSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName, List<DateTime> surveyDays)
+        public void SetSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+            List<DateTime> surveyDays)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             var catiManager = catiManagement.LoadCatiInstrumentManager(questionnaireId);
 
             catiManager.Specification.SurveyDays
@@ -124,8 +147,10 @@ namespace Blaise.Nuget.Api.Core.Services
         public void RemoveSurveyDay(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             DateTime surveyDay)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             var catiManager = catiManagement.LoadCatiInstrumentManager(questionnaireId);
 
             catiManager.Specification.SurveyDays
@@ -137,8 +162,10 @@ namespace Blaise.Nuget.Api.Core.Services
         public void RemoveSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             List<DateTime> surveyDays)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             var catiManager = catiManagement.LoadCatiInstrumentManager(questionnaireId);
 
             catiManager.Specification.SurveyDays
@@ -147,19 +174,24 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManager.SaveSpecification();
         }
 
-        public bool MakeSuperAppointment(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+        public bool MakeSuperAppointment(ConnectionModel connectionModel, string questionnaireName,
+            string serverParkName,
             string primaryKeyValue)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             var catiManager = catiManagement.LoadCatiInstrumentManager(questionnaireId);
 
             return catiManager.MakeSuperAppointment(primaryKeyValue);
         }
 
-        private IDictionary<string, Guid> GetInstalledCatiQuestionnaires(ConnectionModel connectionModel, string serverParkName)
+        private IDictionary<string, Guid> GetInstalledCatiQuestionnaires(ConnectionModel connectionModel,
+            string serverParkName)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             return catiManagement.GetInstalledSurveys();
         }
 
@@ -178,37 +210,47 @@ namespace Blaise.Nuget.Api.Core.Services
         }
 
 #if USE_BLAISE_5_13_3
-        public int ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public int ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName,
+            string serverParkName)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var catiManagement5 = catiManagement as IRemoteCatiManagementServer5;
 
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             return catiManagement5?.ClearInstrumentData(questionnaireId) ?? 0;
         }
 
-        public int ClearAppointments(ConnectionModel connectionModel, string questionnaireName, string serverParkName, List<string> primaryKeys)
+        public int ClearAppointments(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+            List<string> primaryKeys)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var catiManagement6 = catiManagement as IRemoteCatiManagementServer6;
 
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             return catiManagement6?.ClearAppointments(questionnaireId, primaryKeys) ?? 0;
         }
 
         public int CreateAppointment(ConnectionModel connectionModel, string questionnaireName
-                                        , string serverParkName, string primaryKey, DateTime appointmentStartDate
-                                        , string notes = null, int updateMode = 1, string toWhom = null)
+            , string serverParkName, string primaryKey, DateTime appointmentStartDate
+            , string notes = null, int updateMode = 1, string toWhom = null)
         {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            var catiManagement =
+                _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var catiManagement6 = catiManagement as IRemoteCatiManagementServer6;
 
-            var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
-            var result =  (int)(catiManagement6?.MakeHardAppointment(questionnaireId, primaryKey, appointmentStartDate, notes
-                                                        , updateMode, toWhom));
+            var questionnaireId =
+                _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var result = (int)(catiManagement6?.MakeHardAppointment(questionnaireId, primaryKey,
+                appointmentStartDate, notes
+                , updateMode, toWhom));
             catiManagement6.SynchronizeCatiDatabase(questionnaireId, new List<string> { primaryKey });
             return result;
         }
+
 #else
         public int ClearCatiDataForQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
@@ -228,6 +270,6 @@ namespace Blaise.Nuget.Api.Core.Services
         }
 
 #endif
-        }
+    }
 
 }

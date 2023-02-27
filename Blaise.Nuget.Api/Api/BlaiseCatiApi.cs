@@ -8,7 +8,6 @@ using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Extensions;
 using Blaise.Nuget.Api.Providers;
 using StatNeth.Blaise.API.ServerManager;
-using StatNeth.Blaise.Runtime.DataContract.Cati;
 
 namespace Blaise.Nuget.Api.Api
 {

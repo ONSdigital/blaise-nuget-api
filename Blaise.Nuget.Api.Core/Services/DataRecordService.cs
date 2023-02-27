@@ -1,4 +1,5 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+﻿using System;
+using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataLink;
@@ -76,9 +77,14 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public void DeleteDataRecords(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
+            try
+            {
+                var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
-            dataLink.DeleteAll();
+                dataLink.DeleteAll();
+            }
+            catch(Exception)
+            {/*ignored*/}
         }
 
         public int GetNumberOfRecords(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
