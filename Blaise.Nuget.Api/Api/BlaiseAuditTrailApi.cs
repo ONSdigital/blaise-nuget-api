@@ -2,6 +2,7 @@
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Providers;
+using System;
 using System.Security;
 using ATA = StatNeth.Blaise.API.AuditTrail;
 
@@ -33,9 +34,18 @@ namespace Blaise.Nuget.Api.Api
                    configurationProvider.GetConnectionModel().Port,
                    configurationProvider.GetConnectionModel().UserName,
                    password);
+
+            ATA.IInstrumentEvents instEvents =
+                         ras.GetInstrumentEvents(Guid.Parse("some guid value"),
+                                                 "gusty");
+
+            if (instEvents != null)
+            {
+                // some stuff here
+            }
         }
 
-        private static SecureString GetPassword(string pw)
+            private static SecureString GetPassword(string pw)
         {
             char[] passwordChars = pw.ToCharArray();
             var password = new SecureString();
