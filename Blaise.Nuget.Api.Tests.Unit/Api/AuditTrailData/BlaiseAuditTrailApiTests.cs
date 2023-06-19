@@ -8,18 +8,25 @@ namespace Blaise.Nuget.Api.Tests.Unit.AuditTrailData
     public class BlaiseAuditTrailApiTests
     {
         private readonly ConnectionModel _connectionModel;
-        private readonly BlaiseAuditTrailApi _auditTrailApi;
+        private readonly IBlaiseAuditTrailApi _auditTrailApi;
 
         public BlaiseAuditTrailApiTests()
         {
             _connectionModel = new ConnectionModel();
-            _auditTrailApi = new BlaiseAuditTrailApi(_connectionModel);
+            _auditTrailApi = new BlaiseAuditTrailApi(_connectionModel); 
         }
 
         [Test]
         public void Test_One()
         {
-            _auditTrailApi.GetAuditTrail();
+            // arrange
+            var connectionModel = "foo"
+
+            // act
+            var result = GetAuditTrail(connectionModel);
+
+            // assert
         }
     }
 }
+
