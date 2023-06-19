@@ -1,4 +1,4 @@
-# Blaise NuGet API
+# Blaise NuGet API 
 
 This Blaise API library offers an abstraction of the interfaces provided by the official Blaise API DLL library. It offers a high level CRUD style interface that is easier to work with. This library is available internally to the ONS via an Azure DevOps artifact feed.
 
