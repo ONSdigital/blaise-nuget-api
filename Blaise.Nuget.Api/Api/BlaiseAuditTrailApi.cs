@@ -10,7 +10,7 @@ namespace Blaise.Nuget.Api.Api
 {
     public class BlaiseAuditTrailApi : IBlaiseAuditTrailApi
     {
-        private readonly ConnectionModel _connectionModel;
+        private ConnectionModel _connectionModel;
 
         public BlaiseAuditTrailApi(ConnectionModel connection)
         {
@@ -19,18 +19,19 @@ namespace Blaise.Nuget.Api.Api
 
         public void GetAuditTrail()
         {
+            var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
+
             if (_connectionModel is null)
             {
-
+                _connectionModel = configurationProvider.GetConnectionModel();
             }
 
-            var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             var password = GetPassword(configurationProvider.GetConnectionModel().Password);
             var ras =
                ATA.AuditTrailManager.GetRemoteAuditTrailServer(
                    configurationProvider.GetConnectionModel().ServerName,
                    configurationProvider.GetConnectionModel().Port,
-                   configurationProvider.GetConnectionModel().Username,
+                   configurationProvider.GetConnectionModel().UserName,
                    password);
         }
 
