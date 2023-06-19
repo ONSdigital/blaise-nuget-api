@@ -16,7 +16,7 @@ public class BlaiseAuditTrailTest
     {
         //act && assert
         // ReSharper disable once ObjectCreationAsStatement
-        Assert.DoesNotThrow(() => new BlaiseFileApi());
+        Assert.DoesNotThrow(() => new BlaiseFileApi()); 
     }
 }
 }
