@@ -1,32 +1,44 @@
 ﻿using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Models;
 using NUnit.Framework;
-using Blaise.Nuget.Api.Contracts.Interfaces;
+// ReSharper disable All
 
-namespace Blaise.Nuget.Api.Tests.Unit.AuditTrailData
+namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrailData
 {
     public class BlaiseAuditTrailApiTests
     {
         private readonly ConnectionModel _connectionModel;
-        private readonly IBlaiseAuditTrailApi _auditTrailApi;
 
         public BlaiseAuditTrailApiTests()
         {
             _connectionModel = new ConnectionModel();
-            _auditTrailApi = new BlaiseAuditTrailApi(_connectionModel); 
         }
 
         [Test]
-        public void Test_One()
+        public void GetAuditTrail_Returns_ValidAuditTrail()
         {
-            // arrange
-            var connectionModel = "foo"
+            // Arrange
+            var serverPark = "LocalDevelopment";
+            var questionnaireName = "lms2301_ts6";
+            //var instrumentId = "60013c5d-dcb0-4dc4-903a-9a6aaa7fee94"; /*Needs to ultimately use the questionnaire name*/
 
-            // act
-            var result = GetAuditTrail(connectionModel);
+            var auditTrailApi = new BlaiseAuditTrailApi(_connectionModel);
 
-            // assert
+            // Act
+            auditTrailApi.GetAuditTrail(serverPark, questionnaireName);
+
+            // Assert
+            Assert.Pass();
+        }
+
+        [Test]
+        public void GetAuditTrail_With_Empty_Server_Park_Returns_An_Exception()
+        {
+        }
+
+        [Test]
+        public void GetAuditTrail_With_Empty_InstrumentId_Returns_An_Exception()
+        {
         }
     }
 }
-

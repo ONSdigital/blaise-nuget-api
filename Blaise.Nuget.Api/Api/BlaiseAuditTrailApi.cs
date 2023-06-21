@@ -1,63 +1,144 @@
 ﻿using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
+using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Providers;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Security;
+using System.Text;
 using ATA = StatNeth.Blaise.API.AuditTrail;
-
 
 namespace Blaise.Nuget.Api.Api
 {
     public class BlaiseAuditTrailApi : IBlaiseAuditTrailApi
     {
+        private readonly IQuestionnaireService _questionnaireService;
         private ConnectionModel _connectionModel;
 
         public BlaiseAuditTrailApi(ConnectionModel connection)
         {
+            _questionnaireService = UnityProvider.Resolve<IQuestionnaireService>();
             _connectionModel = connection;
         }
 
-        public void GetAuditTrail()
+        public void GetAuditTrail(string serverPark, string questionnaireName)
         {
+            if (string.IsNullOrEmpty(serverPark) || string.IsNullOrEmpty(questionnaireName))
+                throw new ArgumentNullException($"Error - Expected paramter is empty, ServerPark: {serverPark}, QuestionnaireName: {questionnaireName}");
+
+            //***************************************************************
+            //Get the Blaise configuration
+            //***************************************************************
             var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
 
-            if (_connectionModel is null)
-            {
+            if (_connectionModel is null || string.IsNullOrEmpty(_connectionModel.ServerName))
                 _connectionModel = configurationProvider.GetConnectionModel();
-            }
 
-            var password = GetPassword(configurationProvider.GetConnectionModel().Password);
+            var serverName = "";
+            var port = 0;
+            var userName = "";
+            var password = "";
+
+            //***************************************************************
+            //Get the questionnaireid from the questionnaire name
+            //***************************************************************
+            var instrumentId = _questionnaireService.GetQuestionnaireId(_connectionModel, questionnaireName, serverPark);
+
             var ras =
                ATA.AuditTrailManager.GetRemoteAuditTrailServer(
                    configurationProvider.GetConnectionModel().ServerName,
                    configurationProvider.GetConnectionModel().Port,
                    configurationProvider.GetConnectionModel().UserName,
-                   password);
+                   GetPassword(configurationProvider.GetConnectionModel().Password));
 
-            ATA.IInstrumentEvents instEvents =
-                         ras.GetInstrumentEvents(Guid.Parse("some guid value"),
-                                                 "gusty");
+            var auditEvents =
+                ras.GetInstrumentEvents(instrumentId, serverPark) as ATA.IInstrumentEvents2;
 
-            if (instEvents != null)
+            if (auditEvents != null)
             {
-                // some stuff here
+                //***********************************************************
+                //Get the keys
+                //***********************************************************
+                var listOfAuditEvents = new List<AuditTrailData>();
+                var keyValues = auditEvents.GetKeyValues();
+
+                foreach (var keyVal in keyValues)
+                {
+                    //***********************************************************
+                    //For each key get the session Ids associated 
+                    //***********************************************************
+                    var sessionIdAttachedToKey = auditEvents.GetSessionIDsByKeyValue(keyVal);
+
+                    foreach (var sessionId in sessionIdAttachedToKey)
+                    {
+                        var sessionEvents = auditEvents.GetSessionEvents(sessionId);
+
+                        foreach (var sessionEvent in sessionEvents.Events)
+                        {
+                            var auditTrailData = new AuditTrailData();
+                            auditTrailData.KeyValue = keyVal;
+                            auditTrailData.SessionId = sessionId;
+                            auditTrailData.TimeStamp = sessionEvent.TimeStamp;
+                            auditTrailData.Content = sessionEvent.ToString();
+                            listOfAuditEvents.Add(auditTrailData);
+                        }
+                    }
+                }
+
+                if (listOfAuditEvents.Any())
+                {
+                    var csvContent = GenerateCsvContent(listOfAuditEvents);
+                    GenerateFileInMemory(csvContent);
+                }
             }
         }
 
-            private static SecureString GetPassword(string pw)
+        private static SecureString GetPassword(string pw)
         {
-            char[] passwordChars = pw.ToCharArray();
             var password = new SecureString();
 
-            foreach (var c in passwordChars)
+            foreach (var c in pw)
             {
                 password.AppendChar(c);
             }
             return password;
         }
 
+        private string GenerateCsvContent(List<AuditTrailData> listOfEvents)
+        {
+            var csvContent = new StringBuilder();
+            csvContent.AppendLine("KeyValue,SessionId,Timestamp,Content");
 
+            foreach (var eventFromAudit in listOfEvents.OrderBy(o => o.KeyValue))
+            {
+                csvContent.AppendLine($"{eventFromAudit.KeyValue}, {eventFromAudit.SessionId}, {eventFromAudit.TimeStamp.ToString("dd/MM/yyyy HH:mm:ss")}, {eventFromAudit.Content}");
+            }
+            return csvContent.ToString();
+        }
+
+        private void GenerateFileInMemory(string csvContent)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var streamWriter = new StreamWriter(memoryStream))
+                {
+                    streamWriter.Write(csvContent);
+                    streamWriter.Flush();
+
+                    // Rewind the MemoryStream
+                    memoryStream.Position = 0;
+
+                    using (var streamReader = new StreamReader(memoryStream))
+                    {
+                        var csvContentFromMemory = streamReader.ReadToEnd();
+                        File.WriteAllText(@"c:\temp\output.csv", csvContentFromMemory);
+                    }
+                }
+            }
+        }
     }
 }
 

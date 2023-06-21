@@ -8,6 +8,6 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
     public interface IBlaiseAuditTrailApi
     {
-        void GetAuditTrail();
+        void GetAuditTrail(string instrumentId, string sessionId);
     }
 }

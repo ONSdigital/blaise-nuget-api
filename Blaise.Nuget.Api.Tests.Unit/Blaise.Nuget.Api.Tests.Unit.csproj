@@ -91,7 +91,7 @@
     <Compile Include="Api\User\BlaiseUserApiTests.cs" />
     <Compile Include="Api\Questionnaire\BlaiseQuestionnaireApiTests.cs" />
     <Compile Include="Api\ServerPark\BlaiseServerParkApiTests.cs" />
-    <Compile Include="AuditTrailData\BlaiseAuditTrailApiTests.cs" />
+    <Compile Include="Api\AuditTrailData\BlaiseAuditTrailApiTests.cs" />
     <Compile Include="Extensions\ConfigurationExtensionsTests.cs" />
     <Compile Include="Mappers\DataMapperServiceTests.cs" />
     <Compile Include="Mappers\RolePermissionMapperTests.cs" />
