@@ -1,4 +1,6 @@
-﻿using Blaise.Nuget.Api.Core.Factories;
+﻿using Blaise.Nuget.Api.Api;
+using Blaise.Nuget.Api.Contracts.Interfaces;
+using Blaise.Nuget.Api.Core.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -55,6 +57,7 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<IRoleService, RoleService>();
             UnityContainer.RegisterType<IQuestionnaireMetaService, QuestionnaireMetaService>();
             UnityContainer.RegisterType<ISqlService, SqlService>();
+            UnityContainer.RegisterType<IBlaiseAuditTrailApi, BlaiseAuditTrailApi>();
         }
         public static T Resolve<T>()
         {
