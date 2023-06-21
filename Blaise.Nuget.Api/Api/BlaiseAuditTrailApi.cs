@@ -73,11 +73,13 @@ namespace Blaise.Nuget.Api.Api
 
                         foreach (var sessionEvent in sessionEvents.Events)
                         {
-                            var auditTrailData = new AuditTrailData();
-                            auditTrailData.KeyValue = keyVal;
-                            auditTrailData.SessionId = sessionId;
-                            auditTrailData.TimeStamp = sessionEvent.TimeStamp;
-                            auditTrailData.Content = sessionEvent.ToString();
+                            var auditTrailData = new AuditTrailData
+                            {
+                                KeyValue = keyVal,
+                                SessionId = sessionId,
+                                TimeStamp = sessionEvent.TimeStamp,
+                                Content = sessionEvent.ToString()
+                            };
                             listOfAuditEvents.Add(auditTrailData);
                         }
                     }
