@@ -24,7 +24,7 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connection;
         }
 
-        public void GetAuditTrail(string serverPark, string questionnaireName)
+        public byte[] GetAuditTrail(string serverPark, string questionnaireName)
         {
             if (string.IsNullOrEmpty(serverPark) || string.IsNullOrEmpty(questionnaireName))
                 throw new ArgumentNullException($"Error - Expected paramter is empty, ServerPark: {serverPark}, QuestionnaireName: {questionnaireName}");
@@ -36,11 +36,6 @@ namespace Blaise.Nuget.Api.Api
 
             if (_connectionModel is null || string.IsNullOrEmpty(_connectionModel.ServerName))
                 _connectionModel = configurationProvider.GetConnectionModel();
-
-            var serverName = "";
-            var port = 0;
-            var userName = "";
-            var password = "";
 
             //***************************************************************
             //Get the questionnaireid from the questionnaire name
@@ -91,18 +86,20 @@ namespace Blaise.Nuget.Api.Api
                 if (listOfAuditEvents.Any())
                 {
                     var csvContent = GenerateCsvContent(listOfAuditEvents);
-                    GenerateFileInMemory(csvContent);
+                    return GenerateFileInMemory(csvContent);
                 }
             }
+
+            return null;
         }
 
         private static SecureString GetPassword(string pw)
         {
             var password = new SecureString();
 
-            foreach (var c in pw)
+            foreach (var character in pw)
             {
-                password.AppendChar(c);
+                password.AppendChar(character);
             }
             return password;
         }
@@ -119,7 +116,7 @@ namespace Blaise.Nuget.Api.Api
             return csvContent.ToString();
         }
 
-        private void GenerateFileInMemory(string csvContent)
+        private byte[] GenerateFileInMemory(string csvContent)
         {
             using (var memoryStream = new MemoryStream())
             {
@@ -131,11 +128,15 @@ namespace Blaise.Nuget.Api.Api
                     // Rewind the MemoryStream
                     memoryStream.Position = 0;
 
-                    using (var streamReader = new StreamReader(memoryStream))
-                    {
-                        var csvContentFromMemory = streamReader.ReadToEnd();
-                        File.WriteAllText(@"c:\temp\output.csv", csvContentFromMemory);
-                    }
+                    //Save as byte array
+                    return memoryStream.ToArray();
+
+                    //For testing the output for Dave K - will remove once format is signed off
+                    /*  using (var streamReader = new StreamReader(memoryStream))
+                      {
+                          var csvContentFromMemory = streamReader.ReadToEnd();
+                          File.WriteAllText(@"c:\temp\output.csv", csvContentFromMemory);
+                      }*/
                 }
             }
         }
