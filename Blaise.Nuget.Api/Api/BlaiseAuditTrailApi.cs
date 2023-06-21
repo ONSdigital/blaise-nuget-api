@@ -10,6 +10,7 @@ using System.Linq;
 using System.Security;
 using System.Text;
 using ATA = StatNeth.Blaise.API.AuditTrail;
+// ReSharper disable All
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -36,6 +37,10 @@ namespace Blaise.Nuget.Api.Api
 
             if (_connectionModel is null || string.IsNullOrEmpty(_connectionModel.ServerName))
                 _connectionModel = configurationProvider.GetConnectionModel();
+
+            //Check the connection details are in the correct ranges
+            if (!_connectionModel.Binding.Equals("http") || _connectionModel.Binding.Equals("https"))
+                throw new InvalidOperationException("Invalid configuration: The Blaise configuration is invalid");
 
             //***************************************************************
             //Get the questionnaireid from the questionnaire name
