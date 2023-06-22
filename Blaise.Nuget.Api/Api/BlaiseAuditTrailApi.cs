@@ -50,7 +50,7 @@ namespace Blaise.Nuget.Api.Api
             var ras =
                ATA.AuditTrailManager.GetRemoteAuditTrailServer(
                    configurationProvider.GetConnectionModel().ServerName,
-                   configurationProvider.GetConnectionModel().Port,
+                   configurationProvider.GetConnectionModel().RemotePort,
                    configurationProvider.GetConnectionModel().UserName,
                    GetPassword(configurationProvider.GetConnectionModel().Password));
 
@@ -97,7 +97,8 @@ namespace Blaise.Nuget.Api.Api
                 }
             }
 
-            return null;
+            //No audit data was available
+            return Array.Empty<byte>();
         }
 
         private static SecureString GetPassword(string pw)
