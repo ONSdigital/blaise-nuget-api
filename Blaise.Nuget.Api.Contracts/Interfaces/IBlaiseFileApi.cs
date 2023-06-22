@@ -9,5 +9,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile);
 
         void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName);
+
+        void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName
+            , string questionnaireFile, bool auditOption);
     }
 }
