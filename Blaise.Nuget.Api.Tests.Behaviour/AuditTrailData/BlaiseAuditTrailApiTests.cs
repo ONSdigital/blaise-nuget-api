@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System;
 // ReSharper disable All
 
-namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrailData
+namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
 {
     public class BlaiseAuditTrailApiTests
     {
@@ -23,12 +23,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrailData
             _auditTrailService = new BlaiseAuditTrailApi(_connectionModel);
         }
 
+        [Ignore("Integration")]
         [Test]
         public void GetAuditTrail_WithValidParameters_ReturnsAuditTrailData()
         {
-            Assert.Pass();
-
-
             // Arrange
             var serverPark = "LocalDevelopment";
             var questionnaireName = "lms2301_ts6";
@@ -40,11 +38,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrailData
             Assert.IsNotNull(csvAsBytes);
         }
 
+        [Ignore("Integration")]
         [Test]
         public void GetAuditTrail_With_Empty_Server_Park_Returns_An_Exception()
         {
-            Assert.Pass();
-
             // Arrange
             var serverPark = "";
             var questionnaireName = "lms2301_ts6";
@@ -53,11 +50,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrailData
             Assert.Throws<ArgumentNullException>(() => _auditTrailService.GetAuditTrail(serverPark, questionnaireName));
         }
 
+        [Ignore("Integration")]
         [Test]
         public void GetAuditTrail_With_Empty_Questionnaire_Name_Returns_An_Exception()
         {
-            Assert.Pass();
-
             // Arrange
             var serverPark = "LocalDevelopment";
             var questionnaireName = "";
