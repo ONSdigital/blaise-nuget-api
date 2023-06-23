@@ -5,7 +5,6 @@ using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Extensions;
 using Blaise.Nuget.Api.Providers;
 using StatNeth.Blaise.API.DataInterface;
-using System;
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -37,7 +36,7 @@ namespace Blaise.Nuget.Api.Api
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
-            throw new NotImplementedException();
+            _fileService.UpdateQuestionnaireFileWithData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, auditOption);
         }
 
         public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile)

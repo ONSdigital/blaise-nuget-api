@@ -1,11 +1,12 @@
-﻿using System;
-using System.IO;
-using System.IO.Compression;
+﻿using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataInterface;
 using StatNeth.Blaise.API.DataRecord;
+using System;
+using System.IO;
+using System.IO.Compression;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -14,22 +15,25 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly IBlaiseConfigurationProvider _configurationProvider;
         private readonly IDataInterfaceProvider _dataInterfaceService;
         private readonly ICaseService _caseService;
+        private readonly IBlaiseAuditTrailApi _auditTrailApi;
 
         private const string DatabaseFileNameExt = "bdix";
         private const string DatabaseSourceExt = "bdbx";
         private const string DatabaseModelExt = "bmix";
 
         public FileService(
-            IBlaiseConfigurationProvider configurationProvider, 
-            IDataInterfaceProvider dataInterfaceService, 
-            ICaseService caseService)
+            IBlaiseConfigurationProvider configurationProvider,
+            IDataInterfaceProvider dataInterfaceService,
+            ICaseService caseService, IBlaiseAuditTrailApi auditTrailApi)
         {
             _configurationProvider = configurationProvider;
             _dataInterfaceService = dataInterfaceService;
             _caseService = caseService;
+            _auditTrailApi = auditTrailApi;
         }
 
-        public void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile, string questionnaireName, string serverParkName)
+        public void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile,
+            string questionnaireName, string serverParkName, bool addAudit = false)
         {
             var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
             var dataSourceFilePath = GetFullFilePath(questionnairePath, questionnaireName, DatabaseSourceExt);
@@ -38,8 +42,28 @@ namespace Blaise.Nuget.Api.Core.Services
 
             DeleteFileIfExists(dataSourceFilePath);
 
-            _dataInterfaceService.CreateFileDataInterface(dataSourceFilePath, 
+            _dataInterfaceService.CreateFileDataInterface(dataSourceFilePath,
                 dataInterfaceFilePath, dataModelFilePath);
+
+            //***************************************************************
+            //Add audit file if required
+            //***************************************************************
+            if (addAudit)
+            {
+                //***********************************************************
+                //Create the audit file
+                //***********************************************************
+                var fileInBytes = _auditTrailApi.GetAuditTrail(serverParkName, questionnaireName);
+
+                if (fileInBytes.Length > 0)
+                {
+                    //***********************************************************
+                    //Save the csv file as the questionnaire
+                    //***********************************************************
+                    var pathAndFileName = $@"{questionnairePath}/AuditTrailData.csv";
+                    SaveByteArrayToCsvFile(fileInBytes, pathAndFileName);
+                }
+            }
 
             var cases = _caseService.GetDataSet(connectionModel, questionnaireName, serverParkName);
 
@@ -49,8 +73,19 @@ namespace Blaise.Nuget.Api.Core.Services
 
                 cases.MoveNext();
             }
-
             CreateQuestionnairePackage(questionnairePath, questionnaireFile);
+        }
+
+        public void SaveByteArrayToCsvFile(byte[] byteArray, string filePath)
+        {
+            using (var memoryStream = new MemoryStream(byteArray))
+            {
+                using (var streamReader = new StreamReader(memoryStream))
+                {
+                    var csvContentFromMemory = streamReader.ReadToEnd();
+                    File.WriteAllText(filePath, csvContentFromMemory);
+                }
+            }
         }
 
         public void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName, string questionnaireFile)
@@ -76,7 +111,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private static string ExtractQuestionnairePackage(string questionnaireFile)
         {
-            var questionnairePath =  $"{Path.GetDirectoryName(questionnaireFile)}\\{Guid.NewGuid()}";
+            var questionnairePath = $"{Path.GetDirectoryName(questionnaireFile)}\\{Guid.NewGuid()}";
 
             if (Directory.Exists(questionnairePath))
             {

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Blaise.Nuget.Api.Api;
+﻿using Blaise.Nuget.Api.Api;
 using NUnit.Framework;
 using StatNeth.Blaise.API.DataInterface;
+using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
 {
@@ -13,14 +13,32 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
             _sut = new BlaiseFileApi();
         }
 
+        // [Ignore("Integration")]
+        [Test]
+        public void Given_I_Call_UpdateQuestionnaireFileWithAuditData_Then_The_Questionnaire_Is_Updated()
+        {
+            //arrange
+            const string serverParkName = "LocalDevelopment";
+            const string questionnaireName = "lms2301_ts6";
+            const string questionnaireFile = @"C:\Temp\LMS2301_TS61.bpkg";
+
+            CreateCases(100, questionnaireName, serverParkName);
+
+            //act && assert
+            Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithData(serverParkName, questionnaireName, questionnaireFile, true));
+
+            //cleanup
+            DeleteCasesInDatabase(questionnaireName, serverParkName);
+        }
+
         [Ignore("Integration")]
         [Test]
         public void Given_I_Call_UpdateQuestionnaireFileWithData_Then_The_Questionnaire_Is_Updated()
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "opn2101a";
-            const string questionnaireFile = @"D:\Opn\Temp\OPN2101A.bpkg";
+            const string questionnaireName = "lms2301_ts6";
+            const string questionnaireFile = @"C:\Temp\LMS2301_TS61.bpkg";
 
             CreateCases(100, questionnaireName, serverParkName);
 

@@ -2,6 +2,6 @@
 {
     public interface IBlaiseAuditTrailApi
     {
-        byte[] GetAuditTrail(string instrumentId, string sessionId);
+        byte[] GetAuditTrail(string serverPark, string questionnaireName);
     }
 }
