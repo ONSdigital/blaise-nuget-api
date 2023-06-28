@@ -134,13 +134,6 @@ namespace Blaise.Nuget.Api.Api
 
                     //Save as byte array
                     return memoryStream.ToArray();
-
-                    //For testing the output for Dave K - will remove once format is signed off
-                    /*  using (var streamReader = new StreamReader(memoryStream))
-                      {
-                          var csvContentFromMemory = streamReader.ReadToEnd();
-                          File.WriteAllText(@"c:\temp\output.csv", csvContentFromMemory);
-                      }*/
                 }
             }
         }
