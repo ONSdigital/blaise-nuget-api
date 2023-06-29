@@ -57,7 +57,7 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<IRoleService, RoleService>();
             UnityContainer.RegisterType<IQuestionnaireMetaService, QuestionnaireMetaService>();
             UnityContainer.RegisterType<ISqlService, SqlService>();
-            UnityContainer.RegisterType<IBlaiseAuditTrailApi, BlaiseAuditTrailApi>();
+            UnityContainer.RegisterType<IAuditTrailService, AuditTrailService>();
         }
         public static T Resolve<T>()
         {

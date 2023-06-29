@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\BlaiseAuditTrailApi.cs" />
+    <Compile Include="Api\BlaiseAuditTrailApi2.cs" />
     <Compile Include="Api\BlaiseSqlApi.cs" />
     <Compile Include="Api\BlaiseRoleApi.cs" />
     <Compile Include="Api\BlaiseServerParkApi.cs" />

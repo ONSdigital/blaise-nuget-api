@@ -128,6 +128,7 @@
     <Compile Include="Factories\RemoteDataServerFactory.cs" />
     <Compile Include="Interfaces\Factories\IConnectedServerFactory.cs" />
     <Compile Include="Interfaces\Providers\IBlaiseConfigurationProvider.cs" />
+    <Compile Include="Interfaces\Services\IAuditTrailService.cs" />
     <Compile Include="Interfaces\Services\IQuestionnaireMetaService.cs" />
     <Compile Include="Mappers\DataMapperService.cs" />
     <Compile Include="Interfaces\Mappers\IDataMapperService.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Providers\RemoteDataLinkProvider.cs" />
     <Compile Include="Providers\LocalDataLinkProvider.cs" />
     <Compile Include="Providers\DataInterfaceProvider.cs" />
+    <Compile Include="Services\AuditTrailService.cs" />
     <Compile Include="Services\DataModelService.cs" />
     <Compile Include="Services\DataRecordService.cs" />
     <Compile Include="Services\CaseService.cs" />
