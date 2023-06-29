@@ -9,7 +9,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
     public class BlaiseAuditTrailApiTests
     {
         private readonly ConnectionModel _connectionModel;
-        private BlaiseAuditTrailApi2 _auditTrailService;
+        private BlaiseAuditTrailApi _auditTrailService;
 
         public BlaiseAuditTrailApiTests()
         {
@@ -20,7 +20,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
         public void Setup()
         {
             // Initialize the AuditTrailService or mock its dependencies
-            _auditTrailService = new BlaiseAuditTrailApi2(_connectionModel);
+            _auditTrailService = new BlaiseAuditTrailApi(_connectionModel);
         }
 
         [Ignore("Integration")]

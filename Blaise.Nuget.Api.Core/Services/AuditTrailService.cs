@@ -3,112 +3,73 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security;
+using System.Security.Cryptography;
 using System.Text;
 using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
+using StatNeth.Blaise.API.AuditTrail;
+using StatNeth.Blaise.API.DataEntry.ServerPark;
+using static StatNeth.Blaise.Meta.Parsing.MetaObjectTokenCollection;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
     public class AuditTrailService : IAuditTrailService
     {
+        private IQuestionnaireService _questionnaireService;
+        private IAuditTrailManagerFactory _auditTrailManagerFactory;
+
+        public AuditTrailService(IQuestionnaireService questionnaireService, IAuditTrailManagerFactory auditTrailManagerFactory)
+        {
+            _questionnaireService = questionnaireService;
+            _auditTrailManagerFactory = auditTrailManagerFactory;
+        }
+
         public byte[] GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            throw new NotImplementedException();
-        }
-
-        public AuditTrailService(ConnectionModel connection)
-        {
-            _questionnaireService = UnityProvider.Resolve<IQuestionnaireService>();
-            _connectionModel = connection;
-        }
-
-        private readonly IQuestionnaireService _questionnaireService;
-        private ConnectionModel _connectionModel;
-
-
-
-        public byte[] GetAuditTrailData(string serverPark, string questionnaireName)
-        {
-            if (string.IsNullOrEmpty(serverPark) || string.IsNullOrEmpty(questionnaireName))
-                throw new ArgumentNullException($"Error - Expected paramter is empty, ServerPark: {serverPark}, QuestionnaireName: {questionnaireName}");
-
-            //***************************************************************
-            //Get the Blaise configuration
-            //***************************************************************
-            var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
-
-            if (_connectionModel is null || string.IsNullOrEmpty(_connectionModel.ServerName))
-                _connectionModel = configurationProvider.GetConnectionModel();
-
-            //***************************************************************
-            //Get the questionnaireid from the questionnaire name
-            //***************************************************************
-            var instrumentId = _questionnaireService.GetQuestionnaireId(_connectionModel, questionnaireName, serverPark);
-
-            var ras =
-               ATA.AuditTrailManager.GetRemoteAuditTrailServer(
-                   configurationProvider.GetConnectionModel().ServerName,
-                   configurationProvider.GetConnectionModel().RemotePort,
-                   configurationProvider.GetConnectionModel().UserName,
-                   GetPassword(configurationProvider.GetConnectionModel().Password));
-
+            var instrumentId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
+            var remoteAuditTrailServer = _auditTrailManagerFactory.GetRemoteAuditTrailServer(connectionModel);
             var auditEvents =
-                ras.GetInstrumentEvents(instrumentId, serverPark) as ATA.IInstrumentEvents2;
+                remoteAuditTrailServer.GetInstrumentEvents(instrumentId, serverParkName) as IInstrumentEvents2;
 
-            if (auditEvents != null)
+            if (auditEvents == null)
             {
-                //***********************************************************
-                //Get the keys
-                //***********************************************************
-                var listOfAuditEvents = new List<AuditTrailData>();
-                var keyValues = auditEvents.GetKeyValues();
+                return Array.Empty<byte>();
+            }
 
-                foreach (var keyVal in keyValues)
+            var listOfAuditEvents = new List<AuditTrailData>();
+            var keyValues = auditEvents.GetKeyValues();
+
+            foreach (var keyVal in keyValues)
+            {
+                var sessionIdAttachedToKey = auditEvents.GetSessionIDsByKeyValue(keyVal);
+
+                foreach (var sessionId in sessionIdAttachedToKey)
                 {
-                    //***********************************************************
-                    //For each key get the session Ids associated 
-                    //***********************************************************
-                    var sessionIdAttachedToKey = auditEvents.GetSessionIDsByKeyValue(keyVal);
+                    var sessionEvents = auditEvents.GetSessionEvents(sessionId);
 
-                    foreach (var sessionId in sessionIdAttachedToKey)
+                    foreach (var sessionEvent in sessionEvents.Events)
                     {
-                        var sessionEvents = auditEvents.GetSessionEvents(sessionId);
-
-                        foreach (var sessionEvent in sessionEvents.Events)
+                        var auditTrailData = new AuditTrailData
                         {
-                            var auditTrailData = new AuditTrailData
-                            {
-                                KeyValue = keyVal,
-                                SessionId = sessionId,
-                                TimeStamp = sessionEvent.TimeStamp,
-                                Content = sessionEvent.ToString()
-                            };
-                            listOfAuditEvents.Add(auditTrailData);
-                        }
+                            KeyValue = keyVal,
+                            SessionId = sessionId,
+                            TimeStamp = sessionEvent.TimeStamp,
+                            Content = sessionEvent.ToString()
+                        };
+                        listOfAuditEvents.Add(auditTrailData);
                     }
                 }
-
-                if (listOfAuditEvents.Any())
-                {
-                    var csvContent = GenerateCsvContent(listOfAuditEvents);
-                    return GenerateFileInMemory(csvContent);
-                }
             }
 
-            //No audit data was available
-            return Array.Empty<byte>();
-        }
-
-        private static SecureString GetPassword(string pw)
-        {
-            var password = new SecureString();
-
-            foreach (var character in pw)
+            if (!listOfAuditEvents.Any())
             {
-                password.AppendChar(character);
+                return Array.Empty<byte>();
             }
-            return password;
+
+            var csvContent = GenerateCsvContent(listOfAuditEvents);
+            return GenerateFileInMemory(csvContent);
         }
 
         private string GenerateCsvContent(List<AuditTrailData> listOfEvents)

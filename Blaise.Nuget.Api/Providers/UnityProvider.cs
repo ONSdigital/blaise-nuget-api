@@ -32,6 +32,8 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<ICatiManagementServerFactory, CatiManagementServerFactory>();
             UnityContainer.RegisterSingleton<ISecurityManagerFactory, SecurityManagerFactory>();
             UnityContainer.RegisterType<IDataInterfaceFactory, DataInterfaceFactory>();
+            UnityContainer.RegisterType<IAuditTrailManagerFactory, AuditTrailManagerFactory>();
+
 
             //mappers
             UnityContainer.RegisterType<IDataMapperService, DataMapperService>();

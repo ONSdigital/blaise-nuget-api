@@ -118,7 +118,9 @@
   <ItemGroup>
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExpiryExtensions.cs" />
+    <Compile Include="Factories\AuditTrailManagerFactory.cs" />
     <Compile Include="Factories\DataInterfaceFactory.cs" />
+    <Compile Include="Interfaces\Factories\IAuditTrailManagerFactory.cs" />
     <Compile Include="Interfaces\Factories\IDataInterfaceFactory.cs" />
     <Compile Include="Factories\SecurityManagerFactory.cs" />
     <Compile Include="Factories\ConnectedServerFactory.cs" />
