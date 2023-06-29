@@ -1,9 +1,11 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+﻿using System.Collections.Generic;
+using Blaise.Nuget.Api.Contracts.Models;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
     public interface IAuditTrailService
     {
-        byte[] GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
+        List<AuditTrailData> GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
+        string GenerateCsvContent(List<AuditTrailData> listOfEvents);
     }
 }

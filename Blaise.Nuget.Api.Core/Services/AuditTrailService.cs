@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security;
-using System.Security.Cryptography;
 using System.Text;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.AuditTrail;
-using StatNeth.Blaise.API.DataEntry.ServerPark;
-using static StatNeth.Blaise.Meta.Parsing.MetaObjectTokenCollection;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -26,19 +19,19 @@ namespace Blaise.Nuget.Api.Core.Services
             _auditTrailManagerFactory = auditTrailManagerFactory;
         }
 
-        public byte[] GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public List<AuditTrailData> GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var instrumentId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             var remoteAuditTrailServer = _auditTrailManagerFactory.GetRemoteAuditTrailServer(connectionModel);
             var auditEvents =
                 remoteAuditTrailServer.GetInstrumentEvents(instrumentId, serverParkName) as IInstrumentEvents2;
+            var listOfAuditEvents = new List<AuditTrailData>();
 
             if (auditEvents == null)
             {
-                return Array.Empty<byte>();
+                return listOfAuditEvents;
             }
-
-            var listOfAuditEvents = new List<AuditTrailData>();
+            
             var keyValues = auditEvents.GetKeyValues();
 
             foreach (var keyVal in keyValues)
@@ -49,30 +42,31 @@ namespace Blaise.Nuget.Api.Core.Services
                 {
                     var sessionEvents = auditEvents.GetSessionEvents(sessionId);
 
-                    foreach (var sessionEvent in sessionEvents.Events)
-                    {
-                        var auditTrailData = new AuditTrailData
-                        {
-                            KeyValue = keyVal,
-                            SessionId = sessionId,
-                            TimeStamp = sessionEvent.TimeStamp,
-                            Content = sessionEvent.ToString()
-                        };
-                        listOfAuditEvents.Add(auditTrailData);
-                    }
+                    
                 }
             }
 
-            if (!listOfAuditEvents.Any())
-            {
-                return Array.Empty<byte>();
-            }
-
-            var csvContent = GenerateCsvContent(listOfAuditEvents);
-            return GenerateFileInMemory(csvContent);
+            return listOfAuditEvents;
         }
 
-        private string GenerateCsvContent(List<AuditTrailData> listOfEvents)
+        private List<AuditTrailData> MapAuditTrailData(ISessionEvents sessionEvents)
+        {
+            foreach (var sessionEvent in sessionEvents.Events)
+            {
+                var auditTrailData = new AuditTrailData
+                {
+                    KeyValue = keyVal,
+                    SessionId = sessionId,
+                    TimeStamp = sessionEvent.TimeStamp,
+                    Content = sessionEvent.ToString()
+                };
+                listOfAuditEvents.Add(auditTrailData);
+            }
+
+        }
+
+
+        public string GenerateCsvContent(List<AuditTrailData> listOfEvents)
         {
             var csvContent = new StringBuilder();
             csvContent.AppendLine("KeyValue,SessionId,Timestamp,Content");
@@ -84,22 +78,5 @@ namespace Blaise.Nuget.Api.Core.Services
             return csvContent.ToString();
         }
 
-        private byte[] GenerateFileInMemory(string csvContent)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var streamWriter = new StreamWriter(memoryStream))
-                {
-                    streamWriter.Write(csvContent);
-                    streamWriter.Flush();
-
-                    // Rewind the MemoryStream
-                    memoryStream.Position = 0;
-
-                    //Save as byte array
-                    return memoryStream.ToArray();
-                }
-            }
-        }
     }
 }

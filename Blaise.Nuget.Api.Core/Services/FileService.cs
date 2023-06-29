@@ -7,6 +7,7 @@ using StatNeth.Blaise.API.DataRecord;
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -15,7 +16,7 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly IBlaiseConfigurationProvider _configurationProvider;
         private readonly IDataInterfaceProvider _dataInterfaceService;
         private readonly ICaseService _caseService;
-        private readonly IBlaiseAuditTrailApi _auditTrailApi;
+        private readonly IAuditTrailService _auditTrailService;
 
         private const string DatabaseFileNameExt = "bdix";
         private const string DatabaseSourceExt = "bdbx";
@@ -24,12 +25,13 @@ namespace Blaise.Nuget.Api.Core.Services
         public FileService(
             IBlaiseConfigurationProvider configurationProvider,
             IDataInterfaceProvider dataInterfaceService,
-            ICaseService caseService, IBlaiseAuditTrailApi auditTrailApi)
+            ICaseService caseService,
+            IAuditTrailService auditTrailService)
         {
             _configurationProvider = configurationProvider;
             _dataInterfaceService = dataInterfaceService;
             _caseService = caseService;
-            _auditTrailApi = auditTrailApi;
+            _auditTrailService = auditTrailService;
         }
 
         public void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile,
@@ -53,16 +55,17 @@ namespace Blaise.Nuget.Api.Core.Services
                 //***********************************************************
                 //Create the audit file
                 //***********************************************************
-                var fileInBytes = _auditTrailApi.GetAuditTrail(serverParkName, questionnaireName);
+                var auditTrailDataList = _auditTrailService.GetAuditTrailData(connectionModel, questionnaireName, serverParkName);
 
-                if (fileInBytes.Length > 0)
+                if (auditTrailDataList.Any())
                 {
                     //***********************************************************
                     //Save the csv file as the questionnaire
                     //***********************************************************
                     var pathAndFileName = $@"{questionnairePath}/AuditTrailData.csv";
-                    SaveByteArrayToCsvFile(fileInBytes, pathAndFileName);
-                }
+                    var csvContent = _auditTrailService.GenerateCsvContent(auditTrailDataList);
+                    File.WriteAllText(pathAndFileName, csvContent);
+                 }
             }
 
             var cases = _caseService.GetDataSet(connectionModel, questionnaireName, serverParkName);
@@ -74,18 +77,6 @@ namespace Blaise.Nuget.Api.Core.Services
                 cases.MoveNext();
             }
             CreateQuestionnairePackage(questionnairePath, questionnaireFile);
-        }
-
-        public void SaveByteArrayToCsvFile(byte[] byteArray, string filePath)
-        {
-            using (var memoryStream = new MemoryStream(byteArray))
-            {
-                using (var streamReader = new StreamReader(memoryStream))
-                {
-                    var csvContentFromMemory = streamReader.ReadToEnd();
-                    File.WriteAllText(filePath, csvContentFromMemory);
-                }
-            }
         }
 
         public void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName, string questionnaireFile)
