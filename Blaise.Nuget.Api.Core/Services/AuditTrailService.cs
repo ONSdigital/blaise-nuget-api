@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Blaise.Nuget.Api.Contracts.Models;
@@ -10,28 +11,34 @@ namespace Blaise.Nuget.Api.Core.Services
 {
     public class AuditTrailService : IAuditTrailService
     {
-        private IQuestionnaireService _questionnaireService;
-        private IAuditTrailManagerFactory _auditTrailManagerFactory;
+        private readonly IQuestionnaireService _questionnaireService;
+        private readonly IAuditTrailManagerFactory _auditTrailManagerFactory;
 
-        public AuditTrailService(IQuestionnaireService questionnaireService, IAuditTrailManagerFactory auditTrailManagerFactory)
+        public AuditTrailService(
+            IQuestionnaireService questionnaireService, 
+            IAuditTrailManagerFactory auditTrailManagerFactory)
         {
             _questionnaireService = questionnaireService;
             _auditTrailManagerFactory = auditTrailManagerFactory;
         }
 
-        public List<AuditTrailData> GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public List<AuditTrailDataModel> GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var instrumentId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             var remoteAuditTrailServer = _auditTrailManagerFactory.GetRemoteAuditTrailServer(connectionModel);
-            var auditEvents =
-                remoteAuditTrailServer.GetInstrumentEvents(instrumentId, serverParkName) as IInstrumentEvents2;
-            var listOfAuditEvents = new List<AuditTrailData>();
+            var auditEvents = remoteAuditTrailServer.GetInstrumentEvents(instrumentId, serverParkName) as IInstrumentEvents2;
 
             if (auditEvents == null)
             {
-                return listOfAuditEvents;
+                return new List<AuditTrailDataModel>();
             }
-            
+
+            return MapAuditEvents(auditEvents);
+        }
+
+        private static List<AuditTrailDataModel> MapAuditEvents(IInstrumentEvents2 auditEvents)
+        {
+            var listOfAuditEvents = new List<AuditTrailDataModel>();
             var keyValues = auditEvents.GetKeyValues();
 
             foreach (var keyVal in keyValues)
@@ -42,31 +49,29 @@ namespace Blaise.Nuget.Api.Core.Services
                 {
                     var sessionEvents = auditEvents.GetSessionEvents(sessionId);
 
-                    
+                    foreach (var sessionEvent in sessionEvents.Events)
+                    {
+                        var auditTrailData = MapAuditTrailData(keyVal, sessionId, sessionEvent);
+                        listOfAuditEvents.Add(auditTrailData);
+                    }
                 }
             }
 
             return listOfAuditEvents;
         }
 
-        private List<AuditTrailData> MapAuditTrailData(ISessionEvents sessionEvents)
+        private static AuditTrailDataModel MapAuditTrailData(string keyValue, Guid sessionId, IEventInfo eventInfo)
         {
-            foreach (var sessionEvent in sessionEvents.Events)
+            return new AuditTrailDataModel
             {
-                var auditTrailData = new AuditTrailData
-                {
-                    KeyValue = keyVal,
-                    SessionId = sessionId,
-                    TimeStamp = sessionEvent.TimeStamp,
-                    Content = sessionEvent.ToString()
-                };
-                listOfAuditEvents.Add(auditTrailData);
-            }
-
+                KeyValue = keyValue,
+                SessionId = sessionId,
+                TimeStamp = eventInfo.TimeStamp,
+                Content = eventInfo.ToString()
+            };
         }
 
-
-        public string GenerateCsvContent(List<AuditTrailData> listOfEvents)
+        public string GenerateCsvContent(List<AuditTrailDataModel> listOfEvents)
         {
             var csvContent = new StringBuilder();
             csvContent.AppendLine("KeyValue,SessionId,Timestamp,Content");
@@ -77,6 +82,5 @@ namespace Blaise.Nuget.Api.Core.Services
             }
             return csvContent.ToString();
         }
-
     }
 }

@@ -1,7 +1,10 @@
-﻿namespace Blaise.Nuget.Api.Contracts.Interfaces
+﻿using System.Collections.Generic;
+using Blaise.Nuget.Api.Contracts.Models;
+
+namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
     public interface IBlaiseAuditTrailApi
     {
-        byte[] GetAuditTrail(string serverPark, string questionnaireName);
+        IEnumerable<AuditTrailDataModel> GetAuditTrail(string serverPark, string questionnaireName);
     }
 }

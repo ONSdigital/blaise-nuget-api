@@ -47,25 +47,16 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataInterfaceService.CreateFileDataInterface(dataSourceFilePath,
                 dataInterfaceFilePath, dataModelFilePath);
 
-            //***************************************************************
-            //Add audit file if required
-            //***************************************************************
             if (addAudit)
             {
-                //***********************************************************
-                //Create the audit file
-                //***********************************************************
                 var auditTrailDataList = _auditTrailService.GetAuditTrailData(connectionModel, questionnaireName, serverParkName);
 
                 if (auditTrailDataList.Any())
                 {
-                    //***********************************************************
-                    //Save the csv file as the questionnaire
-                    //***********************************************************
                     var pathAndFileName = $@"{questionnairePath}/AuditTrailData.csv";
                     var csvContent = _auditTrailService.GenerateCsvContent(auditTrailDataList);
                     File.WriteAllText(pathAndFileName, csvContent);
-                 }
+                }
             }
 
             var cases = _caseService.GetDataSet(connectionModel, questionnaireName, serverParkName);

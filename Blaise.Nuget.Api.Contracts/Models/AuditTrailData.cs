@@ -2,7 +2,7 @@
 
 namespace Blaise.Nuget.Api.Contracts.Models
 {
-    public class AuditTrailData
+    public class AuditTrailDataModel
     {
         public string KeyValue { get; set; }
         public Guid SessionId { get; set; }
