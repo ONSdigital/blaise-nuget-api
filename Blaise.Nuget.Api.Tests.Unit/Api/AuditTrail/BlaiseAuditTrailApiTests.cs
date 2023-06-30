@@ -6,12 +6,13 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using Blaise.Nuget.Api.Contracts.Interfaces;
 
 namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
 {
     public class BlaiseAuditTrailApiTests
     {
-        private BlaiseAuditTrailApi _sut;
+        private IBlaiseAuditTrailApi _sut;
         private readonly ConnectionModel _connectionModel;
         private Mock<IAuditTrailService> _auditTrailServiceMock;
         private readonly string _questionnaireName;
@@ -35,13 +36,16 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         [Test]
         public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseAuditTrailApi_No_Exceptions_Are_Thrown()
         {
-
+            //act && assert
+            // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseAuditTrailApi());
         }
 
         [Test]
         public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseAuditTrailApi_No_Exceptions_Are_Thrown()
         {
+            //act && assert
+            // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseAuditTrailApi(new ConnectionModel()));
         }
 

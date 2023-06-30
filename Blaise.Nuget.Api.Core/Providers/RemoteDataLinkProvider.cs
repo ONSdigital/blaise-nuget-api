@@ -59,7 +59,7 @@ namespace Blaise.Nuget.Api.Core.Providers
 
             _dataLinkConnections[new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)] = null;
             _dataLinkConnections[new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)] = 
-                new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate()); ;
+                new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate()); 
 
             return dataLink;
         }

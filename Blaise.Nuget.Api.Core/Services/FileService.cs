@@ -1,5 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
+﻿using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataInterface;
@@ -7,7 +6,6 @@ using StatNeth.Blaise.API.DataRecord;
 using System;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -49,14 +47,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
             if (addAudit)
             {
-                var auditTrailDataList = _auditTrailService.GetAuditTrailData(connectionModel, questionnaireName, serverParkName);
-
-                if (auditTrailDataList.Any())
-                {
-                    var pathAndFileName = $@"{questionnairePath}/AuditTrailData.csv";
-                    var csvContent = _auditTrailService.GenerateCsvContent(auditTrailDataList);
-                    File.WriteAllText(pathAndFileName, csvContent);
-                }
+                CreateAuditTrailCsv(connectionModel, questionnaireName, serverParkName, questionnairePath);
             }
 
             var cases = _caseService.GetDataSet(connectionModel, questionnaireName, serverParkName);
@@ -89,6 +80,20 @@ namespace Blaise.Nuget.Api.Core.Services
                 .Replace("Database=blaise", $"Database={applicationType.ToString().ToLower()}");
 
             _dataInterfaceService.CreateSettingsDataInterface(databaseConnectionString, applicationType, fileName);
+        }
+
+        private void CreateAuditTrailCsv(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+            string questionnairePath)
+        {
+            var auditTrailCsvContent = _auditTrailService.CreateAuditTrailCsvContent(connectionModel, questionnaireName, serverParkName);
+
+            if (string.IsNullOrWhiteSpace(auditTrailCsvContent))
+            {
+                return;
+            }
+
+            var pathAndFileName = $@"{questionnairePath}/AuditTrailData.csv";
+            File.WriteAllText(pathAndFileName, auditTrailCsvContent);
         }
 
         private static string ExtractQuestionnairePackage(string questionnaireFile)

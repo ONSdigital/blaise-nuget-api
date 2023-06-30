@@ -10,7 +10,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName);
 
-        void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName
-            , string questionnaireFile, bool auditOption);
+        void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, 
+            string questionnaireFile, bool auditOption);
     }
 }

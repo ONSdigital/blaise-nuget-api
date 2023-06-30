@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
@@ -37,9 +38,11 @@ namespace Blaise.Nuget.Api.Core.Services
             return CreateAuditTrailDataFromEvents(auditEvents);
         }
 
-        public string GenerateCsvContent(List<AuditTrailDataModel> listOfEvents)
+        public string CreateAuditTrailCsvContent(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            return _auditTrailDataMapper.MapAuditTrailCsvContent(listOfEvents);
+            var auditTrailDataList = GetAuditTrailData(connectionModel, questionnaireName, serverParkName);
+
+            return !auditTrailDataList.Any() ? null : _auditTrailDataMapper.MapAuditTrailCsvContent(auditTrailDataList);
         }
 
         private List<AuditTrailDataModel> CreateAuditTrailDataFromEvents(IInstrumentEvents2 auditEvents)

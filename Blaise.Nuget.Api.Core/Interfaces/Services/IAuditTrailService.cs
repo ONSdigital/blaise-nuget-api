@@ -6,6 +6,6 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
     public interface IAuditTrailService
     {
         List<AuditTrailDataModel> GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
-        string GenerateCsvContent(List<AuditTrailDataModel> listOfEvents);
+        string CreateAuditTrailCsvContent(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
     }
 }

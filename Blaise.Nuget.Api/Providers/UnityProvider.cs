@@ -1,6 +1,4 @@
-﻿using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Core.Factories;
+﻿using Blaise.Nuget.Api.Core.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
