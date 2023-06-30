@@ -258,18 +258,20 @@ namespace Blaise.Nuget.Api.Api
             _caseService.UnLockDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName, lockId);
         }
 
-        //Ugghh :(
+        // Ugghh :(
         public bool DataRecordIsLocked(string primaryKeyValue, string questionnaireName, string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
+            /* StatNeth recommended way of checking that a data record is locked :( Not good practice */
             try
             {
                 _caseService.GetDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName);
                 return false;
             }
+            // ReSharper disable once EmptyGeneralCatchClause
             catch
             {
             }
