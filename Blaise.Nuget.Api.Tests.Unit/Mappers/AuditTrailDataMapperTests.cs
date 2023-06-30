@@ -1,7 +1,6 @@
 ﻿using System;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Mappers;
-using Blaise.Nuget.Api.Core.Models;
 using NUnit.Framework;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
@@ -28,7 +27,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
             const string keyValue = "keyValue";
             var sessionId = Guid.NewGuid();
             var eventTimeStamp = DateTime.Now;
-            var eventInfoContent = "blah";
+            const string eventInfoContent = "blah";
 
             var eventInfoMock = new Mock<IEventInfo>();
             eventInfoMock.Setup(ei => ei.TimeStamp).Returns(eventTimeStamp);
