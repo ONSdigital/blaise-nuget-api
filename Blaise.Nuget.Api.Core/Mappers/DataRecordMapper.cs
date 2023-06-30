@@ -5,7 +5,7 @@ using StatNeth.Blaise.API.Meta;
 
 namespace Blaise.Nuget.Api.Core.Mappers
 {
-    public class DataMapperService : IDataMapperService
+    public class DataRecordMapper : IDataRecordMapper
     {
         public IDataRecord MapDataRecordFields(IDataRecord dataRecord, IKey key,
             string primaryKeyValue, Dictionary<string, string> fieldData)

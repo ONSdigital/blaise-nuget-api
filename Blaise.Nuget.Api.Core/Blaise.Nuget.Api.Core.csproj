@@ -132,8 +132,9 @@
     <Compile Include="Interfaces\Providers\IBlaiseConfigurationProvider.cs" />
     <Compile Include="Interfaces\Services\IAuditTrailService.cs" />
     <Compile Include="Interfaces\Services\IQuestionnaireMetaService.cs" />
-    <Compile Include="Mappers\DataMapperService.cs" />
-    <Compile Include="Interfaces\Mappers\IDataMapperService.cs" />
+    <Compile Include="Mappers\AuditTrailDataMapper.cs" />
+    <Compile Include="Mappers\DataRecordMapper.cs" />
+    <Compile Include="Interfaces\Mappers\IDataRecordMapper.cs" />
     <Compile Include="Interfaces\Providers\IRemoteDataLinkProvider.cs" />
     <Compile Include="Interfaces\Providers\ILocalDataLinkProvider.cs" />
     <Compile Include="Interfaces\Services\IDataModelService.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Interfaces\Factories\IRemoteDataServerFactory.cs" />
     <Compile Include="Interfaces\Services\IQuestionnaireService.cs" />
     <Compile Include="Interfaces\Mappers\IRolePermissionMapper.cs" />
+    <Compile Include="Interfaces\Mappers\IAuditTrailDataMapper.cs" />
     <Compile Include="Mappers\RolePermissionMapper.cs" />
     <Compile Include="Models\ActionPermissionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

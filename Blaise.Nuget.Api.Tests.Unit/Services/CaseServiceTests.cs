@@ -22,7 +22,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         private Mock<IKeyService> _keyServiceMock;
         private Mock<IDataRecordService> _dataRecordServiceMock;
         private Mock<IFieldService> _fieldServiceMock;
-        private Mock<IDataMapperService> _mapperServiceMock;
+        private Mock<IDataRecordMapper> _mapperServiceMock;
 
         private Mock<IDatamodel> _dataModelMock;
         private Mock<IKey> _keyMock;
@@ -71,7 +71,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _fieldServiceMock = new Mock<IFieldService>();
 
-            _mapperServiceMock = new Mock<IDataMapperService>();
+            _mapperServiceMock = new Mock<IDataRecordMapper>();
 
             _sut = new CaseService(
                 _dataModelServiceMock.Object,

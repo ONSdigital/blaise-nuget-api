@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
+using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.AuditTrail;
 
@@ -13,13 +11,16 @@ namespace Blaise.Nuget.Api.Core.Services
     {
         private readonly IQuestionnaireService _questionnaireService;
         private readonly IAuditTrailManagerFactory _auditTrailManagerFactory;
+        private readonly IAuditTrailDataMapper _auditTrailDataMapper;
 
         public AuditTrailService(
             IQuestionnaireService questionnaireService, 
-            IAuditTrailManagerFactory auditTrailManagerFactory)
+            IAuditTrailManagerFactory auditTrailManagerFactory, 
+            IAuditTrailDataMapper auditTrailDataMapper)
         {
             _questionnaireService = questionnaireService;
             _auditTrailManagerFactory = auditTrailManagerFactory;
+            _auditTrailDataMapper = auditTrailDataMapper;
         }
 
         public List<AuditTrailDataModel> GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
@@ -33,12 +34,17 @@ namespace Blaise.Nuget.Api.Core.Services
                 return new List<AuditTrailDataModel>();
             }
 
-            return MapAuditEvents(auditEvents);
+            return CreateAuditTrailDataFromEvents(auditEvents);
         }
 
-        private static List<AuditTrailDataModel> MapAuditEvents(IInstrumentEvents2 auditEvents)
+        public string GenerateCsvContent(List<AuditTrailDataModel> listOfEvents)
         {
-            var listOfAuditEvents = new List<AuditTrailDataModel>();
+            return _auditTrailDataMapper.MapAuditTrailCsvContent(listOfEvents);
+        }
+
+        private List<AuditTrailDataModel> CreateAuditTrailDataFromEvents(IInstrumentEvents2 auditEvents)
+        {
+            var auditTrailDataModels = new List<AuditTrailDataModel>();
             var keyValues = auditEvents.GetKeyValues();
 
             foreach (var keyVal in keyValues)
@@ -51,36 +57,13 @@ namespace Blaise.Nuget.Api.Core.Services
 
                     foreach (var sessionEvent in sessionEvents.Events)
                     {
-                        var auditTrailData = MapAuditTrailData(keyVal, sessionId, sessionEvent);
-                        listOfAuditEvents.Add(auditTrailData);
+                        var auditTrailDataModel = _auditTrailDataMapper.MapAuditTrailDataModel(keyVal, sessionId, sessionEvent);
+                        auditTrailDataModels.Add(auditTrailDataModel);
                     }
                 }
             }
 
-            return listOfAuditEvents;
-        }
-
-        private static AuditTrailDataModel MapAuditTrailData(string keyValue, Guid sessionId, IEventInfo eventInfo)
-        {
-            return new AuditTrailDataModel
-            {
-                KeyValue = keyValue,
-                SessionId = sessionId,
-                TimeStamp = eventInfo.TimeStamp,
-                Content = eventInfo.ToString()
-            };
-        }
-
-        public string GenerateCsvContent(List<AuditTrailDataModel> listOfEvents)
-        {
-            var csvContent = new StringBuilder();
-            csvContent.AppendLine("KeyValue,SessionId,Timestamp,Content");
-
-            foreach (var eventFromAudit in listOfEvents.OrderBy(o => o.KeyValue))
-            {
-                csvContent.AppendLine($"{eventFromAudit.KeyValue}, {eventFromAudit.SessionId}, {eventFromAudit.TimeStamp.ToString("dd/MM/yyyy HH:mm:ss")}, {eventFromAudit.Content}");
-            }
-            return csvContent.ToString();
+            return auditTrailDataModels;
         }
     }
 }

@@ -17,20 +17,20 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly IDataRecordService _dataRecordService;
         private readonly IKeyService _keyService;
         private readonly IFieldService _fieldService;
-        private readonly IDataMapperService _mapperService;
+        private readonly IDataRecordMapper _recordMapper;
 
         public CaseService(
             IDataModelService dataModelService, 
             IDataRecordService dataRecordService, 
             IKeyService keyService, 
             IFieldService fieldService, 
-            IDataMapperService mapperService)
+            IDataRecordMapper recordMapper)
         {
             _dataModelService = dataModelService;
             _dataRecordService = dataRecordService;
             _keyService = keyService;
             _fieldService = fieldService;
-            _mapperService = mapperService;
+            _recordMapper = recordMapper;
         }
 
         public string GetPrimaryKeyValue(IDataRecord dataRecord)
@@ -135,7 +135,7 @@ namespace Blaise.Nuget.Api.Core.Services
             var key = _keyService.GetPrimaryKey(dataModel);
             var dataRecord = _dataRecordService.GetDataRecord(dataModel);
 
-            dataRecord = _mapperService.MapDataRecordFields(dataRecord, key, primaryKeyValue, fieldData);
+            dataRecord = _recordMapper.MapDataRecordFields(dataRecord, key, primaryKeyValue, fieldData);
 
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
@@ -151,7 +151,7 @@ namespace Blaise.Nuget.Api.Core.Services
             var key = _keyService.GetPrimaryKey(dataModel);
             var dataRecord = _dataRecordService.GetDataRecord(dataModel);
 
-            dataRecord = _mapperService.MapDataRecordFields(dataRecord, key, primaryKeyValue, fieldData);
+            dataRecord = _recordMapper.MapDataRecordFields(dataRecord, key, primaryKeyValue, fieldData);
 
             WriteDataRecord(connectionModel, dataRecord, databaseFile);
         }
@@ -161,14 +161,14 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var dataRecord = GetDataRecord(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
-            dataRecord = _mapperService.MapDataRecordFields(dataRecord, fieldData);
+            dataRecord = _recordMapper.MapDataRecordFields(dataRecord, fieldData);
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
 
         public void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, Dictionary<string, string> fieldData, 
             string questionnaireName, string serverParkName)
         {
-            dataRecord = _mapperService.MapDataRecordFields(dataRecord, fieldData);
+            dataRecord = _recordMapper.MapDataRecordFields(dataRecord, fieldData);
 
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
@@ -176,14 +176,14 @@ namespace Blaise.Nuget.Api.Core.Services
         public void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, Dictionary<string, string> fieldData,
             string databaseFile)
         {
-            dataRecord = _mapperService.MapDataRecordFields(dataRecord, fieldData);
+            dataRecord = _recordMapper.MapDataRecordFields(dataRecord, fieldData);
 
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, databaseFile);
         }
 
         public Dictionary<string, string> GetFieldDataFromRecord(IDataRecord dataRecord)
         {
-            return _mapperService.MapFieldDictionaryFromRecord(dataRecord);
+            return _recordMapper.MapFieldDictionaryFromRecord(dataRecord);
         }
 
         public void LockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName,

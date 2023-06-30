@@ -82,7 +82,7 @@
     <Compile Include="Interfaces\IBlaiseSqlApi.cs" />
     <Compile Include="Interfaces\IBlaiseQuestionnaireApi.cs" />
     <Compile Include="Interfaces\IBlaiseUserApi.cs" />
-    <Compile Include="Models\AuditTrailData.cs" />
+    <Compile Include="Models\AuditTrailDataModel.cs" />
     <Compile Include="Models\CaseIdentifierModel.cs" />
     <Compile Include="Models\CaseModel.cs" />
     <Compile Include="Models\ConnectionModel.cs" />
