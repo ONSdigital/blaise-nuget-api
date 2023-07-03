@@ -6,14 +6,14 @@ using StatNeth.Blaise.API.DataRecord;
 
 namespace Blaise.Nuget.Api.Tests.Unit.Mappers
 {
-    public class DataMapperServiceTests
+    public class DataRecordMapperTests
     {
-        private DataMapperService _sut;
+        private DataRecordMapper _sut;
 
         [SetUp]
         public void SetupTests()
         {
-            _sut = new DataMapperService();
+            _sut = new DataRecordMapper();
 
         }
 

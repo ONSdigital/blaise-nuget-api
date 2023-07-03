@@ -1,11 +1,11 @@
-﻿using System;
-using System.IO;
-using System.IO.Compression;
-using Blaise.Nuget.Api.Contracts.Models;
+﻿using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataInterface;
 using StatNeth.Blaise.API.DataRecord;
+using System;
+using System.IO;
+using System.IO.Compression;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -14,22 +14,26 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly IBlaiseConfigurationProvider _configurationProvider;
         private readonly IDataInterfaceProvider _dataInterfaceService;
         private readonly ICaseService _caseService;
+        private readonly IAuditTrailService _auditTrailService;
 
         private const string DatabaseFileNameExt = "bdix";
         private const string DatabaseSourceExt = "bdbx";
         private const string DatabaseModelExt = "bmix";
 
         public FileService(
-            IBlaiseConfigurationProvider configurationProvider, 
-            IDataInterfaceProvider dataInterfaceService, 
-            ICaseService caseService)
+            IBlaiseConfigurationProvider configurationProvider,
+            IDataInterfaceProvider dataInterfaceService,
+            ICaseService caseService,
+            IAuditTrailService auditTrailService)
         {
             _configurationProvider = configurationProvider;
             _dataInterfaceService = dataInterfaceService;
             _caseService = caseService;
+            _auditTrailService = auditTrailService;
         }
 
-        public void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile, string questionnaireName, string serverParkName)
+        public void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile,
+            string questionnaireName, string serverParkName, bool addAudit = false)
         {
             var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
             var dataSourceFilePath = GetFullFilePath(questionnairePath, questionnaireName, DatabaseSourceExt);
@@ -38,8 +42,13 @@ namespace Blaise.Nuget.Api.Core.Services
 
             DeleteFileIfExists(dataSourceFilePath);
 
-            _dataInterfaceService.CreateFileDataInterface(dataSourceFilePath, 
+            _dataInterfaceService.CreateFileDataInterface(dataSourceFilePath,
                 dataInterfaceFilePath, dataModelFilePath);
+
+            if (addAudit)
+            {
+                CreateAuditTrailCsv(connectionModel, questionnaireName, serverParkName, questionnairePath);
+            }
 
             var cases = _caseService.GetDataSet(connectionModel, questionnaireName, serverParkName);
 
@@ -49,7 +58,6 @@ namespace Blaise.Nuget.Api.Core.Services
 
                 cases.MoveNext();
             }
-
             CreateQuestionnairePackage(questionnairePath, questionnaireFile);
         }
 
@@ -74,9 +82,23 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataInterfaceService.CreateSettingsDataInterface(databaseConnectionString, applicationType, fileName);
         }
 
+        private void CreateAuditTrailCsv(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+            string questionnairePath)
+        {
+            var auditTrailCsvContent = _auditTrailService.CreateAuditTrailCsvContent(connectionModel, questionnaireName, serverParkName);
+
+            if (string.IsNullOrWhiteSpace(auditTrailCsvContent))
+            {
+                return;
+            }
+
+            var pathAndFileName = $@"{questionnairePath}/AuditTrailData.csv";
+            File.WriteAllText(pathAndFileName, auditTrailCsvContent);
+        }
+
         private static string ExtractQuestionnairePackage(string questionnaireFile)
         {
-            var questionnairePath =  $"{Path.GetDirectoryName(questionnaireFile)}\\{Guid.NewGuid()}";
+            var questionnairePath = $"{Path.GetDirectoryName(questionnaireFile)}\\{Guid.NewGuid()}";
 
             if (Directory.Exists(questionnairePath))
             {

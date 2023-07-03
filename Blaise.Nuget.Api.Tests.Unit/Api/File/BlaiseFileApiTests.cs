@@ -1,11 +1,11 @@
-﻿using System;
-using Blaise.Nuget.Api.Api;
+﻿using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Moq;
 using NUnit.Framework;
 using StatNeth.Blaise.API.DataInterface;
+using System;
 
 namespace Blaise.Nuget.Api.Tests.Unit.Api.File
 {
@@ -59,21 +59,21 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
             //arrange
 
             _fileServiceMock.Setup(f => f.UpdateQuestionnaireFileWithData(It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), false));
 
             //act
             _sut.UpdateQuestionnaireFileWithData(_serverParkName, _questionnaireName, _questionnaireFile);
 
             //assert
             _fileServiceMock.Verify(f => f.UpdateQuestionnaireFileWithData(_connectionModel,
-                _questionnaireFile,_questionnaireName, _serverParkName), Times.Once);
+                _questionnaireFile, _questionnaireName, _serverParkName, false), Times.Once);
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithData(string.Empty, 
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithData(string.Empty,
                 _questionnaireName, _questionnaireFile));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
@@ -82,7 +82,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         public void Given_A_Null_ServerParkName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(null, 
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(null,
                 _questionnaireName, _questionnaireFile));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
@@ -100,7 +100,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         public void Given_A_Null_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(_serverParkName, 
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(_serverParkName,
                 null, _questionnaireFile));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
@@ -109,7 +109,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         public void Given_An_Empty_DestinationFilePath_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithData(_serverParkName, 
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithData(_serverParkName,
                 _questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'questionnaireFile' must be supplied", exception.Message);
         }
@@ -118,7 +118,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         public void Given_A_Null_DestinationFilePath_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(_serverParkName, 
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(_serverParkName,
                 _questionnaireName, null));
             Assert.AreEqual("questionnaireFile", exception.ParamName);
         }
@@ -157,7 +157,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         public void Given_An_Empty_QuestionnaireFile_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithSqlConnection(_questionnaireName, 
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateQuestionnaireFileWithSqlConnection(_questionnaireName,
                 string.Empty));
             Assert.AreEqual("A value for the argument 'questionnaireFile' must be supplied", exception.Message);
         }

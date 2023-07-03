@@ -22,7 +22,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _dataInterfaceMock = new Mock<IDataInterfaceProvider>();
             _caseServiceMock = new Mock<ICaseService>();
 
-            _sut = new FileService(_configurationMock.Object, _dataInterfaceMock.Object, _caseServiceMock.Object);
+            _sut = new FileService(_configurationMock.Object, _dataInterfaceMock.Object, _caseServiceMock.Object, null);
         }
 
         [TestCase(ApplicationType.Cati)]
@@ -39,7 +39,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             const string fileName = "LMS2101_BK1";
             const string existingConnectionString = "User Id=username;Server=ipaddress;Database=blaise;Password=password";
 
-            var expectedConnectionString 
+            var expectedConnectionString
                 = $"User Id=username;Server=ipaddress;Database={applicationType.ToString().ToLower()};Password=password";
 
             _configurationMock.Setup(c => c.DatabaseConnectionString)

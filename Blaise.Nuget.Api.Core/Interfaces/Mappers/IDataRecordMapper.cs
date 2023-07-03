@@ -3,7 +3,7 @@ using StatNeth.Blaise.API.DataRecord;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Mappers
 {
-    public interface IDataMapperService
+    public interface IDataRecordMapper
     {
         IDataRecord MapDataRecordFields(IDataRecord dataRecord, IKey key,
             string primaryKeyValue, Dictionary<string, string> fieldData);

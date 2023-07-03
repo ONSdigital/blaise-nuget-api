@@ -8,7 +8,32 @@ This solution utilizes concepts from the SOLID principles of development. In ord
 
 # Local setup
 
+To run tests locally you will need a PAT to login to the NuGet API.
+
+In Azure Dev Ops on your on-net:
+	- click your profile picture in the top-right
+	- select the ellipsis (three horiztonal dots)
+	- select user-settings
+	- select Personal access tokens
+	- select New token
+	- give it a name, any name
+	- add a 90 day expiration
+	- add all the highest permissions (read, write and manage for most of them)
+	- don't forget to select view the additional 29
+	- save your token locally
+	- this is your password
+
+In Miscrosoft Visual Studio, login to the NuGet API.  Either...
+	- Build the solution and wait to be prompted for sign in...
+	- Failing that, right-click Solution Explore and select Manage NuGet Packages for Solution
+		- In the far-right, select CSharp from the Source drop-down and wait to be prompted for sign in...
+
+Sign in, using your windows email address and your newly created PAT as the password
+	- Failing that, ask Al for the magic windows explorer link to the config...
+
 Populate the App.config file accordingly, **never commit a populated App.config file!**
+
+Finally, build solution and run the tests.
 
 # Usage
 

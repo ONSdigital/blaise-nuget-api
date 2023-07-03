@@ -23,8 +23,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
         }
 
         [Test]
-        public void
-            Given_A_List_Of_Permissions_When_I_Call_MapToActionPermissionModels_I_Get_A_List_Of_ActionPermissionModels_Returned()
+        public void Given_A_List_Of_Permissions_When_I_Call_MapToActionPermissionModels_I_Get_A_List_Of_ActionPermissionModels_Returned()
         {
             //act
             var result = _sut.MapToActionPermissionModels(_permissions);
@@ -35,8 +34,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
         }
 
         [Test]
-        public void
-            Given_A_List_Of_Permissions_When_I_Call_MapToActionPermissionModels_I_Get_An_Expected_List_Of_ActionPermissionModels_Returned()
+        public void Given_A_List_Of_Permissions_When_I_Call_MapToActionPermissionModels_I_Get_An_Expected_List_Of_ActionPermissionModels_Returned()
         {
             //act
             var result = _sut.MapToActionPermissionModels(_permissions).ToList();

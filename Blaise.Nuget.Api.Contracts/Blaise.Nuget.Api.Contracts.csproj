@@ -72,6 +72,7 @@
     <Compile Include="Exceptions\DataNotFoundException.cs" />
     <Compile Include="Exceptions\QuestionnaireConfigurationException.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Interfaces\IBlaiseAuditTrailApi.cs" />
     <Compile Include="Interfaces\IBlaiseFileApi.cs" />
     <Compile Include="Interfaces\IBlaiseCaseApi.cs" />
     <Compile Include="Interfaces\IBlaiseHealthApi.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Interfaces\IBlaiseSqlApi.cs" />
     <Compile Include="Interfaces\IBlaiseQuestionnaireApi.cs" />
     <Compile Include="Interfaces\IBlaiseUserApi.cs" />
+    <Compile Include="Models\AuditTrailDataModel.cs" />
     <Compile Include="Models\CaseIdentifierModel.cs" />
     <Compile Include="Models\CaseModel.cs" />
     <Compile Include="Models\ConnectionModel.cs" />

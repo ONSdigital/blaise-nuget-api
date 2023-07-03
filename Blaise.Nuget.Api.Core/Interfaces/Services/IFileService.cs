@@ -6,7 +6,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
     public interface IFileService
     {
         void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile,
-            string questionnaireName, string serverParkName);
+            string questionnaireName, string serverParkName, bool addAudit = false);
 
         void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName,
             string questionnaireFile);

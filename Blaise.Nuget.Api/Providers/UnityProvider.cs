@@ -30,10 +30,13 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<ICatiManagementServerFactory, CatiManagementServerFactory>();
             UnityContainer.RegisterSingleton<ISecurityManagerFactory, SecurityManagerFactory>();
             UnityContainer.RegisterType<IDataInterfaceFactory, DataInterfaceFactory>();
+            UnityContainer.RegisterType<IAuditTrailManagerFactory, AuditTrailManagerFactory>();
+
 
             //mappers
-            UnityContainer.RegisterType<IDataMapperService, DataMapperService>();
+            UnityContainer.RegisterType<IDataRecordMapper, DataRecordMapper>();
             UnityContainer.RegisterType<IRolePermissionMapper, RolePermissionMapper>();
+            UnityContainer.RegisterType<IAuditTrailDataMapper, AuditTrailDataMapper>();
 
             //data link providers
             UnityContainer.RegisterType<ILocalDataLinkProvider, LocalDataLinkProvider>();
@@ -55,6 +58,7 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<IRoleService, RoleService>();
             UnityContainer.RegisterType<IQuestionnaireMetaService, QuestionnaireMetaService>();
             UnityContainer.RegisterType<ISqlService, SqlService>();
+            UnityContainer.RegisterType<IAuditTrailService, AuditTrailService>();
         }
         public static T Resolve<T>()
         {

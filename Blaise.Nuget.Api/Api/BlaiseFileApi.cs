@@ -29,6 +29,16 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
+        public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName
+                                                                    , string questionnaireFile, bool auditOption)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
+
+            _fileService.UpdateQuestionnaireFileWithData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, auditOption);
+        }
+
         public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
