@@ -9,7 +9,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
     public class BlaiseAuditTrailApiTests
     {
         private readonly ConnectionModel _connectionModel;
-        private BlaiseAuditTrailApi _auditTrailService;
+        private BlaiseAuditTrailApi _auditTrailApi;
 
         public BlaiseAuditTrailApiTests()
         {
@@ -20,7 +20,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
         public void Setup()
         {
             // Initialize the AuditTrailService or mock its dependencies
-            _auditTrailService = new BlaiseAuditTrailApi(_connectionModel);
+            _auditTrailApi = new BlaiseAuditTrailApi(_connectionModel);
         }
 
         [Ignore("Integration")]
@@ -32,10 +32,11 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
             var questionnaireName = "lms2301_ts6";
 
             // Act
-            var csvAsBytes = _auditTrailService.GetAuditTrail(serverPark, questionnaireName);
+            var audotTrailDataModels = _auditTrailApi.GetAuditTrail(serverPark, questionnaireName);
 
             // Assert
-            Assert.IsNotNull(csvAsBytes);
+            Assert.IsNotNull(audotTrailDataModels);
+            Assert.IsNotEmpty(audotTrailDataModels);
         }
 
         [Ignore("Integration")]
@@ -47,7 +48,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
             var questionnaireName = "lms2301_ts6";
 
             // Act and Assert
-            Assert.Throws<ArgumentNullException>(() => _auditTrailService.GetAuditTrail(serverPark, questionnaireName));
+            Assert.Throws<ArgumentNullException>(() => _auditTrailApi.GetAuditTrail(serverPark, questionnaireName));
         }
 
         [Ignore("Integration")]
@@ -59,7 +60,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
             var questionnaireName = "";
 
             // Act and Assert
-            Assert.Throws<ArgumentNullException>(() => _auditTrailService.GetAuditTrail(serverPark, questionnaireName));
+            Assert.Throws<ArgumentNullException>(() => _auditTrailApi.GetAuditTrail(serverPark, questionnaireName));
         }
     }
 }
