@@ -23,6 +23,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IDataRecord GetCase(string primaryKeyValue, string databaseFile);
 
+        void CreateCases(List<CaseModel> cases, string questionnaireName, string serverParkName);
+
         void CreateCase(string primaryKeyValue, Dictionary<string, string> fieldData, 
             string questionnaireName, string serverParkName);
 
