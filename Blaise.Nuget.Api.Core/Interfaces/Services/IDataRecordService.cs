@@ -2,6 +2,7 @@
 using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
 using StatNeth.Blaise.API.Meta;
+using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
@@ -16,6 +17,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         IDataRecord GetDataRecord(ConnectionModel connectionModel, string databaseFile, IKey primaryKey);
 
         IDataRecord GetDataRecord(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName);
+
+        void WriteDataRecords(ConnectionModel connectionModel, IEnumerable<IDataRecord> dataRecords,
+            string questionnaireName, string serverParkName);
 
         void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string questionnaireName, string serverParkName);
 

@@ -6,8 +6,10 @@ using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
+using Blaise.Nuget.Api.Core.Models;
 using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
+using StatNeth.Blaise.Runtime.DataContract.Common.BaseEngine;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -127,6 +129,23 @@ namespace Blaise.Nuget.Api.Core.Services
             var primaryKey = GetPrimaryKey(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
 
             return _keyService.KeyExists(connectionModel, primaryKey, questionnaireName, serverParkName);
+        }
+
+        public void CreateNewDataRecords(ConnectionModel connectionModel, IEnumerable<CaseModel> caseModels, string questionnaireName, string serverParkName)
+        {
+            var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
+            var key = _keyService.GetPrimaryKey(dataModel);
+
+            var dataRecords = new List<IDataRecord>();
+
+            foreach (var caseModel in caseModels)
+            {
+                var dataRecord = _dataRecordService.GetDataRecord(dataModel);
+                dataRecord = _recordMapper.MapDataRecordFields(dataRecord, key, caseModel.CaseId, caseModel.FieldData);
+                dataRecords.Add(dataRecord);
+            }
+
+            _dataRecordService.WriteDataRecords(connectionModel, dataRecords, questionnaireName, serverParkName);
         }
 
         public void CreateNewDataRecord(ConnectionModel connectionModel, string primaryKeyValue, Dictionary<string, string> fieldData, string questionnaireName, string serverParkName)

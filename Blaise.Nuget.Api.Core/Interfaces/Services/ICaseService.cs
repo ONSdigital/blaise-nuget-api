@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Core.Models;
 using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
 
@@ -20,6 +21,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         IDataRecord GetDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, string serverParkName);
 
         IDataRecord GetDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string databaseFile);
+
+        void CreateNewDataRecords(ConnectionModel connectionModel, IEnumerable<CaseModel> caseModels,
+            string questionnaireName, string serverParkName);
 
         void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string databaseFile);
 

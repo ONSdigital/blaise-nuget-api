@@ -84,6 +84,15 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetDataRecord(_connectionModel, primaryKeyValue, databaseFile);
         }
 
+        public void CreateCases(IEnumerable<CaseModel> cases, string questionnaireName, string serverParkName)
+        {
+            cases.ThrowExceptionIfNull("cases");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+
+            _caseService.CreateNewDataRecords(_connectionModel, cases, questionnaireName, serverParkName);
+        }
+
         public void CreateCase(string primaryKeyValue, Dictionary<string, string> fieldData, 
             string questionnaireName, string serverParkName)
         {

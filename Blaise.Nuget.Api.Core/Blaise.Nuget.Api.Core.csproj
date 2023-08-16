@@ -150,6 +150,7 @@
     <Compile Include="Interfaces\Mappers\IAuditTrailDataMapper.cs" />
     <Compile Include="Mappers\RolePermissionMapper.cs" />
     <Compile Include="Models\ActionPermissionModel.cs" />
+    <Compile Include="Models\CaseRecordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\Providers\IRemoteCatiManagementServerProvider.cs" />
     <Compile Include="Providers\RemoteCatiManagementServerProvider.cs" />
