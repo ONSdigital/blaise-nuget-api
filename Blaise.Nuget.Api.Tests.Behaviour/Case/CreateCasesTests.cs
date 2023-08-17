@@ -42,11 +42,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             //act
             _sut.CreateCases(caseModels, questionnaireName, serverParkName);
 
-            //arrange
-            //Assert.IsTrue(_sut.CaseExists(_primaryKey, questionnaireName, serverParkName));
-
-            //cleanup
-            //_sut.RemoveCase(_primaryKey, questionnaireName, serverParkName);
+            //assert && cleanup
+            for (var i = 1; i <= 1000; i++)
+            {
+                var caseId = $"{primaryKey + i}";
+                Assert.IsTrue(_sut.CaseExists(caseId, questionnaireName, serverParkName));
+                _sut.RemoveCase(caseId, questionnaireName, serverParkName);
+            }
         }
     }
 }

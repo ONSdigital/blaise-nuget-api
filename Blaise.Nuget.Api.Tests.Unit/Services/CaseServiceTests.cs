@@ -261,6 +261,70 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
+        public void Given_Valid_Arguments_When_I_Call_CreateNewDataRecords_Then_The_Correct_Services_Are_Called_For_One_Case()
+        {
+            //arrange
+            const string primaryKeyValue = "Key1";
+            var fieldData = new Dictionary<string, string>();
+            var caseModels = new List<CaseModel> { new CaseModel(primaryKeyValue, fieldData) };
+
+            _mapperServiceMock.Setup(m => m.MapDataRecordFields(It.IsAny<IDataRecord>(),
+                    It.IsAny<IKey>(), It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
+                .Returns(_dataRecordMock.Object);
+
+            var dataRecordsMock = new List<IDataRecord> { _dataRecordMock.Object };
+
+            //act
+            _sut.CreateNewDataRecords(_connectionModel, caseModels, _questionnaireName, _serverParkName);
+
+            //assert
+            _dataModelServiceMock.Verify(v => v.GetDataModel(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
+            _keyServiceMock.Verify(v => v.GetPrimaryKey(_dataModelMock.Object), Times.Once);
+            _dataRecordServiceMock.Verify(v => v.GetDataRecord(_dataModelMock.Object), Times.Once);
+            _mapperServiceMock.Verify(v => v.MapDataRecordFields(_dataRecordMock.Object, _keyMock.Object, primaryKeyValue, fieldData), Times.Once);
+            _dataRecordServiceMock.Verify(v => v.WriteDataRecords(_connectionModel, dataRecordsMock, _questionnaireName, _serverParkName), Times.Once);
+        }
+
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_CreateNewDataRecords_Then_The_Correct_Services_Are_Called_For_Two_Cases()
+        {
+            //arrange
+            const string primaryKeyValue1 = "Key1";
+            const string primaryKeyValue2 = "Key2";
+            var fieldData1 = new Dictionary<string, string>();
+            var fieldData2 = new Dictionary<string, string>();
+            var caseModels = new List<CaseModel> { new CaseModel(primaryKeyValue1, fieldData1), new CaseModel(primaryKeyValue2, fieldData2) };
+            var dataRecord1Mock = new Mock<IDataRecord>();
+            var dataRecord2Mock = new Mock<IDataRecord>();
+
+            _dataRecordServiceMock.SetupSequence(d => d.GetDataRecord(_dataModelMock.Object))
+                .Returns(dataRecord1Mock.Object)
+                .Returns(dataRecord2Mock.Object);
+
+            _mapperServiceMock.Setup(m => m.MapDataRecordFields(dataRecord1Mock.Object,
+                    It.IsAny<IKey>(), It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
+                .Returns(dataRecord1Mock.Object);
+
+            _mapperServiceMock.Setup(m => m.MapDataRecordFields(dataRecord2Mock.Object,
+                    It.IsAny<IKey>(), It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
+                .Returns(dataRecord2Mock.Object);
+
+
+            var dataRecordsMock = new List<IDataRecord> { dataRecord1Mock.Object, dataRecord2Mock.Object };
+
+            //act
+            _sut.CreateNewDataRecords(_connectionModel, caseModels, _questionnaireName, _serverParkName);
+
+            //assert
+            _dataModelServiceMock.Verify(v => v.GetDataModel(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
+            _keyServiceMock.Verify(v => v.GetPrimaryKey(_dataModelMock.Object), Times.Once);
+            _dataRecordServiceMock.Verify(v => v.GetDataRecord(_dataModelMock.Object), Times.Exactly(2));
+            _mapperServiceMock.Verify(v => v.MapDataRecordFields(dataRecord1Mock.Object, _keyMock.Object, primaryKeyValue1, fieldData1), Times.Once);
+            _mapperServiceMock.Verify(v => v.MapDataRecordFields(dataRecord2Mock.Object, _keyMock.Object, primaryKeyValue2, fieldData2), Times.Once);
+            _dataRecordServiceMock.Verify(v => v.WriteDataRecords(_connectionModel, dataRecordsMock, _questionnaireName, _serverParkName), Times.Once);
+        }
+
+        [Test]
         public void Given_Valid_Arguments_When_I_Call_CreateNewDataRecord_Then_The_Correct_Services_Are_Called()
         {
             //arrange

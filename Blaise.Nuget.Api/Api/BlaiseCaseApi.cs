@@ -86,7 +86,7 @@ namespace Blaise.Nuget.Api.Api
 
         public void CreateCases(List<CaseModel> cases, string questionnaireName, string serverParkName)
         {
-            cases.ThrowExceptionIfNull("cases");
+            cases.ThrowExceptionIfNullOrEmpty("cases");
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
