@@ -133,6 +133,7 @@
   <ItemGroup>
     <Compile Include="AuditTrailData\BlaiseAuditTrailApiTests.cs" />
     <Compile Include="Case\CaseExistsTests.cs" />
+    <Compile Include="Case\CreateCasesTests.cs" />
     <Compile Include="Case\DeleteCaseTests.cs" />
     <Compile Include="Case\UpdateCaseTests.cs" />
     <Compile Include="Field\LastUpdatedFieldTests.cs" />

@@ -358,6 +358,90 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(_primaryKeyValue, null));
             Assert.AreEqual("databaseFile", exception.ParamName);
         }
+        
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_CreateCases_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //arrange
+            var fieldData = new Dictionary<string, string>();
+            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
+
+            _caseServiceMock.Setup(d => d.CreateNewDataRecords(_connectionModel, It.IsAny<List<CaseModel>>(), It.IsAny<string>(), It.IsAny<string>()));
+
+            //act
+            _sut.CreateCases(caseModels, _questionnaireName, _serverParkName);
+
+            //assert
+            _caseServiceMock.Verify(v => v.CreateNewDataRecords(_connectionModel, caseModels, _questionnaireName, _serverParkName), Times.Once);
+
+        }
+
+        [Test]
+        public void Given_An_Empty_List_Of_Cases_When_I_Call_CreateCases_Then_An_ArgumentException_Is_Thrown()
+        {
+            //arrange
+            var caseModels = new List<CaseModel>();
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCases(caseModels, _questionnaireName, _serverParkName));
+            Assert.AreEqual("A value for the argument 'cases' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_List_Of_Cases_When_I_Call_CreateCases_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCases(null, _questionnaireName, _serverParkName));
+            Assert.AreEqual("cases", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_CreateCases_Then_An_ArgumentException_Is_Thrown()
+        {
+            //arrange
+            var fieldData = new Dictionary<string, string>();
+            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCases(caseModels, string.Empty, _serverParkName));
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_QuestionnaireName_When_I_Call_CreateCases_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            var fieldData = new Dictionary<string, string>();
+            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCases(caseModels, null, _serverParkName));
+            Assert.AreEqual("questionnaireName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_ServerParkName_When_I_Call_CreateCases_Then_An_ArgumentException_Is_Thrown()
+        {
+            //arrange
+            var fieldData = new Dictionary<string, string>();
+            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCases(caseModels, _questionnaireName, string.Empty));
+            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_ServerParkName_When_I_Call_CreateCases_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            var fieldData = new Dictionary<string, string>();
+            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCases(caseModels, _questionnaireName, null));
+            Assert.AreEqual("serverParkName", exception.ParamName);
+        }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_CreateCase_Then_The_Correct_Service_Method_Is_Called()

@@ -1,4 +1,5 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+﻿using System.Collections.Generic;
+using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataLink;
@@ -51,6 +52,14 @@ namespace Blaise.Nuget.Api.Core.Services
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
             return dataLink.ReadRecord(key);
+        }
+
+        public void WriteDataRecords(ConnectionModel connectionModel, IEnumerable<IDataRecord> dataRecords, string questionnaireName, string serverParkName)
+        {
+            var dataSet = DataLinkManager.GetDataSet(dataRecords);
+            var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
+
+            dataLink.Write(dataSet);
         }
 
         public void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string questionnaireName, string serverParkName)

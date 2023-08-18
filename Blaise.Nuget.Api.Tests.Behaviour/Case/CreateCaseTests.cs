@@ -34,7 +34,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             //act
             _sut.CreateCase(_primaryKey, fieldData, questionnaireName, serverParkName);
 
-            //arrange
+            //assert
             Assert.IsTrue(_sut.CaseExists(_primaryKey, questionnaireName, serverParkName));
 
             //cleanup
