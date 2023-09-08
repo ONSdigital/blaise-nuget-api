@@ -63,7 +63,7 @@ jobs:
   - task: NuGetToolInstaller@1
     displayName: Use NuGet 4.4.1
     inputs:
-      versionSpec: 4.4.1
+      versionSpec: 6.7.0
   - task: NuGetCommand@2
     displayName: NuGet restore
     inputs:
