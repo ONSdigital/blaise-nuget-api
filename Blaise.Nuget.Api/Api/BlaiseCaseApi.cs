@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
+﻿using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -9,6 +7,8 @@ using Blaise.Nuget.Api.Extensions;
 using Blaise.Nuget.Api.Providers;
 using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
+using System;
+using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -28,13 +28,13 @@ namespace Blaise.Nuget.Api.Api
         public BlaiseCaseApi(ConnectionModel connectionModel = null)
         {
 
-           _caseService = UnityProvider.Resolve<ICaseService>();
+            _caseService = UnityProvider.Resolve<ICaseService>();
 
-           var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
-           _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
+            var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
+            _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        public bool CaseExists(string primaryKeyValue, string questionnaireName, 
+        public bool CaseExists(string primaryKeyValue, string questionnaireName,
             string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
@@ -66,7 +66,7 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetDataSet(_connectionModel, questionnaireName, serverParkName);
         }
 
-        public IDataRecord GetCase(string primaryKeyValue, string questionnaireName, 
+        public IDataRecord GetCase(string primaryKeyValue, string questionnaireName,
             string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
@@ -93,7 +93,7 @@ namespace Blaise.Nuget.Api.Api
             _caseService.CreateNewDataRecords(_connectionModel, cases, questionnaireName, serverParkName);
         }
 
-        public void CreateCase(string primaryKeyValue, Dictionary<string, string> fieldData, 
+        public void CreateCase(string primaryKeyValue, Dictionary<string, string> fieldData,
             string questionnaireName, string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
@@ -121,8 +121,8 @@ namespace Blaise.Nuget.Api.Api
 
             _caseService.CreateNewDataRecord(_connectionModel, databaseFile, primaryKeyValue, fieldData);
         }
-        
-        public void UpdateCase(string primaryKeyValue, Dictionary<string, string> fieldData, 
+
+        public void UpdateCase(string primaryKeyValue, Dictionary<string, string> fieldData,
             string questionnaireName, string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
@@ -207,7 +207,7 @@ namespace Blaise.Nuget.Api.Api
             return GetFieldValue(dataRecord, fieldNameType);
         }
 
-        public void RemoveCase(string primaryKeyValue, string questionnaireName, 
+        public void RemoveCase(string primaryKeyValue, string questionnaireName,
             string serverParkName)
         {
             primaryKeyValue.ThrowExceptionIfNullOrEmpty("primaryKeyValue");
@@ -254,7 +254,7 @@ namespace Blaise.Nuget.Api.Api
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             lockId.ThrowExceptionIfNullOrEmpty("lockId");
 
-           _caseService.LockDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName, lockId);
+            _caseService.LockDataRecord(_connectionModel, primaryKeyValue, questionnaireName, serverParkName, lockId);
         }
 
         public void UnLockDataRecord(string primaryKeyValue, string questionnaireName, string serverParkName, string lockId)
