@@ -61,7 +61,7 @@ jobs:
 
         Write-Host "##vso[task.setvariable variable=Branch;]$Branch"
   - task: NuGetToolInstaller@1
-    displayName: Use NuGet 4.4.1
+    displayName: Use NuGet 6.7.0
     inputs:
       versionSpec: 6.7.0
   - task: NuGetCommand@2
