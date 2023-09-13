@@ -62,7 +62,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 
         [Test]
         public void When_Calling_CaseExists_With_Valid_Arguments_Then_Correct_Service_Method_Should_Be_Called()
-        {//here
+        {
 
             // Arrange
             _caseServiceMock.Setup(mock => mock.CaseExists(
@@ -385,7 +385,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 
         [Test]
         public void When_Calling_CreateCases_With_Empty_ListOfCases_Then_ArgumentException_Should_Be_Thrown()
-        {//here
+        {
             // Arrange
             var caseModels = new List<CaseModel>();
 
@@ -398,7 +398,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 
         [Test]
         public void When_Calling_CreateCases_With_Null_ListOfCases_Then_ArgumentNullException_Should_Be_Thrown()
-        {//here
+        {
             // Act & Assert
             var exception = Assert.Throws<ArgumentNullException>(() =>
                 _sut.CreateCases(null, _questionnaireName, _serverParkName));
@@ -408,7 +408,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 
         [Test]
         public void When_Calling_CreateCases_With_Empty_QuestionnaireName_Then_ArgumentException_Should_Be_Thrown()
-        {//here
+        {
             // Arrange
             var fieldData = new Dictionary<string, string>();
             var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
@@ -423,7 +423,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 
         [Test]
         public void When_Calling_CreateCases_With_Null_QuestionnaireName_Then_ArgumentNullException_Should_Be_Thrown()
-        {//here
+        {
             //Arrange
             var fieldData = new Dictionary<string, string>();
             var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
@@ -436,7 +436,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_CreateCases_Then_An_ArgumentException_Is_Thrown()
-        {//here 
+        {
             //arrange
             var fieldData = new Dictionary<string, string>();
             var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
@@ -448,7 +448,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 
         [Test]
         public void When_CreateCases_Is_Called_With_Null_ServerParkName_Then_ArgumentNullException_Is_Thrown()
-        {//here
+        {
             //Arrange
             var fieldData = new Dictionary<string, string>();
             var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };

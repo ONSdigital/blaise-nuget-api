@@ -21,7 +21,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         [Ignore("Integration")]
         [Test]
         public void Given_Valid_Arguments_When_I_Call_CreateCases_Then_The_Cases_Are_Created()
-        {//here
+        {
             // Arrange
             const string serverParkName = "gusty";
             const string questionnaireName = "LMS2304_FS1";
@@ -45,7 +45,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             VerifyCasesExistAndRemove(startingPrimaryKey, caseCount, questionnaireName, serverParkName);
         }
         private List<CaseModel> GenerateCaseModels(int startingPrimaryKey, int caseCount, Dictionary<string, string> fieldData)
-        {//here
+        {
             var caseModels = new List<CaseModel>();
 
             for (var loopCounter = 1; loopCounter <= caseCount; loopCounter++)
@@ -58,7 +58,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         }
 
         private void VerifyCasesExistAndRemove(int startingPrimaryKey, int caseCount, string questionnaireName, string serverParkName)
-        {//here
+        {
             for (var loopCounter = 1; loopCounter <= caseCount; loopCounter++)
             {
                 var caseId = $"{startingPrimaryKey + loopCounter}";

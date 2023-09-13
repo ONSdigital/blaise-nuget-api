@@ -263,7 +263,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_CreateNewDataRecords_Then_The_Correct_Services_Are_Called_For_One_Case()
-        {//here 
+        {
             // Arrange
             const string primaryKeyValue = "Key1";
             var fieldData = new Dictionary<string, string>();
@@ -287,7 +287,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_CreateNewDataRecords_Then_The_Correct_Services_Are_Called_For_Two_Cases()
-        {//here
+        {
             // Arrange
             const string primaryKeyValue1 = "Key1";
             const string primaryKeyValue2 = "Key2";
