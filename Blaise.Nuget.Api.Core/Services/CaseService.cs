@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Blaise.Nuget.Api.Contracts.Enums;
+﻿using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Blaise.Nuget.Api.Core.Models;
 using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
-using StatNeth.Blaise.Runtime.DataContract.Common.BaseEngine;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System.Linq;
+
     public class CaseService : ICaseService
     {
         private readonly IDataModelService _dataModelService;
@@ -22,10 +22,10 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly IDataRecordMapper _recordMapper;
 
         public CaseService(
-            IDataModelService dataModelService, 
-            IDataRecordService dataRecordService, 
-            IKeyService keyService, 
-            IFieldService fieldService, 
+            IDataModelService dataModelService,
+            IDataRecordService dataRecordService,
+            IKeyService keyService,
+            IFieldService fieldService,
             IDataRecordMapper recordMapper)
         {
             _dataModelService = dataModelService;
@@ -136,14 +136,11 @@ namespace Blaise.Nuget.Api.Core.Services
             var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var key = _keyService.GetPrimaryKey(dataModel);
 
-            var dataRecords = new List<IDataRecord>();
-
-            foreach (var caseModel in caseModels)
-            {
-                var dataRecord = _dataRecordService.GetDataRecord(dataModel);
-                dataRecord = _recordMapper.MapDataRecordFields(dataRecord, key, caseModel.CaseId, caseModel.FieldData);
-                dataRecords.Add(dataRecord);
-            }
+            var dataRecords = caseModels.Select(caseModel =>
+                {
+                    var dataRecord = _dataRecordService.GetDataRecord(dataModel);
+                    return _recordMapper.MapDataRecordFields(dataRecord, key, caseModel.CaseId, caseModel.FieldData);
+                }).ToList();
 
             _dataRecordService.WriteDataRecords(connectionModel, dataRecords, questionnaireName, serverParkName);
         }
@@ -151,15 +148,15 @@ namespace Blaise.Nuget.Api.Core.Services
         public void CreateNewDataRecord(ConnectionModel connectionModel, string primaryKeyValue, Dictionary<string, string> fieldData, string questionnaireName, string serverParkName)
         {
             var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
-            var key = _keyService.GetPrimaryKey(dataModel);
+            var primaryKey = _keyService.GetPrimaryKey(dataModel);
             var dataRecord = _dataRecordService.GetDataRecord(dataModel);
 
-            dataRecord = _recordMapper.MapDataRecordFields(dataRecord, key, primaryKeyValue, fieldData);
+            dataRecord = _recordMapper.MapDataRecordFields(dataRecord, primaryKey, primaryKeyValue, fieldData);
 
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
 
-        public void CreateNewDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord ,string questionnaireName, string serverParkName)
+        public void CreateNewDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string questionnaireName, string serverParkName)
         {
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
@@ -175,7 +172,7 @@ namespace Blaise.Nuget.Api.Core.Services
             WriteDataRecord(connectionModel, dataRecord, databaseFile);
         }
 
-        public void UpdateDataRecord(ConnectionModel connectionModel, string primaryKeyValue, Dictionary<string, string> fieldData, 
+        public void UpdateDataRecord(ConnectionModel connectionModel, string primaryKeyValue, Dictionary<string, string> fieldData,
             string questionnaireName, string serverParkName)
         {
             var dataRecord = GetDataRecord(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
@@ -184,7 +181,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, questionnaireName, serverParkName);
         }
 
-        public void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, Dictionary<string, string> fieldData, 
+        public void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, Dictionary<string, string> fieldData,
             string questionnaireName, string serverParkName)
         {
             dataRecord = _recordMapper.MapDataRecordFields(dataRecord, fieldData);
@@ -213,7 +210,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataRecordService.LockDataRecord(connectionModel, primaryKey, questionnaireName, serverParkName, lockId);
         }
 
-        public void UnLockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName, 
+        public void UnLockDataRecord(ConnectionModel connectionModel, string primaryKeyValue, string questionnaireName,
             string serverParkName, string lockId)
         {
             var primaryKey = GetPrimaryKey(connectionModel, primaryKeyValue, questionnaireName, serverParkName);
@@ -228,7 +225,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public DateTime? GetLastUpdated(IDataRecord dataRecord)
         {
-            if (!_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdatedDate) || 
+            if (!_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdatedDate) ||
                 !_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdatedTime))
             {
                 return null;
@@ -237,13 +234,13 @@ namespace Blaise.Nuget.Api.Core.Services
             var dateField = _fieldService.GetField(dataRecord, FieldNameType.LastUpdatedDate);
             var timeField = _fieldService.GetField(dataRecord, FieldNameType.LastUpdatedTime);
 
-            if (string.IsNullOrWhiteSpace(dateField?.DataValue?.ValueAsText) || 
+            if (string.IsNullOrWhiteSpace(dateField?.DataValue?.ValueAsText) ||
                 string.IsNullOrWhiteSpace(timeField?.DataValue?.ValueAsText))
             {
                 return null;
             }
 
-            if(DateTime.TryParseExact($"{dateField.DataValue.ValueAsText} {timeField.DataValue.ValueAsText}",
+            if (DateTime.TryParseExact($"{dateField.DataValue.ValueAsText} {timeField.DataValue.ValueAsText}",
                 "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime))
             {
                 return dateTime;
@@ -263,7 +260,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return field?.DataValue?.ValueAsText;
         }
-        
+
         public bool CaseInUseInCati(IDataRecord dataRecord)
         {
             var lastUpdated = GetLastUpdated(dataRecord);

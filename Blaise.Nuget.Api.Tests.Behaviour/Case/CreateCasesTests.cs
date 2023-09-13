@@ -1,10 +1,11 @@
 ﻿
-using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using NUnit.Framework;
+using System.Collections.Generic;
+// ReSharper disable MissingXmlDoc
 
 namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 {
@@ -21,31 +22,46 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         [Test]
         public void Given_Valid_Arguments_When_I_Call_CreateCases_Then_The_Cases_Are_Created()
         {
-            //arrange
+            // Arrange
             const string serverParkName = "gusty";
             const string questionnaireName = "LMS2304_FS1";
+            const int startingPrimaryKey = 90000;
 
-            var primaryKey = 90000;
-            var fieldData = new Dictionary<string, string>
-            {
-                {FieldNameType.HOut.FullName(), "110"},
-                {FieldNameType.TelNo.FullName(), "07000000000"}
-            };
+            var fieldData
+                = new Dictionary<string, string>
+                                {
+                                    {FieldNameType.HOut.FullName(), "110"},
+                                    {FieldNameType.TelNo.FullName(), "07000000000"}
+                                };
 
-            var caseModels = new List<CaseModel>();
 
-            for (var i = 1; i <= 1000; i++)
-            {
-                caseModels.Add(new CaseModel($"{primaryKey+i}", fieldData));
-            }
+            var caseCount = 1000;
+            var caseModels = GenerateCaseModels(startingPrimaryKey, caseCount, fieldData);
 
-            //act
+            // Act
             _sut.CreateCases(caseModels, questionnaireName, serverParkName);
 
-            //assert && cleanup
-            for (var i = 1; i <= 1000; i++)
+            // Assert & Cleanup
+            VerifyCasesExistAndRemove(startingPrimaryKey, caseCount, questionnaireName, serverParkName);
+        }
+        private List<CaseModel> GenerateCaseModels(int startingPrimaryKey, int caseCount, Dictionary<string, string> fieldData)
+        {
+            var caseModels = new List<CaseModel>();
+
+            for (var loopCounter = 1; loopCounter <= caseCount; loopCounter++)
             {
-                var caseId = $"{primaryKey + i}";
+                var caseId = $"{startingPrimaryKey + loopCounter}";
+                caseModels.Add(new CaseModel(caseId, fieldData));
+            }
+
+            return caseModels;
+        }
+
+        private void VerifyCasesExistAndRemove(int startingPrimaryKey, int caseCount, string questionnaireName, string serverParkName)
+        {
+            for (var loopCounter = 1; loopCounter <= caseCount; loopCounter++)
+            {
+                var caseId = $"{startingPrimaryKey + loopCounter}";
                 Assert.IsTrue(_sut.CaseExists(caseId, questionnaireName, serverParkName));
                 _sut.RemoveCase(caseId, questionnaireName, serverParkName);
             }
