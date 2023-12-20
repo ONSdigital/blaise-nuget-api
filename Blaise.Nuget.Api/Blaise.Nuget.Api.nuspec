@@ -8,7 +8,7 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>API package to interact with Blaise</description>
 		<dependencies>
-			<group targetFramework="net472">
+			<group targetFramework="net48">
 				<dependency id="Blaise.Nuget.Api.Contracts" version="$version$" />
 				<dependency id="Unity" version="5.11.6" exclude="Build,Analyzers" />
 				<dependency id="System.Configuration.ConfigurationManager" version="4.7.0" />
