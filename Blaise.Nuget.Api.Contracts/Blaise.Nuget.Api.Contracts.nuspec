@@ -11,18 +11,10 @@
 			<group targetFramework="net48">
 				<dependency id="StatNeth.Blaise.API.x64" version="5.9.7" />
 			</group>
-			<group targetFramework="netcoreapp3.1">
-				<dependency id="StatNeth.Blaise.API.x64" version="5.9.7" />
-			</group>
-			<group targetFramework="net5.0">
-				<dependency id="StatNeth.Blaise.API.x64" version="5.9.7" />
-			</group>
 		</dependencies>
 		<repository type="git" url="https://github.com/onsdigital/blaise-csharp-build.git" />
 	</metadata>
 	<files>
-		<file src="bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\net472\Blaise.Nuget.Api.Contracts.dll" />
-		<file src="bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\netcoreapp3.1\Blaise.Nuget.Api.Contracts.dll" />
-		<file src="bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\net5.0\Blaise.Nuget.Api.Contracts.dll" />
+		<file src="bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\net48\Blaise.Nuget.Api.Contracts.dll" />
 	</files>
 </package>
