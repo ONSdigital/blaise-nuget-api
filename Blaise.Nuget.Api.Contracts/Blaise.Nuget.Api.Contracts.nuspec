@@ -9,7 +9,7 @@
 		<description>Contracts package for the API to interact with Blaise</description>
 		<dependencies>
 			<group targetFramework="net48">
-				<dependency id="StatNeth.Blaise.API.x64" version="5.9.7" />
+				<dependency id="StatNeth.Blaise.API.x64" version="5.14.1" />
 			</group>
 		</dependencies>
 		<repository type="git" url="https://github.com/onsdigital/blaise-csharp-build.git" />
