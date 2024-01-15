@@ -119,7 +119,8 @@ namespace Blaise.Nuget.Api.Core.Services
                 DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
                 InitialAppLayoutSetGroupName = questionnaireInterviewType.FullName(),
                 LayoutSetGroupName = questionnaireInterviewType.FullName(),
-                OverwriteMode = DataOverwriteMode.Always
+                OverwriteMode = DataOverwriteMode.Always,
+                Orientation = Orientation.Both,
             };
 
 
