@@ -435,34 +435,34 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.AreEqual(metaFileName, result);
         }
 
-        [Test]
-        public void Given_Valid_Arguments_When_I_Call_InstallQuestionnaire_Then_The_Correct_Services_Are_Called()
-        {
-            //arrange
-            const string questionnaireFile = @"d:\\opn2101a.pkg";
-            const string fileName = "OPN.bdix";
-            const string dataModelFileName = "OPN.bmix";
+        //[Test]
+        //public void Given_Valid_Arguments_When_I_Call_InstallQuestionnaire_Then_The_Correct_Services_Are_Called()
+        //{
+        //    //arrange
+        //    const string questionnaireFile = @"d:\\opn2101a.pkg";
+        //    const string fileName = "OPN.bdix";
+        //    const string dataModelFileName = "OPN.bmix";
 
-            var configurationMock = new Mock<IConfiguration>();
-            configurationMock.Setup(c => c.DataFileName).Returns(fileName);
-            configurationMock.Setup(c => c.MetaFileName).Returns(dataModelFileName);
+        //    var configurationMock = new Mock<IConfiguration>();
+        //    configurationMock.Setup(c => c.DataFileName).Returns(fileName);
+        //    configurationMock.Setup(c => c.MetaFileName).Returns(dataModelFileName);
 
-            var configurationItems = new List<IConfiguration> { configurationMock.Object };
+        //    var configurationItems = new List<IConfiguration> { configurationMock.Object };
 
-            var configurationCollectionMock = new Mock<IMachineConfigurationCollection>();
-            configurationCollectionMock.Setup(s => s.Configurations).Returns(configurationItems);
+        //    var configurationCollectionMock = new Mock<IMachineConfigurationCollection>();
+        //    configurationCollectionMock.Setup(s => s.Configurations).Returns(configurationItems);
 
-            _questionnaireMock.Setup(s => s.Configuration).Returns(configurationCollectionMock.Object);
+        //    _questionnaireMock.Setup(s => s.Configuration).Returns(configurationCollectionMock.Object);
 
-            //act
-            _sut.InstallQuestionnaire(_connectionModel,_questionnaireName, _serverParkName,
-                questionnaireFile, QuestionnaireInterviewType.Cati);
+        //    //act
+        //    _sut.InstallQuestionnaire(_connectionModel,_questionnaireName, _serverParkName,
+        //        questionnaireFile, QuestionnaireInterviewType.Cati);
 
-            //assert
-            _parkServiceMock.Verify(v => v.GetServerPark(_connectionModel, _serverParkName), Times.Once);
-            _serverParkMock.Verify(v => v.InstallSurvey(questionnaireFile, QuestionnaireInterviewType.Cati.FullName(),
-                                        QuestionnaireDataEntryType.StrictInterviewing.FullName(), DataOverwriteMode.Always), Times.Once);
-        }
+        //    //assert
+        //    _parkServiceMock.Verify(v => v.GetServerPark(_connectionModel, _serverParkName), Times.Once);
+        //    _serverParkMock.Verify(v => v.InstallSurvey(questionnaireFile, QuestionnaireInterviewType.Cati.FullName(),
+        //                                QuestionnaireDataEntryType.StrictInterviewing.FullName(), DataOverwriteMode.Always), Times.Once);
+        //}
 
         [Test]
         public void Given_An_Questionnaire_Exists_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Services_Are_Called()

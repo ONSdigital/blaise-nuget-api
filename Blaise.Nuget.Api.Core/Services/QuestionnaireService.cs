@@ -107,12 +107,23 @@ namespace Blaise.Nuget.Api.Core.Services
         public void InstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             string questionnaireFile, QuestionnaireInterviewType questionnaireInterviewType)
         {
-            var serverPark = _parkService.GetServerPark(connectionModel, serverParkName);
+            var serverPark = _parkService.GetServerPark(connectionModel, serverParkName) as IServerPark6;
 
-            serverPark.InstallSurvey(questionnaireFile,
-                questionnaireInterviewType.FullName(),
-                QuestionnaireDataEntryType.StrictInterviewing.ToString(),
-                DataOverwriteMode.Always);
+            if (serverPark is null)
+            {
+                throw new Exception("Could not cast to IServerPark6");
+            }
+
+            var installOptions = new InstallOptions
+            {
+                DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
+                InitialAppLayoutSetGroupName = questionnaireInterviewType.FullName(),
+                LayoutSetGroupName = questionnaireInterviewType.FullName(),
+                OverwriteMode = DataOverwriteMode.Always
+            };
+
+
+            serverPark.InstallSurvey(questionnaireFile, installOptions);
         }
 
         public void UninstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)

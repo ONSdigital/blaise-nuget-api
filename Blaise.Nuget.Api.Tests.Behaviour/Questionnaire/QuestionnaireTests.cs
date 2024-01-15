@@ -11,9 +11,9 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
     {
         private readonly BlaiseQuestionnaireApi _sut;
 
-        private const string ServerParkName = "LocalDevelopment";
+        private const string ServerParkName = "gusty";
         private const string FullQuestionnairePath = @"C:\users\user\desktop\OPN2102R.bpkg";
-        private const string QuestionnaireName = "OPN2102R";
+        private const string QuestionnaireName = "DST2304Z";
 
         public QuestionnaireTests()
         {
@@ -106,6 +106,18 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             //assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<DataEntrySettingsModel>(result);
+        }
+
+        [Ignore("Integration")]
+        [Test]
+        public void Given_A_Questionnaire_Is_Installed_In_When_I_Call_GetQuestionnaireInterviewTypes_I_Get_A_Settings_Model_Back()
+        {
+            //act
+            var result = _sut.GetQuestionnaireInterviewType(QuestionnaireName, ServerParkName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(QuestionnaireInterviewType.Cati, result);
         }
     }
 }
