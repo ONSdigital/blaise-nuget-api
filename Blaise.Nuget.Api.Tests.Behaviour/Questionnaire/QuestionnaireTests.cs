@@ -58,20 +58,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
 
         [Ignore("Integration")]
         [Test]
-        public void Given_An_Questionnaire_Is_Installed_When_I_Call_GetQuestionnaireInterviewType_The_Correct_Type_Is_Returned()
-        {
-            //act
-            var result = _sut.GetQuestionnaireInterviewType(QuestionnaireName, ServerParkName);
-
-            //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<QuestionnaireInterviewType>(result);
-
-            Assert.AreEqual(QuestionnaireInterviewType.Cati, result);
-        }
-
-        [Ignore("Integration")]
-        [Test]
         public void Given_A_Questionnaire_Is_Installed_When_I_Call_Deactivate_Then_The_Questionnaire_Is_Deactivated()
         {
             //act
@@ -116,18 +102,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             //assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<DataEntrySettingsModel>(result);
-        }
-
-        [Ignore("Integration")]
-        [Test]
-        public void Given_A_Questionnaire_Is_Installed_In_When_I_Call_GetQuestionnaireInterviewTypes_I_Get_A_Settings_Model_Back()
-        {
-            //act
-            var result = _sut.GetQuestionnaireInterviewType(QuestionnaireName, ServerParkName);
-
-            //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(QuestionnaireInterviewType.Cati, result);
         }
     }
 }

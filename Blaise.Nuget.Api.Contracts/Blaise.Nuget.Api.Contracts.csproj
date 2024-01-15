@@ -91,6 +91,7 @@
     <Compile Include="Models\DataEntrySettingsModel.cs" />
     <Compile Include="Models\DayBatchModel.cs" />
     <Compile Include="Models\InstallOptions.cs" />
+    <Compile Include="Models\QuestionnaireConfigurationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

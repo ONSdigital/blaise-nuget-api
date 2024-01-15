@@ -301,11 +301,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.AreEqual($"No questionnaire found for questionnaire name '{questionnaire2Name}'", exception.Message);
         }
 
-        [TestCase("CATI", QuestionnaireInterviewType.Cati)]
-        [TestCase("CAPI", QuestionnaireInterviewType.Capi)]
-        [TestCase("CAWI", QuestionnaireInterviewType.Cawi)]
-        public void Given_Questionnaire_Exists_When_I_Call_GetQuestionnaireInterviewType_Then_The_Correct_QuestionnaireInterviewType_Is_Returned(
-            string interviewType, QuestionnaireInterviewType questionnaireInterviewType)
+        [TestCase("CATI", QuestionnaireInterviewType.Cati, "StrictInterviewing", QuestionnaireDataEntryType.StrictInterviewing)]
+        [TestCase("CAPI", QuestionnaireInterviewType.Capi, "StrictInterviewing", QuestionnaireDataEntryType.StrictInterviewing)]
+        [TestCase("CAWI", QuestionnaireInterviewType.Cawi, "StrictInterviewing", QuestionnaireDataEntryType.StrictInterviewing)]
+        public void Given_Questionnaire_Exists_When_I_Call_GetQuestionnaireConfigurationModel_Then_The_Correct_Model_Is_Returned(
+            string interviewType, QuestionnaireInterviewType questionnaireInterviewType, string dataEntryType, QuestionnaireDataEntryType questionnaireDataEntryType)
         {
             //arrange
             const string questionnaireName = "questionnaire1";
@@ -319,6 +319,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             var iConfigurationMock = new Mock<IConfiguration>();
             iConfigurationMock.Setup(c => c.InitialLayoutSetGroupName).Returns(interviewType);
+            iConfigurationMock.Setup(c => c.InitialDataEntrySettingsName).Returns(dataEntryType);
             iConfigurationMock.Setup(c => c.InstrumentName).Returns(questionnaireName);
             var configurations = new List<IConfiguration> { iConfigurationMock.Object };
 
@@ -327,10 +328,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             questionnaireMock.Setup(s => s.Configuration).Returns(machineConfigurationMock.Object);
 
             //act
-            var result = _sut.GetQuestionnaireInterviewType(_connectionModel, questionnaireName, _serverParkName);
+            var result = _sut.GetQuestionnaireConfigurationModel(_connectionModel, questionnaireName, _serverParkName);
 
             //assert
-            Assert.AreEqual(questionnaireInterviewType, result);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<QuestionnaireConfigurationModel>(result);
+            Assert.AreEqual(questionnaireInterviewType, result.InitialLayoutSetGroupName);
+            Assert.AreEqual(questionnaireDataEntryType, result.InitialDataEntrySettingsName);
         }
 
         [Test]
