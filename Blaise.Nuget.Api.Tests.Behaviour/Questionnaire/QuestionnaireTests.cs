@@ -12,7 +12,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
         private readonly BlaiseQuestionnaireApi _sut;
 
         private const string ServerParkName = "gusty";
-        private const string FullQuestionnairePath = @"C:\users\user\desktop\OPN2102R.bpkg";
+        private const string FullQuestionnairePath = @"D:\Blaise\Instruments\DST2304Z.bpkg";
         private const string QuestionnaireName = "DST2304Z";
 
         public QuestionnaireTests()
@@ -20,7 +20,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             _sut = new BlaiseQuestionnaireApi();
         }
 
-        [Ignore("Integration")]
+        //[Ignore("Integration")]
         [Test]
         public void Given_I_Have_A_Valid_Questionnaire_It_Gets_Installed_On_A_Server_Park()
         {
