@@ -76,12 +76,12 @@ namespace Blaise.Nuget.Api.Api
             return _questionnaireService.GetQuestionnaireStatus(_connectionModel, questionnaireName, serverParkName);
         }
 
-        public QuestionnaireInterviewType GetQuestionnaireInterviewType(string questionnaireName, string serverParkName)
+        public QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(string questionnaireName, string serverParkName)
         {
-            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _questionnaireService.GetQuestionnaireInterviewType(_connectionModel, questionnaireName, serverParkName);
+            return _questionnaireService.GetQuestionnaireConfigurationModel(_connectionModel, questionnaireName, serverParkName);   
         }
 
         public IEnumerable<string> GetNamesOfQuestionnaires(string serverParkName)

@@ -61,18 +61,15 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaire.Status.ToEnum<QuestionnaireStatusType>();
         }
 
-        public QuestionnaireInterviewType GetQuestionnaireInterviewType(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            var questionnaire = GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
-            var configuration = questionnaire.Configuration.Configurations.FirstOrDefault(c =>
-                    string.Equals(c.InstrumentName, questionnaireName, StringComparison.CurrentCultureIgnoreCase));
+            var questionnaireConfiguration = GetQuestionnaireConfiguration(connectionModel, questionnaireName, serverParkName);
 
-            if (configuration == null)
+            return new QuestionnaireConfigurationModel
             {
-                throw new QuestionnaireConfigurationException($"No configuration found for the questionnaire name '{questionnaireName}'");
-            }
-
-            return configuration.InitialLayoutSetGroupName.ToEnum<QuestionnaireInterviewType>();
+                InitialDataEntrySettingsName = questionnaireConfiguration.InitialDataEntrySettingsName.ToEnum<QuestionnaireDataEntryType>(),
+                InitialLayoutSetGroupName = questionnaireConfiguration.InitialLayoutSetGroupName.ToEnum<QuestionnaireInterviewType>()
+            };  
         }
 
         public IEnumerable<ISurvey> GetAllQuestionnaires(ConnectionModel connectionModel)

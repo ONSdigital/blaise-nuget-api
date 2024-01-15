@@ -20,8 +20,6 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IEnumerable<string> GetNamesOfQuestionnaires(string serverParkName);
 
-        QuestionnaireInterviewType GetQuestionnaireInterviewType(string questionnaireName, string serverParkName);
-
         Guid GetIdOfQuestionnaire(string questionnaireName, string serverParkName);
 
         void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnaireFile, IInstallOptions installOptions);
@@ -35,5 +33,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         IEnumerable<string> GetQuestionnaireModes(string questionnaireName, string serverParkName);
 
         IEnumerable<DataEntrySettingsModel> GetQuestionnaireDataEntrySettings(string questionnaireName, string serverParkName);
+
+        QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(string questionnaireName, string serverParkName);
     }
 }

@@ -29,6 +29,6 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         
         void UninstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
 
-        QuestionnaireInterviewType GetQuestionnaireInterviewType(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
+        QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
     }
 }
