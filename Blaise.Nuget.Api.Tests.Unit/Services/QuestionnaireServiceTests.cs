@@ -333,8 +333,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<QuestionnaireConfigurationModel>(result);
-            Assert.AreEqual(questionnaireInterviewType, result.InitialLayoutSetGroupName);
-            Assert.AreEqual(questionnaireDataEntryType, result.InitialDataEntrySettingsName);
+            Assert.AreEqual(questionnaireInterviewType, result.QuestionnaireInterviewType);
+            Assert.AreEqual(questionnaireDataEntryType, result.QuestionnaireDataEntryType);
         }
 
         [Test]
