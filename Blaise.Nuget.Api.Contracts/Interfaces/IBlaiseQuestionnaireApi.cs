@@ -24,7 +24,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         Guid GetIdOfQuestionnaire(string questionnaireName, string serverParkName);
 
-        void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnaireFile, QuestionnaireInterviewType questionnaireInterviewType);
+        void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnaireFile, IInstallOptions installOptions);
 
         void UninstallQuestionnaire(string questionnaireName, string serverParkName, bool deleteCases = false);
 

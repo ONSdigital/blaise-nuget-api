@@ -100,14 +100,15 @@ namespace Blaise.Nuget.Api.Api
         }
 
         public void InstallQuestionnaire(string questionnaireName, string serverParkName,
-            string questionnaireFile, QuestionnaireInterviewType questionnaireInterviewType)
+            string questionnaireFile, IInstallOptions installOptions)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
+            installOptions.ThrowExceptionIfNull("installOptions");
 
             _questionnaireService.InstallQuestionnaire(_connectionModel, questionnaireName, serverParkName,
-                questionnaireFile, questionnaireInterviewType);
+                questionnaireFile, installOptions);
         }
 
         public void UninstallQuestionnaire(string questionnaireName, string serverParkName, bool deleteCases = false)

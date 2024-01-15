@@ -25,7 +25,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         Guid GetQuestionnaireId(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
 
         void InstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName, 
-            string questionnaireFile, QuestionnaireInterviewType questionnaireInterviewType);
+            string questionnaireFile, IInstallOptions installOptions);
         
         void UninstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
 
