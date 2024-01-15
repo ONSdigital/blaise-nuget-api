@@ -4,8 +4,8 @@ namespace Blaise.Nuget.Api.Contracts.Models
 {
     public class QuestionnaireConfigurationModel
     {
-        public QuestionnaireDataEntryType InitialDataEntrySettingsName { get; set; }
+        public QuestionnaireDataEntryType QuestionnaireDataEntryType { get; set; }
 
-        public QuestionnaireInterviewType InitialLayoutSetGroupName { get; set; }
+        public QuestionnaireInterviewType QuestionnaireInterviewType { get; set; }
     }
 }

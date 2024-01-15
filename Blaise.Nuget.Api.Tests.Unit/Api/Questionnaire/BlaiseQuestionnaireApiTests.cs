@@ -637,8 +637,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             //arrange
             var questionnaireConfigurationModel = new QuestionnaireConfigurationModel
             {
-                InitialLayoutSetGroupName = questionnaireInterviewType,
-                InitialDataEntrySettingsName = questionnaireDataEntryType
+                QuestionnaireInterviewType = questionnaireInterviewType,
+                QuestionnaireDataEntryType = questionnaireDataEntryType
             };
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireConfigurationModel(_connectionModel, _questionnaireName, _serverParkName)).Returns(questionnaireConfigurationModel);
 
@@ -647,10 +647,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
 
             //assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<QuestionnaireInterviewType>(result.InitialLayoutSetGroupName);
-            Assert.AreEqual(questionnaireInterviewType, result.InitialLayoutSetGroupName);
-            Assert.IsInstanceOf<QuestionnaireDataEntryType>(result.InitialDataEntrySettingsName);
-            Assert.AreEqual(questionnaireDataEntryType, result.InitialDataEntrySettingsName);
+            Assert.IsInstanceOf<QuestionnaireInterviewType>(result.QuestionnaireInterviewType);
+            Assert.AreEqual(questionnaireInterviewType, result.QuestionnaireInterviewType);
+            Assert.IsInstanceOf<QuestionnaireDataEntryType>(result.QuestionnaireDataEntryType);
+            Assert.AreEqual(questionnaireDataEntryType, result.QuestionnaireDataEntryType);
         }
 
         [Test]
