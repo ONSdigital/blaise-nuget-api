@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Exceptions;
-using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Extensions;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -105,7 +104,7 @@ namespace Blaise.Nuget.Api.Core.Services
         }
 
         public void InstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
-            string questionnaireFile, QuestionnaireInterviewType questionnaireInterviewType)
+            string questionnaireFile, IInstallOptions installOptions)
         {
             var serverPark = _parkService.GetServerPark(connectionModel, serverParkName) as IServerPark6;
 
@@ -113,16 +112,6 @@ namespace Blaise.Nuget.Api.Core.Services
             {
                 throw new Exception("Could not cast to IServerPark6");
             }
-
-            var installOptions = new InstallOptions
-            {
-                DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
-                InitialAppLayoutSetGroupName = questionnaireInterviewType.FullName(),
-                LayoutSetGroupName = questionnaireInterviewType.FullName(),
-                OverwriteMode = DataOverwriteMode.Always,
-                Orientation = Orientation.Both,
-            };
-
 
             serverPark.InstallSurvey(questionnaireFile, installOptions);
         }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using NUnit.Framework;
 using StatNeth.Blaise.API.ServerManager;
@@ -20,12 +21,21 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             _sut = new BlaiseQuestionnaireApi();
         }
 
-        //[Ignore("Integration")]
+        [Ignore("Integration")]
         [Test]
         public void Given_I_Have_A_Valid_Questionnaire_It_Gets_Installed_On_A_Server_Park()
         {
+            //arrange
+            var installOptions = new InstallOptions
+            {
+                DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
+                InitialAppLayoutSetGroupName = QuestionnaireInterviewType.Cati.FullName(),
+                LayoutSetGroupName = QuestionnaireInterviewType.Cati.FullName(),
+                OverwriteMode = DataOverwriteMode.Always
+            };
+
             //act
-            _sut.InstallQuestionnaire(QuestionnaireName, ServerParkName, FullQuestionnairePath, QuestionnaireInterviewType.Cati);
+            _sut.InstallQuestionnaire(QuestionnaireName, ServerParkName, FullQuestionnairePath, installOptions);
 
             //assert
             var questionnaires = _sut.GetQuestionnaires(ServerParkName).ToList();

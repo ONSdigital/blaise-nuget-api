@@ -19,7 +19,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
         private Mock<ISurvey> _questionnaireMock;
         private Mock<ISurveyCollection> _questionnaireCollectionMock;
-        private Mock<IServerPark> _serverParkMock;
+        private Mock<IServerPark6> _serverParkMock;
 
         private readonly ConnectionModel _connectionModel;
         private readonly string _questionnaireName;
@@ -50,7 +50,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => questionnaireItems.GetEnumerator());
 
             //setup server parks
-            _serverParkMock = new Mock<IServerPark>();
+            _serverParkMock = new Mock<IServerPark6>();
             _serverParkMock.Setup(s => s.Name).Returns("TestServerParkName");
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
 
@@ -435,34 +435,44 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.AreEqual(metaFileName, result);
         }
 
-        //[Test]
-        //public void Given_Valid_Arguments_When_I_Call_InstallQuestionnaire_Then_The_Correct_Services_Are_Called()
-        //{
-        //    //arrange
-        //    const string questionnaireFile = @"d:\\opn2101a.pkg";
-        //    const string fileName = "OPN.bdix";
-        //    const string dataModelFileName = "OPN.bmix";
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_InstallQuestionnaire_Then_The_Correct_Services_Are_Called()
+        {
+            //arrange
+            const string questionnaireFile = @"d:\\opn2101a.pkg";
+            const string fileName = "OPN.bdix";
+            const string dataModelFileName = "OPN.bmix";
 
-        //    var configurationMock = new Mock<IConfiguration>();
-        //    configurationMock.Setup(c => c.DataFileName).Returns(fileName);
-        //    configurationMock.Setup(c => c.MetaFileName).Returns(dataModelFileName);
+            var configurationMock = new Mock<IConfiguration>();
+            configurationMock.Setup(c => c.DataFileName).Returns(fileName);
+            configurationMock.Setup(c => c.MetaFileName).Returns(dataModelFileName);
 
-        //    var configurationItems = new List<IConfiguration> { configurationMock.Object };
+            var configurationItems = new List<IConfiguration> { configurationMock.Object };
 
-        //    var configurationCollectionMock = new Mock<IMachineConfigurationCollection>();
-        //    configurationCollectionMock.Setup(s => s.Configurations).Returns(configurationItems);
+            var configurationCollectionMock = new Mock<IMachineConfigurationCollection>();
+            configurationCollectionMock.Setup(s => s.Configurations).Returns(configurationItems);
 
-        //    _questionnaireMock.Setup(s => s.Configuration).Returns(configurationCollectionMock.Object);
+            _questionnaireMock.Setup(s => s.Configuration).Returns(configurationCollectionMock.Object);
 
-        //    //act
-        //    _sut.InstallQuestionnaire(_connectionModel,_questionnaireName, _serverParkName,
-        //        questionnaireFile, QuestionnaireInterviewType.Cati);
+            var interviewType = QuestionnaireInterviewType.Cati;
 
-        //    //assert
-        //    _parkServiceMock.Verify(v => v.GetServerPark(_connectionModel, _serverParkName), Times.Once);
-        //    _serverParkMock.Verify(v => v.InstallSurvey(questionnaireFile, QuestionnaireInterviewType.Cati.FullName(),
-        //                                QuestionnaireDataEntryType.StrictInterviewing.FullName(), DataOverwriteMode.Always), Times.Once);
-        //}
+            var installOptions = new InstallOptions
+            {
+                DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
+                InitialAppLayoutSetGroupName = interviewType.FullName(),
+                LayoutSetGroupName = interviewType.FullName(),
+                OverwriteMode = DataOverwriteMode.Always,
+                Orientation = Orientation.Both,
+            };
+
+            //act
+            _sut.InstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName,
+                questionnaireFile, installOptions);
+
+            //assert
+            _parkServiceMock.Verify(v => v.GetServerPark(_connectionModel, _serverParkName), Times.Once);
+            _serverParkMock.Verify(v => v.InstallSurvey(questionnaireFile, installOptions), Times.Once);
+        }
 
         [Test]
         public void Given_An_Questionnaire_Exists_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Services_Are_Called()

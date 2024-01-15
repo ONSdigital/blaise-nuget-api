@@ -464,13 +464,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             //arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
+            var installOptions = new InstallOptions();
 
             //act
-            _sut.InstallQuestionnaire(_questionnaireName, _serverParkName, questionnaireFile, questionnaireInterviewType);
+            _sut.InstallQuestionnaire(_questionnaireName, _serverParkName, questionnaireFile, installOptions);
 
             //assert
             _questionnaireServiceMock.Verify(v => v.InstallQuestionnaire(_connectionModel, _questionnaireName,
-                _serverParkName, questionnaireFile, questionnaireInterviewType), Times.Once);
+                _serverParkName, questionnaireFile, installOptions), Times.Once);
         }
 
         [Test]
@@ -478,10 +479,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             //arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
+            var installOptions = new InstallOptions();
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(string.Empty, _serverParkName,
-                questionnaireFile, QuestionnaireInterviewType.Cati));
+                questionnaireFile, installOptions));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
@@ -490,10 +492,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             //arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
+            var installOptions = new InstallOptions();
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(null, _serverParkName,
-                questionnaireFile, QuestionnaireInterviewType.Cati));
+                questionnaireFile, installOptions));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
@@ -502,10 +505,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             //arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
+            var installOptions = new InstallOptions();
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(_questionnaireName, string.Empty,
-                                                                        questionnaireFile, QuestionnaireInterviewType.Cati));
+                                                                        questionnaireFile, installOptions));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -514,29 +518,48 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             //arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
+            var installOptions = new InstallOptions();
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, null,
-                questionnaireFile, QuestionnaireInterviewType.Cati));
+                questionnaireFile, installOptions));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
         [Test]
-        public void Given_An_Empty_questionnaireFile_When_I_Call_InstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireFile_When_I_Call_InstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
+            //arrange
+            var installOptions = new InstallOptions();
+
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
-                string.Empty, QuestionnaireInterviewType.Cati));
+                string.Empty, installOptions));
             Assert.AreEqual("A value for the argument 'questionnaireFile' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_questionnaireFile_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireFile_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
+            //arrange
+            var installOptions = new InstallOptions();
+
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
-                null, QuestionnaireInterviewType.Cati));
+                null, installOptions));
             Assert.AreEqual("questionnaireFile", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_A_Null_InstallOptions_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            const string questionnaireFile = @"d:\\opn2101a.pkg";
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
+                questionnaireFile, null));
+            Assert.AreEqual("The argument 'installOptions' must be supplied", exception.ParamName);
         }
 
         [Test]
