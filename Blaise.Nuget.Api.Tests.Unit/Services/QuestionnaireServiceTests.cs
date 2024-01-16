@@ -19,7 +19,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
         private Mock<ISurvey> _questionnaireMock;
         private Mock<ISurveyCollection> _questionnaireCollectionMock;
-        private Mock<IServerPark> _serverParkMock;
+        private Mock<IServerPark6> _serverParkMock;
 
         private readonly ConnectionModel _connectionModel;
         private readonly string _questionnaireName;
@@ -50,7 +50,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => questionnaireItems.GetEnumerator());
 
             //setup server parks
-            _serverParkMock = new Mock<IServerPark>();
+            _serverParkMock = new Mock<IServerPark6>();
             _serverParkMock.Setup(s => s.Name).Returns("TestServerParkName");
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
 
@@ -301,11 +301,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.AreEqual($"No questionnaire found for questionnaire name '{questionnaire2Name}'", exception.Message);
         }
 
-        [TestCase("CATI", QuestionnaireInterviewType.Cati)]
-        [TestCase("CAPI", QuestionnaireInterviewType.Capi)]
-        [TestCase("CAWI", QuestionnaireInterviewType.Cawi)]
-        public void Given_Questionnaire_Exists_When_I_Call_GetQuestionnaireInterviewType_Then_The_Correct_QuestionnaireInterviewType_Is_Returned(
-            string interviewType, QuestionnaireInterviewType questionnaireInterviewType)
+        [TestCase("CATI", QuestionnaireInterviewType.Cati, "StrictInterviewing", QuestionnaireDataEntryType.StrictInterviewing)]
+        [TestCase("CAPI", QuestionnaireInterviewType.Capi, "StrictInterviewing", QuestionnaireDataEntryType.StrictInterviewing)]
+        [TestCase("CAWI", QuestionnaireInterviewType.Cawi, "StrictInterviewing", QuestionnaireDataEntryType.StrictInterviewing)]
+        public void Given_Questionnaire_Exists_When_I_Call_GetQuestionnaireConfigurationModel_Then_The_Correct_Model_Is_Returned(
+            string interviewType, QuestionnaireInterviewType questionnaireInterviewType, string dataEntryType, QuestionnaireDataEntryType questionnaireDataEntryType)
         {
             //arrange
             const string questionnaireName = "questionnaire1";
@@ -319,6 +319,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             var iConfigurationMock = new Mock<IConfiguration>();
             iConfigurationMock.Setup(c => c.InitialLayoutSetGroupName).Returns(interviewType);
+            iConfigurationMock.Setup(c => c.InitialDataEntrySettingsName).Returns(dataEntryType);
             iConfigurationMock.Setup(c => c.InstrumentName).Returns(questionnaireName);
             var configurations = new List<IConfiguration> { iConfigurationMock.Object };
 
@@ -327,10 +328,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             questionnaireMock.Setup(s => s.Configuration).Returns(machineConfigurationMock.Object);
 
             //act
-            var result = _sut.GetQuestionnaireInterviewType(_connectionModel, questionnaireName, _serverParkName);
+            var result = _sut.GetQuestionnaireConfigurationModel(_connectionModel, questionnaireName, _serverParkName);
 
             //assert
-            Assert.AreEqual(questionnaireInterviewType, result);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<QuestionnaireConfigurationModel>(result);
+            Assert.AreEqual(questionnaireInterviewType, result.QuestionnaireInterviewType);
+            Assert.AreEqual(questionnaireDataEntryType, result.QuestionnaireDataEntryType);
         }
 
         [Test]
@@ -454,14 +458,24 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _questionnaireMock.Setup(s => s.Configuration).Returns(configurationCollectionMock.Object);
 
+            var interviewType = QuestionnaireInterviewType.Cati;
+
+            var installOptions = new InstallOptions
+            {
+                DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
+                InitialAppLayoutSetGroupName = interviewType.FullName(),
+                LayoutSetGroupName = interviewType.FullName(),
+                OverwriteMode = DataOverwriteMode.Always,
+                Orientation = Orientation.Both,
+            };
+
             //act
-            _sut.InstallQuestionnaire(_connectionModel,_questionnaireName, _serverParkName,
-                questionnaireFile, QuestionnaireInterviewType.Cati);
+            _sut.InstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName,
+                questionnaireFile, installOptions);
 
             //assert
             _parkServiceMock.Verify(v => v.GetServerPark(_connectionModel, _serverParkName), Times.Once);
-            _serverParkMock.Verify(v => v.InstallSurvey(questionnaireFile, QuestionnaireInterviewType.Cati.FullName(),
-                                        QuestionnaireDataEntryType.StrictInterviewing.FullName(), DataOverwriteMode.Always), Times.Once);
+            _serverParkMock.Verify(v => v.InstallSurvey(questionnaireFile, installOptions), Times.Once);
         }
 
         [Test]

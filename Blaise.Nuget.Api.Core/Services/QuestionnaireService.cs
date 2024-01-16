@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Exceptions;
-using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Extensions;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -62,18 +61,15 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaire.Status.ToEnum<QuestionnaireStatusType>();
         }
 
-        public QuestionnaireInterviewType GetQuestionnaireInterviewType(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            var questionnaire = GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
-            var configuration = questionnaire.Configuration.Configurations.FirstOrDefault(c =>
-                    string.Equals(c.InstrumentName, questionnaireName, StringComparison.CurrentCultureIgnoreCase));
+            var questionnaireConfiguration = GetQuestionnaireConfiguration(connectionModel, questionnaireName, serverParkName);
 
-            if (configuration == null)
+            return new QuestionnaireConfigurationModel
             {
-                throw new QuestionnaireConfigurationException($"No configuration found for the questionnaire name '{questionnaireName}'");
-            }
-
-            return configuration.InitialLayoutSetGroupName.ToEnum<QuestionnaireInterviewType>();
+                QuestionnaireDataEntryType = questionnaireConfiguration.InitialDataEntrySettingsName.ToEnum<QuestionnaireDataEntryType>(),
+                QuestionnaireInterviewType = questionnaireConfiguration.InitialLayoutSetGroupName.ToEnum<QuestionnaireInterviewType>()
+            };  
         }
 
         public IEnumerable<ISurvey> GetAllQuestionnaires(ConnectionModel connectionModel)
@@ -105,14 +101,16 @@ namespace Blaise.Nuget.Api.Core.Services
         }
 
         public void InstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
-            string questionnaireFile, QuestionnaireInterviewType questionnaireInterviewType)
+            string questionnaireFile, IInstallOptions installOptions)
         {
-            var serverPark = _parkService.GetServerPark(connectionModel, serverParkName);
+            var serverPark = _parkService.GetServerPark(connectionModel, serverParkName) as IServerPark6;
 
-            serverPark.InstallSurvey(questionnaireFile,
-                questionnaireInterviewType.FullName(),
-                QuestionnaireDataEntryType.StrictInterviewing.ToString(),
-                DataOverwriteMode.Always);
+            if (serverPark is null)
+            {
+                throw new Exception("Could not cast to IServerPark6");
+            }
+
+            serverPark.InstallSurvey(questionnaireFile, installOptions);
         }
 
         public void UninstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)

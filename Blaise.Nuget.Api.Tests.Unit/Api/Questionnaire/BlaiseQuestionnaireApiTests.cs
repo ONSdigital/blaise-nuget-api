@@ -457,13 +457,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             //arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
+            var installOptions = new InstallOptions();
 
             //act
-            _sut.InstallQuestionnaire(_questionnaireName, _serverParkName, questionnaireFile, questionnaireInterviewType);
+            _sut.InstallQuestionnaire(_questionnaireName, _serverParkName, questionnaireFile, installOptions);
 
             //assert
             _questionnaireServiceMock.Verify(v => v.InstallQuestionnaire(_connectionModel, _questionnaireName,
-                _serverParkName, questionnaireFile, questionnaireInterviewType), Times.Once);
+                _serverParkName, questionnaireFile, installOptions), Times.Once);
         }
 
         [Test]
@@ -471,10 +472,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             //arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
+            var installOptions = new InstallOptions();
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(string.Empty, _serverParkName,
-                questionnaireFile, QuestionnaireInterviewType.Cati));
+                questionnaireFile, installOptions));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
@@ -483,10 +485,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             //arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
+            var installOptions = new InstallOptions();
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(null, _serverParkName,
-                questionnaireFile, QuestionnaireInterviewType.Cati));
+                questionnaireFile, installOptions));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
@@ -495,10 +498,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             //arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
+            var installOptions = new InstallOptions();
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(_questionnaireName, string.Empty,
-                                                                        questionnaireFile, QuestionnaireInterviewType.Cati));
+                                                                        questionnaireFile, installOptions));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -507,29 +511,48 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             //arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
+            var installOptions = new InstallOptions();
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, null,
-                questionnaireFile, QuestionnaireInterviewType.Cati));
+                questionnaireFile, installOptions));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 
         [Test]
-        public void Given_An_Empty_questionnaireFile_When_I_Call_InstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireFile_When_I_Call_InstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
+            //arrange
+            var installOptions = new InstallOptions();
+
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
-                string.Empty, QuestionnaireInterviewType.Cati));
+                string.Empty, installOptions));
             Assert.AreEqual("A value for the argument 'questionnaireFile' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_questionnaireFile_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireFile_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
+            //arrange
+            var installOptions = new InstallOptions();
+
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
-                null, QuestionnaireInterviewType.Cati));
+                null, installOptions));
             Assert.AreEqual("questionnaireFile", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_A_Null_InstallOptions_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            const string questionnaireFile = @"d:\\opn2101a.pkg";
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
+                questionnaireFile, null));
+            Assert.AreEqual("The argument 'installOptions' must be supplied", exception.ParamName);
         }
 
         [Test]
@@ -599,52 +622,59 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
-        [TestCase(QuestionnaireInterviewType.Cati)]
-        [TestCase(QuestionnaireInterviewType.Capi)]
-        [TestCase(QuestionnaireInterviewType.Cawi)]
-        public void Given_Valid_Arguments_When_I_Call_GetQuestionnaireInterviewType_Then_The_Expected_Result_Is_Returned(QuestionnaireInterviewType questionnaireInterviewType)
+        [TestCase(QuestionnaireInterviewType.Cati, QuestionnaireDataEntryType.StrictInterviewing)]
+        [TestCase(QuestionnaireInterviewType.Capi, QuestionnaireDataEntryType.StrictInterviewing)]
+        [TestCase(QuestionnaireInterviewType.Cawi, QuestionnaireDataEntryType.StrictInterviewing)]
+        public void Given_Valid_Arguments_When_I_Call_GetQuestionnaireConfigurationModel_Then_The_Expected_Result_Is_Returned(QuestionnaireInterviewType questionnaireInterviewType, QuestionnaireDataEntryType questionnaireDataEntryType)
         {
             //arrange
-            _questionnaireServiceMock.Setup(p => p.GetQuestionnaireInterviewType(_connectionModel, _questionnaireName, _serverParkName)).Returns(questionnaireInterviewType);
+            var questionnaireConfigurationModel = new QuestionnaireConfigurationModel
+            {
+                QuestionnaireInterviewType = questionnaireInterviewType,
+                QuestionnaireDataEntryType = questionnaireDataEntryType
+            };
+            _questionnaireServiceMock.Setup(p => p.GetQuestionnaireConfigurationModel(_connectionModel, _questionnaireName, _serverParkName)).Returns(questionnaireConfigurationModel);
 
             //act            
-            var result = _sut.GetQuestionnaireInterviewType(_questionnaireName, _serverParkName);
+            var result = _sut.GetQuestionnaireConfigurationModel(_questionnaireName, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<QuestionnaireInterviewType>(result);
-            Assert.AreEqual(questionnaireInterviewType, result);
+            Assert.IsInstanceOf<QuestionnaireInterviewType>(result.QuestionnaireInterviewType);
+            Assert.AreEqual(questionnaireInterviewType, result.QuestionnaireInterviewType);
+            Assert.IsInstanceOf<QuestionnaireDataEntryType>(result.QuestionnaireDataEntryType);
+            Assert.AreEqual(questionnaireDataEntryType, result.QuestionnaireDataEntryType);
         }
 
         [Test]
-        public void Given_An_Empty_QuestionnaireName_When_I_Call_GetQuestionnaireInterviewType_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_GetQuestionnaireConfigurationModel_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireInterviewType(string.Empty, _serverParkName));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireConfigurationModel(string.Empty, _serverParkName));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_QuestionnaireName_When_I_Call_GetQuestionnaireInterviewType_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_GetQuestionnaireConfigurationModel_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireInterviewType(null, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireConfigurationModel(null, _serverParkName));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
-        public void Given_An_Empty_ServerParkName_When_I_Call_GetQuestionnaireInterviewType_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_ServerParkName_When_I_Call_GetQuestionnaireConfigurationModel_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireInterviewType(_questionnaireName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireConfigurationModel(_questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_Null_ServerParkName_When_I_Call_GetQuestionnaireInterviewType_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_ServerParkName_When_I_Call_GetQuestionnaireConfigurationModel_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireInterviewType(_questionnaireName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireConfigurationModel(_questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
 

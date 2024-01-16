@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using NUnit.Framework;
 using StatNeth.Blaise.API.ServerManager;
@@ -11,9 +12,9 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
     {
         private readonly BlaiseQuestionnaireApi _sut;
 
-        private const string ServerParkName = "LocalDevelopment";
-        private const string FullQuestionnairePath = @"C:\users\user\desktop\OPN2102R.bpkg";
-        private const string QuestionnaireName = "OPN2102R";
+        private const string ServerParkName = "gusty";
+        private const string FullQuestionnairePath = @"D:\Blaise\Instruments\DST2304Z.bpkg";
+        private const string QuestionnaireName = "DST2304Z";
 
         public QuestionnaireTests()
         {
@@ -24,8 +25,17 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
         [Test]
         public void Given_I_Have_A_Valid_Questionnaire_It_Gets_Installed_On_A_Server_Park()
         {
+            //arrange
+            var installOptions = new InstallOptions
+            {
+                DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
+                InitialAppLayoutSetGroupName = QuestionnaireInterviewType.Cati.FullName(),
+                LayoutSetGroupName = QuestionnaireInterviewType.Cati.FullName(),
+                OverwriteMode = DataOverwriteMode.Always
+            };
+
             //act
-            _sut.InstallQuestionnaire(QuestionnaireName, ServerParkName, FullQuestionnairePath, QuestionnaireInterviewType.Cati);
+            _sut.InstallQuestionnaire(QuestionnaireName, ServerParkName, FullQuestionnairePath, installOptions);
 
             //assert
             var questionnaires = _sut.GetQuestionnaires(ServerParkName).ToList();
@@ -44,20 +54,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             Assert.IsInstanceOf<ISurvey>(result);
 
             Assert.AreEqual(QuestionnaireName, result.Name);
-        }
-
-        [Ignore("Integration")]
-        [Test]
-        public void Given_An_Questionnaire_Is_Installed_When_I_Call_GetQuestionnaireInterviewType_The_Correct_Type_Is_Returned()
-        {
-            //act
-            var result = _sut.GetQuestionnaireInterviewType(QuestionnaireName, ServerParkName);
-
-            //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<QuestionnaireInterviewType>(result);
-
-            Assert.AreEqual(QuestionnaireInterviewType.Cati, result);
         }
 
         [Ignore("Integration")]
