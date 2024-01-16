@@ -54,6 +54,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _catiQuestionnaireManagerMock = new Mock<ICatiInstrumentManager>();
             _catiQuestionnaireManagerMock.Setup(cim => cim.CreateDaybatch(It.IsAny<DateTime>()));
+            _catiQuestionnaireManagerMock.As<ICatiInstrumentManager2>().Setup(cim => cim.AddSurveyDays(It.IsAny<List<DateTime>>()));
+            _catiQuestionnaireManagerMock.As<ICatiInstrumentManager2>().Setup(cim => cim.RemoveSurveyDays(It.IsAny<List<DateTime>>()));
             _catiQuestionnaireManagerMock.As<ICatiInstrumentManager3>().Setup(cim => cim.CreateDaybatch(It.IsAny<DateTime>(), It.IsAny<bool>()));
             _catiQuestionnaireManagerMock.Setup(cim => cim.Specification.SurveyDays).Returns(_surveyDayCollection.Object);
 
@@ -311,10 +313,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
-            _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_questionnaireId).Specification.SurveyDays.AddSurveyDay(DateTime.Today), Times.Once);
-            _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_questionnaireId).SaveSpecification(), Times.Once);
+            _catiQuestionnaireManagerMock.As<ICatiInstrumentManager2>().Verify(v => v.AddSurveyDays(new List<DateTime> { DateTime.Today }), Times.Once);
         }
 
         [Test]
@@ -332,10 +331,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
-            _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_questionnaireId).Specification.SurveyDays.AddSurveyDays(surveyDays), Times.Once);
-            _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_questionnaireId).SaveSpecification(), Times.Once);
+            _catiQuestionnaireManagerMock.As<ICatiInstrumentManager2>().Verify(v => v.AddSurveyDays(surveyDays), Times.Once);
         }
 
         [Test]
@@ -361,10 +357,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
-            _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_questionnaireId).Specification.SurveyDays.RemoveSurveyDay(DateTime.Today), Times.Once);
-            _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_questionnaireId).SaveSpecification(), Times.Once);
+            _catiQuestionnaireManagerMock.As<ICatiInstrumentManager2>().Verify(v => v.RemoveSurveyDays(new List<DateTime> { DateTime.Today }), Times.Once);
         }
 
         [Test]
@@ -382,10 +375,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             _catiProviderMock.Verify(v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
-            _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_questionnaireId).Specification.SurveyDays.RemoveSurveyDays(surveyDays), Times.Once);
-            _catiManagementServerMock.Verify(v => v
-                .LoadCatiInstrumentManager(_questionnaireId).SaveSpecification(), Times.Once);
+            _catiQuestionnaireManagerMock.As<ICatiInstrumentManager2>().Verify(v => v.RemoveSurveyDays(surveyDays), Times.Once);
         }
 
         [Test]
