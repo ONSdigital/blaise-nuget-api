@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
+﻿using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -8,6 +6,8 @@ using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Extensions;
 using Blaise.Nuget.Api.Providers;
 using StatNeth.Blaise.API.ServerManager;
+using System;
+using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -17,17 +17,22 @@ namespace Blaise.Nuget.Api.Api
         private readonly IQuestionnaireMetaService _questionnaireMetaService;
         private readonly ICaseService _caseService;
         private readonly ConnectionModel _connectionModel;
+        private readonly ISqlService _sqlService;
+        private readonly IBlaiseConfigurationProvider _configurationProvider;
 
         internal BlaiseQuestionnaireApi(
             IQuestionnaireService questionnaireService,
             IQuestionnaireMetaService questionnaireMetaService,
             ICaseService caseService,
-            ConnectionModel connectionModel)
+            ConnectionModel connectionModel,
+            ISqlService sqlService, IBlaiseConfigurationProvider configurationProvider)
         {
             _questionnaireService = questionnaireService;
             _questionnaireMetaService = questionnaireMetaService;
             _caseService = caseService;
             _connectionModel = connectionModel;
+            _sqlService = sqlService;
+            _configurationProvider = configurationProvider;
         }
 
         public BlaiseQuestionnaireApi(ConnectionModel connectionModel = null)
@@ -110,7 +115,8 @@ namespace Blaise.Nuget.Api.Api
                 questionnaireFile, questionnaireInterviewType);
         }
 
-        public void UninstallQuestionnaire(string questionnaireName, string serverParkName, bool deleteCases = false)
+        public void UninstallQuestionnaire(string questionnaireName, string serverParkName, bool deleteCases = false
+                                                                                        , bool dropTables = false, bool clearCati = false)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
@@ -118,6 +124,16 @@ namespace Blaise.Nuget.Api.Api
             if (deleteCases)
             {
                 _caseService.RemoveDataRecords(_connectionModel, questionnaireName, serverParkName);
+            }
+
+            if (dropTables)
+            {
+                _sqlService.DropQuestionnaireTables(_configurationProvider.DatabaseConnectionString, questionnaireName);
+            }
+
+            if (clearCati)
+            {
+                // Placeholder for future implementation in Blaise 5.14 (expected August 2024)
             }
 
             _questionnaireService.UninstallQuestionnaire(_connectionModel, questionnaireName, serverParkName);

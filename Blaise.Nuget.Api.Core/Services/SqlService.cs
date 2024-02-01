@@ -5,6 +5,7 @@ using Blaise.Nuget.Api.Core.Interfaces.Services;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -86,6 +87,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public bool DropQuestionnaireTables(string connectionString, string questionnaireName)
         {
+            /*Had to implement it this way as StatsNeth have no functionality to achieve the same result*/
             var firstDatabaseTableName = GetDatabaseTableNameForm(questionnaireName);
             var secondDatabaseTableName = GetDatabaseTableNameDml(questionnaireName);
 
@@ -106,9 +108,16 @@ namespace Blaise.Nuget.Api.Core.Services
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (Exception ex)
+            catch (SqlException e)
             {
-                // Log the exception
+                // Handle exception
+                Console.WriteLine("A SQL error occurred: " + e.Message);
+                return false;
+            }
+            catch (Exception e)
+            {
+                // Handle other exceptions
+                Console.WriteLine("An error occurred: " + e.Message);
                 return false;
             }
 
