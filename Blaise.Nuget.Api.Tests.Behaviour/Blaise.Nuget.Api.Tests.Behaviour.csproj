@@ -155,6 +155,7 @@
     <Compile Include="Case\CreateCaseTests.cs" />
     <Compile Include="Cati\CatiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sql\DropDatabaseTablesTests.cs" />
     <Compile Include="Sql\PostCodeTests.cs" />
     <Compile Include="Sql\CaseIdTests.cs" />
     <Compile Include="Questionnaire\QuestionnaireTests.cs" />
