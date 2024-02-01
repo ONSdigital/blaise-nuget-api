@@ -12,19 +12,18 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
             _sut = new BlaiseSqlApi();
         }
 
-        [Ignore("Integration")]
+        //[Ignore("Integration")]
         [Test]
-        public void Given_An_QuestionnaireName_And_PrimaryKey_When_I_Call_GetPostCode_I_Get_A_PostCode_Back()
+        public void Given_An_QuestionnaireName_Drop_The_Table_From_The_Database()
         {
             //arrange
-            /* const string questionnaireName = "dst2106A";
+            const string questionnaireName = "DST2304Z";
 
-             //act
-             var result = _sut.
+            //act
+            var result = _sut.DropQuestionnaireTables(questionnaireName);
 
-             //assert
-             Assert.IsNotNull(result);
-             Assert.AreEqual("NP899XX", result);*/
+            //assert
+            Assert.IsTrue(result);
         }
 
 

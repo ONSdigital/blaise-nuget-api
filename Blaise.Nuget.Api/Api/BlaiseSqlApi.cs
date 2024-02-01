@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Interfaces;
+﻿using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Extensions;
 using Blaise.Nuget.Api.Providers;
+using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -26,7 +26,7 @@ namespace Blaise.Nuget.Api.Api
             _mySqlService = UnityProvider.Resolve<ISqlService>();
             _configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
         }
-        
+
         public IEnumerable<string> GetCaseIds(string questionnaireName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -47,6 +47,13 @@ namespace Blaise.Nuget.Api.Api
             primaryKey.ThrowExceptionIfNullOrEmpty("primaryKey");
 
             return _mySqlService.GetPostCode(_configurationProvider.DatabaseConnectionString, questionnaireName, primaryKey);
+        }
+
+        public bool DropQuestionnaireTables(string questionnaireName)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+
+            return _mySqlService.DropQuestionnaireTables(_configurationProvider.DatabaseConnectionString, questionnaireName);
         }
     }
 }
