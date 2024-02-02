@@ -126,14 +126,14 @@ namespace Blaise.Nuget.Api.Api
                 _caseService.RemoveDataRecords(_connectionModel, questionnaireName, serverParkName);
             }
 
-            if (dropTables)
-            {
-                _sqlService.DropQuestionnaireTables(_configurationProvider.DatabaseConnectionString, questionnaireName);
-            }
-
             if (clearCati)
             {
                 // Placeholder for future implementation in Blaise 5.14 (expected August 2024)
+            }
+
+            if (dropTables)
+            {
+                _sqlService.DropQuestionnaireTables(_configurationProvider.DatabaseConnectionString, questionnaireName);
             }
 
             _questionnaireService.UninstallQuestionnaire(_connectionModel, questionnaireName, serverParkName);
