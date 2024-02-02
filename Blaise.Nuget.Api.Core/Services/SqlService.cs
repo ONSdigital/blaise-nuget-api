@@ -111,13 +111,11 @@ namespace Blaise.Nuget.Api.Core.Services
             catch (SqlException e)
             {
                 // Handle exception
-                Console.WriteLine("A SQL error occurred: " + e.Message);
                 return false;
             }
             catch (Exception e)
             {
                 // Handle other exceptions
-                Console.WriteLine("An error occurred: " + e.Message);
                 return false;
             }
 
