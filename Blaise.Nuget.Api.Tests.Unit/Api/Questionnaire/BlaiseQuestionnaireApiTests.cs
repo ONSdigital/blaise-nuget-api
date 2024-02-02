@@ -543,7 +543,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_DeleteCases_Is_True_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Service_Methods_Are_Called()
         {
             //act
-            _sut.UninstallQuestionnaire(this._questionnaireName, this._serverParkName, true);
+            _sut.UninstallQuestionnaire(this._questionnaireName, this._serverParkName, deleteCases: true);
 
             //assert
             _questionnaireServiceMock.Verify(v => v.UninstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);

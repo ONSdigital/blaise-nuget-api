@@ -116,7 +116,7 @@ namespace Blaise.Nuget.Api.Api
         }
 
         public void UninstallQuestionnaire(string questionnaireName, string serverParkName, bool deleteCases = false
-                                                                                        , bool dropTables = false, bool clearCati = false)
+                                                                        , bool clearCati = false, bool dropTables = false)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");

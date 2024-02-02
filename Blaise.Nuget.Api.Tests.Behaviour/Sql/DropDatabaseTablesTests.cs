@@ -12,12 +12,12 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
             _sut = new BlaiseSqlApi();
         }
 
-        [Ignore("Integration")]
+        // [Ignore("Integration")]
         [Test]
         public void DropQuestionnaireTables_WithValidQuestionnaireName_ShouldDropTables()
         {
             //Arrange
-            const string questionnaireName = "DST2304Z";
+            const string questionnaireName = "LMS2211_EJ2";
 
             //Act
             var result = _sut.DropQuestionnaireTables(questionnaireName);

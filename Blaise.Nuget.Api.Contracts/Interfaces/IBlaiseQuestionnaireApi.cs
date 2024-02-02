@@ -30,8 +30,9 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
             string questionnaireName,
             string serverParkName,
             bool deleteCases = false,
-            bool dropTables = false,
-            bool clearCati = false);
+            bool clearCati = false,
+            bool dropTables = false
+           );
 
         void ActivateQuestionnaire(string questionnaireName, string serverParkName);
 
