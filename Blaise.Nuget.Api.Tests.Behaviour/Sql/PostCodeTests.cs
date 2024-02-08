@@ -6,7 +6,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
     public class PostCodeTests
     {
         private readonly BlaiseSqlApi _sut;
-        
+
         public PostCodeTests()
         {
             _sut = new BlaiseSqlApi();

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
+﻿using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -12,7 +14,7 @@ namespace Blaise.Nuget.Api.Core.Services
         public IEnumerable<string> GetCaseIds(string connectionString, string questionnaireName)
         {
             var caseIds = new List<string>();
-            var databaseTableName = GetDatabaseTableName(questionnaireName);
+            var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
             using (var con = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand())
             {
@@ -37,7 +39,7 @@ namespace Blaise.Nuget.Api.Core.Services
         public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string connectionString, string questionnaireName)
         {
             var caseIdentifiers = new List<CaseIdentifierModel>();
-            var databaseTableName = GetDatabaseTableName(questionnaireName);
+            var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
             using (var con = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand())
             {
@@ -62,15 +64,14 @@ namespace Blaise.Nuget.Api.Core.Services
         public string GetPostCode(string connectionString, string questionnaireName, string primaryKey)
         {
             string postCode;
-            var databaseTableName = GetDatabaseTableName(questionnaireName);
+            var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
             using (var con = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand())
             {
                 con.Open();
                 cmd.Connection = con;
-                cmd.Connection = con;
                 cmd.CommandText = $"SELECT {SqlFieldType.PostCode.FullName()} from {databaseTableName} WHERE {SqlFieldType.CaseId.FullName()} = {primaryKey}";
-                
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     reader.Read();
@@ -83,9 +84,52 @@ namespace Blaise.Nuget.Api.Core.Services
             return postCode;
         }
 
-        private static string GetDatabaseTableName(string questionnaireName)
+        public bool DropQuestionnaireTables(string connectionString, string questionnaireName)
+        {
+            /*Had to implement it this way as StatsNeth have no functionality to achieve the same result*/
+            var firstDatabaseTableName = GetDatabaseTableNameForm(questionnaireName);
+            var secondDatabaseTableName = GetDatabaseTableNameDml(questionnaireName);
+
+            try
+            {
+                using (var con = new MySqlConnection(connectionString))
+                using (var cmd = new MySqlCommand())
+                {
+                    con.Open();
+                    cmd.Connection = con;
+
+                    // Drop first table
+                    cmd.CommandText = $"DROP TABLE IF EXISTS `{firstDatabaseTableName}`";
+                    cmd.ExecuteNonQuery();
+
+                    // Drop second table
+                    cmd.CommandText = $"DROP TABLE IF EXISTS `{secondDatabaseTableName}`";
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException e)
+            {
+                // Handle exception
+                return false;
+            }
+            catch (Exception e)
+            {
+                // Handle other exceptions
+                return false;
+            }
+
+            return true;
+        }
+
+        private static string GetDatabaseTableNameForm(string questionnaireName)
         {
             return $"{questionnaireName.ToUpper()}_Form";
         }
+
+        private static string GetDatabaseTableNameDml(string questionnaireName)
+        {
+            return $"{questionnaireName.ToUpper()}_Dml";
+        }
+
     }
 }

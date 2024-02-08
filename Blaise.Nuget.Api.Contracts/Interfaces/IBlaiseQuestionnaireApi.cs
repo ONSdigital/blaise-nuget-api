@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
+﻿using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.ServerManager;
+using System;
+using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
@@ -26,7 +26,13 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnaireFile, QuestionnaireInterviewType questionnaireInterviewType);
 
-        void UninstallQuestionnaire(string questionnaireName, string serverParkName, bool deleteCases = false);
+        void UninstallQuestionnaire(
+            string questionnaireName,
+            string serverParkName,
+            bool deleteCases = false,
+            bool clearCati = false,
+            bool dropTables = false
+           );
 
         void ActivateQuestionnaire(string questionnaireName, string serverParkName);
 
