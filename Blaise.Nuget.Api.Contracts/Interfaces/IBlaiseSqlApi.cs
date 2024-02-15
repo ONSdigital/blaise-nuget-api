@@ -10,5 +10,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string questionnaireName);
 
         string GetPostCode(string questionnaireName, string primaryKey);
+
+        bool DropQuestionnaireTables(string questionnaireName);
     }
 }

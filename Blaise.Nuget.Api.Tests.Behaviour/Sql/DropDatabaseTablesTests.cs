@@ -12,7 +12,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
             _sut = new BlaiseSqlApi();
         }
 
-        // [Ignore("Integration")]
+        [Ignore("Integration")]
         [Test]
         public void DropQuestionnaireTables_WithValidQuestionnaireName_ShouldDropTables()
         {
