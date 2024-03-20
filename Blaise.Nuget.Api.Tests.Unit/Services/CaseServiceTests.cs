@@ -34,7 +34,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         private readonly string _serverParkName;
         private readonly string _databaseFile;
         private readonly string _keyName;
-        private readonly string _primaryKeyValue;
+        private readonly Dictionary<string, string> _primaryKeyValues;
 
 
         private CaseService _sut;
@@ -46,7 +46,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _serverParkName = "TestServerParkName";
             _databaseFile = "c:\\filePath\\opn2010.bdbx";
             _keyName = "TestKeyName";
-            _primaryKeyValue = "100001";
+            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
         }
 
         [SetUp]
@@ -83,29 +83,29 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetPrimaryKeyValue_Then_The_Correct_Key_Is_Returned()
+        public void Given_I_Call_GetPrimaryKeyValues_Then_The_Correct_Key_Is_Returned()
         {
             //act
-            const string primaryKey = "Key1";
-            _keyServiceMock.Setup(k => k.GetPrimaryKeyValue(It.IsAny<IDataRecord>())).Returns(primaryKey);
+            var primaryKeys = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
+            _keyServiceMock.Setup(k => k.GetPrimaryKeyValues(It.IsAny<IDataRecord>())).Returns(primaryKeys);
 
-            var result = _sut.GetPrimaryKeyValue(_dataRecordMock.Object);
+            var result = _sut.GetPrimaryKeyValues(_dataRecordMock.Object);
 
             //assert
-            Assert.AreSame(primaryKey, result);
+            Assert.AreSame(primaryKeys, result);
         }
 
         [Test]
         public void Given_I_Call_GetPrimaryKeyValue_Then_The_Correct_Services_Are_Called()
         {
             //arrange
-            _keyServiceMock.Setup(k => k.GetPrimaryKeyValue(It.IsAny<IDataRecord>())).Returns(It.IsAny<string>());
+            _keyServiceMock.Setup(k => k.GetPrimaryKeyValues(It.IsAny<IDataRecord>())).Returns(It.IsAny<Dictionary<string, string>>());
 
             //act
-            _sut.GetPrimaryKeyValue(_dataRecordMock.Object);
+            _sut.GetPrimaryKeyValues(_dataRecordMock.Object);
 
             //assert
-            _keyServiceMock.Verify(v => v.GetPrimaryKeyValue(_dataRecordMock.Object), Times.Once);
+            _keyServiceMock.Verify(v => v.GetPrimaryKeyValues(_dataRecordMock.Object), Times.Once);
         }
 
         [Test]
@@ -129,10 +129,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_PrimaryKeyValue_And_An_QuestionnaireName_And_ServerParkName_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
+        public void Given_PrimaryKeyValues_And_An_QuestionnaireName_And_ServerParkName_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
         {
             //act
-            _sut.GetDataRecord(_connectionModel, _primaryKeyValue, _questionnaireName, _serverParkName);
+            _sut.GetDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName);
 
             //assert
             _dataRecordServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName), Times.Once);
@@ -148,14 +148,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             Assert.Throws<DataNotFoundException>(() =>
-                _sut.GetDataRecord(_connectionModel, _primaryKeyValue, _questionnaireName, _serverParkName));
+                _sut.GetDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName));
         }
 
         [Test]
-        public void Given_A_PrimaryKeyValue_And_A_DatabaseFile_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
+        public void Given_PrimaryKeyValues_And_A_DatabaseFile_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
         {
             //act
-            _sut.GetDataRecord(_connectionModel, _primaryKeyValue, _databaseFile);
+            _sut.GetDataRecord(_connectionModel, _primaryKeyValues, _databaseFile);
 
             //assert
             _dataRecordServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _databaseFile, _keyMock.Object), Times.Once);
@@ -231,15 +231,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_Valid_Arguments_When_I_Call_CaseExists_Then_The_Correct_Services_Are_Called()
         {
             //arrange
-            const string primaryKeyValue = "Key1";
+            var primaryKeys = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
 
             //act
-            _sut.CaseExists(_connectionModel, primaryKeyValue, _questionnaireName, _serverParkName);
+            _sut.CaseExists(_connectionModel, primaryKeys, _questionnaireName, _serverParkName);
 
             //assert
             _dataModelServiceMock.Verify(v => v.GetDataModel(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
             _keyServiceMock.Verify(v => v.GetPrimaryKey(_dataModelMock.Object), Times.Once);
-            _keyServiceMock.Verify(v => v.AssignPrimaryKeyValue(_keyMock.Object, primaryKeyValue), Times.Once);
+            _keyServiceMock.Verify(v => v.AssignPrimaryKeyValues(_keyMock.Object, primaryKeys), Times.Once);
             _keyServiceMock.Verify(v => v.KeyExists(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName), Times.Once);
         }
 
@@ -248,13 +248,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_Valid_Arguments_When_I_Call_CaseExists_Then_The_Expected_Value_Is_Returned(bool caseExists)
         {
             //arrange
-            const string primaryKeyValue = "Key1";
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
 
             _keyServiceMock.Setup(k => k.KeyExists(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName))
                 .Returns(caseExists);
 
             //act
-            var result = _sut.CaseExists(_connectionModel, primaryKeyValue, _questionnaireName, _serverParkName);
+            var result = _sut.CaseExists(_connectionModel, primaryKeyValues, _questionnaireName, _serverParkName);
 
             //assert
             Assert.NotNull(result);
@@ -265,13 +265,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_Valid_Arguments_When_I_Call_CreateNewDataRecords_Then_The_Correct_Services_Are_Called_For_One_Case()
         {
             // Arrange
-            const string primaryKeyValue = "Key1";
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
             var fieldData = new Dictionary<string, string>();
-            var caseModels = new List<CaseModel> { new CaseModel(primaryKeyValue, fieldData) };
+            var caseModels = new List<CaseModel> { new CaseModel(primaryKeyValues, fieldData) };
             var dataRecordsMock = new List<IDataRecord> { _dataRecordMock.Object };
 
             _mapperServiceMock
-                .Setup(mapper => mapper.MapDataRecordFields(_dataRecordMock.Object, _keyMock.Object, primaryKeyValue, fieldData))
+                .Setup(mapper => mapper.MapDataRecordFields(_dataRecordMock.Object, _keyMock.Object, primaryKeyValues, fieldData))
                 .Returns(_dataRecordMock.Object);
 
             // Act
@@ -281,7 +281,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _dataModelServiceMock.Verify(dataService => dataService.GetDataModel(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
             _keyServiceMock.Verify(keyService => keyService.GetPrimaryKey(_dataModelMock.Object), Times.Once);
             _dataRecordServiceMock.Verify(dataRecordService => dataRecordService.GetDataRecord(_dataModelMock.Object), Times.Once);
-            _mapperServiceMock.Verify(mapper => mapper.MapDataRecordFields(_dataRecordMock.Object, _keyMock.Object, primaryKeyValue, fieldData), Times.Once);
+            _mapperServiceMock.Verify(mapper => mapper.MapDataRecordFields(_dataRecordMock.Object, _keyMock.Object, primaryKeyValues, fieldData), Times.Once);
             _dataRecordServiceMock.Verify(dataRecordService => dataRecordService.WriteDataRecords(_connectionModel, dataRecordsMock, _questionnaireName, _serverParkName), Times.Once);
         }
 
@@ -289,11 +289,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_Valid_Arguments_When_I_Call_CreateNewDataRecords_Then_The_Correct_Services_Are_Called_For_Two_Cases()
         {
             // Arrange
-            const string primaryKeyValue1 = "Key1";
-            const string primaryKeyValue2 = "Key2";
+            var primaryKeyValues1 = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
+            var primaryKeyValues2 = new Dictionary<string, string> { { "QID.Serial_Number", "900002" } };
             var fieldData1 = new Dictionary<string, string>();
             var fieldData2 = new Dictionary<string, string>();
-            var caseModels = new List<CaseModel> { new CaseModel(primaryKeyValue1, fieldData1), new CaseModel(primaryKeyValue2, fieldData2) };
+            var caseModels = new List<CaseModel> { new CaseModel(primaryKeyValues1, fieldData1), new CaseModel(primaryKeyValues2, fieldData2) };
 
             var dataRecord1Mock = new Mock<IDataRecord>();
             var dataRecord2Mock = new Mock<IDataRecord>();
@@ -306,11 +306,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(dataRecord2Mock.Object);
 
             _mapperServiceMock
-                .Setup(mapper => mapper.MapDataRecordFields(dataRecord1Mock.Object, _keyMock.Object, primaryKeyValue1, fieldData1))
+                .Setup(mapper => mapper.MapDataRecordFields(dataRecord1Mock.Object, _keyMock.Object, primaryKeyValues1, fieldData1))
                 .Returns(dataRecord1Mock.Object);
 
             _mapperServiceMock
-                .Setup(mapper => mapper.MapDataRecordFields(dataRecord2Mock.Object, _keyMock.Object, primaryKeyValue2, fieldData2))
+                .Setup(mapper => mapper.MapDataRecordFields(dataRecord2Mock.Object, _keyMock.Object, primaryKeyValues2, fieldData2))
                 .Returns(dataRecord2Mock.Object);
 
             // Act
@@ -320,8 +320,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _dataModelServiceMock.Verify(dataService => dataService.GetDataModel(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
             _keyServiceMock.Verify(keyService => keyService.GetPrimaryKey(_dataModelMock.Object), Times.Once);
             _dataRecordServiceMock.Verify(dataRecordService => dataRecordService.GetDataRecord(_dataModelMock.Object), Times.Exactly(2));
-            _mapperServiceMock.Verify(mapper => mapper.MapDataRecordFields(dataRecord1Mock.Object, _keyMock.Object, primaryKeyValue1, fieldData1), Times.Once);
-            _mapperServiceMock.Verify(mapper => mapper.MapDataRecordFields(dataRecord2Mock.Object, _keyMock.Object, primaryKeyValue2, fieldData2), Times.Once);
+            _mapperServiceMock.Verify(mapper => mapper.MapDataRecordFields(dataRecord1Mock.Object, _keyMock.Object, primaryKeyValues1, fieldData1), Times.Once);
+            _mapperServiceMock.Verify(mapper => mapper.MapDataRecordFields(dataRecord2Mock.Object, _keyMock.Object, primaryKeyValues2, fieldData2), Times.Once);
             _dataRecordServiceMock.Verify(dataRecordService => dataRecordService.WriteDataRecords(_connectionModel, dataRecordsMock, _questionnaireName, _serverParkName), Times.Once);
         }
 
@@ -329,21 +329,21 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_Valid_Arguments_When_I_Call_CreateNewDataRecord_Then_The_Correct_Services_Are_Called()
         {
             //arrange
-            const string primaryKeyValue = "Key1";
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
             var fieldData = new Dictionary<string, string>();
 
             _mapperServiceMock.Setup(m => m.MapDataRecordFields(It.IsAny<IDataRecord>(),
-                    It.IsAny<IKey>(), It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
+                    It.IsAny<IKey>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<Dictionary<string, string>>()))
                 .Returns(_dataRecordMock.Object);
 
             //act
-            _sut.CreateNewDataRecord(_connectionModel, primaryKeyValue, fieldData, _questionnaireName, _serverParkName);
+            _sut.CreateNewDataRecord(_connectionModel, primaryKeyValues, fieldData, _questionnaireName, _serverParkName);
 
             //assert
             _dataModelServiceMock.Verify(v => v.GetDataModel(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
             _keyServiceMock.Verify(v => v.GetPrimaryKey(_dataModelMock.Object), Times.Once);
             _dataRecordServiceMock.Verify(v => v.GetDataRecord(_dataModelMock.Object), Times.Once);
-            _mapperServiceMock.Verify(v => v.MapDataRecordFields(_dataRecordMock.Object, _keyMock.Object, primaryKeyValue, fieldData), Times.Once);
+            _mapperServiceMock.Verify(v => v.MapDataRecordFields(_dataRecordMock.Object, _keyMock.Object, primaryKeyValues, fieldData), Times.Once);
             _dataRecordServiceMock.Verify(v => v.WriteDataRecord(_connectionModel, _dataRecordMock.Object, _questionnaireName, _serverParkName), Times.Once);
         }
 
@@ -364,21 +364,21 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_Valid_Arguments_When_I_Call_CreateNewDataRecord_For_Local_Connection_Then_The_Correct_Services_Are_Called()
         {
             //arrange
-            const string primaryKeyValue = "Key1";
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
             var fieldData = new Dictionary<string, string>();
 
             _mapperServiceMock.Setup(m => m.MapDataRecordFields(It.IsAny<IDataRecord>(),
-                    It.IsAny<IKey>(), It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
+                    It.IsAny<IKey>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<Dictionary<string, string>>()))
                 .Returns(_dataRecordMock.Object);
 
             //act
-            _sut.CreateNewDataRecord(_connectionModel, _databaseFile, primaryKeyValue, fieldData);
+            _sut.CreateNewDataRecord(_connectionModel, _databaseFile, primaryKeyValues, fieldData);
 
             //assert
             _dataModelServiceMock.Verify(v => v.GetDataModel(_connectionModel, _databaseFile), Times.Once);
             _keyServiceMock.Verify(v => v.GetPrimaryKey(_dataModelMock.Object), Times.Once);
             _dataRecordServiceMock.Verify(v => v.GetDataRecord(_dataModelMock.Object), Times.Once);
-            _mapperServiceMock.Verify(v => v.MapDataRecordFields(_dataRecordMock.Object, _keyMock.Object, primaryKeyValue, fieldData), Times.Once);
+            _mapperServiceMock.Verify(v => v.MapDataRecordFields(_dataRecordMock.Object, _keyMock.Object, primaryKeyValues, fieldData), Times.Once);
             _dataRecordServiceMock.Verify(v => v.WriteDataRecord(_connectionModel, _dataRecordMock.Object, _databaseFile), Times.Once);
         }
 
@@ -386,19 +386,19 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_Valid_Arguments_When_I_Call_UpdateDataRecord_Then_The_Correct_Services_Are_Called()
         {
             //arrange
-            const string primaryKeyValue = "Key1";
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
             var fieldData = new Dictionary<string, string>();
 
             _mapperServiceMock.Setup(m => m.MapDataRecordFields(It.IsAny<IDataRecord>(),
                 It.IsAny<Dictionary<string, string>>())).Returns(_dataRecordMock.Object);
 
             //act
-            _sut.UpdateDataRecord(_connectionModel, primaryKeyValue, fieldData, _questionnaireName, _serverParkName);
+            _sut.UpdateDataRecord(_connectionModel, primaryKeyValues, fieldData, _questionnaireName, _serverParkName);
 
             //assert
             _dataModelServiceMock.Verify(v => v.GetDataModel(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
             _keyServiceMock.Verify(v => v.GetPrimaryKey(_dataModelMock.Object), Times.Once);
-            _keyServiceMock.Verify(v => v.AssignPrimaryKeyValue(_keyMock.Object, primaryKeyValue), Times.Once);
+            _keyServiceMock.Verify(v => v.AssignPrimaryKeyValues(_keyMock.Object, primaryKeyValues), Times.Once);
             _dataRecordServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName), Times.Once);
             _mapperServiceMock.Verify(v => v.MapDataRecordFields(_dataRecordMock.Object, fieldData), Times.Once);
             _dataRecordServiceMock.Verify(v => v.WriteDataRecord(_connectionModel, _dataRecordMock.Object,
@@ -443,7 +443,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_A_KeyValue_And_An_QuestionnaireName_And_ServerParkName_When_I_Call_RemoveDataRecord_Then_The_Correct_Services_Are_Called()
         {
             //act
-            _sut.RemoveDataRecord(_connectionModel, _keyName, _questionnaireName, _serverParkName);
+            _sut.RemoveDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName);
 
             //assert
             _dataRecordServiceMock.Verify(v => v.DeleteDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName), Times.Once);
@@ -994,11 +994,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_A_Valid_DataRecord_When_I_Call_GetCaseStatus_Then_An_Expected_CaseStatusModel_Is_Returned()
         {
             //arrange
-            const string primaryKeyValue = "900000";
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900000" } };
             const int outCome = 110;
             var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 
-            _keyServiceMock.Setup(k => k.GetPrimaryKeyValue(It.IsAny<IDataRecord>())).Returns(primaryKeyValue);
+            _keyServiceMock.Setup(k => k.GetPrimaryKeyValues(It.IsAny<IDataRecord>())).Returns(primaryKeyValues);
 
             var outcomeFieldValue = new Mock<IDataValue>();
             outcomeFieldValue.Setup(f => f.IntegerValue).Returns(outCome);
@@ -1017,7 +1017,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<CaseStatusModel>(result);
-            Assert.AreEqual(primaryKeyValue, result.PrimaryKey);
+            Assert.AreEqual(primaryKeyValues, result.PrimaryKeyValues);
             Assert.AreEqual(outCome, result.Outcome);
             Assert.AreEqual(lastUpdated, result.LastUpdated);
         }
@@ -1026,12 +1026,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_A_Valid_DataSet_When_I_Call_GetCaseStatusModelList_Then_An_Expected_List_Of_CaseStatusModel_Is_Returned()
         {
             //Arrange
-            const string primaryKeyValue = "900000";
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900000" } };
             const int outCome = 110;
             var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 
             // Setup mocks for KeyService and FieldService
-            _keyServiceMock.Setup(k => k.GetPrimaryKeyValue(_dataRecordMock.Object)).Returns(primaryKeyValue);
+            _keyServiceMock.Setup(k => k.GetPrimaryKeyValues(_dataRecordMock.Object)).Returns(primaryKeyValues);
 
             var outcomeFieldValue = new Mock<IDataValue>();
             outcomeFieldValue.Setup(f => f.IntegerValue).Returns(outCome);
@@ -1068,7 +1068,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             foreach (var caseStatusModel in result)
             {
                 // Verify the properties of the CaseStatusModel
-                Assert.AreEqual(primaryKeyValue, caseStatusModel.PrimaryKey);
+                Assert.AreEqual(primaryKeyValues, caseStatusModel.PrimaryKeyValues);
                 Assert.AreEqual(outCome, caseStatusModel.Outcome);
                 Assert.AreEqual(lastUpdated, caseStatusModel.LastUpdated);
             }
@@ -1078,14 +1078,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_A_Valid_DataSet_When_I_Call_GetCaseStatusModelList_For_A_File_Then_An_Expected_List_Of_CaseStatusModel_Is_Returned()
         {
             // Arrange
-            const string primaryKeyValue = "900000";
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900000" } };
             const int outCome = 110;
             var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 
             // Mock Key Service
             _keyServiceMock
-                .Setup(k => k.GetPrimaryKeyValue(_dataRecordMock.Object))
-                .Returns(primaryKeyValue);
+                .Setup(k => k.GetPrimaryKeyValues(_dataRecordMock.Object))
+                .Returns(primaryKeyValues);
 
             // Mock Outcome Field
             var outcomeFieldValue = new Mock<IDataValue>();
@@ -1127,7 +1127,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             foreach (var caseStatusModel in result)
             {
-                Assert.AreEqual(primaryKeyValue, caseStatusModel.PrimaryKey);
+                Assert.AreEqual(primaryKeyValues, caseStatusModel.PrimaryKeyValues);
                 Assert.AreEqual(outCome, caseStatusModel.Outcome);
                 Assert.AreEqual(lastUpdated, caseStatusModel.LastUpdated);
             }
@@ -1137,7 +1137,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_A_Valid_DataRecord_When_I_Call_GetCaseModel_Then_An_Expected_CaseModel_Is_Returned()
         {
             // Arrange
-            const string primaryKeyValue = "900000";
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900000" } };
             var fieldDictionary = new Dictionary<string, string>();
 
             _mapperServiceMock
@@ -1145,12 +1145,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(fieldDictionary);
 
             // Act
-            var result = _sut.GetCaseModel(_connectionModel, primaryKeyValue, _questionnaireName, _serverParkName);
+            var result = _sut.GetCaseModel(_connectionModel, primaryKeyValues, _questionnaireName, _serverParkName);
 
             // Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<CaseModel>(result);
-            Assert.AreEqual(primaryKeyValue, result.CaseId);
+            Assert.AreEqual(primaryKeyValues, result.PrimaryKeyValues);
             Assert.AreSame(fieldDictionary, result.FieldData);
         }
     }

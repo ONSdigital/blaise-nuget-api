@@ -9,30 +9,30 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
     public interface IBlaiseCaseApi
     {
-        bool CaseExists(string primaryKeyValue, string questionnaireName, 
+        bool CaseExists(Dictionary<string, string> primaryKeyValues, string questionnaireName, 
             string serverParkName);
 
-        string GetPrimaryKeyValue(IDataRecord dataRecord);
+        Dictionary<string, string> GetPrimaryKeyValues(IDataRecord dataRecord);
 
         IDataSet GetCases(string databaseFile);
 
         IDataSet GetCases(string questionnaireName, string serverParkName);
 
-        IDataRecord GetCase(string primaryKeyValue, string questionnaireName, 
+        IDataRecord GetCase(Dictionary<string, string> primaryKeyValues, string questionnaireName, 
             string serverParkName);
 
-        IDataRecord GetCase(string primaryKeyValue, string databaseFile);
+        IDataRecord GetCase(Dictionary<string, string> primaryKeyValues, string databaseFile);
 
         void CreateCases(List<CaseModel> cases, string questionnaireName, string serverParkName);
 
-        void CreateCase(string primaryKeyValue, Dictionary<string, string> fieldData, 
+        void CreateCase(Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData, 
             string questionnaireName, string serverParkName);
 
         void CreateCase(IDataRecord dataRecord, string questionnaireName, string serverParkName);
 
-        void CreateCase(string databaseFile, string primaryKeyValue, Dictionary<string, string> fieldData);
+        void CreateCase(string databaseFile, Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData);
 
-        void UpdateCase(string primaryKeyValue, Dictionary<string, string> fieldData,
+        void UpdateCase(Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData,
             string questionnaireName, string serverParkName);
 
         void UpdateCase(IDataRecord dataRecord, Dictionary<string, string> fieldData,
@@ -51,10 +51,10 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IDataValue GetFieldValue(IDataRecord dataRecord, string fieldName);
 
-        IDataValue GetFieldValue(string primaryKeyValue, string questionnaireName,
+        IDataValue GetFieldValue(Dictionary<string, string> primaryKeyValues, string questionnaireName,
             string serverParkName, FieldNameType fieldNameType);
 
-        void RemoveCase(string primaryKeyValue, string questionnaireName, 
+        void RemoveCase(Dictionary<string, string> primaryKeyValues, string questionnaireName, 
             string serverParkName);
 
         void RemoveCases(string questionnaireName, string serverParkName);
@@ -66,13 +66,13 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         int GetOutcomeCode(IDataRecord dataRecord);
 
-        void LockDataRecord(string primaryKeyValue, string questionnaireName, string serverParkName,
+        void LockDataRecord(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName,
             string lockId);
 
-        void UnLockDataRecord(string primaryKeyValue, string questionnaireName, string serverParkName,
+        void UnLockDataRecord(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName,
            string lockId);
         
-        bool DataRecordIsLocked(string primaryKeyValue, string questionnaireName, string serverParkName);
+        bool DataRecordIsLocked(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName);
 
         DateTime? GetLastUpdated(IDataRecord dataRecord);
 
@@ -86,6 +86,6 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IEnumerable<CaseStatusModel> GetCaseStatusModelList(string databaseFile);
 
-        CaseModel GetCaseModel(string primaryKeyValue, string questionnaireName, string serverParkName);
+        CaseModel GetCaseModel(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName);
     }
 }

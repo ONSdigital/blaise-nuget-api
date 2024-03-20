@@ -1,15 +1,18 @@
-﻿namespace Blaise.Nuget.Api.Contracts.Models
+﻿using System.Collections.Generic;
+
+namespace Blaise.Nuget.Api.Contracts.Models
 {
     public class CaseStatusModel
     {
-        public CaseStatusModel(string primaryKey, int outcome, string lastUpdated)
+        public CaseStatusModel(Dictionary<string, string> primaryKeyValues, int outcome, string lastUpdated)
         {
-            PrimaryKey = primaryKey;
+            PrimaryKeyValues = primaryKeyValues;
             Outcome = outcome;
             LastUpdated = lastUpdated;
         }
 
-        public string PrimaryKey { get; set; }
+
+        public Dictionary<string, string> PrimaryKeyValues { get; set; }
 
         public int Outcome { get; set; }
 

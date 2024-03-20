@@ -1,6 +1,7 @@
 ﻿using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.DataRecord;
 using StatNeth.Blaise.API.Meta;
+using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
@@ -12,8 +13,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         IKey GetPrimaryKey(IDatamodel dataModel);
 
-        string GetPrimaryKeyValue(IDataRecord dataRecord);
+        Dictionary<string, string> GetPrimaryKeyValues(IDataRecord dataRecord);
 
-        void AssignPrimaryKeyValue(IKey key, string primaryKeyValue);
+        void AssignPrimaryKeyValues(IKey key, Dictionary<string, string> primaryKeyValues);
     }
 }

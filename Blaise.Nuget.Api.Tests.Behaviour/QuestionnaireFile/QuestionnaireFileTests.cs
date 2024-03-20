@@ -83,7 +83,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
             {
                 var dictionary = new Dictionary<string, string> { { "serial_number", primaryKey.ToString() } };
 
-                blaiseCaseApi.CreateCase(primaryKey.ToString(), dictionary, questionnaireName, serverParkName);
+                var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", primaryKey.ToString() } };
+                blaiseCaseApi.CreateCase(primaryKeyValues, dictionary, questionnaireName, serverParkName);
                 primaryKey++;
             }
         }
@@ -96,7 +97,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
 
             while (!cases.EndOfSet)
             {
-                var primaryKey = blaiseCaseApi.GetPrimaryKeyValue(cases.ActiveRecord);
+                var primaryKey = blaiseCaseApi.GetPrimaryKeyValues(cases.ActiveRecord);
 
                 blaiseCaseApi.RemoveCase(primaryKey, questionnaireName, serverParkName);
 

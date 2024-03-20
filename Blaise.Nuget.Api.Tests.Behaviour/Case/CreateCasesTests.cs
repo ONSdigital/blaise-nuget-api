@@ -51,7 +51,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             for (var loopCounter = 1; loopCounter <= caseCount; loopCounter++)
             {
                 var caseId = $"{startingPrimaryKey + loopCounter}";
-                caseModels.Add(new CaseModel(caseId, fieldData));
+                var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", caseId } };
+                caseModels.Add(new CaseModel(primaryKeyValues, fieldData));
             }
 
             return caseModels;
@@ -62,8 +63,9 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             for (var loopCounter = 1; loopCounter <= caseCount; loopCounter++)
             {
                 var caseId = $"{startingPrimaryKey + loopCounter}";
-                Assert.IsTrue(_sut.CaseExists(caseId, questionnaireName, serverParkName));
-                _sut.RemoveCase(caseId, questionnaireName, serverParkName);
+                var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", caseId } };
+                Assert.IsTrue(_sut.CaseExists(primaryKeyValues, questionnaireName, serverParkName));
+                _sut.RemoveCase(primaryKeyValues, questionnaireName, serverParkName);
             }
         }
     }
