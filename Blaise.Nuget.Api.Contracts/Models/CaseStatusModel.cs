@@ -24,6 +24,8 @@ namespace Blaise.Nuget.Api.Contracts.Models
 
         public string LastUpdated { get; set; }
 
+        public string CaseId => PrimaryKeyValues["QID.Serial_Number"]; // specifically to support minimal changes for Nisra ingest
+
         public string GetPrimaryKeyValue(string primaryKeyName)
         {
             if (PrimaryKeyValues == null || PrimaryKeyValues.Count == 0)

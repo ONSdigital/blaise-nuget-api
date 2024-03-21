@@ -36,5 +36,21 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => caseStatusModel.GetPrimaryKeyValue(primaryKeyName));
             Assert.AreEqual("There are no primary keys defined\r\nParameter name: primaryKeyName", exception?.Message); ;
         }
+
+        [Test]
+        public void Given_A_CaseStatusModel_Has_A_CaseId_When_I_Call_CaseId_The_Correct_PrimaryKey_Value_Is_Returned()
+        {
+            // arrange
+            var caseId = "900001";
+            var primaryKeyValues = new Dictionary<string, string> { {"MainSurveyID", "dgss-5ghghg-ttggh"}, { "QID.Serial_Number", caseId } };
+            var caseStatusModel = new CaseStatusModel(primaryKeyValues, 110, DateTime.Now.ToString(CultureInfo.InvariantCulture));
+
+            // act
+            var result = caseStatusModel.CaseId;
+
+            // assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(caseId, result);
+        }
     }
 }
