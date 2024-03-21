@@ -33,7 +33,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
 
             //act && assert
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => caseModel.GetPrimaryKeyValue(primaryKeyName));
-            Assert.AreEqual("There are no primary keys defined\r\nParameter name: primaryKeyName", exception?.Message); ;
+            Assert.AreEqual("There are no primary keys defined\r\nParameter name: primaryKeyName", exception?.Message);
         }
     }
 }
