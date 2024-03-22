@@ -46,7 +46,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var caseStatusModel = new CaseStatusModel(primaryKeyValues, 110, DateTime.Now.ToString(CultureInfo.InvariantCulture));
 
             // act
-            var result = caseStatusModel.CaseId;
+            var result = caseStatusModel.PrimaryKey;
 
             // assert
             Assert.IsNotNull(result);
