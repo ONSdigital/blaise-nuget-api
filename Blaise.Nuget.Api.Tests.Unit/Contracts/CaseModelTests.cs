@@ -45,7 +45,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var caseStatusModel = new CaseModel(primaryKeyValues, new Dictionary<string, string>());
 
             // act
-            var result = caseStatusModel.CaseId;
+            var result = caseStatusModel.PrimaryKey;
 
             // assert
             Assert.IsNotNull(result);
