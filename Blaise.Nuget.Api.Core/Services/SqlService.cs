@@ -107,14 +107,9 @@ namespace Blaise.Nuget.Api.Core.Services
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (SqlException e)
+            catch
             {
                 // Handle exception
-                return false;
-            }
-            catch (Exception e)
-            {
-                // Handle other exceptions
                 return false;
             }
 
