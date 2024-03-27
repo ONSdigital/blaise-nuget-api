@@ -24,13 +24,19 @@ namespace Blaise.Nuget.Api.Contracts.Models
 
         public string LastUpdated { get; set; }
 
-        public string PrimaryKey => PrimaryKeyValues["QID.Serial_Number"]; // specifically to support minimal changes for Nisra ingest
+        public string PrimaryKey => GetPrimaryKeyValue("QID.Serial_Number"); // specifically to support minimal changes for Nisra ingest
 
         public string GetPrimaryKeyValue(string primaryKeyName)
         {
             if (PrimaryKeyValues == null || PrimaryKeyValues.Count == 0)
             {
                 throw new ArgumentOutOfRangeException("primaryKeyName","There are no primary keys defined");
+            }
+
+            if (!PrimaryKeyValues.ContainsKey(primaryKeyName))
+            {
+                throw new ArgumentException(
+                    $"The primary key name '{primaryKeyName}' does not exist in the primaryKey object");
             }
 
             return PrimaryKeyValues[primaryKeyName];
