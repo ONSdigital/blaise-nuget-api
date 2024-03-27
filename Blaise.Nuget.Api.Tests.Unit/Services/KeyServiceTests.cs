@@ -107,8 +107,16 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_I_Call_GetPrimaryKeyValues_I_Get_The_Correct_Value_Back(string primaryKeyName, string primaryKeyValue, string expectedValue)
         {
             //arrange
-            _keyMock.Setup(k => k.Name).Returns(primaryKeyName);
-            _keyMock.Setup(k => k.KeyValue).Returns(primaryKeyValue);
+            var primaryKeyFieldMock = new Mock<IField>();
+            primaryKeyFieldMock.Setup(f => f.FullName).Returns(primaryKeyName);
+            primaryKeyFieldMock.Setup(f => f.DataValue.ValueAsText).Returns(primaryKeyValue);
+            
+            var fieldList = new List<IField> { primaryKeyFieldMock.Object };
+            var fieldCollectionMock = new Mock<IFieldCollection>();
+            fieldCollectionMock.Setup(fc => fc.GetEnumerator()).Returns(fieldList.GetEnumerator());
+
+            _keyMock.Setup(k => k.Name).Returns("PRIMARY");
+            _keyMock.Setup(k => k.Fields).Returns(fieldCollectionMock.Object);
             var keyCollection = new List<IKey> { _keyMock.Object };
             var mockKeyCollection = new Mock<IKeyCollection>();
             mockKeyCollection.Setup(col => col.GetEnumerator()).Returns(keyCollection.GetEnumerator());
@@ -128,15 +136,21 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_I_Call_GetPrimaryKeyValues_For_A_MultiKey_Questionnaire_I_Get_The_Correct_Value_Back()
         {
             //arrange
-            var keyMock1 = new Mock<IKey>();
-            keyMock1.Setup(k => k.Name).Returns("QID.Serial_Number");
-            keyMock1.Setup(k => k.KeyValue).Returns("900001");
-            var keyMock2 = new Mock<IKey>();
-            keyMock2.Setup(k => k.Name).Returns("MainSurveyID");
-            keyMock2.Setup(k => k.KeyValue).Returns("6B29FC40-CA47-1067-B31D");
+            var primaryKeyFieldMock1 = new Mock<IField>();
+            primaryKeyFieldMock1.Setup(f => f.FullName).Returns("QID.Serial_Number");
+            primaryKeyFieldMock1.Setup(f => f.DataValue.ValueAsText).Returns("900001");
 
+            var primaryKeyFieldMock2 = new Mock<IField>();
+            primaryKeyFieldMock2.Setup(f => f.FullName).Returns("MainSurveyID");
+            primaryKeyFieldMock2.Setup(f => f.DataValue.ValueAsText).Returns("6B29FC40-CA47-1067-B31D");
 
-            var keyCollection = new List<IKey> { keyMock1.Object, keyMock2.Object };
+            var fieldList = new List<IField> { primaryKeyFieldMock1.Object, primaryKeyFieldMock2.Object };
+            var fieldCollectionMock = new Mock<IFieldCollection>();
+            fieldCollectionMock.Setup(fc => fc.GetEnumerator()).Returns(fieldList.GetEnumerator());
+
+            _keyMock.Setup(k => k.Name).Returns("PRIMARY");
+            _keyMock.Setup(k => k.Fields).Returns(fieldCollectionMock.Object);
+            var keyCollection = new List<IKey> { _keyMock.Object };
             var mockKeyCollection = new Mock<IKeyCollection>();
             mockKeyCollection.Setup(col => col.GetEnumerator()).Returns(keyCollection.GetEnumerator());
 

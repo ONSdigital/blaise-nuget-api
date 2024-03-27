@@ -4,6 +4,7 @@ using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataRecord;
 using StatNeth.Blaise.API.Meta;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -37,9 +38,10 @@ namespace Blaise.Nuget.Api.Core.Services
         public Dictionary<string, string> GetPrimaryKeyValues(IDataRecord dataRecord)
         {
             var primaryKeyValues = new Dictionary<string, string>();
-            foreach (var key in dataRecord.Keys)
+            var primaryKey = dataRecord.Keys.First(k => k.Name == PrimaryKeyName);
+            foreach (var item in primaryKey.Fields)
             {
-                primaryKeyValues.Add(key.Name, key.KeyValue.Trim());
+                primaryKeyValues.Add(item.FullName, item.DataValue.ValueAsText.Trim());
             }
 
             return primaryKeyValues;
