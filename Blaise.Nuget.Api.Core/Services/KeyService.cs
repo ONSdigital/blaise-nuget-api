@@ -3,6 +3,8 @@ using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataRecord;
 using StatNeth.Blaise.API.Meta;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -33,14 +35,25 @@ namespace Blaise.Nuget.Api.Core.Services
             return DataRecordManager.GetKey(dataModel, PrimaryKeyName);
         }
 
-        public string GetPrimaryKeyValue(IDataRecord dataRecord)
+        public Dictionary<string, string> GetPrimaryKeyValues(IDataRecord dataRecord)
         {
-            return dataRecord.Keys[0].KeyValue.Trim();
+            var primaryKeyValues = new Dictionary<string, string>();
+            var primaryKey = dataRecord.Keys.First(k => k.Name == PrimaryKeyName);
+            foreach (var item in primaryKey.Fields)
+            {
+                primaryKeyValues.Add(item.FullName, item.DataValue.ValueAsText.Trim());
+            }
+
+            return primaryKeyValues;
         }
 
-        public void AssignPrimaryKeyValue(IKey key, string primaryKeyValue)
+        public void AssignPrimaryKeyValues(IKey key, Dictionary<string, string> primaryKeyValues)
         {
-            key.Fields[0].DataValue.Assign(primaryKeyValue);
+            foreach (var item in primaryKeyValues)
+            {
+                var keyField = key.Fields.GetItem(item.Key);
+                keyField.DataValue.Assign(item.Value);
+            }
         }
     }
 }

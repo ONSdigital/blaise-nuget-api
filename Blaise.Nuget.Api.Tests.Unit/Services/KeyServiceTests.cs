@@ -6,6 +6,7 @@ using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
 using StatNeth.Blaise.API.Meta;
 using System;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
 
 namespace Blaise.Nuget.Api.Tests.Unit.Services
@@ -99,21 +100,70 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _remoteDataLinkMock.Verify(v => v.KeyExists(_keyMock.Object), Times.Once);
         }
 
-        [TestCase("Key1", "Key1")]
-        [TestCase(" Key1 ", "Key1")]
-        [TestCase("Key1 ", "Key1")]
-        [TestCase(" Key1", "Key1")]
-        public void Given_I_Call_GetPrimaryKeyValue_I_Get_The_Correct_Value_Back(string primaryKeyValue, string expectedValue)
+        [TestCase("QID.Serial_Number", "900001", "900001")]
+        [TestCase("QID.Serial_Number", " 900001 ", "900001")]
+        [TestCase("QID.Serial_Number", "900001 ", "900001")]
+        [TestCase("QID.Serial_Number", " 900001", "900001")]
+        public void Given_I_Call_GetPrimaryKeyValues_I_Get_The_Correct_Value_Back(string primaryKeyName, string primaryKeyValue, string expectedValue)
         {
             //arrange
-            _dataRecordMock.Setup(d => d.Keys[0].KeyValue).Returns(primaryKeyValue);
+            var primaryKeyFieldMock = new Mock<IField>();
+            primaryKeyFieldMock.Setup(f => f.FullName).Returns(primaryKeyName);
+            primaryKeyFieldMock.Setup(f => f.DataValue.ValueAsText).Returns(primaryKeyValue);
+            
+            var fieldList = new List<IField> { primaryKeyFieldMock.Object };
+            var fieldCollectionMock = new Mock<IFieldCollection>();
+            fieldCollectionMock.Setup(fc => fc.GetEnumerator()).Returns(fieldList.GetEnumerator());
+
+            _keyMock.Setup(k => k.Name).Returns("PRIMARY");
+            _keyMock.Setup(k => k.Fields).Returns(fieldCollectionMock.Object);
+            var keyCollection = new List<IKey> { _keyMock.Object };
+            var mockKeyCollection = new Mock<IKeyCollection>();
+            mockKeyCollection.Setup(col => col.GetEnumerator()).Returns(keyCollection.GetEnumerator());
+
+            _dataRecordMock.Setup(d => d.Keys).Returns(mockKeyCollection.Object);
+
 
             //act
-            var result = _sut.GetPrimaryKeyValue(_dataRecordMock.Object);
+            var result = _sut.GetPrimaryKeyValues(_dataRecordMock.Object);
 
             //assert
             Assert.NotNull(result);
-            Assert.AreEqual(expectedValue, result);
+            Assert.True(result[primaryKeyName] == expectedValue);
+        }
+
+        [Test]
+        public void Given_I_Call_GetPrimaryKeyValues_For_A_MultiKey_Questionnaire_I_Get_The_Correct_Value_Back()
+        {
+            //arrange
+            var primaryKeyFieldMock1 = new Mock<IField>();
+            primaryKeyFieldMock1.Setup(f => f.FullName).Returns("QID.Serial_Number");
+            primaryKeyFieldMock1.Setup(f => f.DataValue.ValueAsText).Returns("900001");
+
+            var primaryKeyFieldMock2 = new Mock<IField>();
+            primaryKeyFieldMock2.Setup(f => f.FullName).Returns("MainSurveyID");
+            primaryKeyFieldMock2.Setup(f => f.DataValue.ValueAsText).Returns("6B29FC40-CA47-1067-B31D");
+
+            var fieldList = new List<IField> { primaryKeyFieldMock1.Object, primaryKeyFieldMock2.Object };
+            var fieldCollectionMock = new Mock<IFieldCollection>();
+            fieldCollectionMock.Setup(fc => fc.GetEnumerator()).Returns(fieldList.GetEnumerator());
+
+            _keyMock.Setup(k => k.Name).Returns("PRIMARY");
+            _keyMock.Setup(k => k.Fields).Returns(fieldCollectionMock.Object);
+            var keyCollection = new List<IKey> { _keyMock.Object };
+            var mockKeyCollection = new Mock<IKeyCollection>();
+            mockKeyCollection.Setup(col => col.GetEnumerator()).Returns(keyCollection.GetEnumerator());
+
+            _dataRecordMock.Setup(d => d.Keys).Returns(mockKeyCollection.Object);
+
+
+            //act
+            var result = _sut.GetPrimaryKeyValues(_dataRecordMock.Object);
+
+            //assert
+            Assert.NotNull(result);
+            Assert.True(result["QID.Serial_Number"] == "900001");
+            Assert.True(result["MainSurveyID"] == "6B29FC40-CA47-1067-B31D");
         }
     }
 }

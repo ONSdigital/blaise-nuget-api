@@ -11,12 +11,12 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
     public class LastUpdatedFieldTests
     {
         private readonly BlaiseCaseApi _sut;
-        private readonly string _primaryKey;
+        private readonly Dictionary<string, string> _primaryKeyValues;
 
         public LastUpdatedFieldTests()
         {
             _sut = new BlaiseCaseApi();
-            _primaryKey = "9000001";
+            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9000001" } };
         }
 
         [Ignore("Integration")]
@@ -39,10 +39,10 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
                 {FieldNameType.LastUpdatedTime.FullName(), timeValue}
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, questionnaireName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
             //act
-            var dataRecord = _sut.GetCase(_primaryKey, questionnaireName, serverParkName);
+            var dataRecord = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
             var result = _sut.GetLastUpdated(dataRecord);
 
@@ -50,7 +50,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
             Assert.AreEqual(lastUpdated, result);
 
             //cleanup
-            _sut.RemoveCase(_primaryKey, questionnaireName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
     }
 }

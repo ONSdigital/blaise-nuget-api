@@ -93,6 +93,8 @@
     <Compile Include="Api\User\BlaiseUserApiTests.cs" />
     <Compile Include="Api\Questionnaire\BlaiseQuestionnaireApiTests.cs" />
     <Compile Include="Api\ServerPark\BlaiseServerParkApiTests.cs" />
+    <Compile Include="Contracts\CaseModelTests.cs" />
+    <Compile Include="Contracts\CaseStatusModelTests.cs" />
     <Compile Include="Extensions\ConfigurationExtensionsTests.cs" />
     <Compile Include="Mappers\AuditTrailDataMapperTests.cs" />
     <Compile Include="Mappers\DataRecordMapperTests.cs" />
