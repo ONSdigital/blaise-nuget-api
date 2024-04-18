@@ -22,10 +22,9 @@ namespace Blaise.Nuget.Api.Providers
         }
 
         public int ConnectionExpiresInMinutes => ConfigurationExtensions.GetVariableAsInt(
-                ConfigurationExtensions.GetConfigurationItem("ENV_CONNECTION_EXPIRES_IN_MINUTES") ?? "30", 
-                "ENV_CONNECTION_EXPIRES_IN_MINUTES");
+            ConfigurationExtensions.GetConfigurationItem("ENV_CONNECTION_EXPIRES_IN_MINUTES") ?? "30",
+            "ENV_CONNECTION_EXPIRES_IN_MINUTES");
 
-        public string DatabaseConnectionString => 
-            ConfigurationExtensions.GetConfigurationItem("ENV_DB_CONNECTIONSTRING");
+        public string DatabaseConnectionString => $"{ConfigurationExtensions.GetConfigurationItem("ENV_DB_CONNECTIONSTRING")};defaultcommandtimeout=300";
     }
 }

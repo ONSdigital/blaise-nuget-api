@@ -55,7 +55,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
 
             //assert
             Assert.NotNull(result);
-            Assert.AreEqual("TestConnectionString", result);
+            Assert.AreEqual("TestConnectionString;defaultcommandtimeout=300", result);
         }
     }
 }
