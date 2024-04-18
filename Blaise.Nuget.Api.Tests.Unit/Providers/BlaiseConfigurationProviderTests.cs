@@ -48,14 +48,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_ConnectionString_Value_Is_Set_When_I_Call_DatabaseConnectionString_I_Get_The_Correct_Value_Back()
+        public void Given_ConnectionString_Value_Is_Set_When_I_Call_DatabaseConnectionString_I_Get_The_Correct_Value_Back_Including_Timeout()
         {
             //act
             var result = _sut.DatabaseConnectionString;
 
             //assert
             Assert.NotNull(result);
-            Assert.AreEqual("TestConnectionString", result);
+            Assert.AreEqual("user id=blaise;server=0.0.0.0;database=blaise;password=password123;defaultcommandtimeout=300", result);
         }
     }
 }
