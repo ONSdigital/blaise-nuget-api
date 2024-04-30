@@ -174,13 +174,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_Valid_Arguments_When_I_Call_GetCases_Then_The_Correct_Service_Method_Is_Called()
         {
             //arrange
-            _caseServiceMock.Setup(d => d.GetDataSet(_connectionModel, It.IsAny<string>(), It.IsAny<string>()));
+            _caseServiceMock.Setup(d => d.GetDataSet(_connectionModel, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
 
             //act
             _sut.GetCases(_questionnaireName, _serverParkName);
 
             //assert
-            _caseServiceMock.Verify(v => v.GetDataSet(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(v => v.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null), Times.Once);
         }
 
         [Test]

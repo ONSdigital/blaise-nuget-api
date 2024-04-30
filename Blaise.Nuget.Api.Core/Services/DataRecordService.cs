@@ -21,11 +21,11 @@ namespace Blaise.Nuget.Api.Core.Services
             _localDataLinkProvider = localDataLinkProvider;
         }
 
-        public IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter = null)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
-            return dataLink.Read(null);
+            return dataLink.Read(null,null);
         }
 
         public IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile)

@@ -6,6 +6,7 @@ using StatNeth.Blaise.API.DataRecord;
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -15,6 +16,7 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly IDataInterfaceProvider _dataInterfaceService;
         private readonly ICaseService _caseService;
         private readonly IAuditTrailService _auditTrailService;
+        private readonly ISqlService _sqlService;
 
         private const string DatabaseFileNameExt = "bdix";
         private const string DatabaseSourceExt = "bdbx";
@@ -24,12 +26,14 @@ namespace Blaise.Nuget.Api.Core.Services
             IBlaiseConfigurationProvider configurationProvider,
             IDataInterfaceProvider dataInterfaceService,
             ICaseService caseService,
-            IAuditTrailService auditTrailService)
+            IAuditTrailService auditTrailService, 
+            ISqlService sqlService)
         {
             _configurationProvider = configurationProvider;
             _dataInterfaceService = dataInterfaceService;
             _caseService = caseService;
             _auditTrailService = auditTrailService;
+            _sqlService = sqlService;
         }
 
         public void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile,
@@ -49,15 +53,24 @@ namespace Blaise.Nuget.Api.Core.Services
             {
                 CreateAuditTrailCsv(connectionModel, questionnaireName, serverParkName, questionnairePath);
             }
+            
+            var caseIds = _sqlService.GetCaseIds(_configurationProvider.DatabaseConnectionString, questionnaireName).ToList();
 
-            var cases = _caseService.GetDataSet(connectionModel, questionnaireName, serverParkName);
-
-            while (!cases.EndOfSet)
+            for (var i = 0; i < caseIds.Count; i+=5)
             {
-                _caseService.WriteDataRecord(connectionModel, (IDataRecord2)cases.ActiveRecord, dataInterfaceFilePath);
+                var filteredCaseIds = caseIds.Take(5).ToList();
+                var filter = $"qiD.Serial_Number in({string.Join(",", filteredCaseIds)})";
 
-                cases.MoveNext();
+                var cases = _caseService.GetDataSet(connectionModel, questionnaireName, serverParkName, filter);
+
+                while (!cases.EndOfSet)
+                {
+                    _caseService.WriteDataRecord(connectionModel, (IDataRecord2)cases.ActiveRecord, dataInterfaceFilePath);
+
+                    cases.MoveNext();
+                }
             }
+
             CreateQuestionnairePackage(questionnairePath, questionnaireFile);
         }
 

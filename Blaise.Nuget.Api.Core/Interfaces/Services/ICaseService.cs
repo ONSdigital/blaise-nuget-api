@@ -13,7 +13,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         Dictionary<string, string> GetPrimaryKeyValues(IDataRecord dataRecord);
 
-        IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
+        IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter = null);
 
         IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile);
 

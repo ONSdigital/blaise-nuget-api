@@ -151,6 +151,7 @@
     <Compile Include="Case\DeleteCaseTests.cs" />
     <Compile Include="Case\UpdateCaseTests.cs" />
     <Compile Include="Field\LastUpdatedFieldTests.cs" />
+    <Compile Include="File\FileServiceTests.cs" />
     <Compile Include="QuestionnaireFile\QuestionnaireFileTests.cs" />
     <Compile Include="Case\GetCaseTests.cs" />
     <Compile Include="Case\CreateCaseTests.cs" />

@@ -115,7 +115,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _sut.GetDataSet(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            _dataRecordServiceMock.Verify(v => v.GetDataSet(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
+            _dataRecordServiceMock.Verify(v => v.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null), Times.Once);
         }
 
         [Test]
@@ -1054,7 +1054,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                     .Returns(true);
 
             // Setup DataRecordService mock
-            _dataRecordServiceMock.Setup(d => d.GetDataSet(_connectionModel, _questionnaireName, _serverParkName))
+            _dataRecordServiceMock.Setup(d => d.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null))
                 .Returns(dataSetMock.Object);
 
             // Act
