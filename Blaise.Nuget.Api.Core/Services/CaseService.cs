@@ -40,14 +40,14 @@ namespace Blaise.Nuget.Api.Core.Services
             return _keyService.GetPrimaryKeyValues(dataRecord);
         }
 
-        public IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter = null)
+        public IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter)
         {
             return _dataRecordService.GetDataSet(connectionModel, questionnaireName, serverParkName, filter);
         }
 
-        public IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile)
+        public IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile, string filter = null)
         {
-            return _dataRecordService.GetDataSet(connectionModel, databaseFile);
+            return _dataRecordService.GetDataSet(connectionModel, databaseFile, filter);
         }
 
         public IDataRecord GetDataRecord(ConnectionModel connectionModel, Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName)

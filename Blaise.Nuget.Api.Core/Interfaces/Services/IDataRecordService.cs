@@ -10,7 +10,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
     {
         IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter = null);
 
-        IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile);
+        IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile, string filter = null);
 
         IDataRecord GetDataRecord(IDatamodel dataModel);
 

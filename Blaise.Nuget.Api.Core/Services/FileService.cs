@@ -56,18 +56,32 @@ namespace Blaise.Nuget.Api.Core.Services
             
             var caseIds = _sqlService.GetCaseIds(_configurationProvider.DatabaseConnectionString, questionnaireName).ToList();
 
-            for (var i = 0; i < caseIds.Count; i+=5)
+            Console.WriteLine($"Got caseIds {string.Join(",",caseIds)}");
+
+            for (var i = 0; i < caseIds.Count; i+=2)
             {
-                var filteredCaseIds = caseIds.Take(5).ToList();
+                var filteredCaseIds = caseIds.Take(2).ToList();
+                Console.WriteLine($"Filtered caseIds {string.Join(",", filteredCaseIds)}");
+
                 var filter = $"qiD.Serial_Number in({string.Join(",", filteredCaseIds)})";
+                Console.WriteLine($"filter - {filter}");
 
-                var cases = _caseService.GetDataSet(connectionModel, questionnaireName, serverParkName, filter);
-
-                while (!cases.EndOfSet)
+                try
                 {
-                    _caseService.WriteDataRecord(connectionModel, (IDataRecord2)cases.ActiveRecord, dataInterfaceFilePath);
+                    var cases = _caseService.GetDataSet(connectionModel, $@"d:\filter\{questionnaireName}.bdix", filter);
+                    Console.WriteLine("Got dataset");
 
-                    cases.MoveNext();
+                    while (!cases.EndOfSet)
+                    {
+                        _caseService.WriteDataRecord(connectionModel, (IDataRecord2)cases.ActiveRecord, dataInterfaceFilePath);
+                        Console.WriteLine("Write data record");
+                        
+                        cases.MoveNext();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
                 }
             }
 

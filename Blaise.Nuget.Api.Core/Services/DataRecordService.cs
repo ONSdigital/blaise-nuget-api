@@ -28,11 +28,11 @@ namespace Blaise.Nuget.Api.Core.Services
             return dataLink.Read(null,null);
         }
 
-        public IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile)
+        public IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile, string filter = null)
         {
             var dataLink = _localDataLinkProvider.GetDataLink(connectionModel, databaseFile);
 
-            return dataLink.Read(null);
+            return dataLink.Read(null, null);
         }
 
         public IDataRecord GetDataRecord(IDatamodel dataModel)

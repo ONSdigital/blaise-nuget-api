@@ -55,7 +55,7 @@ namespace Blaise.Nuget.Api.Api
         {
             databaseFile.ThrowExceptionIfNullOrEmpty("databaseFile");
 
-            return _caseService.GetDataSet(_connectionModel, databaseFile);
+            return _caseService.GetDataSet(_connectionModel, databaseFile, null);
         }
 
         public IDataSet GetCases(string questionnaireName, string serverParkName)
@@ -63,7 +63,7 @@ namespace Blaise.Nuget.Api.Api
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _caseService.GetDataSet(_connectionModel, questionnaireName, serverParkName);
+            return _caseService.GetDataSet(_connectionModel, questionnaireName, serverParkName, null);
         }
 
         public IDataRecord GetCase(Dictionary<string, string> primaryKeyValues, string questionnaireName,
