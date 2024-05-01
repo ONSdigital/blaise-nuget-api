@@ -112,7 +112,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_I_Call_GetDataSet_Then_The_Correct_Services_Are_Called()
         {
             //act
-            _sut.GetDataSet(_connectionModel, _questionnaireName, _serverParkName);
+            _sut.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null);
 
             //assert
             _dataRecordServiceMock.Verify(v => v.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null), Times.Once);
@@ -122,10 +122,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_A_File_I_Call_GetDataSet_Then_The_Correct_Services_Are_Called()
         {
             //act
-            _sut.GetDataSet(_connectionModel, _databaseFile);
+            _sut.GetDataSet(_connectionModel, _databaseFile, null);
 
             //assert
-            _dataRecordServiceMock.Verify(v => v.GetDataSet(_connectionModel, _databaseFile), Times.Once);
+            _dataRecordServiceMock.Verify(v => v.GetDataSet(_connectionModel, _databaseFile, null), Times.Once);
         }
 
         [Test]
@@ -1114,7 +1114,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Returns(false)
                 .Returns(true);
             _dataRecordServiceMock
-                .Setup(d => d.GetDataSet(_connectionModel, _databaseFile))
+                .Setup(d => d.GetDataSet(_connectionModel, _databaseFile, null))
                 .Returns(dataSetMock.Object);
 
             // Act

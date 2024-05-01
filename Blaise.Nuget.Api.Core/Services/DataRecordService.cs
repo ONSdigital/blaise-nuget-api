@@ -92,7 +92,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public int GetNumberOfRecords(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            var records = GetDataSet(connectionModel, questionnaireName, serverParkName);
+            var records = GetDataSet(connectionModel, questionnaireName, serverParkName, null);
 
             return GetNumberOfRecords(records);
         }

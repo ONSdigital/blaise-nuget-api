@@ -221,13 +221,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             const string databaseFile = "File1.bdix";
 
-            _caseServiceMock.Setup(d => d.GetDataSet(_connectionModel, It.IsAny<string>()));
+            _caseServiceMock.Setup(d => d.GetDataSet(_connectionModel, It.IsAny<string>(), It.IsAny<string>()));
 
             //act
             _sut.GetCases(databaseFile);
 
             //assert
-            _caseServiceMock.Verify(v => v.GetDataSet(_connectionModel, databaseFile), Times.Once);
+            _caseServiceMock.Verify(v => v.GetDataSet(_connectionModel, databaseFile, null), Times.Once);
         }
 
         [Test]

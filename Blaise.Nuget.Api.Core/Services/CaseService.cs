@@ -284,7 +284,7 @@ namespace Blaise.Nuget.Api.Core.Services
         public IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var caseStatusList = new List<CaseStatusModel>();
-            var cases = GetDataSet(connectionModel, questionnaireName, serverParkName);
+            var cases = GetDataSet(connectionModel, questionnaireName, serverParkName, null);
 
             while (!cases.EndOfSet)
             {
