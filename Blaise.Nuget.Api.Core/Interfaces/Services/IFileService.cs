@@ -8,6 +8,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile,
             string questionnaireName, string serverParkName, bool addAudit = false);
 
+        void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnaireFile,
+            string questionnaireName, string serverParkName, int batchRecordCount, bool addAudit = false);
+
         void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName,
             string questionnaireFile);
 

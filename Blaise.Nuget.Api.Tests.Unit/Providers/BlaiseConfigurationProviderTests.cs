@@ -55,7 +55,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
 
             //assert
             Assert.NotNull(result);
-            Assert.AreEqual("user id=blaise;server=0.0.0.0;database=blaise;password=password123;defaultcommandtimeout=300", result);
+            Assert.AreEqual("user id=blaise;server=0.0.0.0;database=blaise;password=password123;defaultcommandtimeout=500;connectiontimeout=500", result);
         }
     }
 }

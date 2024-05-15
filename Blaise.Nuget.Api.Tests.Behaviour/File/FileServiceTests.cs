@@ -12,7 +12,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.File
             _sut = new BlaiseFileApi();
         }
 
-        //[Ignore("Integration")]
+        [Ignore("Integration")]
         [Test]
         public void Given_Valid_Arguments_When_I_Call_UpdateQuestionnaireFileWithData_Then_The_File_is_Populated()
         {
@@ -21,7 +21,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.File
             const string questionnaireName = "LMS2405_HU1";
             const string questionnaireFile = @"D:\Filter\LMS2405_HU1.zip";
 
-            //_sut.UpdateQuestionnaireFileWithSqlConnection(questionnaireName, questionnaireFile);
+            _sut.UpdateQuestionnaireFileWithSqlConnection(questionnaireName, questionnaireFile);
 
             //act && assert
             _sut.UpdateQuestionnaireFileWithData(serverParkName, questionnaireName, questionnaireFile, false);

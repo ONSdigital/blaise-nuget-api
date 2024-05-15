@@ -8,9 +8,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
     public interface IDataRecordService
     {
-        IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter = null);
+        IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter);
 
-        IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile, string filter = null);
+        IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile, string filter);
 
         IDataRecord GetDataRecord(IDatamodel dataModel);
 

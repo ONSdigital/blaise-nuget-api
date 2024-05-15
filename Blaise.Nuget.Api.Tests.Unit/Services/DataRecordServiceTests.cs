@@ -144,7 +144,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _localDataLinkMock.Setup(d => d.Read(It.IsAny<string>(), It.IsAny<string>())).Returns(_dataSetMock.Object);
 
             //act
-            _sut.GetDataSet(_connectionModel, _databaseFile);
+            _sut.GetDataSet(_connectionModel, _databaseFile, null);
 
             //assert
             _localDataLinkProviderMock.Verify(v => v.GetDataLink(_connectionModel, _databaseFile), Times.Once);
