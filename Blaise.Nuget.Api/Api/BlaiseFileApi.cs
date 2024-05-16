@@ -40,13 +40,13 @@ namespace Blaise.Nuget.Api.Api
         }
 
         public void UpdateQuestionnaireFileWithBatchedData(string serverParkName, string questionnaireName, string questionnaireFile,
-            int batchRecordCount, bool auditOption = false)
+            int batchSize, bool auditOption = false)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
-            _fileService.UpdateQuestionnaireFileWithBatchedData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, batchRecordCount, auditOption);
+            _fileService.UpdateQuestionnaireFileWithBatchedData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, batchSize, auditOption);
         }
 
         public void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile)

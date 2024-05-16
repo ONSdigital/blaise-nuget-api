@@ -8,7 +8,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
             string questionnaireFile, bool auditOption = false);
 
         void UpdateQuestionnaireFileWithBatchedData(string questionnaireFile, string questionnaireName, 
-            string serverParkName, int batchRecordCount, bool addAudit = false);
+            string serverParkName, int batchSize, bool addAudit = false);
 
         void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile);
 

@@ -46,11 +46,11 @@ namespace Blaise.Nuget.Api.Core.Services
         }
 
         public void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnaireFile,
-            string questionnaireName, string serverParkName, int batchRecordCount, bool addAudit = false)
+            string questionnaireName, string serverParkName, int batchSize, bool addAudit = false)
         {
             var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
 
-            UpdateQuestionnaireFileWithBatchedData(connectionModel, questionnairePath, questionnaireName, batchRecordCount);
+            UpdateQuestionnaireFileWithBatchedData(connectionModel, questionnairePath, questionnaireName, batchSize);
             UpdateQuestionnairePackage(connectionModel, questionnaireFile, questionnaireName, serverParkName, questionnairePath, addAudit);
         }
 
@@ -85,16 +85,16 @@ namespace Blaise.Nuget.Api.Core.Services
             }
         }
 
-        private void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnairePath, string questionnaireName, int batchRecordCount)
+        private void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnairePath, string questionnaireName, int batchSize)
         {
             var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, $"{questionnaireName}_sql");
             var outputDataInterfaceFile = CreateLocalDataInterface(questionnairePath, questionnaireName);
 
             var caseIds = _sqlService.GetCaseIds(_configurationProvider.DatabaseConnectionString, questionnaireName).Distinct().ToList();
 
-            for (var i = 0; i < caseIds.Count; i += batchRecordCount)
+            for (var i = 0; i < caseIds.Count; i += batchSize)
             {
-                var batchCaseIds = caseIds.Skip(i).Take(batchRecordCount).ToList();
+                var batchCaseIds = caseIds.Skip(i).Take(batchSize).ToList();
                 var filter = $"qiD.Serial_Number in({string.Join(",", batchCaseIds)})";
 
                 var cases = _caseService.GetDataSet(connectionModel, inputDataInterfaceFile, filter);

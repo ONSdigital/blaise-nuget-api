@@ -127,7 +127,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
 
         [TestCase(false, 10)]
         [TestCase(true, 20)]
-        public void Given_Valid_Parameters_When_I_Call_UpdateQuestionnaireFileWithBatchedData_The_Correct_Services_Are_Called(bool addAudit, int batchRecordCount)
+        public void Given_Valid_Parameters_When_I_Call_UpdateQuestionnaireFileWithBatchedData_The_Correct_Services_Are_Called(bool addAudit, int batchSize)
         {
             //arrange
 
@@ -135,11 +135,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
                 It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<bool>()));
 
             //act
-            _sut.UpdateQuestionnaireFileWithBatchedData(_serverParkName, _questionnaireName, _questionnaireFile, batchRecordCount, addAudit);
+            _sut.UpdateQuestionnaireFileWithBatchedData(_serverParkName, _questionnaireName, _questionnaireFile, batchSize, addAudit);
 
             //assert
             _fileServiceMock.Verify(f => f.UpdateQuestionnaireFileWithBatchedData(_connectionModel,
-                _questionnaireFile, _questionnaireName, _serverParkName, batchRecordCount ,addAudit), Times.Once);
+                _questionnaireFile, _questionnaireName, _serverParkName, batchSize, addAudit), Times.Once);
         }
 
         [Test]
