@@ -41,15 +41,8 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
 
-            UpdateQuestionnaireFileWithAllData(connectionModel, questionnaireName, serverParkName,
-                    questionnairePath);
-
-            if (addAudit)
-            {
-                CreateAuditTrailCsv(connectionModel, questionnaireName, serverParkName, questionnairePath);
-            }
-            
-            CreateQuestionnairePackage(questionnairePath, questionnaireFile);
+            UpdateQuestionnaireFileWithAllData(connectionModel, questionnairePath, questionnaireName);
+            UpdateQuestionnairePackage(connectionModel, questionnaireFile, questionnaireName, serverParkName, questionnairePath, addAudit);
         }
 
         public void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnaireFile,
@@ -57,15 +50,8 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
 
-                UpdateQuestionnaireFileWithBatchedData(connectionModel, questionnairePath, questionnaireName,
-                    batchRecordCount);
-
-            if (addAudit)
-            {
-                CreateAuditTrailCsv(connectionModel, questionnaireName, serverParkName, questionnairePath);
-            }
-
-            CreateQuestionnairePackage(questionnairePath, questionnaireFile);
+            UpdateQuestionnaireFileWithBatchedData(connectionModel, questionnairePath, questionnaireName, batchRecordCount);
+            UpdateQuestionnairePackage(connectionModel, questionnaireFile, questionnaireName, serverParkName, questionnairePath, addAudit);
         }
 
         public void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName, string questionnaireFile)
@@ -84,22 +70,22 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataInterfaceService.CreateSettingsDataInterface(databaseConnectionString, applicationType, fileName);
         }
 
-        private void UpdateQuestionnaireFileWithAllData(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string questionnairePath)
+        private void UpdateQuestionnaireFileWithAllData(ConnectionModel connectionModel, string questionnairePath, string questionnaireName)
         {
-            var dataInterfaceFile = CreateLocalDataInterface(questionnairePath, questionnaireName);
+            var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, $"{questionnaireName}_sql");
+            var outputDataInterfaceFile = CreateLocalDataInterface(questionnairePath, questionnaireName);
 
-            var cases = _caseService.GetDataSet(connectionModel, questionnaireName, serverParkName);
+            var cases = _caseService.GetDataSet(connectionModel, inputDataInterfaceFile, null);
 
             while (!cases.EndOfSet)
             {
-                _caseService.WriteDataRecord(connectionModel, (IDataRecord2)cases.ActiveRecord, dataInterfaceFile);
+                _caseService.WriteDataRecord(connectionModel, (IDataRecord2)cases.ActiveRecord, outputDataInterfaceFile);
 
                 cases.MoveNext();
             }
         }
 
-        private void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnairePath,
-            string questionnaireName, int batchRecordCount)
+        private void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnairePath, string questionnaireName, int batchRecordCount)
         {
             var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, $"{questionnaireName}_sql");
             var outputDataInterfaceFile = CreateLocalDataInterface(questionnairePath, questionnaireName);
@@ -172,6 +158,17 @@ namespace Blaise.Nuget.Api.Core.Services
             File.Delete(questionnaireFile);
 
             return questionnairePath;
+        }
+
+        private void UpdateQuestionnairePackage(ConnectionModel connectionModel, string questionnaireFile,
+            string questionnaireName, string serverParkName, string questionnairePath, bool addAudit = false)
+        {
+            if (addAudit)
+            {
+                CreateAuditTrailCsv(connectionModel, questionnaireName, serverParkName, questionnairePath);
+            }
+
+            CreateQuestionnairePackage(questionnairePath, questionnaireFile);
         }
 
         private static void CreateQuestionnairePackage(string questionnairePath, string questionnaireFile)
