@@ -72,7 +72,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private void UpdateQuestionnaireFileWithAllData(ConnectionModel connectionModel, string questionnairePath, string questionnaireName)
         {
-            var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, $"{questionnaireName}_sql");
+            var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, $"{questionnaireName}_sql", false);
             var outputDataInterfaceFile = CreateLocalDataInterface(questionnairePath, questionnaireName);
 
             var cases = _caseService.GetDataSet(connectionModel, inputDataInterfaceFile, null);
@@ -87,7 +87,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnairePath, string questionnaireName, int batchSize)
         {
-            var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, $"{questionnaireName}_sql");
+            var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, $"{questionnaireName}_sql", false);
             var outputDataInterfaceFile = CreateLocalDataInterface(questionnairePath, questionnaireName);
 
             var caseIds = _sqlService.GetCaseIds(_configurationProvider.DatabaseConnectionString, questionnaireName).Distinct().ToList();
@@ -119,14 +119,14 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return dataInterfaceFile;
         }
-        private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, string interfaceName = null)
+        private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, string interfaceName = null, bool createTables = true)
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
             var dataInterfaceFile = GetFullFilePath(questionnairePath, interfaceName ?? questionnaireName, DatabaseFileNameExt);
             var dataModelFile = GetFullFilePath(questionnairePath, questionnaireName, DatabaseModelExt);
 
             _dataInterfaceService.CreateSqlDataInterface(databaseConnectionString, dataInterfaceFile,
-                dataModelFile);
+                dataModelFile, createTables);
 
             return dataInterfaceFile;
         }

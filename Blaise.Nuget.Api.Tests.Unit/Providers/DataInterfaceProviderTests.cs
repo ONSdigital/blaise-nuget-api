@@ -86,7 +86,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_CreateSqlDataInterface_Then_The_Correct_DataInterface_Is_Created()
+        public void Given_I_Call_CreateSqlDataInterface_withCreateTables_set_To_True_Then_The_Correct_DataInterface_Is_Created()
         {
             //arrange
             const string fileName = "OPN.bdix";
@@ -94,12 +94,30 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             _dataInterfaceMock.Setup(d => d.ConnectionInfo.GetConnectionString(null)).Returns(_connectionString);
 
             //act
-            _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName);
+            _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName, true);
 
             //assert
             _dataInterfaceFactoryMock.Verify(v => v.GetDataInterfaceForSql(_connectionString), Times.Once);
             _dataInterfaceMock.Verify(v => v.CreateTableDefinitions(), Times.Once);
             _dataInterfaceMock.Verify(v => v.CreateDatabaseObjects(_connectionString, true), Times.Once);
+            _dataInterfaceMock.Verify(v => v.SaveToFile(true), Times.Once);
+        }
+
+        [Test]
+        public void Given_I_Call_CreateSqlDataInterface_withCreateTables_set_To_False_Then_The_Correct_DataInterface_Is_Created()
+        {
+            //arrange
+            const string fileName = "OPN.bdix";
+            const string dataModelFileName = "OPN.bmix";
+            _dataInterfaceMock.Setup(d => d.ConnectionInfo.GetConnectionString(null)).Returns(_connectionString);
+
+            //act
+            _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName, false);
+
+            //assert
+            _dataInterfaceFactoryMock.Verify(v => v.GetDataInterfaceForSql(_connectionString), Times.Once);
+            _dataInterfaceMock.Verify(v => v.CreateTableDefinitions(), Times.Never);
+            _dataInterfaceMock.Verify(v => v.CreateDatabaseObjects(_connectionString, true), Times.Never);
             _dataInterfaceMock.Verify(v => v.SaveToFile(true), Times.Once);
         }
 
@@ -112,7 +130,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             _dataInterfaceMock.Setup(d => d.ConnectionInfo.GetConnectionString(null)).Returns(_connectionString);
             
             //act
-            var result =  _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName);
+            var result =  _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName, true);
 
             //assert
             Assert.IsNotNull(result);
