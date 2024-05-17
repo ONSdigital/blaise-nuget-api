@@ -116,7 +116,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
 
             //assert
             _dataInterfaceFactoryMock.Verify(v => v.GetDataInterfaceForSql(_connectionString), Times.Once);
-            _dataInterfaceMock.Verify(v => v.CreateTableDefinitions(), Times.Never);
+            _dataInterfaceMock.Verify(v => v.CreateTableDefinitions(), Times.Once);
             _dataInterfaceMock.Verify(v => v.CreateDatabaseObjects(_connectionString, true), Times.Never);
             _dataInterfaceMock.Verify(v => v.SaveToFile(true), Times.Once);
         }

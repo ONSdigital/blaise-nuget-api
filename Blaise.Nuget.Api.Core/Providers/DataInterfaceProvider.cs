@@ -33,16 +33,16 @@ namespace Blaise.Nuget.Api.Core.Providers
             return dataInterface;
         }
 
-        public IDataInterface CreateSqlDataInterface(string databaseConnectionString, string dataInterfaceFileName, string dataModelFileName, bool createTables)
+        public IDataInterface CreateSqlDataInterface(string databaseConnectionString, string dataInterfaceFileName, string dataModelFileName, bool createDatabaseObjects)
         {
             var dataInterface = _dataInterfaceFactory.GetDataInterfaceForSql(databaseConnectionString);
 
             dataInterface.FileName = dataInterfaceFileName;
             dataInterface.DatamodelFileName = dataModelFileName;
+            dataInterface.CreateTableDefinitions();
 
-            if (createTables)
+            if (createDatabaseObjects)
             {
-                dataInterface.CreateTableDefinitions();
                 dataInterface.CreateDatabaseObjects(dataInterface.ConnectionInfo.GetConnectionString(), true);
             }
 

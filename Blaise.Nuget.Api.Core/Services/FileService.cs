@@ -119,14 +119,14 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return dataInterfaceFile;
         }
-        private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, string interfaceName = null, bool createTables = true)
+        private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, string interfaceName = null, bool createDatabaseObjects = true)
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
             var dataInterfaceFile = GetFullFilePath(questionnairePath, interfaceName ?? questionnaireName, DatabaseFileNameExt);
             var dataModelFile = GetFullFilePath(questionnairePath, questionnaireName, DatabaseModelExt);
 
             _dataInterfaceService.CreateSqlDataInterface(databaseConnectionString, dataInterfaceFile,
-                dataModelFile, createTables);
+                dataModelFile, createDatabaseObjects);
 
             return dataInterfaceFile;
         }
