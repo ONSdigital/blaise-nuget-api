@@ -29,23 +29,24 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName
-                                                                    , string questionnaireFile, bool auditOption)
+        public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile, 
+            bool auditOption = false)
         {
-            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
             _fileService.UpdateQuestionnaireFileWithData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, auditOption);
         }
 
-        public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile)
+        public void UpdateQuestionnaireFileWithBatchedData(string serverParkName, string questionnaireName, string questionnaireFile,
+            int batchSize, bool auditOption = false)
         {
-            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
-            _fileService.UpdateQuestionnaireFileWithData(_connectionModel, questionnaireFile, questionnaireName, serverParkName);
+            _fileService.UpdateQuestionnaireFileWithBatchedData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, batchSize, auditOption);
         }
 
         public void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile)

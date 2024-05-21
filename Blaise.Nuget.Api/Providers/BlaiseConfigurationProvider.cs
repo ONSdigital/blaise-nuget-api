@@ -27,6 +27,6 @@ namespace Blaise.Nuget.Api.Providers
 
         public string CommandTimeout => ConfigurationExtensions.GetConfigurationItem("COMMAND_TIMEOUT") ?? "300";
 
-        public string DatabaseConnectionString => $"{ConfigurationExtensions.GetConfigurationItem("ENV_DB_CONNECTIONSTRING")};defaultcommandtimeout={CommandTimeout}";
+        public string DatabaseConnectionString => $"{ConfigurationExtensions.GetConfigurationItem("ENV_DB_CONNECTIONSTRING")};defaultcommandtimeout={CommandTimeout};connectiontimeout={CommandTimeout}";
     }
 }

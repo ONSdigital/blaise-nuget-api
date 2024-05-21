@@ -13,9 +13,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         Dictionary<string, string> GetPrimaryKeyValues(IDataRecord dataRecord);
 
-        IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
+        IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter);
 
-        IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile);
+        IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile, string filter);
 
         IDataRecord GetDataRecord(ConnectionModel connectionModel, Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName);
 

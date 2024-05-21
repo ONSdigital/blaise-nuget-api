@@ -41,5 +41,26 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             //cleanup
             _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
+
+        [Ignore("Integration")]
+        [Test]
+        public void Given_Cases_Exist_When_I_Specify_A_Filter_Then_The_Expected_Cases_Are_Returned()
+        {
+            //arrange
+            const string serverParkName = "gusty";
+            const string questionnaireName = "LMS2405_HU1";
+
+            //act
+            var result = _sut.GetCases(questionnaireName, serverParkName);
+
+            while (!result.EndOfSet)
+            {
+                var record = result.ActiveRecord;
+                result.MoveNext();
+            }
+
+            //assert
+            Assert.AreEqual(5, result.RecordCount);
+        }
     }
 }

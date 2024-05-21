@@ -116,12 +116,12 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private static string GetDatabaseTableNameForm(string questionnaireName)
         {
-            return $"{questionnaireName.ToUpper()}_Form";
+            return $"{questionnaireName}_Form";
         }
 
         private static string GetDatabaseTableNameDml(string questionnaireName)
         {
-            return $"{questionnaireName.ToUpper()}_Dml";
+            return $"{questionnaireName}_Dml";
         }
 
     }
