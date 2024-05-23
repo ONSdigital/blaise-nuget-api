@@ -110,9 +110,9 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private string CreateLocalDataInterface(string questionnairePath, string questionnaireName)
         {
-            var dataSourceFilePath = GetFullFilePath(questionnairePath, questionnaireName, DatabaseSourceExt);
-            var dataInterfaceFile = GetFullFilePath(questionnairePath, questionnaireName, DatabaseFileNameExt);
-            var dataModelFile = GetFullFilePath(questionnairePath, questionnaireName, DatabaseModelExt);
+            var dataSourceFilePath = ConstructFilePath(questionnairePath, questionnaireName, DatabaseSourceExt);
+            var dataInterfaceFile = ConstructFilePath(questionnairePath, questionnaireName, DatabaseFileNameExt);
+            var dataModelFile = ConstructFilePath(questionnairePath, questionnaireName, DatabaseModelExt);
 
             DeleteFileIfExists(dataSourceFilePath);
             _dataInterfaceService.CreateFileDataInterface(dataSourceFilePath, dataInterfaceFile, dataModelFile);
@@ -122,8 +122,8 @@ namespace Blaise.Nuget.Api.Core.Services
         private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, string interfaceName = null, bool createDatabaseObjects = true)
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
-            var dataInterfaceFile = GetFullFilePath(questionnairePath, interfaceName ?? questionnaireName, DatabaseFileNameExt);
-            var dataModelFile = GetFullFilePath(questionnairePath, questionnaireName, DatabaseModelExt);
+            var dataInterfaceFile = ConstructFilePath(questionnairePath, interfaceName ?? questionnaireName, DatabaseFileNameExt);
+            var dataModelFile = ConstructFilePath(questionnairePath, questionnaireName, DatabaseModelExt);
 
             _dataInterfaceService.CreateSqlDataInterface(databaseConnectionString, dataInterfaceFile,
                 dataModelFile, createDatabaseObjects);
@@ -185,9 +185,16 @@ namespace Blaise.Nuget.Api.Core.Services
             }
         }
 
-        private static string GetFullFilePath(string filePath, string questionnaireName, string extension)
+        private static string ConstructFilePath(string rootPath, string questionnaireName, string extension)
         {
-            return Path.Combine(filePath, $"{questionnaireName}.{extension}");
+            var filePath = Path.Combine(rootPath, $"{questionnaireName}.{extension}");
+
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"Could not find file {filePath}");
+            }
+
+            return filePath;
         }
     }
 }
