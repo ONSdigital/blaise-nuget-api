@@ -110,7 +110,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private string CreateLocalDataInterface(string questionnairePath, string questionnaireName)
         {
-            var dataSourceFilePath = BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseSourceExt);
+            var dataSourceFilePath = BuildFilePath(questionnairePath, questionnaireName, DatabaseSourceExt);
             var dataInterfaceFile = BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseFileNameExt);
             var dataModelFile = BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseModelExt);
 
@@ -122,8 +122,10 @@ namespace Blaise.Nuget.Api.Core.Services
         private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, string interfaceName = null, bool createDatabaseObjects = true)
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
+            
+            Console.WriteLine($"CreateSqlDataInterface with interfaceName '{interfaceName}'");
 
-            var dataInterfaceFile = interfaceName == null
+            var dataInterfaceFile = interfaceName is null
                 ? BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseFileNameExt)
                 : BuildFilePath(questionnairePath, interfaceName, DatabaseFileNameExt);
 
