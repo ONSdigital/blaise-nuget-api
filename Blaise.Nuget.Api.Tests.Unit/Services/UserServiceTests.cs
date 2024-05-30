@@ -62,6 +62,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _userPreferenceCollectionMock.Setup(s => s.Add(It.IsAny<string>())).Returns(() => _userPreferenceMock.Object);
             _userPreferenceCollectionMock.Setup(s => s.GetItem(It.IsAny<string>())).Returns(() => _userPreferenceMock.Object);
 
+            var userPreferenceItems = new List<IUserPreference> { _userPreferenceMock.Object };
+            _userPreferenceCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => userPreferenceItems.GetEnumerator());
+
             _serverParkCollectionMock = new Mock<IServerParkCollection>();
             _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => serverParkItems.GetEnumerator());
 
