@@ -5,6 +5,6 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Providers
 {
     public interface ILocalDataLinkProvider 
     {
-        IDataLink4 GetDataLink(ConnectionModel connectionModel, string databaseFile);
+        IDataLink6 GetDataLink(ConnectionModel connectionModel, string databaseFile);
     }
 }

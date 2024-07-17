@@ -9,12 +9,12 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
     public class GetCaseTests
     {
         private readonly BlaiseCaseApi _sut;
-        private readonly string _primaryKey;
+        private readonly Dictionary<string, string> _primaryKeyValues;
 
         public GetCaseTests()
         {
             _sut = new BlaiseCaseApi();
-            _primaryKey = "9000001";
+            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
         }
 
         [Ignore("Integration")]
@@ -30,16 +30,37 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                 {FieldNameType.TelNo.FullName(), "07000000000"}
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, questionnaireName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
             //act
-            var result = _sut.GetCase(_primaryKey,  questionnaireName, serverParkName);
+            var result = _sut.GetCase(_primaryKeyValues,  questionnaireName, serverParkName);
 
             //arrange
-            Assert.AreEqual(_primaryKey, _sut.GetPrimaryKeyValue(result));
+            Assert.AreEqual(_primaryKeyValues, _sut.GetPrimaryKeyValues(result));
 
             //cleanup
-            _sut.RemoveCase(_primaryKey, questionnaireName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
+        }
+
+        [Ignore("Integration")]
+        [Test]
+        public void Given_Cases_Exist_When_I_Specify_A_Filter_Then_The_Expected_Cases_Are_Returned()
+        {
+            //arrange
+            const string serverParkName = "gusty";
+            const string questionnaireName = "LMS2405_HU1";
+
+            //act
+            var result = _sut.GetCases(questionnaireName, serverParkName);
+
+            while (!result.EndOfSet)
+            {
+                var record = result.ActiveRecord;
+                result.MoveNext();
+            }
+
+            //assert
+            Assert.AreEqual(5, result.RecordCount);
         }
     }
 }

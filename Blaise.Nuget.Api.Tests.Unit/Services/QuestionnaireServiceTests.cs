@@ -221,7 +221,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetQuestionnaire(_connectionModel, questionnaire2Name, _serverParkName));
-            Assert.AreEqual($"No questionnaire found for questionnaire name '{questionnaire2Name}'", exception.Message);
+            Assert.AreEqual($"No questionnaire found for questionnaire name '{questionnaire2Name}'", exception?.Message);
         }
 
         [Test]

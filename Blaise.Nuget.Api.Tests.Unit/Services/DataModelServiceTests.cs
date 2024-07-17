@@ -14,7 +14,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         private Mock<IRemoteDataLinkProvider> _remoteDataLinkProviderMock;
         private Mock<ILocalDataLinkProvider> _localDataLinkProviderMock;
 
-        private Mock<IDataLink4> _dataLinkMock;
+        private Mock<IDataLink6> _dataLinkMock;
         private Mock<IDatamodel> _dataModelMock;
 
         private readonly ConnectionModel _connectionModel;
@@ -37,7 +37,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         {
             _dataModelMock = new Mock<IDatamodel>();
 
-            _dataLinkMock = new Mock<IDataLink4>();
+            _dataLinkMock = new Mock<IDataLink6>();
             _dataLinkMock.Setup(d => d.Datamodel).Returns(_dataModelMock.Object);
 
             _remoteDataLinkProviderMock = new Mock<IRemoteDataLinkProvider>();

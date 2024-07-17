@@ -21,18 +21,18 @@ namespace Blaise.Nuget.Api.Core.Services
             _localDataLinkProvider = localDataLinkProvider;
         }
 
-        public IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
-            return dataLink.Read(null);
+            return dataLink.Read(filter, null);
         }
 
-        public IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile)
+        public IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile, string filter)
         {
             var dataLink = _localDataLinkProvider.GetDataLink(connectionModel, databaseFile);
 
-            return dataLink.Read(null);
+            return dataLink.Read(filter, null);
         }
 
         public IDataRecord GetDataRecord(IDatamodel dataModel)
@@ -92,14 +92,14 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public int GetNumberOfRecords(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
-            var records = GetDataSet(connectionModel, questionnaireName, serverParkName);
+            var records = GetDataSet(connectionModel, questionnaireName, serverParkName, null);
 
             return GetNumberOfRecords(records);
         }
 
         public int GetNumberOfRecords(ConnectionModel connectionModel, string databaseFile)
         {
-            var records = GetDataSet(connectionModel, databaseFile);
+            var records = GetDataSet(connectionModel, databaseFile, null);
 
             return GetNumberOfRecords(records);
         }

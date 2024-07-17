@@ -32,7 +32,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 
             for (var i = 0; i < 1000; i++)
             {
-                _sut.CreateCase(primaryKey.ToString(), fieldData, questionnaireName, serverParkName);
+                var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", primaryKey.ToString() } };
+                _sut.CreateCase(primaryKeyValues, fieldData, questionnaireName, serverParkName);
                 primaryKey++;
             }
 

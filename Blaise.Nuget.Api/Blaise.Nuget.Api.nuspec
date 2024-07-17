@@ -14,7 +14,7 @@
 				<dependency id="System.Configuration.ConfigurationManager" version="8.0.0" />
 				<dependency id="StatNeth.Blaise.API.x64" version="5.14.1" />
 				<dependency id="System.Data.SQLite" version="1.0.112.0" />
-				<dependency id="MySql.Data" version="8.2.0" />
+				<dependency id="MySql.Data" version="8.4.0" />
 				<dependency id="System.IO.Compression.ZipFile" version="4.3.0" />
 			</group>
 		</dependencies>

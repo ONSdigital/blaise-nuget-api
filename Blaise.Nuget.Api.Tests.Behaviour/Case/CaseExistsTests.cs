@@ -9,12 +9,12 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
     public class CaseExistsTests
     {
         private readonly BlaiseCaseApi _sut;
-        private readonly string _primaryKey;
+        private readonly Dictionary<string, string> _primaryKeyValues;
 
         public CaseExistsTests()
         {
             _sut = new BlaiseCaseApi();
-            _primaryKey = "9000001";
+            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
         }
 
         [Ignore("Integration")]
@@ -31,16 +31,16 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                 {FieldNameType.TelNo.FullName(), "07000000000"}
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, questionnaireName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
             //act
-            var result = _sut.CaseExists(_primaryKey, questionnaireName, serverParkName);
+            var result = _sut.CaseExists(_primaryKeyValues, questionnaireName, serverParkName);
 
             //assert
             Assert.IsTrue(result);
 
             //cleanup
-            _sut.RemoveCase(_primaryKey, questionnaireName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
 
         [Ignore("Integration")]
@@ -52,7 +52,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             const string questionnaireName = "OPN2101A";
 
             //act
-            var result = _sut.CaseExists(_primaryKey, questionnaireName, serverParkName);
+            var result = _sut.CaseExists(_primaryKeyValues, questionnaireName, serverParkName);
 
             //assert
             Assert.IsFalse(result);
@@ -73,18 +73,18 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                 {FieldNameType.TelNo.FullName(), "07000000000"}
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, questionnaireName, serverParkName);
-            _sut.LockDataRecord(_primaryKey, questionnaireName, serverParkName, lockId);
+            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
+            _sut.LockDataRecord(_primaryKeyValues, questionnaireName, serverParkName, lockId);
 
             //act
-            var result = _sut.CaseExists(_primaryKey, questionnaireName, serverParkName);
+            var result = _sut.CaseExists(_primaryKeyValues, questionnaireName, serverParkName);
 
             //assert
             Assert.IsTrue(result);
 
             //cleanup
-            _sut.UnLockDataRecord(_primaryKey, questionnaireName, serverParkName, lockId);
-            _sut.RemoveCase(_primaryKey, questionnaireName, serverParkName);
+            _sut.UnLockDataRecord(_primaryKeyValues, questionnaireName, serverParkName, lockId);
+            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
     }
 }

@@ -8,10 +8,14 @@ namespace Blaise.Nuget.Api.Core.Mappers
     public class DataRecordMapper : IDataRecordMapper
     {
         public IDataRecord MapDataRecordFields(IDataRecord dataRecord, IKey key,
-            string primaryKeyValue, Dictionary<string, string> fieldData)
+            Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData)
         {
-            var idField = dataRecord.GetField(key.Fields[0].FullName);
-            idField.DataValue.Assign(primaryKeyValue);
+            foreach (var item in primaryKeyValues)
+            {
+                var idField = dataRecord.GetField(item.Key);
+                idField.DataValue.Assign(item.Value);
+            }
+
 
             return MapDataRecordFields(dataRecord, fieldData);
         }

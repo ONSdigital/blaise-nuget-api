@@ -22,7 +22,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _dataInterfaceMock = new Mock<IDataInterfaceProvider>();
             _caseServiceMock = new Mock<ICaseService>();
 
-            _sut = new FileService(_configurationMock.Object, _dataInterfaceMock.Object, _caseServiceMock.Object, null);
+            _sut = new FileService(_configurationMock.Object, _dataInterfaceMock.Object, _caseServiceMock.Object, null, null);
         }
 
         [TestCase(ApplicationType.Cati)]

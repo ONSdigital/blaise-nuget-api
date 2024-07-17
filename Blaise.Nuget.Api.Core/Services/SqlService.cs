@@ -3,9 +3,7 @@ using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -107,14 +105,9 @@ namespace Blaise.Nuget.Api.Core.Services
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (SqlException e)
+            catch
             {
                 // Handle exception
-                return false;
-            }
-            catch (Exception e)
-            {
-                // Handle other exceptions
                 return false;
             }
 
@@ -123,12 +116,12 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private static string GetDatabaseTableNameForm(string questionnaireName)
         {
-            return $"{questionnaireName.ToUpper()}_Form";
+            return $"{questionnaireName}_Form";
         }
 
         private static string GetDatabaseTableNameDml(string questionnaireName)
         {
-            return $"{questionnaireName.ToUpper()}_Dml";
+            return $"{questionnaireName}_Dml";
         }
 
     }

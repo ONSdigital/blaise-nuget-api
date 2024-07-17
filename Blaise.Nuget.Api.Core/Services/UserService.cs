@@ -130,7 +130,11 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private static void AddCatiPreferenceToUser(IUser2 user, string defaultServerPark)
         {
-            user.Preferences.Add("CATI.Preferences");
+            if (user.Preferences.All(userPreference => userPreference.Type != "CATI.Preferences"))
+            {
+                user.Preferences.Add("CATI.Preferences");
+            }
+
             var catiPreference = user.Preferences.GetItem("CATI.Preferences");
             catiPreference.Value = $"<CatiDashboard><ServerPark>{defaultServerPark}</ServerPark></CatiDashboard>";
         }

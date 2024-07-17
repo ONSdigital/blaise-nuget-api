@@ -18,7 +18,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         private Mock<ICaseService> _caseServiceMock;
         private readonly ConnectionModel _connectionModel;
 
-        private readonly string _primaryKeyValue;
+        private readonly Dictionary<string, string> _primaryKeyValues;
         private readonly string _serverParkName;
         private readonly string _questionnaireName;
         private readonly string _databaseFile;
@@ -28,7 +28,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public BlaiseCaseApiTests()
         {
             _connectionModel = new ConnectionModel();
-            _primaryKeyValue = "Key1";
+            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001"} };
             _serverParkName = "Park1";
             _questionnaireName = "Questionnaire1";
             _databaseFile = "TestFile";
@@ -67,16 +67,16 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // Arrange
             _caseServiceMock.Setup(mock => mock.CaseExists(
                 It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(),
+                It.IsAny<Dictionary<string, string>>(),
                 It.IsAny<string>(),
                 It.IsAny<string>())).Returns(It.IsAny<bool>());
 
             // Act
-            _sut.CaseExists(_primaryKeyValue, _questionnaireName, _serverParkName);
+            _sut.CaseExists(_primaryKeyValues, _questionnaireName, _serverParkName);
 
             // Assert
             _caseServiceMock.Verify(
-                mock => mock.CaseExists(_connectionModel, _primaryKeyValue, _questionnaireName, _serverParkName),
+                mock => mock.CaseExists(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName),
                 Times.Once);
         }
 
@@ -85,12 +85,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_Valid_Arguments_When_I_Call_CaseExists_Then_The_Expected_Result_Is_Returned(bool caseExists)
         {
             //arrange
-            const string primaryKeyValue = "Key1";
-
-            _caseServiceMock.Setup(d => d.CaseExists(_connectionModel, primaryKeyValue, _questionnaireName, _serverParkName)).Returns(caseExists);
+            _caseServiceMock.Setup(d => d.CaseExists(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName)).Returns(caseExists);
 
             //act
-            var result = _sut.CaseExists(primaryKeyValue, _questionnaireName, _serverParkName);
+            var result = _sut.CaseExists(_primaryKeyValues, _questionnaireName, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);
@@ -98,26 +96,18 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_CaseExists_Then_An_ArgumentException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CaseExists(string.Empty, _questionnaireName, _serverParkName));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_CaseExists_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_CaseExists_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseExists(null, _questionnaireName, _serverParkName));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_CaseExists_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CaseExists(_primaryKeyValue, string.Empty,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CaseExists(_primaryKeyValues, string.Empty,
                 _serverParkName));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
@@ -126,7 +116,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_QuestionnaireName_When_I_Call_CaseExists_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseExists(_primaryKeyValue, null,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseExists(_primaryKeyValues, null,
                 _serverParkName));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
@@ -135,7 +125,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_An_Empty_ServerParkName_When_I_Call_CaseExists_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CaseExists(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CaseExists(_primaryKeyValues,
                 _questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
@@ -144,7 +134,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_ServerParkName_When_I_Call_CaseExists_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseExists(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseExists(_primaryKeyValues,
                 _questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
@@ -155,13 +145,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             var dataRecordMock = new Mock<IDataRecord>();
 
-            _caseServiceMock.Setup(d => d.GetPrimaryKeyValue(It.IsAny<IDataRecord>())).Returns(It.IsAny<string>());
+            _caseServiceMock.Setup(d => d.GetPrimaryKeyValues(It.IsAny<IDataRecord>())).Returns(It.IsAny<Dictionary<string, string>>());
 
             //act
-            _sut.GetPrimaryKeyValue(dataRecordMock.Object);
+            _sut.GetPrimaryKeyValues(dataRecordMock.Object);
 
             //assert
-            _caseServiceMock.Verify(v => v.GetPrimaryKeyValue(dataRecordMock.Object), Times.Once);
+            _caseServiceMock.Verify(v => v.GetPrimaryKeyValues(dataRecordMock.Object), Times.Once);
         }
 
         [Test]
@@ -170,27 +160,27 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             var dataRecordMock = new Mock<IDataRecord>();
 
-            _caseServiceMock.Setup(d => d.GetPrimaryKeyValue(It.IsAny<IDataRecord>())).Returns(_primaryKeyValue);
+            _caseServiceMock.Setup(d => d.GetPrimaryKeyValues(It.IsAny<IDataRecord>())).Returns(_primaryKeyValues);
 
             //act
-            var result = _sut.GetPrimaryKeyValue(dataRecordMock.Object);
+            var result = _sut.GetPrimaryKeyValues(dataRecordMock.Object);
 
             //assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(_primaryKeyValue, result);
+            Assert.AreEqual(_primaryKeyValues, result);
         }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_GetCases_Then_The_Correct_Service_Method_Is_Called()
         {
             //arrange
-            _caseServiceMock.Setup(d => d.GetDataSet(_connectionModel, It.IsAny<string>(), It.IsAny<string>()));
+            _caseServiceMock.Setup(d => d.GetDataSet(_connectionModel, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
 
             //act
             _sut.GetCases(_questionnaireName, _serverParkName);
 
             //assert
-            _caseServiceMock.Verify(v => v.GetDataSet(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(v => v.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null), Times.Once);
         }
 
         [Test]
@@ -231,13 +221,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             const string databaseFile = "File1.bdix";
 
-            _caseServiceMock.Setup(d => d.GetDataSet(_connectionModel, It.IsAny<string>()));
+            _caseServiceMock.Setup(d => d.GetDataSet(_connectionModel, It.IsAny<string>(), It.IsAny<string>()));
 
             //act
             _sut.GetCases(databaseFile);
 
             //assert
-            _caseServiceMock.Verify(v => v.GetDataSet(_connectionModel, databaseFile), Times.Once);
+            _caseServiceMock.Verify(v => v.GetDataSet(_connectionModel, databaseFile, null), Times.Once);
         }
 
         [Test]
@@ -260,36 +250,28 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_Valid_Arguments_When_I_Call_GetCase_Then_The_Correct_Service_Method_Is_Called()
         {
             //arrange
-            _caseServiceMock.Setup(d => d.GetDataRecord(_connectionModel, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            _caseServiceMock.Setup(d => d.GetDataRecord(_connectionModel, It.IsAny<Dictionary<string, string>>(), It.IsAny<string>(), It.IsAny<string>()));
 
             //act
-            _sut.GetCase(_primaryKeyValue, _questionnaireName, _serverParkName);
+            _sut.GetCase(_primaryKeyValues, _questionnaireName, _serverParkName);
 
             //assert
-            _caseServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _primaryKeyValue, _questionnaireName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_GetCase_Then_An_ArgumentException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(string.Empty, _questionnaireName, _serverParkName));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_GetCase_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_GetCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(null, _questionnaireName, _serverParkName));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_GetCase_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(_primaryKeyValues,
                 string.Empty, _serverParkName));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
@@ -298,7 +280,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_QuestionnaireName_When_I_Call_GetCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(_primaryKeyValue, null, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(_primaryKeyValues, null, _serverParkName));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
@@ -306,7 +288,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_An_Empty_ServerParkName_When_I_Call_GetCase_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(_primaryKeyValues,
                 _questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
@@ -315,7 +297,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_ServerParkName_When_I_Call_GetCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(_primaryKeyValues,
                 _questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
@@ -324,36 +306,28 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_Valid_Arguments_When_I_Call_GetCase_For_A_File_Then_The_Correct_Service_Method_Is_Called()
         {
             //arrange
-            _caseServiceMock.Setup(d => d.GetDataRecord(_connectionModel, It.IsAny<string>(), It.IsAny<string>()));
+            _caseServiceMock.Setup(d => d.GetDataRecord(_connectionModel, It.IsAny<Dictionary<string, string>>(), It.IsAny<string>()));
 
             //act
-            _sut.GetCase(_primaryKeyValue, _databaseFile);
+            _sut.GetCase(_primaryKeyValues, _databaseFile);
 
             //assert
-            _caseServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _primaryKeyValue, _databaseFile), Times.Once);
+            _caseServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _primaryKeyValues, _databaseFile), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_GetCase_For_A_File_Then_An_ArgumentException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(string.Empty, _databaseFile));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_GetCase_For_A_File_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_GetCase_For_A_File_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(null, _databaseFile));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_GetCase_For_A_File_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(_primaryKeyValues,
                 string.Empty));
             Assert.AreEqual("A value for the argument 'databaseFile' must be supplied", exception.Message);
         }
@@ -362,7 +336,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_QuestionnaireName_When_I_Call_GetCase_For_A_File_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(_primaryKeyValue, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(_primaryKeyValues, null));
             Assert.AreEqual("databaseFile", exception.ParamName);
         }
 
@@ -371,7 +345,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //arrange
             var fieldData = new Dictionary<string, string>();
-            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
+            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValues, fieldData) };
 
             _caseServiceMock.Setup(d => d.CreateNewDataRecords(_connectionModel, It.IsAny<List<CaseModel>>(), It.IsAny<string>(), It.IsAny<string>()));
 
@@ -411,7 +385,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             // Arrange
             var fieldData = new Dictionary<string, string>();
-            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
+            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValues, fieldData) };
             var emptyQuestionnaireName = string.Empty;
 
             // Act & Assert
@@ -426,7 +400,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //Arrange
             var fieldData = new Dictionary<string, string>();
-            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
+            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValues, fieldData) };
 
             //Act & Assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCases(caseModels, null, _serverParkName));
@@ -439,7 +413,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //arrange
             var fieldData = new Dictionary<string, string>();
-            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
+            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValues, fieldData) };
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCases(caseModels, _questionnaireName, string.Empty));
@@ -451,7 +425,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //Arrange
             var fieldData = new Dictionary<string, string>();
-            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValue, fieldData) };
+            var caseModels = new List<CaseModel> { new CaseModel(_primaryKeyValues, fieldData) };
 
             //Act & Assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCases(caseModels, _questionnaireName, null));
@@ -464,42 +438,31 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             var fieldData = new Dictionary<string, string>();
 
-            _caseServiceMock.Setup(d => d.CreateNewDataRecord(_connectionModel, It.IsAny<string>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<string>(), It.IsAny<string>()));
+            _caseServiceMock.Setup(d => d.CreateNewDataRecord(_connectionModel, It.IsAny<Dictionary<string, string>>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<string>(), It.IsAny<string>()));
 
             //act
-            _sut.CreateCase(_primaryKeyValue, fieldData, _questionnaireName, _serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, _questionnaireName, _serverParkName);
 
             //assert
-            _caseServiceMock.Verify(v => v.CreateNewDataRecord(_connectionModel, _primaryKeyValue, fieldData, _questionnaireName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(v => v.CreateNewDataRecord(_connectionModel, _primaryKeyValues, fieldData, _questionnaireName, _serverParkName), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_CreateCase_Then_An_ArgumentException_Is_Thrown()
-        {
-            //arrange
-            var fieldData = new Dictionary<string, string>();
-
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(string.Empty, fieldData, _questionnaireName, _serverParkName));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_CreateCase_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_CreateCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange 
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(null, fieldData, _questionnaireName, _serverParkName));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
         public void Given_A_Null_Dictionary_Of_FieldData_When_I_Call_CreateCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_primaryKeyValue, null,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_primaryKeyValues, null,
                 _questionnaireName, _serverParkName));
             Assert.AreEqual("The argument 'fieldData' must be supplied", exception.ParamName);
         }
@@ -511,7 +474,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(_primaryKeyValue, fieldData,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(_primaryKeyValues, fieldData,
                 string.Empty, _serverParkName));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
@@ -523,7 +486,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_primaryKeyValue, fieldData,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_primaryKeyValues, fieldData,
                 null, _serverParkName));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
@@ -535,7 +498,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(_primaryKeyValue, fieldData,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(_primaryKeyValues, fieldData,
                 _questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
@@ -547,7 +510,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_primaryKeyValue, fieldData,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_primaryKeyValues, fieldData,
                 _questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
@@ -631,13 +594,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             var fieldData = new Dictionary<string, string>();
 
-            _caseServiceMock.Setup(d => d.CreateNewDataRecord(_connectionModel, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()));
+            _caseServiceMock.Setup(d => d.CreateNewDataRecord(_connectionModel, It.IsAny<string>(), It.IsAny<Dictionary<string, string>>(),  It.IsAny<Dictionary<string, string>>()));
 
             //act
-            _sut.CreateCase(_databaseFile, _primaryKeyValue, fieldData);
+            _sut.CreateCase(_databaseFile, _primaryKeyValues, fieldData);
 
             //assert
-            _caseServiceMock.Verify(v => v.CreateNewDataRecord(_connectionModel, _databaseFile, _primaryKeyValue, fieldData), Times.Once);
+            _caseServiceMock.Verify(v => v.CreateNewDataRecord(_connectionModel, _databaseFile, _primaryKeyValues, fieldData), Times.Once);
         }
 
         [Test]
@@ -647,7 +610,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(string.Empty, _primaryKeyValue, fieldData));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(string.Empty, _primaryKeyValues, fieldData));
             Assert.AreEqual("A value for the argument 'databaseFile' must be supplied", exception.Message);
         }
 
@@ -658,37 +621,26 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(null, _primaryKeyValue, fieldData));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(null, _primaryKeyValues, fieldData));
             Assert.AreEqual("databaseFile", exception.ParamName);
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_CreateCase_For_Local_Connection_Then_An_ArgumentException_Is_Thrown()
-        {
-            //arrange
-            var fieldData = new Dictionary<string, string>();
-
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(_databaseFile, string.Empty, fieldData));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_CreateCase_For_Local_Connection_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_CreateCase_For_Local_Connection_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange 
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_databaseFile, null, fieldData));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
         public void Given_A_Null_Dictionary_Of_FieldData_When_I_Call_CreateCase_For_Local_Connection_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_databaseFile, _primaryKeyValue, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_databaseFile, _primaryKeyValues, null));
             Assert.AreEqual("The argument 'fieldData' must be supplied", exception.ParamName);
         }
 
@@ -698,46 +650,34 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             var fieldData = new Dictionary<string, string>();
 
-            _caseServiceMock.Setup(d => d.UpdateDataRecord(_connectionModel, It.IsAny<string>(),
+            _caseServiceMock.Setup(d => d.UpdateDataRecord(_connectionModel, It.IsAny<Dictionary<string, string>>(),
                 It.IsAny<Dictionary<string, string>>(), It.IsAny<string>(), It.IsAny<string>()));
 
             //act
-            _sut.UpdateCase(_primaryKeyValue, fieldData, _questionnaireName, _serverParkName);
+            _sut.UpdateCase(_primaryKeyValues, fieldData, _questionnaireName, _serverParkName);
 
             //assert
-            _caseServiceMock.Verify(v => v.UpdateDataRecord(_connectionModel, _primaryKeyValue, fieldData,
+            _caseServiceMock.Verify(v => v.UpdateDataRecord(_connectionModel, _primaryKeyValues, fieldData,
                 _questionnaireName, _serverParkName), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_UpdateCase_Then_An_ArgumentException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_UpdateCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(string.Empty, fieldData, _questionnaireName,
-                _serverParkName));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_UpdateCase_Then_An_ArgumentNullException_Is_Thrown()
-        {
-            //arrange
-            var fieldData = new Dictionary<string, string>();
-
-            //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase((string)null, fieldData,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase((Dictionary<string, string>)null, fieldData,
                 _questionnaireName, _serverParkName));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
         public void Given_A_Null_Dictionary_Of_FieldData_When_I_Call_UpdateCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(_primaryKeyValue, null,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(_primaryKeyValues, null,
                 _questionnaireName, _serverParkName));
             Assert.AreEqual("The argument 'fieldData' must be supplied", exception.ParamName);
         }
@@ -749,7 +689,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(_primaryKeyValue, fieldData, string.Empty,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(_primaryKeyValues, fieldData, string.Empty,
                 _serverParkName));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
@@ -761,7 +701,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(_primaryKeyValue, fieldData,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(_primaryKeyValues, fieldData,
                 null, _serverParkName));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
@@ -773,7 +713,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(_primaryKeyValue, fieldData,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(_primaryKeyValues, fieldData,
                 _questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
@@ -786,7 +726,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(_primaryKeyValue, fieldData,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(_primaryKeyValues, fieldData,
                 _questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
@@ -1249,76 +1189,68 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         [TestCase(FieldNameType.Mode)]
         [TestCase(FieldNameType.TelNo)]
         [TestCase(FieldNameType.LastUpdated)]
-        public void Given_A_PrimaryKeyValue_When_I_Call_GetFieldValue_Then_The_Correct_Value(FieldNameType fieldNameType)
+        public void Given_A_primaryKeys_When_I_Call_GetFieldValue_Then_The_Correct_Value(FieldNameType fieldNameType)
         {
             //arrange
             var dataValueMock = new Mock<IDataValue>();
             var dataRecordMock = new Mock<IDataRecord>();
 
             _caseServiceMock.Setup(d =>
-                    d.GetDataRecord(_connectionModel, _primaryKeyValue, _questionnaireName, _serverParkName))
+                    d.GetDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName))
                 .Returns(dataRecordMock.Object);
 
             _caseServiceMock.Setup(d => d.GetFieldValue(It.IsAny<IDataRecord>(), It.IsAny<FieldNameType>()))
                 .Returns(dataValueMock.Object);
 
             //act
-            var result = _sut.GetFieldValue(_primaryKeyValue, _questionnaireName, _serverParkName, fieldNameType);
+            var result = _sut.GetFieldValue(_primaryKeyValues, _questionnaireName, _serverParkName, fieldNameType);
 
             //assert
             Assert.IsNotNull(result);
             Assert.AreEqual(dataValueMock.Object, result);
         }
 
-        [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_GetFieldValue_Then_An_ArgumentException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFieldValue(string.Empty, _questionnaireName,
-                _serverParkName, FieldNameType.HOut));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
 
         [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(null, _questionnaireName,
-                _serverParkName, FieldNameType.HOut)); Assert.AreEqual("primaryKeyValue", exception.ParamName);
+                _serverParkName, FieldNameType.HOut)); Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
-        public void Given_A_PrimaryKeyValue_And_An_Empty_QuestionnaireName_When_I_Call_GetFieldValue_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_primaryKeys_And_An_Empty_QuestionnaireName_When_I_Call_GetFieldValue_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFieldValue(_primaryKeyValue, string.Empty,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFieldValue(_primaryKeyValues, string.Empty,
                 _serverParkName, FieldNameType.HOut));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_PrimaryKeyValue_And_A_Null_QuestionnaireName_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_primaryKeys_And_A_Null_QuestionnaireName_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(_primaryKeyValue, null,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(_primaryKeyValues, null,
                 _serverParkName, FieldNameType.HOut));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
         [Test]
-        public void Given_A_PrimaryKeyValue_And_An_Empty_ServerParkName_When_I_Call_GetFieldValue_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_primaryKeys_And_An_Empty_ServerParkName_When_I_Call_GetFieldValue_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFieldValue(_primaryKeyValue, _questionnaireName,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFieldValue(_primaryKeyValues, _questionnaireName,
                 string.Empty, FieldNameType.HOut));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
         [Test]
-        public void Given_A_PrimaryKeyValue_And_A_Null_ServerParkName_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_primaryKeys_And_A_Null_ServerParkName_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(_primaryKeyValue, _questionnaireName,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(_primaryKeyValues, _questionnaireName,
                 null, FieldNameType.HOut));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
@@ -1439,33 +1371,25 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_Valid_Arguments_When_I_Call_RemoveCase_Then_The_Correct_Service_Method_Is_Called()
         {
             //act
-            _sut.RemoveCase(_primaryKeyValue, _questionnaireName, _serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, _questionnaireName, _serverParkName);
 
             //assert
-            _caseServiceMock.Verify(v => v.RemoveDataRecord(_connectionModel, _primaryKeyValue, _questionnaireName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(v => v.RemoveDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_RemoveCase_Then_An_ArgumentException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveCase(string.Empty, _questionnaireName, _serverParkName));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_RemoveCase_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_RemoveCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveCase(null, _questionnaireName, _serverParkName));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_RemoveCase_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveCase(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveCase(_primaryKeyValues,
                 string.Empty, _serverParkName));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
@@ -1474,10 +1398,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_QuestionnaireName_When_I_Call_RemoveCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange
-            const string primaryKeyValue = "Key1";
+            var primaryKey = new Dictionary<string, string> { { "QID.Serial_Number", "900000" } };
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveCase(primaryKeyValue, null, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveCase(primaryKey, null, _serverParkName));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
@@ -1485,7 +1409,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_An_Empty_ServerParkName_When_I_Call_RemoveCase_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveCase(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveCase(_primaryKeyValues,
                 _questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
@@ -1494,7 +1418,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_ServerParkName_When_I_Call_RemoveCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveCase(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveCase(_primaryKeyValues,
                 _questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
@@ -1635,31 +1559,19 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             const string lockId = "Lock123";
 
-            _caseServiceMock.Setup(d => d.LockDataRecord(It.IsAny<ConnectionModel>(), It.IsAny<string>(),
+            _caseServiceMock.Setup(d => d.LockDataRecord(It.IsAny<ConnectionModel>(), It.IsAny<Dictionary<string, string>>(),
                 It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
 
             //act
-            _sut.LockDataRecord(_primaryKeyValue, _questionnaireName, _serverParkName, lockId);
+            _sut.LockDataRecord(_primaryKeyValues, _questionnaireName, _serverParkName, lockId);
 
             //assert
-            _caseServiceMock.Verify(v => v.LockDataRecord(_connectionModel, _primaryKeyValue,
+            _caseServiceMock.Verify(v => v.LockDataRecord(_connectionModel, _primaryKeyValues,
                 _questionnaireName, _serverParkName, lockId), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_LockDataRecord_Then_An_ArgumentException_Is_Thrown()
-        {
-            //arrange
-            const string lockId = "Lock123";
-
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.LockDataRecord(string.Empty,
-                _questionnaireName, _serverParkName, lockId));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_LockDataRecord_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_LockDataRecord_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange
             const string lockId = "Lock123";
@@ -1667,7 +1579,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.LockDataRecord(null,
                 _questionnaireName, _serverParkName, lockId));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
@@ -1677,7 +1589,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             const string lockId = "Lock123";
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.LockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.LockDataRecord(_primaryKeyValues,
                 string.Empty, _serverParkName, lockId));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
@@ -1689,7 +1601,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             const string lockId = "Lock123";
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.LockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.LockDataRecord(_primaryKeyValues,
                 null, _serverParkName, lockId));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
@@ -1701,7 +1613,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             const string lockId = "Lock123";
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.LockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.LockDataRecord(_primaryKeyValues,
                 _questionnaireName, string.Empty, lockId));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
@@ -1713,7 +1625,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             const string lockId = "Lock123";
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.LockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.LockDataRecord(_primaryKeyValues,
                 _questionnaireName, null, lockId));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
@@ -1722,7 +1634,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_An_Empty_LockId_When_I_Call_LockDataRecord_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.LockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.LockDataRecord(_primaryKeyValues,
             _questionnaireName, _serverParkName, string.Empty));
             Assert.AreEqual("A value for the argument 'lockId' must be supplied", exception.Message);
         }
@@ -1731,7 +1643,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_LockId_When_I_Call_LockDataRecord_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.LockDataRecord(_primaryKeyValue, _questionnaireName, _serverParkName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.LockDataRecord(_primaryKeyValues, _questionnaireName, _serverParkName, null));
             Assert.AreEqual("lockId", exception.ParamName);
         }
 
@@ -1741,31 +1653,19 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             const string lockId = "Lock123";
 
-            _caseServiceMock.Setup(d => d.UnLockDataRecord(It.IsAny<ConnectionModel>(), It.IsAny<string>(),
+            _caseServiceMock.Setup(d => d.UnLockDataRecord(It.IsAny<ConnectionModel>(), It.IsAny<Dictionary<string, string>>(),
                 It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
 
             //act
-            _sut.UnLockDataRecord(_questionnaireName, _serverParkName, _primaryKeyValue, lockId);
+            _sut.UnLockDataRecord(_primaryKeyValues, _questionnaireName, _serverParkName, lockId);
 
             //assert
-            _caseServiceMock.Verify(v => v.UnLockDataRecord(_connectionModel, _questionnaireName, _serverParkName,
-                    _primaryKeyValue, lockId), Times.Once);
+            _caseServiceMock.Verify(v => v.UnLockDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName,
+                    lockId), Times.Once);
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_UnLockDataRecord_Then_An_ArgumentException_Is_Thrown()
-        {
-            //arrange
-            const string lockId = "Lock123";
-
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UnLockDataRecord(string.Empty,
-                _questionnaireName, _serverParkName, lockId));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_UnLockDataRecord_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_UnLockDataRecord_Then_An_ArgumentNullException_Is_Thrown()
         {
             //arrange
             const string lockId = "Lock123";
@@ -1773,7 +1673,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(null,
                 _questionnaireName, _serverParkName, lockId));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
@@ -1783,7 +1683,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             const string lockId = "Lock123";
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UnLockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UnLockDataRecord(_primaryKeyValues,
                 string.Empty, _serverParkName, lockId));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
@@ -1795,7 +1695,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             const string lockId = "Lock123";
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(_primaryKeyValues,
                 null, _serverParkName, lockId));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
@@ -1807,7 +1707,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             const string lockId = "Lock123";
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UnLockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UnLockDataRecord(_primaryKeyValues,
                 _questionnaireName, string.Empty, lockId));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
@@ -1819,7 +1719,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             const string lockId = "Lock123";
 
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(_primaryKeyValues,
                 _questionnaireName, null, lockId));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
@@ -1828,7 +1728,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_An_Empty_LockId_When_I_Call_UnLockDataRecord_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UnLockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UnLockDataRecord(_primaryKeyValues,
                 _questionnaireName, _serverParkName, string.Empty));
             Assert.AreEqual("A value for the argument 'lockId' must be supplied", exception.Message);
         }
@@ -1837,7 +1737,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_LockId_When_I_Call_UnLockDataRecord_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(_primaryKeyValues,
                 _questionnaireName, _serverParkName, null));
             Assert.AreEqual("lockId", exception.ParamName);
         }
@@ -1846,11 +1746,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Record_Is_Locked_When_I_Call_DataRecordIsLocked_Then_True_Is_returned()
         {
             //arrange
-            _caseServiceMock.Setup(d => d.GetDataRecord(It.IsAny<ConnectionModel>(), _primaryKeyValue,
+            _caseServiceMock.Setup(d => d.GetDataRecord(It.IsAny<ConnectionModel>(), _primaryKeyValues,
                 _questionnaireName, _serverParkName)).Throws(new Exception());
 
             //act
-            var result = _sut.DataRecordIsLocked(_primaryKeyValue, _questionnaireName, _serverParkName);
+            var result = _sut.DataRecordIsLocked(_primaryKeyValues, _questionnaireName, _serverParkName);
 
             //assert
             Assert.True(result);
@@ -1861,32 +1761,23 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //arrange
             var dataRecord = new Mock<IDataRecord>();
-            _caseServiceMock.Setup(d => d.GetDataRecord(_connectionModel, _primaryKeyValue,
+            _caseServiceMock.Setup(d => d.GetDataRecord(_connectionModel, _primaryKeyValues,
                 _questionnaireName, _serverParkName)).Returns(dataRecord.Object);
 
             //act
-            var result = _sut.DataRecordIsLocked(_primaryKeyValue, _questionnaireName, _serverParkName);
+            var result = _sut.DataRecordIsLocked(_primaryKeyValues, _questionnaireName, _serverParkName);
 
             //assert
             Assert.False(result);
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_DataRecordIsLocked_Then_An_ArgumentException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.DataRecordIsLocked(string.Empty,
-                _questionnaireName, _serverParkName));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_DataRecordIsLocked_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_DataRecordIsLocked_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.DataRecordIsLocked(null,
                 _questionnaireName, _serverParkName));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
@@ -1894,7 +1785,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
 
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.DataRecordIsLocked(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.DataRecordIsLocked(_primaryKeyValues,
                 string.Empty, _serverParkName));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
@@ -1903,7 +1794,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_QuestionnaireName_When_I_Call_DataRecordIsLocked_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.DataRecordIsLocked(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.DataRecordIsLocked(_primaryKeyValues,
                 null, _serverParkName));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
@@ -1912,7 +1803,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_An_Empty_ServerParkName_When_I_Call_DataRecordIsLocked_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.DataRecordIsLocked(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.DataRecordIsLocked(_primaryKeyValues,
                 _questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
@@ -1921,7 +1812,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_ServerParkName_When_I_Call_DataRecordIsLocked_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.DataRecordIsLocked(_primaryKeyValue,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.DataRecordIsLocked(_primaryKeyValues,
                 _questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
@@ -1999,10 +1890,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Valid_DataRecord_When_I_Call_MapCaseStatusModel_Then_An_Expected_CaseStatusModel_Is_Returned()
         {
             //arrange
-            const string primaryKeyValue = "900000";
             const int outCome = 110;
             var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-            var caseStatusModel = new CaseStatusModel(primaryKeyValue, outCome, lastUpdated);
+            var caseStatusModel = new CaseStatusModel(_primaryKeyValues, outCome, lastUpdated);
             var dataRecord = new Mock<IDataRecord>();
 
             _caseServiceMock.Setup(d => d.GetCaseStatus(dataRecord.Object)).Returns(caseStatusModel);
@@ -2013,7 +1903,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<CaseStatusModel>(result);
-            Assert.AreEqual(primaryKeyValue, result.PrimaryKey);
+            Assert.AreEqual(_primaryKeyValues, result.PrimaryKeyValues);
             Assert.AreEqual(outCome, result.Outcome);
             Assert.AreEqual(lastUpdated, result.LastUpdated);
         }
@@ -2112,12 +2002,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Valid_Arguments_When_I_Call_GetCaseModel_Then_The_Expected_List_Of_CaseStatusModels_Is_Returned()
         {
             //arrange
-            var caseModel = new CaseModel(_primaryKeyValue, new Dictionary<string, string>());
+            var caseModel = new CaseModel(_primaryKeyValues, new Dictionary<string, string>());
 
-            _caseServiceMock.Setup(d => d.GetCaseModel(_connectionModel, _primaryKeyValue, _questionnaireName, _serverParkName)).Returns(caseModel);
+            _caseServiceMock.Setup(d => d.GetCaseModel(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName)).Returns(caseModel);
 
             //act
-            var result = _sut.GetCaseModel(_primaryKeyValue, _questionnaireName, _serverParkName);
+            var result = _sut.GetCaseModel(_primaryKeyValues, _questionnaireName, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);
@@ -2126,26 +2016,18 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         }
 
         [Test]
-        public void Given_An_Empty_PrimaryKeyValue_When_I_Call_GetCaseModel_Then_An_ArgumentException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseModel(string.Empty, _questionnaireName, _serverParkName));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_PrimaryKeyValue_When_I_Call_GetCaseModel_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_Null_PrimaryKeysValues_When_I_Call_GetCaseModel_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseModel(null, _questionnaireName, _serverParkName));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_GetCaseModel_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseModel(_primaryKeyValue, string.Empty, _serverParkName));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseModel(_primaryKeyValues, string.Empty, _serverParkName));
             Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
         }
 
@@ -2153,7 +2035,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_QuestionnaireName_When_I_Call_GetCaseModel_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseModel(_primaryKeyValue, null, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseModel(_primaryKeyValues, null, _serverParkName));
             Assert.AreEqual("questionnaireName", exception.ParamName);
         }
 
@@ -2161,7 +2043,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_An_Empty_ServerParkName_When_I_Call_GetCaseModel_Then_An_ArgumentException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseModel(_primaryKeyValue, _questionnaireName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseModel(_primaryKeyValues, _questionnaireName, string.Empty));
             Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
         }
 
@@ -2169,7 +2051,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_ServerParkName_When_I_Call_GetCaseModel_Then_An_ArgumentNullException_Is_Thrown()
         {
             //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseModel(_primaryKeyValue, _questionnaireName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseModel(_primaryKeyValues, _questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
         }
     }

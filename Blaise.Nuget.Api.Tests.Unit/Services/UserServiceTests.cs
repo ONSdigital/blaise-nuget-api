@@ -62,6 +62,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _userPreferenceCollectionMock.Setup(s => s.Add(It.IsAny<string>())).Returns(() => _userPreferenceMock.Object);
             _userPreferenceCollectionMock.Setup(s => s.GetItem(It.IsAny<string>())).Returns(() => _userPreferenceMock.Object);
 
+            var userPreferenceItems = new List<IUserPreference> { _userPreferenceMock.Object };
+            _userPreferenceCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => userPreferenceItems.GetEnumerator());
+
             _serverParkCollectionMock = new Mock<IServerParkCollection>();
             _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => serverParkItems.GetEnumerator());
 
@@ -301,6 +304,44 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             }
 
             _userPreferenceCollectionMock.Verify(v => v.Add("CATI.Preferences"), Times.Once);
+
+            _userMock.Verify(v => v.Save(), Times.Once);
+        }
+
+        [Test]
+        public void Given_When_I_Call_UpdateServerParks_Twice_Then_The_Add_Preferences_Is_Only_Called_Once()
+        {
+            //Mock user preference
+            _userPreferenceMock = new Mock<IUserPreference>();
+            _userPreferenceMock.Setup(s => s.Type).Returns("CATI.Preferences");
+            _userPreferenceMock.Setup(s => s.Value).Returns($"<CatiDashboard><ServerPark>ServerPark1</ServerPark></CatiDashboard>");
+
+            var userPreferenceItems = new List<IUserPreference> { _userPreferenceMock.Object };
+            _userPreferenceCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => userPreferenceItems.GetEnumerator());
+
+            //arrange
+            var serverParkNameList = new List<string>
+            {
+                "ServerPark1",
+                "ServerPark2"
+            };
+
+            const string defaultServerPark = "ServerPark1";
+
+            //act
+            _sut.UpdateServerParks(_connectionModel, _userName, serverParkNameList, defaultServerPark);
+
+            //assert
+            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
+
+            _userMock.Verify(u => u.ServerParks.Clear(), Times.Once);
+
+            foreach (var serverParkName in serverParkNameList)
+            {
+                _userServerParkCollectionMock.Verify(v => v.Add(serverParkName), Times.Once);
+            }
+
+            _userPreferenceCollectionMock.Verify(v => v.Add("CATI.Preferences"), Times.Never);
 
             _userMock.Verify(v => v.Save(), Times.Once);
         }
