@@ -1,0 +1,85 @@
+---
+trigger:
+  branches:
+    main
+pool:
+  vmImage: windows-2019
+variables:
+  solutionPath: '**/*.sln'
+  buildPlatform: Any CPU
+  buildConfiguration: Release
+name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+stages:
+- stage: BuildNugetApi
+  displayName: Build NuGet API
+  jobs:
+    - job: build
+      steps:
+        - task: PowerShell@2
+          displayName: Set version variables
+          inputs:
+            targetType: inline
+            script: |
+                $Branch = "$(Build.SourceBranchName)"
+                if ("$Branch" -ne "main") {
+                  $Branch = $Branch.Replace(".", "").Replace("-", "")
+                  $Branch = "-$Branch"
+                  Write-Host "$(Build.SourceBranchName) changed to $Branch"
+                } else {
+                  $Branch = ""
+                }
+                $Version = "$(Build.BuildNumber)" -replace "^[^_]+_", ""
+                $Version = "$Version$Branch"
+                Write-Host "Version: $Version"
+                Write-Host "##vso[task.setvariable variable=Version;]$Version"
+                Write-Host "##vso[task.setvariable variable=Branch;]$Branch"
+          - task: NuGetToolInstaller@1
+            displayName: Install NuGet
+          - task: NuGetCommand@2
+            displayName: Run NuGet restore
+            inputs:
+              command: restore
+              restoreSolution: $(solutionPath)
+              feedsToUse: select
+              vstsFeed: fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0
+          - task: VSBuild@1
+            displayName: Build solution
+            inputs:
+              solution: $(solutionPath)
+              platform: $(buildPlatform)
+              configuration: $(buildConfiguration)
+          - task: VSTest@2
+            displayName: Run unit tests
+            inputs:
+              testSelector: testAssemblies
+              testAssemblyVer2: |
+                **\*test*.dll
+                !**\*Behaviour.dll
+                !**\*TestAdapter.dll
+                !**\obj\**
+              searchFolder: $(System.DefaultWorkingDirectory)
+          - task: CopyFiles@2
+            displayName: Copy artifact
+            inputs:
+              SourceFolder: $(System.DefaultWorkingDirectory)
+              Contents: '**\bin\$(buildConfiguration)\**'
+              TargetFolder: $(Build.ArtifactStagingDirectory)
+              CleanTargetFolder: true
+              OverWrite: true
+          - task: PublishBuildArtifacts@1
+            displayName: Publish artifact
+            inputs:
+              PathtoPublish: $(Build.ArtifactStagingDirectory)
+          - task: NuGetCommand@2
+            displayName: Run NuGet pack
+            inputs:
+              command: pack
+              searchPatternPack: '**\*.nuspec'
+              versioningScheme: byEnvVar
+              versionEnvVar: Version
+              buildProperties: version="$(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)"
+          - task: NuGetCommand@2
+            displayName: Run NuGet push
+            inputs:
+              command: push
+              feedPublish: fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0
