@@ -196,18 +196,33 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
             Assert.AreEqual("questionnaireFile", exception?.ParamName);
         }
 
-        [Test]
-        public void Given_Valid_Parameters_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_The_Correct_Services_Are_Called()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_Valid_Parameters_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_The_Correct_Services_Are_Called(bool overwriteExistingData)
         {
             //arrange
-            _fileServiceMock.Setup(f => f.UpdateQuestionnairePackageWithSqlConnection(It.IsAny<string>(), It.IsAny<string>()));
+            _fileServiceMock.Setup(f => f.UpdateQuestionnairePackageWithSqlConnection(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
+
+            //act
+            _sut.UpdateQuestionnaireFileWithSqlConnection(_questionnaireName, _questionnaireFile, overwriteExistingData);
+
+            //assert
+            _fileServiceMock.Verify(f => f.UpdateQuestionnairePackageWithSqlConnection(_questionnaireName,
+                _questionnaireFile, overwriteExistingData), Times.Once);
+        }
+
+        [Test]
+        public void Given_No_OverwriteExistingData_Is_Passed_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_The_Correct_Services_Are_Called()
+        {
+            //arrange
+            _fileServiceMock.Setup(f => f.UpdateQuestionnairePackageWithSqlConnection(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
 
             //act
             _sut.UpdateQuestionnaireFileWithSqlConnection(_questionnaireName, _questionnaireFile);
 
             //assert
             _fileServiceMock.Verify(f => f.UpdateQuestionnairePackageWithSqlConnection(_questionnaireName,
-                _questionnaireFile), Times.Once);
+                _questionnaireFile, true), Times.Once);
         }
 
         [Test]
