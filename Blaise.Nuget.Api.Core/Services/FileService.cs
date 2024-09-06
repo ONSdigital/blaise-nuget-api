@@ -54,11 +54,11 @@ namespace Blaise.Nuget.Api.Core.Services
             UpdateQuestionnairePackage(connectionModel, questionnaireFile, questionnaireName, serverParkName, questionnairePath, addAudit);
         }
 
-        public void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName, string questionnaireFile)
+        public void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName, string questionnaireFile, bool createDatabaseObjects)
         {
             var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
 
-            CreateSqlDataInterface(questionnairePath, questionnaireName);
+            CreateSqlDataInterface(questionnairePath, questionnaireName, createDatabaseObjects);
             CreateQuestionnairePackage(questionnairePath, questionnaireFile);
         }
 
@@ -72,7 +72,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private void UpdateQuestionnaireFileWithAllData(ConnectionModel connectionModel, string questionnairePath, string questionnaireName)
         {
-            var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, $"{questionnaireName}_sql", false);
+            var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, false, $"{questionnaireName}_sql");
             var outputDataInterfaceFile = CreateLocalDataInterface(questionnairePath, questionnaireName);
 
             var cases = _caseService.GetDataSet(connectionModel, inputDataInterfaceFile, null);
@@ -87,7 +87,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnairePath, string questionnaireName, int batchSize)
         {
-            var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, $"{questionnaireName}_sql", false);
+            var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, false, $"{questionnaireName}_sql");
             var outputDataInterfaceFile = CreateLocalDataInterface(questionnairePath, questionnaireName);
 
             var caseIds = _sqlService.GetCaseIds(_configurationProvider.DatabaseConnectionString, questionnaireName).Distinct().ToList();
@@ -119,7 +119,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return dataInterfaceFile;
         }
-        private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, string interfaceName = null, bool createDatabaseObjects = true)
+        private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, bool createDatabaseObjects, string interfaceName = null)
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
             

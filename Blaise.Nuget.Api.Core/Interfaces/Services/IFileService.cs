@@ -12,7 +12,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
             string questionnaireName, string serverParkName, int batchSize, bool addAudit = false);
 
         void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName,
-            string questionnaireFile);
+            string questionnaireFile,
+            bool createDatabaseObjects);
 
         void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName);
     }
