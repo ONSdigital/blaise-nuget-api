@@ -26,5 +26,18 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.File
             //act && assert
             _sut.UpdateQuestionnaireFileWithData(serverParkName, questionnaireName, questionnaireFile, false);
         }
+
+        [Ignore("Integration")]
+        [Test]
+        public void Given_The_OverwriteExistingData_Argument_Is_True_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_The_Data_Is_Overwritten()
+        {
+            //arrange            
+            const string questionnaireName = "FRS2504A";
+            const string questionnaireFile = @"D:\FRS2504A.bpkg";
+
+            //act && assert
+            _sut.UpdateQuestionnaireFileWithSqlConnection(questionnaireName, questionnaireFile, true);
+
+        }
     }
 }
