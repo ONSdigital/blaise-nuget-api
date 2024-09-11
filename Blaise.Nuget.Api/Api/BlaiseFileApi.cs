@@ -49,12 +49,12 @@ namespace Blaise.Nuget.Api.Api
             _fileService.UpdateQuestionnaireFileWithBatchedData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, batchSize, auditOption);
         }
 
-        public void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile)
+        public void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile, bool overwriteExistingData = true)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
-            _fileService.UpdateQuestionnairePackageWithSqlConnection(questionnaireName, questionnaireFile);
+            _fileService.UpdateQuestionnairePackageWithSqlConnection(questionnaireName, questionnaireFile, overwriteExistingData);
         }
 
         public void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName)

@@ -156,7 +156,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase(FieldNameType.HOut)]
         [TestCase(FieldNameType.Mode)]
         [TestCase(FieldNameType.TelNo)]
-        public void iven_A_FieldNameType_When_I_Call_GetField_Then_The_Correct_Field_Is_Returned(FieldNameType fieldNameType)
+        public void Given_A_FieldNameType_When_I_Call_GetField_Then_The_Correct_Field_Is_Returned(FieldNameType fieldNameType)
         {
             //arrange
             var fieldMock = new Mock<IField>();
