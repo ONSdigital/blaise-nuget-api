@@ -40,7 +40,7 @@ namespace Blaise.Nuget.Api.Core.Services
             var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
             var databaseUneditedTableName = GetDatabaseTableNameUneditedForm(questionnaireName);
             
-            if (!TableExists(databaseUneditedTableName))
+            if (!TableExists(connectionString, databaseUneditedTableName))
             {
                 return caseIds;
             }
@@ -50,10 +50,10 @@ namespace Blaise.Nuget.Api.Core.Services
             {
                 con.Open();
                 cmd.Connection = con;
-                cmd.CommandText = $"SELECT {SqlFieldType.CaseId.FullName()}" +
+                cmd.CommandText = $"SELECT QUESTIONNARE.{SqlFieldType.CaseId.FullName()}" +
                                   $"FROM {databaseTableName} QUESTIONNAIRE" +
                                   $"Join {databaseUneditedTableName} UNEDITED" +
-                                  "ON QUESTIONNARE.Serial_Number = UNEDITED.Serial_Number";
+                                  $"ON QUESTIONNARE.{SqlFieldType.CaseId.FullName()} = UNEDITED.{SqlFieldType.CaseId.FullName()}";
 
                 using (var reader = cmd.ExecuteReader())
                 {
