@@ -34,6 +34,41 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIds;
         }
 
+        public IEnumerable<string> GetEditingCaseIds(string connectionString, string questionnaireName)
+        {
+            var caseIds = new List<string>();
+            var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
+            var databaseUneditedTableName = GetDatabaseTableNameUneditedForm(questionnaireName);
+            
+            if (!TableExists(databaseUneditedTableName))
+            {
+                return caseIds;
+            }
+            
+            using (var con = new MySqlConnection(connectionString))
+            using (var cmd = new MySqlCommand())
+            {
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = $"SELECT {SqlFieldType.CaseId.FullName()}" +
+                                  $"FROM {databaseTableName} QUESTIONNAIRE" +
+                                  $"Join {databaseUneditedTableName} UNEDITED" +
+                                  "ON QUESTIONNARE.Serial_Number = UNEDITED.Serial_Number";
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        caseIds.Add(reader[0].ToString());
+                    }
+                }
+
+                con.Close();
+            }
+
+            return caseIds;
+        }
+
         public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string connectionString, string questionnaireName)
         {
             var caseIdentifiers = new List<CaseIdentifierModel>();
@@ -114,15 +149,41 @@ namespace Blaise.Nuget.Api.Core.Services
             return true;
         }
 
+        private bool TableExists(string connectionString, string databaseTableName)
+        {
+            bool tableExists;
+            using (var con = new MySqlConnection(connectionString))
+            using (var cmd = new MySqlCommand())
+            {
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = $"SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{databaseTableName}'";
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+                    tableExists = reader[0].ToString() == "1";
+                }
+
+                con.Close();
+            }
+
+            return tableExists;
+        }
+
         private static string GetDatabaseTableNameForm(string questionnaireName)
         {
             return $"{questionnaireName}_Form";
+        }
+
+        private static string GetDatabaseTableNameUneditedForm(string questionnaireName)
+        {
+            return $"{questionnaireName}_UNEDITED_Form";
         }
 
         private static string GetDatabaseTableNameDml(string questionnaireName)
         {
             return $"{questionnaireName}_Dml";
         }
-
     }
 }
