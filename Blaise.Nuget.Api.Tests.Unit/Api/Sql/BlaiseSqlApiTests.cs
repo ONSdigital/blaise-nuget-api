@@ -97,6 +97,57 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
+        public void Given_Valid_Arguments_When_I_Call_GetEditingCaseIds_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //arrange
+            _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
+            _sqlServiceMock.Setup(s => s.GetEditingCaseIds(It.IsAny<string>(), It.IsAny<string>()));
+
+            //act
+            _sut.GetEditingCaseIds(_questionnaireName);
+
+            //assert
+            _sqlServiceMock.Verify(v => v.GetEditingCaseIds(_connectionString, _questionnaireName), Times.Once);
+        }
+
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_GetEditingCaseIds_Then_The_Expected_Result_Is_Returned()
+        {
+            //arrange
+            var caseIds = new List<string>
+            {
+                "12345678",
+                "91011188"
+            };
+
+            _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
+            _sqlServiceMock.Setup(s => s.GetEditingCaseIds(It.IsAny<string>(), It.IsAny<string>())).Returns(caseIds);
+
+            //act
+            var result = _sut.GetEditingCaseIds(_questionnaireName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreSame(caseIds, result);
+        }
+
+        [Test]
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_GetEditingCaseIds_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetEditingCaseIds(string.Empty));
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_QuestionnaireName_When_I_Call_GetEditingCaseIds_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetEditingCaseIds(null));
+            Assert.AreEqual("questionnaireName", exception.ParamName);
+        }
+
+        [Test]
         public void Given_Valid_Arguments_When_I_Call_GetCaseIdentifiers_Then_The_Correct_Service_Method_Is_Called()
         {
             //arrange

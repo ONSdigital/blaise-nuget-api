@@ -34,6 +34,13 @@ namespace Blaise.Nuget.Api.Api
             return _mySqlService.GetCaseIds(_configurationProvider.DatabaseConnectionString, questionnaireName);
         }
 
+        public IEnumerable<string> GetEditingCaseIds(string questionnaireName)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+
+            return _mySqlService.GetEditingCaseIds(_configurationProvider.DatabaseConnectionString, questionnaireName);
+        }
+
         public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string questionnaireName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
