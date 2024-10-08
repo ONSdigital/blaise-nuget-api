@@ -54,8 +54,9 @@ namespace Blaise.Nuget.Api.Core.Services
                                   $"FROM {databaseTableName} QUESTIONNAIRE " +
                                   $"JOIN {databaseUneditedTableName} UNEDITED " +
                                   $"ON QUESTIONNAIRE.{SqlFieldType.CaseId.FullName()} = UNEDITED.{SqlFieldType.CaseId.FullName()} " +
-                                  $"AND (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} = UNEDITED.{SqlFieldType.EditLastUpdated.FullName()} " +
-                                  $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} IS NULL AND UNEDITED.{SqlFieldType.EditLastUpdated.FullName()} IS NULL))";
+                                  $"AND (QUESTIONNAIRE.{SqlFieldType.Edited.FullName()} = 1" +
+                                  $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} IS NULL AND UNEDITED.{SqlFieldType.EditLastUpdated.FullName()} IS NULL)" +
+                                  $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} = UNEDITED.{SqlFieldType.EditLastUpdated.FullName()}))";
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -180,7 +181,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private static string GetDatabaseTableNameUneditedForm(string questionnaireName)
         {
-            return $"{questionnaireName}_UNEDITED_Form";
+            return $"{questionnaireName.Replace("_EDIT", "")}_Form";
         }
 
         private static string GetDatabaseTableNameDml(string questionnaireName)

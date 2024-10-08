@@ -11,6 +11,9 @@ namespace Blaise.Nuget.Api.Contracts.Enums
         PostCode,
 
         [Description("QEdit_LastUpdated")]
-        EditLastUpdated
+        EditLastUpdated,
+
+        [Description("QEdit_edited")]
+        Edited
     }
 }
