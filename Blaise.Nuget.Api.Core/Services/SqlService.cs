@@ -54,8 +54,8 @@ namespace Blaise.Nuget.Api.Core.Services
                                   $"FROM {databaseTableName} QUESTIONNAIRE " +
                                   $"JOIN {databaseUneditedTableName} UNEDITED " +
                                   $"ON QUESTIONNAIRE.{SqlFieldType.CaseId.FullName()} = UNEDITED.{SqlFieldType.CaseId.FullName()} " +
-                                  $"AND (QUESTIONNAIRE.{SqlFieldType.Edited.FullName()} = 1" +
-                                  $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} IS NULL AND UNEDITED.{SqlFieldType.EditLastUpdated.FullName()} IS NULL)" +
+                                  $"AND (QUESTIONNAIRE.{SqlFieldType.Edited.FullName()} = 1 " +
+                                  $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} IS NULL AND UNEDITED.{SqlFieldType.EditLastUpdated.FullName()} IS NULL) " +
                                   $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} = UNEDITED.{SqlFieldType.EditLastUpdated.FullName()}))";
 
                 using (var reader = cmd.ExecuteReader())
