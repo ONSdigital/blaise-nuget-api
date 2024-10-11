@@ -18,6 +18,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IDataSet GetCases(string questionnaireName, string serverParkName);
 
+        IDataSet GetFilteredCases(string questionnaireName, string serverParkName, string filter);
+
         IDataRecord GetCase(Dictionary<string, string> primaryKeyValues, string questionnaireName, 
             string serverParkName);
 

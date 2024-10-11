@@ -22,6 +22,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         private readonly string _serverParkName;
         private readonly string _questionnaireName;
         private readonly string _databaseFile;
+        private readonly string _filter = "Id=10";
 
         private IBlaiseCaseApi _sut;
 
@@ -213,6 +214,68 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCases(_questionnaireName, null));
             Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_GetFilteredCases_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //arrange
+            var filter = "Id=10";
+            _caseServiceMock.Setup(d => d.GetDataSet(_connectionModel, It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+
+            //act
+            _sut.GetFilteredCases(_questionnaireName, _serverParkName, filter);
+
+            //assert
+            _caseServiceMock.Verify(v => v.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, filter), Times.Once);
+        }
+
+        [Test]
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_GetFilteredCases_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFilteredCases(string.Empty, _serverParkName, _filter));
+            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_QuestionnaireName_When_I_Call_GetFilteredCases_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFilteredCases(null, _serverParkName, _filter));
+            Assert.AreEqual("questionnaireName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_ServerParkName_When_I_Call_GetFilteredCases_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFilteredCases(_questionnaireName, string.Empty, _filter));
+            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_ServerParkName_When_I_Call__GetFilteredCases_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFilteredCases(_questionnaireName, null, _filter));
+            Assert.AreEqual("serverParkName", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_An_Empty_Filter_When_I_Call_GetFilteredCases_Then_An_ArgumentException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFilteredCases(_questionnaireName, _serverParkName, string.Empty));
+            Assert.AreEqual("A value for the argument 'filter' must be supplied", exception.Message);
+        }
+
+        [Test]
+        public void Given_A_Null_Filter_When_I_Call__GetFilteredCases_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFilteredCases(_questionnaireName, _serverParkName, null));
+            Assert.AreEqual("filter", exception.ParamName);
         }
 
         [Test]

@@ -49,9 +49,10 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             //arrange
             const string serverParkName = "gusty";
             const string questionnaireName = "LMS2405_HU1";
+            const string filter = "Id=10";
 
             //act
-            var result = _sut.GetCases(questionnaireName, serverParkName);
+            var result = _sut.GetFilteredCases(questionnaireName, serverParkName, filter);
 
             while (!result.EndOfSet)
             {
