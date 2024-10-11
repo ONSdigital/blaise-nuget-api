@@ -66,6 +66,15 @@ namespace Blaise.Nuget.Api.Api
             return _caseService.GetDataSet(_connectionModel, questionnaireName, serverParkName, null);
         }
 
+        public IDataSet GetFilteredCases(string questionnaireName, string serverParkName, string filter)
+        {
+            questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
+            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
+            filter.ThrowExceptionIfNullOrEmpty("filter");
+
+            return _caseService.GetDataSet(_connectionModel, questionnaireName, serverParkName, filter);
+        }
+
         public IDataRecord GetCase(Dictionary<string, string> primaryKeyValues, string questionnaireName,
             string serverParkName)
         {
