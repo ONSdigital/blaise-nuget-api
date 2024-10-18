@@ -20,5 +20,6 @@ namespace Blaise.Nuget.Api.Contracts.Models
         public bool UploadSessionData { get; set; }
         public bool AllowDownloadOverMeteredConnection { get; set; }
         public string InitialAppLayoutSetGroupName { get; set; }
+        public DataConversionMode DataConversionMode { get; set; }
     }
 }
