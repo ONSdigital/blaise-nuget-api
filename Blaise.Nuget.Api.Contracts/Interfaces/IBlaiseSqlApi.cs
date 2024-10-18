@@ -7,6 +7,8 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
     {
         IEnumerable<string> GetCaseIds(string questionnaireName);
 
+        IEnumerable<string> GetEditingCaseIds(string questionnaireName);
+
         IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string questionnaireName);
 
         string GetPostCode(string questionnaireName, string primaryKey);

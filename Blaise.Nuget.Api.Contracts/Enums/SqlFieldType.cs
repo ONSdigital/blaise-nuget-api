@@ -8,6 +8,12 @@ namespace Blaise.Nuget.Api.Contracts.Enums
         CaseId,
 
         [Description("QDataBag_PostCode")]
-        PostCode
+        PostCode,
+
+        [Description("QEdit_LastUpdated")]
+        EditLastUpdated,
+
+        [Description("QEdit_edited")]
+        Edited
     }
 }

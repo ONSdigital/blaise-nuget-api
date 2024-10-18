@@ -34,6 +34,44 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIds;
         }
 
+        public IEnumerable<string> GetEditingCaseIds(string connectionString, string questionnaireName)
+        {
+            var caseIds = new List<string>();
+            var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
+            var databaseUneditedTableName = GetDatabaseTableNameUneditedForm(questionnaireName);
+            
+            if (!TableExists(connectionString, databaseUneditedTableName))
+            {
+                return caseIds;
+            }
+            
+            using (var con = new MySqlConnection(connectionString))
+            using (var cmd = new MySqlCommand())
+            {
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = $"SELECT QUESTIONNAIRE.{SqlFieldType.CaseId.FullName()} " +
+                                  $"FROM {databaseTableName} QUESTIONNAIRE " +
+                                  $"JOIN {databaseUneditedTableName} UNEDITED " +
+                                  $"ON QUESTIONNAIRE.{SqlFieldType.CaseId.FullName()} = UNEDITED.{SqlFieldType.CaseId.FullName()} " +
+                                  $"AND (QUESTIONNAIRE.{SqlFieldType.Edited.FullName()} = 1 " +
+                                  $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} IS NULL AND UNEDITED.{SqlFieldType.EditLastUpdated.FullName()} IS NULL) " +
+                                  $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} = UNEDITED.{SqlFieldType.EditLastUpdated.FullName()}))";
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        caseIds.Add(reader[0].ToString());
+                    }
+                }
+
+                con.Close();
+            }
+
+            return caseIds;
+        }
+
         public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string connectionString, string questionnaireName)
         {
             var caseIdentifiers = new List<CaseIdentifierModel>();
@@ -114,15 +152,41 @@ namespace Blaise.Nuget.Api.Core.Services
             return true;
         }
 
+        private bool TableExists(string connectionString, string databaseTableName)
+        {
+            bool tableExists;
+            using (var con = new MySqlConnection(connectionString))
+            using (var cmd = new MySqlCommand())
+            {
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = $"SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{databaseTableName}'";
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+                    tableExists = reader[0].ToString() == "1";
+                }
+
+                con.Close();
+            }
+
+            return tableExists;
+        }
+
         private static string GetDatabaseTableNameForm(string questionnaireName)
         {
             return $"{questionnaireName}_Form";
+        }
+
+        private static string GetDatabaseTableNameUneditedForm(string questionnaireName)
+        {
+            return $"{questionnaireName.Replace("_EDIT", "")}_Form";
         }
 
         private static string GetDatabaseTableNameDml(string questionnaireName)
         {
             return $"{questionnaireName}_Dml";
         }
-
     }
 }
