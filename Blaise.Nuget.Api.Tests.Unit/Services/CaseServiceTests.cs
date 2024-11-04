@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Blaise.Nuget.Api.Contracts.Extensions;
+
 // ReSharper disable MissingXmlDoc
 
 namespace Blaise.Nuget.Api.Tests.Unit.Services
@@ -170,34 +172,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             _dataRecordServiceMock.Verify(v => v.WriteDataRecord(_connectionModel, _dataRecordMock.Object, _databaseFile), Times.Once);
         }
-
-        [TestCase(FieldNameType.HOut)]
-        [TestCase(FieldNameType.Mode)]
-        [TestCase(FieldNameType.TelNo)]
-        public void Given_A_FieldNameType_When_I_Call_FieldExists_Then_The_Correct_Services_Are_Called(FieldNameType fieldNameType)
-        {
-            //act
-            _sut.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldNameType);
-
-            //assert
-            _fieldServiceMock.Verify(v => v.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldNameType), Times.Once);
-        }
-
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Given_A_FieldNameType_When_I_Call_FieldExists_Then_The_Correct_Value_Is_Returned(bool fieldExists)
-        {
-            //arrange
-            _fieldServiceMock.Setup(f => f.FieldExists(_connectionModel, It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<FieldNameType>())).Returns(fieldExists);
-
-            //act
-            var result = _sut.FieldExists(_connectionModel, _questionnaireName, _serverParkName, FieldNameType.HOut);
-
-            //assert
-            Assert.AreEqual(fieldExists, result);
-        }
-
+        
         [Test]
         public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Correct_Services_Are_Called()
         {
@@ -458,45 +433,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             _dataRecordServiceMock.Verify(v => v.DeleteDataRecords(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
-
-        [TestCase(FieldNameType.HOut)]
-        [TestCase(FieldNameType.Mode)]
-        [TestCase(FieldNameType.TelNo)]
-        public void Given_A_FieldNameType_When_I_Call_GetFieldValue_Then_The_Correct_DataModel_Is_Returned(FieldNameType fieldNameType)
-        {
-            //arrange
-            var dataValueMock = new Mock<IDataValue>();
-            var fieldMock = new Mock<IField>();
-
-            fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldNameType)).Returns(fieldMock.Object);
-
-            //act
-            var result = _sut.GetFieldValue(_dataRecordMock.Object, fieldNameType);
-
-            //assert
-            Assert.AreEqual(dataValueMock.Object, result);
-        }
-
-        [TestCase(FieldNameType.HOut)]
-        [TestCase(FieldNameType.Mode)]
-        [TestCase(FieldNameType.TelNo)]
-        public void Given_A_FieldNameType_When_I_Call_GetFieldValue_Then_The_Correct_Services_Are_Called(FieldNameType fieldNameType)
-        {
-            //arrange
-            var dataValueMock = new Mock<IDataValue>();
-            var fieldMock = new Mock<IField>();
-
-            fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldNameType)).Returns(fieldMock.Object);
-
-            //act
-            _sut.GetFieldValue(_dataRecordMock.Object, fieldNameType);
-
-            //assert
-            _fieldServiceMock.Verify(v => v.GetField(_dataRecordMock.Object, fieldNameType), Times.Once);
-        }
-
+        
         [Test]
         public void Given_A_FieldName_When_I_Call_GetFieldValue_Then_The_Correct_DataModel_Is_Returned()
         {
@@ -533,37 +470,33 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _fieldServiceMock.Verify(v => v.GetField(_dataRecordMock.Object, fieldName), Times.Once);
         }
 
-        [TestCase(FieldNameType.HOut, true)]
-        [TestCase(FieldNameType.HOut, false)]
-        [TestCase(FieldNameType.Mode, true)]
-        [TestCase(FieldNameType.Mode, false)]
-        [TestCase(FieldNameType.TelNo, true)]
-        [TestCase(FieldNameType.TelNo, false)]
-        public void Given_I_Call_FieldExists_Then_The_Correct_DataModel_Is_Returned(FieldNameType fieldNameType, bool exists)
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_I_Call_FieldExists_Then_The_Correct_DataModel_Is_Returned(bool fieldExists)
         {
             //arrange
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldNameType)).Returns(exists);
+            const string fieldName = "QHAdmin.HOut";
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldName)).Returns(fieldExists);
 
             //act
-            var result = _sut.FieldExists(_dataRecordMock.Object, fieldNameType);
+            var result = _sut.FieldExists(_dataRecordMock.Object, fieldName);
 
             //assert
-            Assert.AreEqual(exists, result);
+            Assert.AreEqual(fieldExists, result);
         }
 
-        [TestCase(FieldNameType.HOut)]
-        [TestCase(FieldNameType.Mode)]
-        [TestCase(FieldNameType.TelNo)]
-        public void Given_I_Call_FieldExists_Then_The_Correct_Services_Are_Called(FieldNameType fieldNameType)
+        [Test]
+        public void Given_I_Call_FieldExists_Then_The_Correct_Services_Are_Called()
         {
             //arrange
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldNameType)).Returns(true);
+            const string fieldName = "QHAdmin.HOut";
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldName)).Returns(true);
 
             //act
-            _sut.FieldExists(_dataRecordMock.Object, fieldNameType);
+            _sut.FieldExists(_dataRecordMock.Object, fieldName);
 
             //assert
-            _fieldServiceMock.Verify(v => v.FieldExists(_dataRecordMock.Object, fieldNameType), Times.Once);
+            _fieldServiceMock.Verify(v => v.FieldExists(_dataRecordMock.Object, fieldName), Times.Once);
         }
 
         [Test]
@@ -652,9 +585,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dateFieldMock = new Mock<IField>();
             dateDataValueMock.Setup(d => d.ValueAsText).Returns(dateField);
             dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(dateFieldMock.Object);
 
             //setup time
@@ -662,9 +595,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var timeFieldMock = new Mock<IField>();
             timeDataValueMock.Setup(d => d.ValueAsText).Returns(timeField);
             timeFieldMock.Setup(f => f.DataValue).Returns(timeDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(timeFieldMock.Object);
 
 
@@ -706,9 +639,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             dataValueMock.Setup(d => d.ValueAsText).Returns(fieldValue);
             fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
 
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldType))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldType.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldType))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldType.FullName()))
                 .Returns(fieldMock.Object);
         }
 
@@ -729,7 +662,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.IsNull(result);
         }
 
-        private void MockFieldWithMockDataValue(FieldNameType fieldName, string fieldValue)
+        private void MockFieldWithMockDataValue(FieldNameType fieldType, string fieldValue)
         {
             var dataValueMock = new Mock<IDataValue>();
             var fieldMock = new Mock<IField>();
@@ -737,8 +670,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             dataValueMock.Setup(d => d.ValueAsText).Returns(fieldValue);
             fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
 
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldName)).Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldName)).Returns(fieldMock.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldType.FullName())).Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldType.FullName())).Returns(fieldMock.Object);
         }
 
         [Test]
@@ -751,14 +684,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             fieldValueMock.Setup(f => f.IntegerValue).Returns(outcomeCode);
 
             _fieldServiceMock
-                .Setup(f => f.GetField(dataRecordMock.Object, FieldNameType.HOut).DataValue)
+                .Setup(f => f.GetField(dataRecordMock.Object, FieldNameType.HOut.FullName()).DataValue)
                 .Returns(fieldValueMock.Object);
 
             // Act
             _sut.GetOutcomeCode(dataRecordMock.Object);
 
             // Assert
-            _fieldServiceMock.Verify(f => f.GetField(dataRecordMock.Object, FieldNameType.HOut), Times.Once);
+            _fieldServiceMock.Verify(f => f.GetField(dataRecordMock.Object, FieldNameType.HOut.FullName()), Times.Once);
         }
 
         [Test]
@@ -770,7 +703,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var fieldValue = new Mock<IDataValue>();
             fieldValue.Setup(f => f.IntegerValue).Returns(outcomeCode);
 
-            _fieldServiceMock.Setup(f => f.GetField(It.IsAny<IDataRecord>(), FieldNameType.HOut).DataValue).Returns(fieldValue.Object);
+            _fieldServiceMock.Setup(f => f.GetField(It.IsAny<IDataRecord>(), FieldNameType.HOut.FullName()).DataValue).Returns(fieldValue.Object);
 
             //act
             var result = _sut.GetOutcomeCode(dataRecord.Object);
@@ -787,7 +720,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //arrange
 
             //setup date
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(false);
 
             //setup time
@@ -795,9 +728,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var timeFieldMock = new Mock<IField>();
             timeDataValueMock.Setup(d => d.ValueAsText).Returns("09:23:59");
             timeFieldMock.Setup(f => f.DataValue).Returns(timeDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(timeFieldMock.Object);
 
             //act
@@ -817,13 +750,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dateFieldMock = new Mock<IField>();
             dateDataValueMock.Setup(d => d.ValueAsText).Returns("02-12-2021");
             dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(dateFieldMock.Object);
 
             //setup time
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(false);
 
             //act
@@ -844,9 +777,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dateFieldMock = new Mock<IField>();
             dateDataValueMock.Setup(d => d.ValueAsText).Returns(expectedDateTime);
             dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName()))
                 .Returns(dateFieldMock.Object);
 
 
@@ -869,11 +802,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dateFieldMock = new Mock<IField>();
             dateDataValueMock.Setup(d => d.ValueAsText).Returns("02-12-2021");
             dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName()))
                 .Returns(true);
 
             //setup time
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName()))
                 .Returns(false);
 
             //act
@@ -897,9 +830,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dateFieldMock = new Mock<IField>();
             dateDataValueMock.Setup(d => d.ValueAsText).Returns(dateTime.ToString("dd-MM-yyyy"));
             dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(dateFieldMock.Object);
 
             //setup time
@@ -907,9 +840,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var timeFieldMock = new Mock<IField>();
             timeDataValueMock.Setup(d => d.ValueAsText).Returns(dateTime.ToString("HH:mm:ss"));
             timeFieldMock.Setup(f => f.DataValue).Returns(timeDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(timeFieldMock.Object);
 
 
@@ -934,9 +867,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dateFieldMock = new Mock<IField>();
             dateDataValueMock.Setup(d => d.ValueAsText).Returns(dateTime.ToString("dd-MM-yyyy"));
             dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(dateFieldMock.Object);
 
             //setup time
@@ -944,9 +877,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var timeFieldMock = new Mock<IField>();
             timeDataValueMock.Setup(d => d.ValueAsText).Returns(dateTime.ToString("HH:mm:ss"));
             timeFieldMock.Setup(f => f.DataValue).Returns(timeDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(timeFieldMock.Object);
 
 
@@ -966,9 +899,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dateFieldMock = new Mock<IField>();
             dateDataValueMock.Setup(d => d.ValueAsText).Returns("");
             dateFieldMock.Setup(f => f.DataValue).Returns(dateDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedDate))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(dateFieldMock.Object);
 
             //setup time
@@ -976,9 +909,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var timeFieldMock = new Mock<IField>();
             timeDataValueMock.Setup(d => d.ValueAsText).Returns("");
             timeFieldMock.Setup(f => f.DataValue).Returns(timeDataValueMock.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime))
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(timeFieldMock.Object);
 
 
@@ -1002,14 +935,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             var outcomeFieldValue = new Mock<IDataValue>();
             outcomeFieldValue.Setup(f => f.IntegerValue).Returns(outCome);
-            _fieldServiceMock.Setup(f => f.GetField(It.IsAny<IDataRecord>(), FieldNameType.HOut).DataValue).Returns(outcomeFieldValue.Object);
+            _fieldServiceMock.Setup(f => f.GetField(It.IsAny<IDataRecord>(), FieldNameType.HOut.FullName()).DataValue).Returns(outcomeFieldValue.Object);
 
             var dateFieldValue = new Mock<IDataValue>();
             var dateFieldMock = new Mock<IField>();
             dateFieldValue.Setup(d => d.ValueAsText).Returns(lastUpdated);
             dateFieldMock.Setup(f => f.DataValue).Returns(dateFieldValue.Object);
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated)).Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated)).Returns(dateFieldMock.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName())).Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName())).Returns(dateFieldMock.Object);
 
             //act
             var result = _sut.GetCaseStatus(_dataRecordMock.Object);
@@ -1035,7 +968,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             var outcomeFieldValue = new Mock<IDataValue>();
             outcomeFieldValue.Setup(f => f.IntegerValue).Returns(outCome);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.HOut).DataValue).Returns(outcomeFieldValue.Object);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.HOut.FullName()).DataValue).Returns(outcomeFieldValue.Object);
 
             var dateFieldValue = new Mock<IDataValue>();
             var dateFieldMock = new Mock<IField>();
@@ -1043,8 +976,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             dateFieldMock.Setup(f => f.DataValue).Returns(dateFieldValue.Object);
 
             // Setup FieldService mocks for LastUpdated field
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated)).Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated)).Returns(dateFieldMock.Object);
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName())).Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName())).Returns(dateFieldMock.Object);
 
             var dataSetMock = new Mock<IDataSet>();
             dataSetMock.Setup(d => d.ActiveRecord).Returns(_dataRecordMock.Object);
@@ -1091,7 +1024,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var outcomeFieldValue = new Mock<IDataValue>();
             outcomeFieldValue.Setup(f => f.IntegerValue).Returns(outCome);
             _fieldServiceMock
-                .Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.HOut).DataValue)
+                .Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.HOut.FullName()).DataValue)
                 .Returns(outcomeFieldValue.Object);
 
             // Mock Date Field
@@ -1100,10 +1033,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             dateFieldValue.Setup(d => d.ValueAsText).Returns(lastUpdated);
             dateFieldMock.Setup(f => f.DataValue).Returns(dateFieldValue.Object);
             _fieldServiceMock
-                .Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated))
+                .Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName()))
                 .Returns(true);
             _fieldServiceMock
-                .Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated))
+                .Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName()))
                 .Returns(dateFieldMock.Object);
 
             // Mock DataSet

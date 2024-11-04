@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
@@ -42,23 +41,18 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord,
             Dictionary<string, string> fieldData, string databaseFile);
-
-        bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName, 
-            FieldNameType fieldNameType);
-
+        
         bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             string fieldName);
+
+        bool FieldExists(IDataRecord dataRecord, string fieldName);
 
         void RemoveDataRecord(ConnectionModel connectionModel, Dictionary<string, string> primaryKeyValues, string questionnaireName, 
             string serverParkName);
 
         void RemoveDataRecords(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
 
-        IDataValue GetFieldValue(IDataRecord dataRecord, FieldNameType fieldNameType);
-
         IDataValue GetFieldValue(IDataRecord dataRecord, string fieldName);
-
-        bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType);
 
         int GetNumberOfCases(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
 
