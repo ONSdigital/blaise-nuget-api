@@ -8,6 +8,7 @@ using StatNeth.Blaise.API.DataRecord;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Blaise.Nuget.Api.Contracts.Extensions;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -77,14 +78,14 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataRecordService.WriteDataRecord(connectionModel, dataRecord, databaseFile);
         }
 
-        public bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName, FieldNameType fieldNameType)
-        {
-            return _fieldService.FieldExists(connectionModel, questionnaireName, serverParkName, fieldNameType);
-        }
-
         public bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string fieldName)
         {
             return _fieldService.FieldExists(connectionModel, questionnaireName, serverParkName, fieldName);
+        }
+
+        public bool FieldExists(IDataRecord dataRecord, string fieldName)
+        {
+            return _fieldService.FieldExists(dataRecord, fieldName);
         }
 
         public void RemoveDataRecord(ConnectionModel connectionModel, Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName)
@@ -99,19 +100,9 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataRecordService.DeleteDataRecords(connectionModel, questionnaireName, serverParkName);
         }
 
-        public IDataValue GetFieldValue(IDataRecord dataRecord, FieldNameType fieldNameType)
-        {
-            return _fieldService.GetField(dataRecord, fieldNameType).DataValue;
-        }
-
         public IDataValue GetFieldValue(IDataRecord dataRecord, string fieldName)
         {
             return _fieldService.GetField(dataRecord, fieldName).DataValue;
-        }
-
-        public bool FieldExists(IDataRecord dataRecord, FieldNameType fieldNameType)
-        {
-            return _fieldService.FieldExists(dataRecord, fieldNameType);
         }
 
         public int GetNumberOfCases(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
@@ -220,19 +211,19 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public int GetOutcomeCode(IDataRecord dataRecord)
         {
-            return (int)GetFieldValue(dataRecord, FieldNameType.HOut).IntegerValue;
+            return (int)GetFieldValue(dataRecord, FieldNameType.HOut.FullName()).IntegerValue;
         }
 
         public DateTime? GetLastUpdated(IDataRecord dataRecord)
         {
-            if (!_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdatedDate) ||
-                !_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdatedTime))
+            if (!_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdatedDate.FullName()) ||
+                !_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdatedTime.FullName()))
             {
                 return null;
             }
 
-            var dateField = _fieldService.GetField(dataRecord, FieldNameType.LastUpdatedDate);
-            var timeField = _fieldService.GetField(dataRecord, FieldNameType.LastUpdatedTime);
+            var dateField = _fieldService.GetField(dataRecord, FieldNameType.LastUpdatedDate.FullName());
+            var timeField = _fieldService.GetField(dataRecord, FieldNameType.LastUpdatedTime.FullName());
 
             if (string.IsNullOrWhiteSpace(dateField?.DataValue?.ValueAsText) ||
                 string.IsNullOrWhiteSpace(timeField?.DataValue?.ValueAsText))
@@ -251,12 +242,12 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public string GetLastUpdatedAsString(IDataRecord dataRecord)
         {
-            if (!_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdated))
+            if (!_fieldService.FieldExists(dataRecord, FieldNameType.LastUpdated.FullName()))
             {
                 return null;
             }
 
-            var field = _fieldService.GetField(dataRecord, FieldNameType.LastUpdated);
+            var field = _fieldService.GetField(dataRecord, FieldNameType.LastUpdated.FullName());
 
             return field?.DataValue?.ValueAsText;
         }

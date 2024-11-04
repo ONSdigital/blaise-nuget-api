@@ -9,6 +9,8 @@ using StatNeth.Blaise.API.DataRecord;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Blaise.Nuget.Api.Contracts.Extensions;
+
 // ReSharper disable MissingXmlDoc
 
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
@@ -1058,13 +1060,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //arrange
             _caseServiceMock.Setup(d => d.FieldExists(_connectionModel, It.IsAny<string>(),
-                It.IsAny<string>(), It.IsAny<FieldNameType>())).Returns(It.IsAny<bool>());
+                It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<bool>());
 
             //act
             _sut.FieldExists(_questionnaireName, _serverParkName, fieldNameType);
 
             //CompletedFieldExists
-            _caseServiceMock.Verify(v => v.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldNameType), Times.Once);
+            _caseServiceMock.Verify(v => v.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldNameType.FullName()), Times.Once);
         }
 
         [TestCase(true)]
@@ -1073,7 +1075,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //arrange
             _caseServiceMock.Setup(d => d.FieldExists(_connectionModel, It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<FieldNameType>())).Returns(fieldExists);
+                It.IsAny<string>())).Returns(fieldExists);
 
             //act
             var result = _sut.FieldExists(_questionnaireName, _serverParkName, FieldNameType.HOut);
@@ -1126,34 +1128,33 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //arrange
             var dataRecordMock = new Mock<IDataRecord>();
-            _caseServiceMock.Setup(d => d.FieldExists(It.IsAny<IDataRecord>(), It.IsAny<FieldNameType>())).Returns(It.IsAny<bool>());
+            _caseServiceMock.Setup(d => d.FieldExists(It.IsAny<IDataRecord>(), It.IsAny<string>())).Returns(It.IsAny<bool>());
 
             //act
             _sut.FieldExists(dataRecordMock.Object, fieldNameType);
 
             //CompletedFieldExists
-            _caseServiceMock.Verify(v => v.FieldExists(dataRecordMock.Object, fieldNameType), Times.Once);
+            _caseServiceMock.Verify(v => v.FieldExists(dataRecordMock.Object, fieldNameType.FullName()), Times.Once);
         }
-
-
+        
         [TestCase(FieldNameType.HOut, true)]
         [TestCase(FieldNameType.HOut, false)]
         [TestCase(FieldNameType.Mode, true)]
         [TestCase(FieldNameType.Mode, false)]
         [TestCase(FieldNameType.TelNo, true)]
         [TestCase(FieldNameType.TelNo, false)]
-        public void Given_A_DataRecord_When_I_Call_FieldExists_Then_The_Expected_Result_Is_Returned(FieldNameType fieldNameType, bool exists)
+        public void Given_A_DataRecord_When_I_Call_FieldExists_Then_The_Expected_Result_Is_Returned(FieldNameType fieldNameType, bool fieldExists)
         {
             //arrange
             var dataRecordMock = new Mock<IDataRecord>();
-            _caseServiceMock.Setup(d => d.FieldExists(dataRecordMock.Object, fieldNameType)).Returns(exists);
+            _caseServiceMock.Setup(d => d.FieldExists(dataRecordMock.Object, fieldNameType.FullName())).Returns(fieldExists);
 
             //act
             var result = _sut.FieldExists(dataRecordMock.Object, fieldNameType);
 
             //assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(exists, result);
+            Assert.AreEqual(fieldExists, result);
         }
 
         [Test]
@@ -1161,6 +1162,49 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.FieldExists(null, FieldNameType.HOut));
+            Assert.AreEqual("The argument 'dataRecord' must be supplied", exception.ParamName);
+        }
+
+        [Test]
+        public void Given_A_DataRecord_When_I_Call_FieldExists_With_A_FieldName_Then_The_Correct_Service_Method_Is_Called()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+            var dataRecordMock = new Mock<IDataRecord>();
+            _caseServiceMock.Setup(d => d.FieldExists(It.IsAny<IDataRecord>(), It.IsAny<string>())).Returns(It.IsAny<bool>());
+
+            //act
+            _sut.FieldExists(dataRecordMock.Object, fieldName);
+
+            //CompletedFieldExists
+            _caseServiceMock.Verify(v => v.FieldExists(dataRecordMock.Object, fieldName), Times.Once);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_A_DataRecord_When_I_Call_FieldExists_With_A_FieldName_Then_The_Expected_Result_Is_Returned(bool fieldExists)
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+            var dataRecordMock = new Mock<IDataRecord>();
+            _caseServiceMock.Setup(d => d.FieldExists(dataRecordMock.Object, fieldName)).Returns(fieldExists);
+
+            //act
+            var result = _sut.FieldExists(dataRecordMock.Object, fieldName);
+
+            //assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(fieldExists, result);
+        }
+
+        [Test]
+        public void Given_A_Null_DataRecord_When_I_Call_FieldExists_With_A_FieldName_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            //arrange
+            const string fieldName = "QHAdmin.HOut";
+
+            //act && assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.FieldExists(null, fieldName));
             Assert.AreEqual("The argument 'dataRecord' must be supplied", exception.ParamName);
         }
 
@@ -1174,7 +1218,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var dataValueMock = new Mock<IDataValue>();
             var dataRecordMock = new Mock<IDataRecord>();
 
-            _caseServiceMock.Setup(d => d.GetFieldValue(dataRecordMock.Object, fieldNameType))
+            _caseServiceMock.Setup(d => d.GetFieldValue(dataRecordMock.Object, fieldNameType.FullName()))
                 .Returns(dataValueMock.Object);
 
             //act
@@ -1262,7 +1306,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
                     d.GetDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName))
                 .Returns(dataRecordMock.Object);
 
-            _caseServiceMock.Setup(d => d.GetFieldValue(It.IsAny<IDataRecord>(), It.IsAny<FieldNameType>()))
+            _caseServiceMock.Setup(d => d.GetFieldValue(It.IsAny<IDataRecord>(), It.IsAny<string>()))
                 .Returns(dataValueMock.Object);
 
             //act

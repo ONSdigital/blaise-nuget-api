@@ -9,6 +9,7 @@ using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
 using System;
 using System.Collections.Generic;
+using Blaise.Nuget.Api.Contracts.Extensions;
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -169,7 +170,7 @@ namespace Blaise.Nuget.Api.Api
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _caseService.FieldExists(_connectionModel, questionnaireName, serverParkName, fieldNameType);
+            return _caseService.FieldExists(_connectionModel, questionnaireName, serverParkName, fieldNameType.FullName());
         }
 
         public bool FieldExists(string questionnaireName, string serverParkName, string fieldName)
@@ -186,14 +187,21 @@ namespace Blaise.Nuget.Api.Api
         {
             dataRecord.ThrowExceptionIfNull("dataRecord");
 
-            return _caseService.FieldExists(dataRecord, fieldNameType);
+            return _caseService.FieldExists(dataRecord, fieldNameType.FullName());
+        }
+
+        public bool FieldExists(IDataRecord dataRecord, string fieldName)
+        {
+            dataRecord.ThrowExceptionIfNull("dataRecord");
+
+            return _caseService.FieldExists(dataRecord, fieldName);
         }
 
         public IDataValue GetFieldValue(IDataRecord dataRecord, FieldNameType fieldNameType)
         {
             dataRecord.ThrowExceptionIfNull("dataRecord");
 
-            return _caseService.GetFieldValue(dataRecord, fieldNameType);
+            return _caseService.GetFieldValue(dataRecord, fieldNameType.FullName());
         }
 
         public IDataValue GetFieldValue(IDataRecord dataRecord, string fieldName)

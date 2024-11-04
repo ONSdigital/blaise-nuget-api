@@ -16,7 +16,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
         public LastUpdatedFieldTests()
         {
             _sut = new BlaiseCaseApi();
-            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9000001" } };
+            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9001" } };
         }
 
         [Ignore("Integration")]
@@ -51,6 +51,23 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
 
             //cleanup
             _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
+        }
+        
+        [Ignore("Integration")]
+        [Test]
+        public void Given_A_Questionnaire_Has_A_Field_When_I_Call_FieldExists_Then_The_Expected_Result_Is_Returned()
+        {
+            //arrange
+            const string serverParkName = "gusty";
+            const string questionnaireName = "LMS2209_EM1";
+            const string fieldName = "QHAdmin.HOut";
+            var dataRecord = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
+
+            //act
+            var result = _sut.FieldExists(dataRecord, fieldName);
+
+            //arrange
+            Assert.NotNull(result);
         }
     }
 }
