@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
+﻿using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Core.Services;
 using Moq;
@@ -80,28 +78,17 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         {
             //arrange
             const string fieldName = "QHAdmin.HOut";
-            var dataRecord2Mock = new Mock<IDataRecord2>();
-            var fieldCollectionMock = new Mock<IFieldCollection>();
+            var dataModelMock = new Mock<IDatamodel>();
+            dataModelMock.As<IDefinitionScope2>();
+            dataModelMock.As<IDefinitionScope2>().Setup(d => d.FieldExists(fieldName)).Returns(fieldExists);
+            _dataModelServiceMock.Setup(d => d.GetDataModel(_connectionModel, It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(dataModelMock.Object);
 
-            var iFieldMock = new Mock<IField>();
-
-            if (fieldExists)
-            {
-                iFieldMock.Setup(f => f.FullName).Returns(fieldName);
-            }
-            else
-            {
-                iFieldMock.Setup(f => f.FullName).Returns("Does Not Exist");
-            }
-            var fields = new List<IField> {iFieldMock.Object};
-
-            fieldCollectionMock.Setup(f => f.GetEnumerator())
-                .Returns(fields.GetEnumerator());
-
-            dataRecord2Mock.Setup(d => d.Fields).Returns(fieldCollectionMock.Object);
-
+            var dataRecordMock = new Mock<IDataRecord>();
+            dataRecordMock.Setup(dr => dr.Datamodel).Returns(dataModelMock.Object);
+            
             //act
-            var result = _sut.FieldExists(dataRecord2Mock.Object, fieldName);
+            var result = _sut.FieldExists(dataRecordMock.Object, fieldName);
 
             //assert
             Assert.NotNull(result);
