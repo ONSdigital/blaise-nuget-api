@@ -52,7 +52,6 @@ namespace Blaise.Nuget.Api.Api
         public void AddRole(string name, string description, IEnumerable<string> permissions)
         {
             name.ThrowExceptionIfNullOrEmpty("name");
-            description.ThrowExceptionIfNullOrEmpty("description");
 
             _roleService.AddRole(_connectionModel, name, description, permissions);
         }

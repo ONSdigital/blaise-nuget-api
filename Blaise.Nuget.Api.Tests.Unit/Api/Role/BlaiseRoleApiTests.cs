@@ -157,22 +157,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         }
 
         [Test]
-        public void Given_An_Empty__Description_When_I_Call_AddRole_Then_An_ArgumentException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.AddRole(_name, string.Empty, _permissions));
-            Assert.AreEqual("A value for the argument 'description' must be supplied", exception.Message);
-        }
-
-        [Test]
-        public void Given_A_Null_Description_When_I_Call_AddRole_Then_An_ArgumentNullException_Is_Thrown()
-        {
-            //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddRole(_name, null, _permissions));
-            Assert.AreEqual("description", exception.ParamName);
-        }
-
-        [Test]
         public void Given_Valid_Arguments_When_I_Call_RemoveRole_Then_The_Correct_Service_Method_Is_Called()
         {
             //act
