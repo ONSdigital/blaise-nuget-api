@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -26,7 +26,7 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
             var dataEntrySettings = dataModel.DataEntrySettings;
-            
+
             var questionnaireEntrySettingsModelList = new List<DataEntrySettingsModel>();
 
             foreach (var dataEntrySetting in dataEntrySettings)
@@ -35,7 +35,7 @@ namespace Blaise.Nuget.Api.Core.Services
                 {
                     Type = dataEntrySetting.Name,
                     SessionTimeout = ((IDataEntrySettings4)dataEntrySetting).SessionTimeout,
-                    SaveSessionOnTimeout =  ((IDataEntrySettings6)dataEntrySetting).SaveOnTimeout,
+                    SaveSessionOnTimeout = ((IDataEntrySettings6)dataEntrySetting).SaveOnTimeout,
                     SaveSessionOnQuit = ((IDataEntrySettings6)dataEntrySetting).SaveOnQuit,
                     DeleteSessionOnTimeout = ((IDataEntrySettings6)dataEntrySetting).DeleteSessionOnTimeout,
                     DeleteSessionOnQuit = ((IDataEntrySettings6)dataEntrySetting).DeleteSessionOnQuit,

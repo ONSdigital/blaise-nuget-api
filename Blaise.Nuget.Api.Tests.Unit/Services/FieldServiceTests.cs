@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Core.Services;
 using Moq;
@@ -32,7 +32,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _sut = new FieldService(_dataModelServiceMock.Object);
         }
-        
+
         [Test]
         public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Correct_Services_Are_Called()
         {
@@ -86,7 +86,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             var dataRecordMock = new Mock<IDataRecord>();
             dataRecordMock.Setup(dr => dr.Datamodel).Returns(dataModelMock.Object);
-            
+
             //act
             var result = _sut.FieldExists(dataRecordMock.Object, fieldName);
 

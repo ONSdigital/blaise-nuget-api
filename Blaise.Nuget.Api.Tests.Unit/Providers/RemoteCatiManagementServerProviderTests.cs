@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Providers;
 using Moq;
@@ -31,7 +31,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
 
             _catiFactoryMock = new Mock<ICatiManagementServerFactory>();
             _catiFactoryMock.Setup(c => c.GetConnection(_connectionModel)).Returns(_remoteCatiManagementMock.Object);
-            
+
             _sut = new RemoteCatiManagementServerProvider(_catiFactoryMock.Object);
         }
 
@@ -50,7 +50,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         public void Given_I_Call_GetCatiManagementForServerPark_Then_The_Correct_Connection_Is_Returned()
         {
             //act
-            var result =_sut.GetCatiManagementForServerPark(_connectionModel, _serverParkName);
+            var result = _sut.GetCatiManagementForServerPark(_connectionModel, _serverParkName);
 
             //assert
             Assert.IsNotNull(result);

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using StatNeth.Blaise.API.DataInterface;
@@ -27,7 +27,7 @@ namespace Blaise.Nuget.Api.Core.Providers
 
             //The full path is needed only to create table objects
             _dataInterfaceFactory.UpdateDataFileSource(dataInterface, Path.GetFileName(dataSourceFileName));
-           
+
             dataInterface.SaveToFile(true);
 
             return dataInterface;

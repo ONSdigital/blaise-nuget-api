@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Api;
+using Blaise.Nuget.Api.Api;
 using NUnit.Framework;
 
 namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
@@ -6,7 +6,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
     public class CaseIdTests
     {
         private readonly BlaiseSqlApi _sut;
-        
+
         public CaseIdTests()
         {
             _sut = new BlaiseSqlApi();

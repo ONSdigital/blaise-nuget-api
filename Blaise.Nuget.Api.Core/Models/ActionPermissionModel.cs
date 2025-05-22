@@ -1,4 +1,4 @@
-﻿using StatNeth.Blaise.API.Security;
+using StatNeth.Blaise.API.Security;
 
 namespace Blaise.Nuget.Api.Core.Models
 {

@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -86,7 +86,7 @@ namespace Blaise.Nuget.Api.Api
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            return _questionnaireService.GetQuestionnaireConfigurationModel(_connectionModel, questionnaireName, serverParkName);   
+            return _questionnaireService.GetQuestionnaireConfigurationModel(_connectionModel, questionnaireName, serverParkName);
         }
 
         public IEnumerable<string> GetNamesOfQuestionnaires(string serverParkName)

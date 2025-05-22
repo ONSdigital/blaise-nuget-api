@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Globalization;
@@ -51,7 +51,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
 
             //act && assert
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => caseStatusModel.GetPrimaryKeyValue(primaryKeyName));
-            Assert.AreEqual("There are no primary keys defined\r\nParameter name: primaryKeyName", exception?.Message); 
+            Assert.AreEqual("There are no primary keys defined\r\nParameter name: primaryKeyName", exception?.Message);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
         {
             // arrange
             var caseId = "900001";
-            var primaryKeyValues = new Dictionary<string, string> { {"MainSurveyID", "dgss-5ghghg-ttggh"}, { "QID.Serial_Number", caseId } };
+            var primaryKeyValues = new Dictionary<string, string> { { "MainSurveyID", "dgss-5ghghg-ttggh" }, { "QID.Serial_Number", caseId } };
             var caseStatusModel = new CaseStatusModel(primaryKeyValues, 110, DateTime.Now.ToString(CultureInfo.InvariantCulture));
 
             // act

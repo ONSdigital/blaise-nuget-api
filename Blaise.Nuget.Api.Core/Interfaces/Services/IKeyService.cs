@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.DataRecord;
 using StatNeth.Blaise.API.Meta;
 using System.Collections.Generic;

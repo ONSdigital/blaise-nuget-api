@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Contracts.Models;
 using System;
 using StatNeth.Blaise.API.AuditTrail;
 using System.Collections.Generic;

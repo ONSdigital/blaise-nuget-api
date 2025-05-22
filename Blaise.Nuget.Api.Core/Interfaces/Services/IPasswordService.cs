@@ -1,4 +1,4 @@
-﻿
+
 using System.Security;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Services

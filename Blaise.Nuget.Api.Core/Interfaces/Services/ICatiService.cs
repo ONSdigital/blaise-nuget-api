@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.ServerManager;
@@ -8,10 +8,10 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
     public interface ICatiService
     {
         IEnumerable<ISurvey> GetInstalledQuestionnaires(ConnectionModel connectionModel, string serverParkName);
-        
+
         ISurvey GetInstalledQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
 
-        DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName, 
+        DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             DateTime dayBatchDate, bool checkForTreatedCases);
 
         DayBatchModel GetDayBatch(ConnectionModel connectionModel, string questionnaireName,

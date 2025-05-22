@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using StatNeth.Blaise.API.DataRecord;
 using StatNeth.Blaise.API.Meta;
@@ -51,7 +51,7 @@ namespace Blaise.Nuget.Api.Core.Mappers
         public Dictionary<string, string> MapFieldDictionaryFromRecord(IDataRecord dataRecord)
         {
             var fieldDictionary = new Dictionary<string, string>();
-            var dataRecord2 = (IDataRecord2) dataRecord;
+            var dataRecord2 = (IDataRecord2)dataRecord;
             var dataFields = dataRecord2.GetDataFields();
 
             foreach (var dataField in dataFields)

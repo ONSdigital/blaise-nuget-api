@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 
 namespace Blaise.Nuget.Api.Extensions
@@ -18,14 +18,14 @@ namespace Blaise.Nuget.Api.Extensions
             variable.ThrowExceptionIfNullOrEmpty(configurationItem);
             return GetVariableAsInt(variable, configurationItem);
         }
-        
+
         public static int GetVariableAsInt(string variable, string variableName)
         {
             variable.ThrowExceptionIfNotInt(variableName);
 
             return Convert.ToInt32(variable);
         }
-        
+
         private static string GetLocalVariable(string variableName)
         {
             var variable = ConfigurationManager.AppSettings[variableName];

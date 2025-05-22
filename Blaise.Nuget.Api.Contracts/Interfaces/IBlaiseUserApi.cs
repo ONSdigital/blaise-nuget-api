@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using StatNeth.Blaise.API.ServerManager;
 
 namespace Blaise.Nuget.Api.Contracts.Interfaces
@@ -11,7 +11,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         bool UserExists(string userName);
 
-        void AddUser(string userName, string password, 
+        void AddUser(string userName, string password,
             string role, IList<string> serverParkNames, string defaultServerPark);
 
         void UpdatePassword(string userName, string password);

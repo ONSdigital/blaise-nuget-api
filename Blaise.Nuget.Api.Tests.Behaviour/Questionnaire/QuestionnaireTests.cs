@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
@@ -47,7 +47,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
         public void Given_An_Questionnaire_Is_Installed_When_I_Call_GetQuestionnaire_The_Correct_Questionnaire_Is_Returned()
         {
             //act
-            var result =_sut.GetQuestionnaire(QuestionnaireName, ServerParkName);
+            var result = _sut.GetQuestionnaire(QuestionnaireName, ServerParkName);
 
             //assert
             Assert.IsNotNull(result);

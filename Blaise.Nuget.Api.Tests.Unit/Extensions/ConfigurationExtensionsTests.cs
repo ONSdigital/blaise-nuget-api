@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Blaise.Nuget.Api.Extensions;
 using NUnit.Framework;
 

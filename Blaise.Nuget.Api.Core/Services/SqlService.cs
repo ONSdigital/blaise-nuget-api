@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -39,12 +39,12 @@ namespace Blaise.Nuget.Api.Core.Services
             var caseIds = new List<string>();
             var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
             var databaseUneditedTableName = GetDatabaseTableNameUneditedForm(questionnaireName);
-            
+
             if (!TableExists(connectionString, databaseUneditedTableName))
             {
                 return caseIds;
             }
-            
+
             using (var con = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand())
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Models;
@@ -9,7 +9,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
     public interface IBlaiseCaseApi
     {
-        bool CaseExists(Dictionary<string, string> primaryKeyValues, string questionnaireName, 
+        bool CaseExists(Dictionary<string, string> primaryKeyValues, string questionnaireName,
             string serverParkName);
 
         Dictionary<string, string> GetPrimaryKeyValues(IDataRecord dataRecord);
@@ -20,14 +20,14 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IDataSet GetFilteredCases(string questionnaireName, string serverParkName, string filter);
 
-        IDataRecord GetCase(Dictionary<string, string> primaryKeyValues, string questionnaireName, 
+        IDataRecord GetCase(Dictionary<string, string> primaryKeyValues, string questionnaireName,
             string serverParkName);
 
         IDataRecord GetCase(Dictionary<string, string> primaryKeyValues, string databaseFile);
 
         void CreateCases(List<CaseModel> cases, string questionnaireName, string serverParkName);
 
-        void CreateCase(Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData, 
+        void CreateCase(Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData,
             string questionnaireName, string serverParkName);
 
         void CreateCase(IDataRecord dataRecord, string questionnaireName, string serverParkName);
@@ -58,7 +58,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         IDataValue GetFieldValue(Dictionary<string, string> primaryKeyValues, string questionnaireName,
             string serverParkName, FieldNameType fieldNameType);
 
-        void RemoveCase(Dictionary<string, string> primaryKeyValues, string questionnaireName, 
+        void RemoveCase(Dictionary<string, string> primaryKeyValues, string questionnaireName,
             string serverParkName);
 
         void RemoveCases(string questionnaireName, string serverParkName);
@@ -75,7 +75,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         void UnLockDataRecord(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName,
            string lockId);
-        
+
         bool DataRecordIsLocked(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName);
 
         DateTime? GetLastUpdated(IDataRecord dataRecord);

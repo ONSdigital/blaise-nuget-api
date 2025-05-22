@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
@@ -15,8 +15,8 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly IAuditTrailDataMapper _auditTrailDataMapper;
 
         public AuditTrailService(
-            IQuestionnaireService questionnaireService, 
-            IAuditTrailManagerFactory auditTrailManagerFactory, 
+            IQuestionnaireService questionnaireService,
+            IAuditTrailManagerFactory auditTrailManagerFactory,
             IAuditTrailDataMapper auditTrailDataMapper)
         {
             _questionnaireService = questionnaireService;
