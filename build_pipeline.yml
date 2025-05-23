@@ -46,6 +46,13 @@ stages:
         - script: dotnet tool install -g dotnet-format
           displayName: Install dotnet-format
 
+        # Check .NET SDK version before anything else
+        - script: dotnet --version
+          displayName: Check .NET SDK version
+          # Confirm dotnet-format version AFTER installation
+        - script: dotnet format --version
+          displayName: Confirm dotnet-format version (after install)
+
         - script: dotnet format Blaise.Nuget.Api.sln --verify-no-changes --verbosity diagnostic
           displayName: Check code formatting with dotnet-format
 
