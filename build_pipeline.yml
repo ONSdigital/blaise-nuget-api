@@ -43,8 +43,9 @@ stages:
             restoreSolution: $(solutionPath)
             feedsToUse: select
             vstsFeed: fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0
-        - script: dotnet tool install -g dotnet-format
-          displayName: Install dotnet-format
+        - script: dotnet tool install -g dotnet-format --version 9.0.3
+          displayName: Install dotnet-format 9.0.3
+
 
         # Check .NET SDK version before anything else
         - script: dotnet --version
