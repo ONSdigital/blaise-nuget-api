@@ -48,7 +48,7 @@ stages:
 
 
         # Check .NET SDK version before anything else
-        - script: dotnet --version
+        - script: dotnet --list-sdks
           displayName: Check .NET SDK version
           # Confirm dotnet-format version AFTER installation
         - script: dotnet format --version
