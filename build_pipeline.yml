@@ -46,7 +46,7 @@ stages:
         - script: dotnet tool install -g dotnet-format
           displayName: Install dotnet-format
 
-        - script: dotnet format Blaise.Nuget.Api.sln --check --verbosity diagnostic
+        - script: dotnet format Blaise.Nuget.Api.sln --verify-no-changes --verbosity diagnostic
           displayName: Check code formatting with dotnet-format
 
         - task: VSBuild@1
