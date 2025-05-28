@@ -51,6 +51,9 @@ stages:
         - script: dotnet --list-sdks
           displayName: Check .NET SDK version
 
+        - script: dotnet --list-runtimes
+          displayName: Check .NET runtime versions
+
           # Confirm dotnet-format version AFTER installation
         - script: dotnet format --version
           displayName: Confirm dotnet-format version (after install)
