@@ -51,6 +51,10 @@ stages:
         - script: dotnet --list-sdks
           displayName: Check .NET SDK version
 
+          # Confirm dotnet-format version AFTER installation
+        - script: dotnet format --version
+          displayName: Confirm dotnet-format version (after install)
+
         - script: dotnet format Blaise.Nuget.Api.sln --verify-no-changes --verbosity diagnostic
           displayName: Check code formatting with dotnet-format
 
