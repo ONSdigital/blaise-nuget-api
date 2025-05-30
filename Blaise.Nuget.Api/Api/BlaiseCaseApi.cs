@@ -38,12 +38,7 @@ namespace Blaise.Nuget.Api.Api
         public bool CaseExists(Dictionary<string, string> primaryKeyValues, string questionnaireName,
             string serverParkName)
         {
-            primaryKeyValues.ThrowExceptionIfNull( "primaryKeyValues" );
-
-
-
-
-
+            primaryKeyValues.ThrowExceptionIfNull("primaryKeyValues");
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
