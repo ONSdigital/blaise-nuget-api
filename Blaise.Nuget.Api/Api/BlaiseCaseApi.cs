@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -7,9 +10,6 @@ using Blaise.Nuget.Api.Extensions;
 using Blaise.Nuget.Api.Providers;
 using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Extensions;
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -28,7 +28,6 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseCaseApi(ConnectionModel connectionModel = null)
         {
-
             _caseService = UnityProvider.Resolve<ICaseService>();
 
             var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
@@ -297,6 +296,7 @@ namespace Blaise.Nuget.Api.Api
                 _caseService.GetDataRecord(_connectionModel, primaryKeyValues, questionnaireName, serverParkName);
                 return false;
             }
+
             // ReSharper disable once EmptyGeneralCatchClause
             catch
             {

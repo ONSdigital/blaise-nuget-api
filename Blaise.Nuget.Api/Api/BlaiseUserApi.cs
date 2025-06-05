@@ -24,13 +24,12 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseUserApi(ConnectionModel connectionModel = null)
         {
-            //resolve dependencies
+            // resolve dependencies
             _userService = UnityProvider.Resolve<IUserService>();
 
             var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
-
 
         public IEnumerable<IUser> GetUsers()
         {

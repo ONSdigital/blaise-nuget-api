@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Extensions;
 using Blaise.Nuget.Api.Providers;
-using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -14,7 +14,8 @@ namespace Blaise.Nuget.Api.Api
 
         private readonly IBlaiseConfigurationProvider _configurationProvider;
 
-        internal BlaiseSqlApi(ISqlService mySqlService,
+        internal BlaiseSqlApi(
+            ISqlService mySqlService,
             IBlaiseConfigurationProvider configurationProvider)
         {
             _mySqlService = mySqlService;

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
@@ -6,8 +8,6 @@ using Blaise.Nuget.Api.Core.Interfaces.Services;
 using Blaise.Nuget.Api.Extensions;
 using Blaise.Nuget.Api.Providers;
 using StatNeth.Blaise.API.ServerManager;
-using System;
-using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Api
 {
@@ -116,8 +116,8 @@ namespace Blaise.Nuget.Api.Api
                 questionnaireFile, installOptions);
         }
 
-        public void UninstallQuestionnaire(string questionnaireName, string serverParkName, bool deleteCases = false
-                                                                        , bool clearCati = false, bool dropTables = false)
+        public void UninstallQuestionnaire(string questionnaireName, string serverParkName, bool deleteCases = false,
+                                                                        bool clearCati = false, bool dropTables = false)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");

@@ -21,10 +21,10 @@ namespace Blaise.Nuget.Api.Providers
             // configuration provider
             UnityContainer.RegisterSingleton<IBlaiseConfigurationProvider, BlaiseConfigurationProvider>();
 
-            //password service
+            // password service
             UnityContainer.RegisterType<IPasswordService, PasswordService>();
 
-            //factories
+            // factories
             UnityContainer.RegisterSingleton<IConnectedServerFactory, ConnectedServerFactory>();
             UnityContainer.RegisterSingleton<IRemoteDataServerFactory, RemoteDataServerFactory>();
             UnityContainer.RegisterType<ICatiManagementServerFactory, CatiManagementServerFactory>();
@@ -32,19 +32,18 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<IDataInterfaceFactory, DataInterfaceFactory>();
             UnityContainer.RegisterType<IAuditTrailManagerFactory, AuditTrailManagerFactory>();
 
-
-            //mappers
+            // mappers
             UnityContainer.RegisterType<IDataRecordMapper, DataRecordMapper>();
             UnityContainer.RegisterType<IRolePermissionMapper, RolePermissionMapper>();
             UnityContainer.RegisterType<IAuditTrailDataMapper, AuditTrailDataMapper>();
 
-            //data link providers
+            // data link providers
             UnityContainer.RegisterType<ILocalDataLinkProvider, LocalDataLinkProvider>();
             UnityContainer.RegisterSingleton<IRemoteDataLinkProvider, RemoteDataLinkProvider>();
             UnityContainer.RegisterType<IDataInterfaceProvider, DataInterfaceProvider>();
             UnityContainer.RegisterType<IRemoteCatiManagementServerProvider, RemoteCatiManagementServerProvider>();
 
-            //services
+            // services
             UnityContainer.RegisterType<IDataModelService, DataModelService>();
             UnityContainer.RegisterType<IDataRecordService, DataRecordService>();
             UnityContainer.RegisterType<ICaseService, CaseService>();
@@ -60,6 +59,7 @@ namespace Blaise.Nuget.Api.Providers
             UnityContainer.RegisterType<ISqlService, SqlService>();
             UnityContainer.RegisterType<IAuditTrailService, AuditTrailService>();
         }
+
         public static T Resolve<T>()
         {
             return UnityContainer.Resolve<T>();

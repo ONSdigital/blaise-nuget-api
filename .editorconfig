@@ -2,6 +2,13 @@ root = true
 
 [*.cs]
 
+# Disable file header insertion 
+# So that this doesn't get added to the top of a c# file when dotnet format is run:
+# "// <copyright file="<className>.cs" company="PlaceholderCompany">
+#// Copyright (c) PlaceholderCompany. All rights reserved.
+#// </copyright>"
+dotnet_diagnostic.SA1633.severity = none
+
 # Indentation
 indent_style = space
 indent_size = 4
@@ -41,16 +48,24 @@ dotnet_style_spacing_before_comma = false
 insert_final_newline = true
 
 # Charset
+#TODO: test this
 charset = utf-8
 
 # Trim trailing whitespace
 trim_trailing_whitespace = true
-csharp_indent_labels = flush_left
-csharp_using_directive_placement = outside_namespace:silent
+
+# csharp_indent_labels = flush_left achieved out of the box
+
+# place using statements outside of namespace
+dotnet_diagnostic.SA1200.severity = none
+
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_prefer_braces = true:silent
 csharp_style_namespace_declarations = block_scoped:silent
+
 csharp_style_prefer_method_group_conversion = true:silent
+dotnet_diagnostic.SA1130.severity = error
+
 csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_primary_constructors = true:suggestion
 csharp_prefer_system_threading_lock = true:suggestion
@@ -69,9 +84,7 @@ dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
-dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+
 
 # Symbol specifications
 
@@ -88,6 +101,22 @@ dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, int
 dotnet_naming_symbols.non_field_members.required_modifiers = 
 
 # Naming styles
+# Symbol group: all private fields
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.required_modifiers = 
+
+# Style: _camelCase
+dotnet_naming_style.camel_with_underscore.capitalization = camel_case
+dotnet_naming_style.camel_with_underscore.required_prefix = _
+dotnet_naming_style.camel_with_underscore.required_suffix = 
+
+# Rule: private fields should use _camelCase
+dotnet_naming_rule.private_fields_should_have_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_should_have_underscore.style = camel_with_underscore
+dotnet_naming_rule.private_fields_should_have_underscore.severity = error
+
+
 
 dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix = 
@@ -106,3 +135,8 @@ dotnet_naming_style.pascal_case.capitalization = pascal_case
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
 indent_size = 4
+
+# Set the severity of SA1309 to 'none' to disable the rule
+dotnet_diagnostic.SA1309.severity = none
+
+dotnet_diagnostic.SA1101.severity = none
