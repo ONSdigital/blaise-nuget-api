@@ -1,8 +1,8 @@
+using System;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.ServerManager;
-using System;
-using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
@@ -29,8 +29,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
             string serverParkName,
             bool deleteCases = false,
             bool clearCati = false,
-            bool dropTables = false
-           );
+            bool dropTables = false);
 
         void ActivateQuestionnaire(string questionnaireName, string serverParkName);
 

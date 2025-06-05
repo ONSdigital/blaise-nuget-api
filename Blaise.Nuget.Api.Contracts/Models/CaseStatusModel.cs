@@ -17,7 +17,6 @@ namespace Blaise.Nuget.Api.Contracts.Models
             LastUpdated = lastUpdated;
         }
 
-
         public Dictionary<string, string> PrimaryKeyValues { get; set; }
 
         public int Outcome { get; set; }

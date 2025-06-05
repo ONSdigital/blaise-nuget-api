@@ -64,6 +64,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         void RemoveCases(string questionnaireName, string serverParkName);
 
         int GetNumberOfCases(string questionnaireName, string serverParkName);
+
         int GetNumberOfCases(string databaseFile);
 
         Dictionary<string, string> GetRecordDataFields(IDataRecord dataRecord);

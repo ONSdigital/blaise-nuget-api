@@ -139,4 +139,11 @@ indent_size = 4
 # Set the severity of SA1309 to 'none' to disable the rule
 dotnet_diagnostic.SA1309.severity = none
 
+# disables the 'this' keyword being added when you call properties/fields of a class within a class (seems annoying)
 dotnet_diagnostic.SA1101.severity = none
+
+# disables the auto adding of <inherit doc> comment 
+dotnet_diagnostic.SA1648.severity = none
+
+dotnet_diagnostic.SA1413.severity = none
+
