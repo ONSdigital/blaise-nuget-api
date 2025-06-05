@@ -26,7 +26,6 @@ namespace Blaise.Nuget.Api.Core.Factories
             if (!_connections.ContainsKey(connectionModel.ServerName))
             {
                 return GetFreshServerConnection(connectionModel);
-
             }
 
             var (remoteServer, expiryDate) = _connections[connectionModel.ServerName];

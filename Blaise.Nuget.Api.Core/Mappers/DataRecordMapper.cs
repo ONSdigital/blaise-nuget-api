@@ -16,7 +16,6 @@ namespace Blaise.Nuget.Api.Core.Mappers
                 idField.DataValue.Assign(item.Value);
             }
 
-
             return MapDataRecordFields(dataRecord, fieldData);
         }
 
@@ -27,7 +26,7 @@ namespace Blaise.Nuget.Api.Core.Mappers
             foreach (var field in fieldData)
             {
                 /* Adding try / catch around processing payload fields so that it doesn't stop
-                   if a field is found that isn't in the Blaise data model as we still want to process the 
+                   if a field is found that isn't in the Blaise data model as we still want to process the
                    remaining fields */
                 try
                 {
@@ -39,6 +38,7 @@ namespace Blaise.Nuget.Api.Core.Mappers
                     var item = dataRecord.GetField(field.Key);
                     item.DataValue.Assign(field.Value);
                 }
+
                 // ReSharper disable once EmptyGeneralCatchClause
                 catch
                 {

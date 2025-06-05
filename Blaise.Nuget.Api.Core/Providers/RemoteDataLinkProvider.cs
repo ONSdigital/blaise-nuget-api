@@ -39,7 +39,6 @@ namespace Blaise.Nuget.Api.Core.Providers
             var (dataLink, expiryDate) =
                 _dataLinkConnections[new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)];
 
-
             if (!expiryDate.HasExpired() && dataLink != null)
             {
                 return dataLink as IDataLink6;

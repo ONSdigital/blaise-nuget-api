@@ -1,5 +1,5 @@
-using Blaise.Nuget.Api.Core.Interfaces.Services;
 using System.Security;
+using Blaise.Nuget.Api.Core.Interfaces.Services;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -9,10 +9,10 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var securePassword = new SecureString();
             foreach (var c in password)
-
             {
                 securePassword.AppendChar(c);
             }
+
             return securePassword;
         }
     }

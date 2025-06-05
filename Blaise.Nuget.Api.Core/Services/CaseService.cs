@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Exceptions;
+using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataLink;
 using StatNeth.Blaise.API.DataRecord;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Blaise.Nuget.Api.Contracts.Extensions;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -231,7 +231,8 @@ namespace Blaise.Nuget.Api.Core.Services
                 return null;
             }
 
-            if (DateTime.TryParseExact($"{dateField.DataValue.ValueAsText} {timeField.DataValue.ValueAsText}",
+            if (DateTime.TryParseExact(
+                $"{dateField.DataValue.ValueAsText} {timeField.DataValue.ValueAsText}",
                 "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime))
             {
                 return dateTime;

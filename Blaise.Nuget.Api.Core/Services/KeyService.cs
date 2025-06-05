@@ -1,10 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataRecord;
 using StatNeth.Blaise.API.Meta;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Blaise.Nuget.Api.Core.Services
 {

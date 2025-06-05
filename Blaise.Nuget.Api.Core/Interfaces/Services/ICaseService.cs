@@ -75,6 +75,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         bool CaseInUseInCati(IDataRecord dataRecord);
 
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
+
         IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string questionnaireName,
             string serverParkName);
 

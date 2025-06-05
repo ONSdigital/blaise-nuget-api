@@ -1,4 +1,3 @@
-
 using System;
 
 namespace Blaise.Nuget.Api.Core.Extensions

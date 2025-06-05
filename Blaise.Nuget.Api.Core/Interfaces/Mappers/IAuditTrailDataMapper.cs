@@ -8,6 +8,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Mappers
     public interface IAuditTrailDataMapper
     {
         AuditTrailDataModel MapAuditTrailDataModel(string keyValue, Guid sessionId, IEventInfo eventInfo);
+
         string MapAuditTrailCsvContent(List<AuditTrailDataModel> listOfEvents);
     }
 }

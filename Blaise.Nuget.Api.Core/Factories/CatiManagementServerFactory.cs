@@ -32,7 +32,6 @@ namespace Blaise.Nuget.Api.Core.Factories
             if (!expiryDate.HasExpired() && remoteServer != null)
             {
                 return remoteServer;
-
             }
 
             return GetFreshServerConnection(connectionModel);

@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -181,7 +181,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private static string GetDatabaseTableNameUneditedForm(string questionnaireName)
         {
-            return $"{questionnaireName.Replace("_EDIT", "")}_Form";
+            return $"{questionnaireName.Replace("_EDIT", string.Empty)}_Form";
         }
 
         private static string GetDatabaseTableNameDml(string questionnaireName)

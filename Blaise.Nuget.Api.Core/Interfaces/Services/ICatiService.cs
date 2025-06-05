@@ -24,6 +24,7 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         void SetSurveyDay(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             DateTime surveyDay);
+
         void SetSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName, List<DateTime> surveyDays);
 
         void RemoveSurveyDay(ConnectionModel connectionModel, string questionnaireName, string serverParkName,

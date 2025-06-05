@@ -1,5 +1,5 @@
-using Blaise.Nuget.Api.Contracts.Models;
 using System.Collections.Generic;
+using Blaise.Nuget.Api.Contracts.Models;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {

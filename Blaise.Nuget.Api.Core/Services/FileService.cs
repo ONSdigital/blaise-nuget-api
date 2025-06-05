@@ -1,12 +1,12 @@
+using System;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataInterface;
 using StatNeth.Blaise.API.DataRecord;
-using System;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -119,6 +119,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return dataInterfaceFile;
         }
+
         private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, bool createDatabaseObjects, string interfaceName = null)
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
