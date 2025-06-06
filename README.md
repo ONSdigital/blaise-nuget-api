@@ -60,11 +60,13 @@ When deploying feature versions to formal environments, the above steps will nee
 
 ---
 
-## .editorconfig Rules (C#)
+## Coding Standard Rules (C#)
 
-This project uses a standardized set of formatting and naming rules to ensure consistency and maintainability in the codebase. These rules are enforced via the `.editorconfig` file and apply primarily to C# (`*.cs`) and VB (`*.vb`) files.
+This project uses a standardized set of formatting and naming rules to ensure consistency and maintainability in the codebase. These rules are enforced via the `.editorconfig` file.
 
-The Nuget package StyleCop.Analyzers is responsible for auto code-fixing when the 'dotnet format' command is run in terminal.
+The Nuget package StyleCop.Analyzers is responsible for auto code-fixing when the 'dotnet format' command is run in terminal. The extensive list of rules which this package can enforce be found here: https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/DOCUMENTATION.md
+
+The editor config contains a mix of rules which only DotNet Format can understand (which the server pipeline relies on) and StyleCop.Analyzers rules which help auto code fix locally (these will have the prefix 'SA' with a number code).
 
 ### Formatting Rules (`*.cs`)
 
