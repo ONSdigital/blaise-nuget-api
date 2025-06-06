@@ -64,6 +64,8 @@ When deploying feature versions to formal environments, the above steps will nee
 
 This project uses a standardized set of formatting and naming rules to ensure consistency and maintainability in the codebase. These rules are enforced via the `.editorconfig` file and apply primarily to C# (`*.cs`) and VB (`*.vb`) files.
 
+The Nuget package StyleCop.Analyzers is responsible for auto code-fixing when the 'dotnet format' command is run in terminal.
+
 ### Formatting Rules (`*.cs`)
 
 #### Indentation & Spacing
