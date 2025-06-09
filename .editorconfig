@@ -100,21 +100,41 @@ dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, meth
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.non_field_members.required_modifiers = 
 
-# Naming styles
-# Symbol group: all private fields
-dotnet_naming_symbols.private_fields.applicable_kinds = field
-dotnet_naming_symbols.private_fields.applicable_accessibilities = private
-dotnet_naming_symbols.private_fields.required_modifiers = 
+# Top-most EditorConfig file
+root = true
 
-# Style: _camelCase
-dotnet_naming_style.camel_with_underscore.capitalization = camel_case
-dotnet_naming_style.camel_with_underscore.required_prefix = _
-dotnet_naming_style.camel_with_underscore.required_suffix = 
+#####################################################
+# As per Microsoft's .NET naming conventions: https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names#:~:text=Use%20PascalCase%20for%20constant,remaining%20text%20is%20camelCased.
+#####################################################
 
-# Rule: private fields should use _camelCase
-dotnet_naming_rule.private_fields_should_have_underscore.symbols = private_fields
-dotnet_naming_rule.private_fields_should_have_underscore.style = camel_with_underscore
-dotnet_naming_rule.private_fields_should_have_underscore.severity = error
+# Style: PascalCase for constants (fields & locals)
+dotnet_naming_rule.constants_should_be_pascal_case.severity = warning
+dotnet_naming_rule.constants_should_be_pascal_case.symbols = all_constants
+dotnet_naming_rule.constants_should_be_pascal_case.style = pascal_case_style
+
+dotnet_naming_symbols.all_constants.applicable_kinds = field, local
+dotnet_naming_symbols.all_constants.required_modifiers = const
+
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# Style: _camelCase for private instance fields
+dotnet_naming_rule.private_fields_should_be_camel_with_underscore.severity = warning
+dotnet_naming_rule.private_fields_should_be_camel_with_underscore.symbols = private_instance_fields
+dotnet_naming_rule.private_fields_should_be_camel_with_underscore.style = camel_case_with_underscore
+
+dotnet_naming_symbols.private_instance_fields.applicable_kinds = field
+dotnet_naming_symbols.private_instance_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_instance_fields.required_modifiers =
+
+dotnet_naming_style.camel_case_with_underscore.capitalization = camel_case
+dotnet_naming_style.camel_case_with_underscore.required_prefix = _
+
+#####################################################
+# Disable StyleCop rule that conflicts with _ prefix
+#####################################################
+
+dotnet_diagnostic.SA1309.severity = none
+
 
 
 
