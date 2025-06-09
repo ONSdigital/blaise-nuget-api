@@ -18,9 +18,9 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly IAuditTrailService _auditTrailService;
         private readonly ISqlService _sqlService;
 
-        private const string DatabaseFileNameExt = "bdix";
-        private const string DatabaseSourceExt = "bdbx";
-        private const string DatabaseModelExt = "bmix";
+        private const string _DatabaseFileNameExt = "bdix";
+        private const string _DatabaseSourceExt = "bdbx";
+        private const string _DatabaseModelExt = "bmix";
 
         public FileService(
             IBlaiseConfigurationProvider configurationProvider,
@@ -110,9 +110,9 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private string CreateLocalDataInterface(string questionnairePath, string questionnaireName)
         {
-            var dataSourceFilePath = BuildFilePath(questionnairePath, questionnaireName, DatabaseSourceExt);
-            var dataInterfaceFile = BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseFileNameExt);
-            var dataModelFile = BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseModelExt);
+            var dataSourceFilePath = BuildFilePath(questionnairePath, questionnaireName, _DatabaseSourceExt);
+            var dataInterfaceFile = BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, _DatabaseFileNameExt);
+            var dataModelFile = BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, _DatabaseModelExt);
 
             DeleteFileIfExists(dataSourceFilePath);
             _dataInterfaceService.CreateFileDataInterface(dataSourceFilePath, dataInterfaceFile, dataModelFile);
@@ -127,10 +127,10 @@ namespace Blaise.Nuget.Api.Core.Services
             Console.WriteLine($"CreateSqlDataInterface with interfaceName '{interfaceName}'");
 
             var dataInterfaceFile = interfaceName is null
-                ? BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseFileNameExt)
-                : BuildFilePath(questionnairePath, interfaceName, DatabaseFileNameExt);
+                ? BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, _DatabaseFileNameExt)
+                : BuildFilePath(questionnairePath, interfaceName, _DatabaseFileNameExt);
 
-            var dataModelFile = BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseModelExt);
+            var dataModelFile = BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, _DatabaseModelExt);
 
             _dataInterfaceService.CreateSqlDataInterface(databaseConnectionString, dataInterfaceFile,
                 dataModelFile, createDatabaseObjects);
