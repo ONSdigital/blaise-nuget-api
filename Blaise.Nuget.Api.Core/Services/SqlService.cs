@@ -1,9 +1,9 @@
-﻿using Blaise.Nuget.Api.Contracts.Enums;
+using System.Collections.Generic;
+using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -39,12 +39,12 @@ namespace Blaise.Nuget.Api.Core.Services
             var caseIds = new List<string>();
             var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
             var databaseUneditedTableName = GetDatabaseTableNameUneditedForm(questionnaireName);
-            
+
             if (!TableExists(connectionString, databaseUneditedTableName))
             {
                 return caseIds;
             }
-            
+
             using (var con = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand())
             {
@@ -181,7 +181,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private static string GetDatabaseTableNameUneditedForm(string questionnaireName)
         {
-            return $"{questionnaireName.Replace("_EDIT", "")}_Form";
+            return $"{questionnaireName.Replace("_EDIT", string.Empty)}_Form";
         }
 
         private static string GetDatabaseTableNameDml(string questionnaireName)

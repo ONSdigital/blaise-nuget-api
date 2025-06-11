@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Interfaces;
+using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -29,7 +29,7 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile, 
+        public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile,
             bool auditOption = false)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");

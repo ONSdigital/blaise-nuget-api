@@ -1,11 +1,11 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Blaise.Nuget.Api.Contracts.Exceptions;
+using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.ServerManager;
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Models;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -37,7 +37,7 @@ namespace Blaise.Nuget.Api.Core.Services
             var serverParks = GetServerParks(connectionModel);
             var serverPark = serverParks.FirstOrDefault(sp => sp.Name.Equals(serverParkName, StringComparison.InvariantCultureIgnoreCase));
 
-            if(serverPark == null)
+            if (serverPark == null)
             {
                 throw new DataNotFoundException($"Server park '{serverParkName}' not found");
             }

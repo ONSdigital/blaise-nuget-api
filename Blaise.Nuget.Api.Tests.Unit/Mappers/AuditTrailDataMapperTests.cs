@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Mappers;
 using NUnit.Framework;

@@ -1,4 +1,3 @@
-﻿
 namespace Blaise.Nuget.Api.Contracts.Models
 {
     public class ConnectionModel

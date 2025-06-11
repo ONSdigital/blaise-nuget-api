@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
@@ -14,7 +14,7 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly IPasswordService _passwordService;
 
         public UserService(
-            IConnectedServerFactory connectedServerFactory, 
+            IConnectedServerFactory connectedServerFactory,
             IPasswordService passwordService)
         {
             _connectedServerFactory = connectedServerFactory;
@@ -38,7 +38,7 @@ namespace Blaise.Nuget.Api.Core.Services
         public bool UserExists(ConnectionModel connectionModel, string userName)
         {
             var connection = _connectedServerFactory.GetConnection(connectionModel);
-            
+
             return connection.Users.Any(u => u.Name.Equals(userName, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -47,18 +47,18 @@ namespace Blaise.Nuget.Api.Core.Services
             var connection = _connectedServerFactory.GetConnection(connectionModel);
             var securePassword = _passwordService.CreateSecurePassword(password);
             var user = (IUser2)connection.AddUser(userName, securePassword);
-            
+
             AssignRoleToUser(user, role);
             AddServerParksToUser(user, serverParkNames);
             AddCatiPreferenceToUser(user, defaultServerPark);
-            
+
             user.Save();
         }
 
         public void UpdatePassword(ConnectionModel connectionModel, string userName, string password)
         {
             var securePassword = _passwordService.CreateSecurePassword(password);
-            var user = (IUser2) GetUser(connectionModel, userName);
+            var user = (IUser2)GetUser(connectionModel, userName);
 
             user.ChangePassword(securePassword);
             user.Save();
@@ -66,7 +66,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public void UpdateRole(ConnectionModel connectionModel, string userName, string role)
         {
-            var user = (IUser2) GetUser(connectionModel, userName);
+            var user = (IUser2)GetUser(connectionModel, userName);
 
             AssignRoleToUser(user, role);
             user.Save();
@@ -75,7 +75,7 @@ namespace Blaise.Nuget.Api.Core.Services
         public void UpdateServerParks(ConnectionModel connectionModel, string userName,
             IEnumerable<string> serverParkNames, string defaultServerPark)
         {
-            var user = (IUser2) GetUser(connectionModel, userName);
+            var user = (IUser2)GetUser(connectionModel, userName);
 
             user.ServerParks.Clear();
             AddServerParksToUser(user, serverParkNames);

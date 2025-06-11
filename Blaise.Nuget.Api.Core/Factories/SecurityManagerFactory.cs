@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Extensions;
@@ -26,9 +26,8 @@ namespace Blaise.Nuget.Api.Core.Factories
             if (!_connections.ContainsKey(connectionModel.ServerName))
             {
                 return GetFreshServerConnection(connectionModel);
-
             }
-            
+
             var (remoteServer, expiryDate) = _connections[connectionModel.ServerName];
 
             return expiryDate.HasExpired()

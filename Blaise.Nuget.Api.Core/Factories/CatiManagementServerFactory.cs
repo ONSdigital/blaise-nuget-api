@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Extensions;
@@ -32,9 +32,8 @@ namespace Blaise.Nuget.Api.Core.Factories
             if (!expiryDate.HasExpired() && remoteServer != null)
             {
                 return remoteServer;
-
             }
-            
+
             return GetFreshServerConnection(connectionModel);
         }
 

@@ -1,4 +1,4 @@
-﻿using StatNeth.Blaise.API.DataInterface;
+using StatNeth.Blaise.API.DataInterface;
 
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
@@ -7,7 +7,7 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
         void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName,
             string questionnaireFile, bool auditOption = false);
 
-        void UpdateQuestionnaireFileWithBatchedData(string questionnaireFile, string questionnaireName, 
+        void UpdateQuestionnaireFileWithBatchedData(string questionnaireFile, string questionnaireName,
             string serverParkName, int batchSize, bool addAudit = false);
 
         void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile, bool overwriteExistingData = true);

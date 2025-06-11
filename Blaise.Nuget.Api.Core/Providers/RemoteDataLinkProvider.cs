@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Equality;
@@ -16,7 +16,7 @@ namespace Blaise.Nuget.Api.Core.Providers
         private readonly IQuestionnaireService _questionnaireService;
 
         private readonly Dictionary<Tuple<string, string, DateTime>, Tuple<IDataLink4, DateTime>> _dataLinkConnections;
-        
+
         public RemoteDataLinkProvider(
             IRemoteDataServerFactory connectionFactory,
             IQuestionnaireService questionnaireService)
@@ -36,9 +36,8 @@ namespace Blaise.Nuget.Api.Core.Providers
                 return GetFreshConnection(connectionModel, questionnaireName, serverParkName, installDate);
             }
 
-            var (dataLink, expiryDate) = 
+            var (dataLink, expiryDate) =
                 _dataLinkConnections[new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)];
-
 
             if (!expiryDate.HasExpired() && dataLink != null)
             {
@@ -58,8 +57,8 @@ namespace Blaise.Nuget.Api.Core.Providers
             var dataLink = connection.GetDataLink(questionnaireId, serverParkName);
 
             _dataLinkConnections[new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)] = null;
-            _dataLinkConnections[new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)] = 
-                new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate()); 
+            _dataLinkConnections[new Tuple<string, string, DateTime>(questionnaireName, serverParkName, installDate)] =
+                new Tuple<IDataLink4, DateTime>(dataLink, connectionModel.ConnectionExpiresInMinutes.GetExpiryDate());
 
             return dataLink as IDataLink6;
         }

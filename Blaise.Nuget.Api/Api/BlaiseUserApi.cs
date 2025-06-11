@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -24,14 +24,13 @@ namespace Blaise.Nuget.Api.Api
 
         public BlaiseUserApi(ConnectionModel connectionModel = null)
         {
-            //resolve dependencies
+            // resolve dependencies
             _userService = UnityProvider.Resolve<IUserService>();
 
             var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        
         public IEnumerable<IUser> GetUsers()
         {
             return _userService.GetUsers(_connectionModel);
@@ -51,7 +50,7 @@ namespace Blaise.Nuget.Api.Api
             return _userService.UserExists(_connectionModel, userName);
         }
 
-        public void AddUser(string userName, string password, 
+        public void AddUser(string userName, string password,
             string role, IList<string> serverParkNames, string defaultServerPark)
         {
             userName.ThrowExceptionIfNullOrEmpty("userName");

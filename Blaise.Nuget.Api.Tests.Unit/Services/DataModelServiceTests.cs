@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Services;
@@ -86,7 +86,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_I_Call_GetDataModel_Then_The_Correct_Services_Are_Called()
         {
             //act
-             _sut.GetDataModel(_connectionModel, _questionnaireName, _serverParkName);
+            _sut.GetDataModel(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
             _remoteDataLinkProviderMock.Verify(v => v.GetDataLink(_connectionModel, _questionnaireName, _serverParkName), Times.Once);

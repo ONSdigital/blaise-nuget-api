@@ -1,4 +1,4 @@
-﻿using StatNeth.Blaise.API.DataInterface;
+using StatNeth.Blaise.API.DataInterface;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Factories
 {
@@ -10,7 +10,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Factories
 
         IDataInterface GetDataInterfaceForSql(string databaseConnectionString);
 
-        IGeneralDataInterface GetSettingsDataInterfaceForSql(string databaseConnectionString,
+        IGeneralDataInterface GetSettingsDataInterfaceForSql(
+            string databaseConnectionString,
             ApplicationType applicationType);
     }
 }

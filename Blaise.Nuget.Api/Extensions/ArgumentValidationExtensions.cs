@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +15,6 @@ namespace Blaise.Nuget.Api.Extensions
 
             if (string.IsNullOrWhiteSpace(argument))
             {
-
                 throw new ArgumentException($"A value for the argument '{argumentName}' must be supplied");
             }
         }
@@ -29,7 +28,6 @@ namespace Blaise.Nuget.Api.Extensions
 
             if (!argument.Any())
             {
-
                 throw new ArgumentException($"A value for the argument '{argumentName}' must be supplied");
             }
         }

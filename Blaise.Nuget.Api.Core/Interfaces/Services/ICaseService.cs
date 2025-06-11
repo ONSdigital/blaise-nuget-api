@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.DataLink;
@@ -25,10 +25,10 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string databaseFile);
 
-        void CreateNewDataRecord(ConnectionModel connectionModel, Dictionary<string, string> primaryKeyValues, 
+        void CreateNewDataRecord(ConnectionModel connectionModel, Dictionary<string, string> primaryKeyValues,
             Dictionary<string, string> fieldData, string questionnaireName, string serverParkName);
-        
-        void CreateNewDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord ,string questionnaireName, 
+
+        void CreateNewDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string questionnaireName,
             string serverParkName);
 
         void CreateNewDataRecord(ConnectionModel connectionModel, string databaseFile, Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData);
@@ -36,18 +36,18 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         void UpdateDataRecord(ConnectionModel connectionModel, Dictionary<string, string> primaryKeyValues,
             Dictionary<string, string> fieldData, string questionnaireName, string serverParkName);
 
-        void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, 
+        void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord,
             Dictionary<string, string> fieldData, string questionnaireName, string serverParkName);
 
         void UpdateDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord,
             Dictionary<string, string> fieldData, string databaseFile);
-        
+
         bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             string fieldName);
 
         bool FieldExists(IDataRecord dataRecord, string fieldName);
 
-        void RemoveDataRecord(ConnectionModel connectionModel, Dictionary<string, string> primaryKeyValues, string questionnaireName, 
+        void RemoveDataRecord(ConnectionModel connectionModel, Dictionary<string, string> primaryKeyValues, string questionnaireName,
             string serverParkName);
 
         void RemoveDataRecords(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
@@ -75,9 +75,10 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         bool CaseInUseInCati(IDataRecord dataRecord);
 
         CaseStatusModel GetCaseStatus(IDataRecord dataRecord);
+
         IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string questionnaireName,
             string serverParkName);
-        
+
         IEnumerable<CaseStatusModel> GetCaseStatusModelList(ConnectionModel connectionModel, string databaseFile);
 
         CaseModel GetCaseModel(ConnectionModel connectionModel, Dictionary<string, string> primaryKeyValues, string questionnaireName,

@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Exceptions;
+using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Services;
 using Moq;
@@ -94,7 +94,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_No_ServerParks_When_I_Call_GetServerParkNames_Then_A_DataNotFoundException_Is_Thrown()
         {
             //arrange
-            _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(() 
+            _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
                 => new List<IServerPark>().GetEnumerator());
 
             //act && assert
@@ -159,7 +159,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //arrange
             var serverParkMock1 = new Mock<IServerPark>();
             var serverParkMock2 = new Mock<IServerPark>();
-            
+
             var serverParkItems = new List<IServerPark> { serverParkMock1.Object, serverParkMock2.Object };
 
             _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => serverParkItems.GetEnumerator());
@@ -178,7 +178,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_No_ServerParks_When_I_Call_GetServerParks_Then_A_Data_Not_Found_Exception_Is_Thrown()
         {
             //arrange
-            _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(() 
+            _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
                 => new List<IServerPark>().GetEnumerator());
 
             //act && assert

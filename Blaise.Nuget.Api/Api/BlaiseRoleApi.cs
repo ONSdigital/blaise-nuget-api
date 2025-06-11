@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -25,7 +25,7 @@ namespace Blaise.Nuget.Api.Api
         public BlaiseRoleApi(ConnectionModel connectionModel = null)
         {
             _roleService = UnityProvider.Resolve<IRoleService>();
-            
+
             var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }

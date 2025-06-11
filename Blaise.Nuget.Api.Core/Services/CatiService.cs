@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Exceptions;
@@ -43,13 +43,13 @@ namespace Blaise.Nuget.Api.Core.Services
             return _questionnaireService.GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
         }
 
-        public DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName, 
+        public DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             DateTime dayBatchDate, bool checkForTreatedCases)
         {
             var catiManagementServer = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
             var catiQuestionnaireManager = (ICatiInstrumentManager3)catiManagementServer.LoadCatiInstrumentManager(questionnaireId);
-            
+
             if (catiQuestionnaireManager.Specification.SurveyDays.All(d => d.Date.Date != dayBatchDate.Date))
             {
                 throw new DataNotFoundException($"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'");
@@ -69,7 +69,7 @@ namespace Blaise.Nuget.Api.Core.Services
         }
 
         public void AddToDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string primaryKeyValue)
-        { 
+        {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
 

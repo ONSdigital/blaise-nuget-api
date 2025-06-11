@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Contracts.Models
@@ -9,6 +9,7 @@ namespace Blaise.Nuget.Api.Contracts.Models
         {
             CaseIds = new List<string>();
         }
+
         public DayBatchModel(DateTime dayBatchDate, List<string> caseIds)
         {
             DayBatchDate = dayBatchDate;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Interfaces;
@@ -73,7 +73,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             _sqlServiceMock.Setup(s => s.GetCaseIds(It.IsAny<string>(), It.IsAny<string>())).Returns(caseIds);
 
             //act
-            var result =_sut.GetCaseIds(_questionnaireName);
+            var result = _sut.GetCaseIds(_questionnaireName);
 
             //assert
             Assert.IsNotNull(result);

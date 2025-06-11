@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Exceptions;
@@ -137,7 +137,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             _sut.CreateDayBatch(_questionnaireName, _serverParkName, dayBatchDate, checkForTreatedCases);
 
             //assert
-            _catiServiceMock.Verify(v => v.CreateDayBatch(_connectionModel, _questionnaireName, 
+            _catiServiceMock.Verify(v => v.CreateDayBatch(_connectionModel, _questionnaireName,
                 _serverParkName, dayBatchDate, checkForTreatedCases), Times.Once);
         }
 

@@ -1,12 +1,12 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.DataInterface;
-using StatNeth.Blaise.API.DataRecord;
 using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Core.Interfaces.Providers;
+using Blaise.Nuget.Api.Core.Interfaces.Services;
+using StatNeth.Blaise.API.DataInterface;
+using StatNeth.Blaise.API.DataRecord;
 
 namespace Blaise.Nuget.Api.Core.Services
 {
@@ -26,7 +26,7 @@ namespace Blaise.Nuget.Api.Core.Services
             IBlaiseConfigurationProvider configurationProvider,
             IDataInterfaceProvider dataInterfaceService,
             ICaseService caseService,
-            IAuditTrailService auditTrailService, 
+            IAuditTrailService auditTrailService,
             ISqlService sqlService)
         {
             _configurationProvider = configurationProvider;
@@ -119,10 +119,11 @@ namespace Blaise.Nuget.Api.Core.Services
 
             return dataInterfaceFile;
         }
+
         private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, bool createDatabaseObjects, string interfaceName = null)
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
-            
+
             Console.WriteLine($"CreateSqlDataInterface with interfaceName '{interfaceName}'");
 
             var dataInterfaceFile = interfaceName is null

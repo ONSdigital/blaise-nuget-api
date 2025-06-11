@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
 using Blaise.Nuget.Api.Core.Models;
 using StatNeth.Blaise.API.Security;
@@ -15,7 +15,7 @@ namespace Blaise.Nuget.Api.Core.Mappers
             {
                 actionPermissions.Add(new ActionPermissionModel
                 {
-                    Action = permission, 
+                    Action = permission,
                     Permission = PermissionStatus.Allowed
                 });
             }

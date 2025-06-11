@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.Security;
 

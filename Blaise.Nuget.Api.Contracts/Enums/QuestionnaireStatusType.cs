@@ -1,4 +1,4 @@
-﻿namespace Blaise.Nuget.Api.Contracts.Enums
+namespace Blaise.Nuget.Api.Contracts.Enums
 {
     public enum QuestionnaireStatusType
     {

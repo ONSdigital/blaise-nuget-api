@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using StatNeth.Blaise.API.Security;
 
 namespace Blaise.Nuget.Api.Contracts.Interfaces

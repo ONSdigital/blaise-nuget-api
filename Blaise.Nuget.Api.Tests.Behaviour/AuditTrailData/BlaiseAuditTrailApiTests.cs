@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Api;
+using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Models;
 using NUnit.Framework;
 using System;

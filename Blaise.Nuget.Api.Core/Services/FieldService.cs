@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
 using StatNeth.Blaise.API.DataRecord;
@@ -18,7 +18,7 @@ namespace Blaise.Nuget.Api.Core.Services
         public bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string fieldName)
         {
             var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
-            
+
             return FieldExists(dataModel, fieldName);
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Blaise.Nuget.Api.Api;
@@ -52,7 +52,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
             //cleanup
             _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
-        
+
         [Ignore("Integration")]
         [Test]
         public void Given_A_Questionnaire_Has_A_Field_When_I_Call_FieldExists_Then_The_Expected_Result_Is_Returned()

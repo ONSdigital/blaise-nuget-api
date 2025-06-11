@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Factories;
@@ -135,7 +135,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var roles = new List<IRole> { role1Mock.Object };
 
             _securityServerMock.Setup(s => s.GetRoles()).Returns(roles);
-            
+
             //act
             var result = _sut.RoleExists(_connectionModel, name);
 
@@ -161,7 +161,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.IsNotNull(result);
             Assert.IsFalse(result);
         }
-        
+
         [Test]
         public void Given_I_Call_AddRole_Then_The_Correct_Services_Are_Called()
         {

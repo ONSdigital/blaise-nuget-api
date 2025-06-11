@@ -1,4 +1,4 @@
-﻿using StatNeth.Blaise.API.DataInterface;
+using StatNeth.Blaise.API.DataInterface;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Providers
 {

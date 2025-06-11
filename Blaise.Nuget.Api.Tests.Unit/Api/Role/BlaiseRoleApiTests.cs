@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Interfaces;
@@ -18,7 +18,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         private readonly string _name;
         private readonly string _description;
         private readonly List<string> _permissions;
-        
+
         private IBlaiseRoleApi _sut;
 
         public BlaiseRoleApiTests()
@@ -26,7 +26,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
             _connectionModel = new ConnectionModel();
             _name = "Admin";
             _description = "Test";
-            _permissions = new List<string> {"Permission1"};
+            _permissions = new List<string> { "Permission1" };
         }
 
         [SetUp]

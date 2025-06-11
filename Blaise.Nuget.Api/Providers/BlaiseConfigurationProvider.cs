@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Extensions;
 
@@ -16,7 +16,7 @@ namespace Blaise.Nuget.Api.Providers
                 Binding = ConfigurationExtensions.GetConfigurationItem("ENV_BLAISE_SERVER_BINDING"),
                 Port = ConfigurationExtensions.GetConfigurationItemAsInt("ENV_BLAISE_CONNECTION_PORT"),
                 RemotePort = ConfigurationExtensions.GetConfigurationItemAsInt("ENV_BLAISE_REMOTE_CONNECTION_PORT"),
-                ConnectionExpiresInMinutes = ConnectionExpiresInMinutes
+                ConnectionExpiresInMinutes = ConnectionExpiresInMinutes,
             };
             return connectionModel;
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Exceptions;
@@ -16,7 +16,7 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly IRolePermissionMapper _mapper;
 
         public RoleService(
-            ISecurityManagerFactory securityManagerFactory, 
+            ISecurityManagerFactory securityManagerFactory,
             IRolePermissionMapper mapper)
         {
             _securityManagerFactory = securityManagerFactory;

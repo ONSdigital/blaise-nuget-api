@@ -1,10 +1,10 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
 using System;
-using StatNeth.Blaise.API.AuditTrail;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
+using StatNeth.Blaise.API.AuditTrail;
 
 namespace Blaise.Nuget.Api.Core.Mappers
 {

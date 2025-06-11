@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Core.Mappers;
 using Moq;
 using NUnit.Framework;

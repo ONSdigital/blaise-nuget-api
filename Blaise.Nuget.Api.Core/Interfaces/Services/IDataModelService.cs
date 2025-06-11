@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.Meta;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Services

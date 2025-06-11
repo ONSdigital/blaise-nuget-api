@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Api;
+using Blaise.Nuget.Api.Api;
 using NUnit.Framework;
 using StatNeth.Blaise.API.DataInterface;
 using System.Collections.Generic;

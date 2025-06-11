@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
@@ -17,7 +17,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         }
 
         [Ignore("Integration")]
-        [Test] public void Given_Valid_Arguments_When_I_Call_RemoveCases_Then_Then_All_Cases_Are_Deleted()
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_RemoveCases_Then_Then_All_Cases_Are_Deleted()
         {
             //arrange
             const string serverParkName = "LocalDevelopment";

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Contracts.Models
@@ -17,7 +17,6 @@ namespace Blaise.Nuget.Api.Contracts.Models
             LastUpdated = lastUpdated;
         }
 
-
         public Dictionary<string, string> PrimaryKeyValues { get; set; }
 
         public int Outcome { get; set; }
@@ -30,7 +29,7 @@ namespace Blaise.Nuget.Api.Contracts.Models
         {
             if (PrimaryKeyValues == null || PrimaryKeyValues.Count == 0)
             {
-                throw new ArgumentOutOfRangeException("primaryKeyName","There are no primary keys defined");
+                throw new ArgumentOutOfRangeException("primaryKeyName", "There are no primary keys defined");
             }
 
             if (!PrimaryKeyValues.ContainsKey(primaryKeyName))
