@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Enums;
@@ -69,7 +69,7 @@ namespace Blaise.Nuget.Api.Core.Services
             {
                 QuestionnaireDataEntryType = questionnaireConfiguration.InitialDataEntrySettingsName.ToEnum<QuestionnaireDataEntryType>(),
                 QuestionnaireInterviewType = questionnaireConfiguration.InitialLayoutSetGroupName.ToEnum<QuestionnaireInterviewType>()
-            };  
+            };
         }
 
         public IEnumerable<ISurvey> GetAllQuestionnaires(ConnectionModel connectionModel)

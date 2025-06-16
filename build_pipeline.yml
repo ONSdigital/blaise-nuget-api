@@ -4,7 +4,7 @@ trigger:
     include:
     - main
 pool:
-  vmImage: windows-2019
+  vmImage: windows-latest
 variables:
   solutionPath: '**/*.sln'
   buildPlatform: Any CPU
@@ -43,6 +43,39 @@ stages:
             restoreSolution: $(solutionPath)
             feedsToUse: select
             vstsFeed: fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0
+        - task: UseDotNet@2
+          inputs:
+           packageType: 'sdk'
+           version: '8.0.408'  # Stable LTS
+        
+        - script: dotnet --list-sdks
+          displayName: Check .NET SDK version
+
+        - script: dotnet --list-runtimes
+          displayName: Check .NET runtime versions
+
+          # Confirm dotnet-format version AFTER installation
+        - script: dotnet format --version
+          displayName: Confirm dotnet-format version (after install)
+
+        - task: PowerShell@2
+          displayName: Check code formatting with dotnet-format
+          inputs:
+            targetType: inline
+            script: |
+             cd "$(Build.SourcesDirectory)"
+             dotnet format Blaise.Nuget.Api.sln --verify-no-changes --no-restore --verbosity diagnostic
+             if ($LASTEXITCODE -eq 0) {
+               Write-Host "✅ Code formatting is clean."
+             } elseif ($LASTEXITCODE -eq 2) {
+               Write-Host "⚠️ Formatting or naming violations detected (warnings)."
+               exit 0  # Optional: don't fail build for warnings
+             } else {
+               Write-Host "❌ Formatting check failed due to errors."
+               exit 1
+             }
+
+
         - task: VSBuild@1
           displayName: Build solution
           inputs:

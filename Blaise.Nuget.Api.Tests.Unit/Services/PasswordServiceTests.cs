@@ -1,4 +1,4 @@
-﻿using System.Security;
+using System.Security;
 using Blaise.Nuget.Api.Core.Services;
 using NUnit.Framework;
 

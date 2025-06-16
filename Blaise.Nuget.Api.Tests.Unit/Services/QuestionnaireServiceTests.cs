@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Exceptions;
+using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Core.Services;
 using Moq;
 using NUnit.Framework;
@@ -57,7 +57,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _parkServiceMock = new Mock<IServerParkService>();
             _parkServiceMock.Setup(p => p.GetServerPark(_connectionModel, _serverParkName)).Returns(_serverParkMock.Object);
             _parkServiceMock.Setup(p => p.GetServerParkNames(_connectionModel)).Returns(new List<string> { _serverParkName });
-            
+
             _sut = new QuestionnaireService(_parkServiceMock.Object);
         }
 
@@ -79,7 +79,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         {
             //arrange
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
-            _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(() 
+            _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
                 => new List<ISurvey>().GetEnumerator());
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
             _parkServiceMock.Setup(s => s.GetServerPark(_connectionModel, It.IsAny<string>())).Returns(_serverParkMock.Object);
@@ -99,7 +99,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             const string serverParkName = "ServerParkDoesNotExist";
 
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
-            _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(() 
+            _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
                 => new List<ISurvey>().GetEnumerator());
 
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
@@ -143,7 +143,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         {
             //arrange
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
-            _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(() 
+            _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
                 => new List<ISurvey>().GetEnumerator());
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
 
@@ -162,7 +162,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             const string serverParkName = "ServerParkDoesNotExist";
 
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
-            _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(() 
+            _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
                 => new List<ISurvey>().GetEnumerator());
 
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
@@ -239,7 +239,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
             _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => questionnaireItems.GetEnumerator());
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
-            
+
             //act
             var result = _sut.GetInstallDate(_connectionModel, questionnaireName, _serverParkName);
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Blaise.Nuget.Api.Core.Equality
@@ -22,7 +22,6 @@ namespace Blaise.Nuget.Api.Core.Equality
             return StringComparer.CurrentCultureIgnoreCase.GetHashCode(key.Item1) ^
                    StringComparer.CurrentCultureIgnoreCase.GetHashCode(key.Item2) ^
                    key.Item3.GetHashCode();
-
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Models;
@@ -24,9 +24,9 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         Guid GetQuestionnaireId(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
 
-        void InstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName, 
+        void InstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             string questionnaireFile, IInstallOptions installOptions);
-        
+
         void UninstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName);
 
         QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(ConnectionModel connectionModel, string questionnaireName, string serverParkName);

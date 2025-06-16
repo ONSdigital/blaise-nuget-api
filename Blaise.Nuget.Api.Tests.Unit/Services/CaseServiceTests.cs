@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Mappers;
@@ -172,7 +172,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             _dataRecordServiceMock.Verify(v => v.WriteDataRecord(_connectionModel, _dataRecordMock.Object, _databaseFile), Times.Once);
         }
-        
+
         [Test]
         public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Correct_Services_Are_Called()
         {
@@ -433,7 +433,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //assert
             _dataRecordServiceMock.Verify(v => v.DeleteDataRecords(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
-        
+
         [Test]
         public void Given_A_FieldName_When_I_Call_GetFieldValue_Then_The_Correct_DataModel_Is_Returned()
         {

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
@@ -33,7 +33,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
             //act
-            var result = _sut.GetCase(_primaryKeyValues,  questionnaireName, serverParkName);
+            var result = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
             //arrange
             Assert.AreEqual(_primaryKeyValues, _sut.GetPrimaryKeyValues(result));

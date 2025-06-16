@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
@@ -44,7 +44,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var mode2Mock = new Mock<IMode>();
             mode2Mock.Setup(m => m.Name).Returns(mode2);
 
-            var modelList = new List<IMode> {mode1Mock.Object, mode2Mock.Object};
+            var modelList = new List<IMode> { mode1Mock.Object, mode2Mock.Object };
 
             var modeCollection = new Mock<IModeCollection>();
             modeCollection.Setup(m => m.GetEnumerator()).Returns(modelList.GetEnumerator());

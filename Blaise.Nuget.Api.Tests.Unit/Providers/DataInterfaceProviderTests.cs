@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Core.Interfaces.Factories;
+using Blaise.Nuget.Api.Core.Interfaces.Factories;
 using Blaise.Nuget.Api.Core.Providers;
 using Moq;
 using NUnit.Framework;
@@ -49,7 +49,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
 
             _sut = new DataInterfaceProvider(_dataInterfaceFactoryMock.Object);
         }
-        
+
         [Test]
         public void Given_I_Call_CreateFileDataInterface_Then_The_Correct_DataInterface_Is_Created()
         {
@@ -128,9 +128,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             const string fileName = "OPN.bdix";
             const string dataModelFileName = "OPN.bmix";
             _dataInterfaceMock.Setup(d => d.ConnectionInfo.GetConnectionString(null)).Returns(_connectionString);
-            
+
             //act
-            var result =  _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName, true);
+            var result = _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName, true);
 
             //assert
             Assert.IsNotNull(result);

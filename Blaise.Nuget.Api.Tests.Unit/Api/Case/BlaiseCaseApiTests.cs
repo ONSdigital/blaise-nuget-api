@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Api;
+using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
@@ -31,7 +31,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public BlaiseCaseApiTests()
         {
             _connectionModel = new ConnectionModel();
-            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001"} };
+            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
             _serverParkName = "Park1";
             _questionnaireName = "Questionnaire1";
             _databaseFile = "TestFile";
@@ -659,7 +659,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //arrange
             var fieldData = new Dictionary<string, string>();
 
-            _caseServiceMock.Setup(d => d.CreateNewDataRecord(_connectionModel, It.IsAny<string>(), It.IsAny<Dictionary<string, string>>(),  It.IsAny<Dictionary<string, string>>()));
+            _caseServiceMock.Setup(d => d.CreateNewDataRecord(_connectionModel, It.IsAny<string>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<Dictionary<string, string>>()));
 
             //act
             _sut.CreateCase(_databaseFile, _primaryKeyValues, fieldData);
@@ -1136,7 +1136,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //CompletedFieldExists
             _caseServiceMock.Verify(v => v.FieldExists(dataRecordMock.Object, fieldNameType.FullName()), Times.Once);
         }
-        
+
         [TestCase(FieldNameType.HOut, true)]
         [TestCase(FieldNameType.HOut, false)]
         [TestCase(FieldNameType.Mode, true)]

@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Core.Interfaces.Providers;
+using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Services;
 using Moq;
 using NUnit.Framework;
@@ -110,7 +110,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var primaryKeyFieldMock = new Mock<IField>();
             primaryKeyFieldMock.Setup(f => f.FullName).Returns(primaryKeyName);
             primaryKeyFieldMock.Setup(f => f.DataValue.ValueAsText).Returns(primaryKeyValue);
-            
+
             var fieldList = new List<IField> { primaryKeyFieldMock.Object };
             var fieldCollectionMock = new Mock<IFieldCollection>();
             fieldCollectionMock.Setup(fc => fc.GetEnumerator()).Returns(fieldList.GetEnumerator());

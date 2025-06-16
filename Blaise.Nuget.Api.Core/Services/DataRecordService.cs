@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Providers;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -14,7 +14,7 @@ namespace Blaise.Nuget.Api.Core.Services
         private readonly ILocalDataLinkProvider _localDataLinkProvider;
 
         public DataRecordService(
-            IRemoteDataLinkProvider remoteDataLinkProvider, 
+            IRemoteDataLinkProvider remoteDataLinkProvider,
             ILocalDataLinkProvider localDataLinkProvider)
         {
             _remoteDataLinkProvider = remoteDataLinkProvider;
@@ -104,7 +104,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return GetNumberOfRecords(records);
         }
 
-        public void LockDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName, 
+        public void LockDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName,
             string lockId)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
@@ -112,7 +112,7 @@ namespace Blaise.Nuget.Api.Core.Services
             dataLink.Lock(primaryKey, lockId);
         }
 
-        public void UnLockDataRecord(ConnectionModel connectionModel,IKey primaryKey, string questionnaireName, string serverParkName, 
+        public void UnLockDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName,
             string lockId)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);

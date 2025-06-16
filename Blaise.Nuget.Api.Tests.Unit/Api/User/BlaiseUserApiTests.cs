@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Interfaces;
@@ -53,12 +53,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             Assert.DoesNotThrow(() => new BlaiseUserApi(new ConnectionModel()));
         }
 
- [Test]
+        [Test]
         public void When_I_Call_GetUsers_Then_The_Correct_List_Of_UserDto_Are_Returned()
         {
             //arrange
             var userMock = new Mock<IUser>();
-            var userList = new List<IUser>{userMock.Object};
+            var userList = new List<IUser> { userMock.Object };
 
             _userServiceMock.Setup(u => u.GetUsers(_connectionModel)).Returns(userList);
 
@@ -83,9 +83,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var result = _sut.GetUser(_userName);
 
             //assert
-           Assert.IsNotNull(result);
-           Assert.IsInstanceOf<IUser>(result);
-           Assert.AreSame(userMock.Object, result);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<IUser>(result);
+            Assert.AreSame(userMock.Object, result);
         }
 
         [Test]
@@ -298,7 +298,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             };
 
             const string role = "King";
-            
+
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddUser(_userName, _password, role, serverParkNameList, null));
             Assert.AreEqual("DefaultServerPark", exception.ParamName);
@@ -333,7 +333,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
         [Test]
         public void Given_An_Empty_Password_When_I_Call_UpdatePassword_Then_An_ArgumentException_Is_Thrown()
         {
-             //act && assert
+            //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.UpdatePassword(_userName, string.Empty));
             Assert.AreEqual("A value for the argument 'password' must be supplied", exception.Message);
         }
@@ -413,7 +413,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             _sut.UpdateServerParks(_userName, serverParkNameList, defaultServerPark);
 
             //assert
-           _userServiceMock.Verify(v => v.UpdateServerParks(_connectionModel, _userName, serverParkNameList, defaultServerPark), Times.Once);
+            _userServiceMock.Verify(v => v.UpdateServerParks(_connectionModel, _userName, serverParkNameList, defaultServerPark), Times.Once);
         }
 
         [Test]

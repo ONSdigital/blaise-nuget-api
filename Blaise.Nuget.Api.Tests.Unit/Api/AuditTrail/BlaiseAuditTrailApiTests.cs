@@ -1,4 +1,4 @@
-﻿
+
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -81,7 +81,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         public void Given_Valid_Arguments_When_I_Call_GetAuditTrail_Then_The_Expected_Byte_Array_Is_Returned()
         {
             //arrange
-            var auditTrailDataList = new List<AuditTrailDataModel>();    
+            var auditTrailDataList = new List<AuditTrailDataModel>();
             _auditTrailServiceMock.Setup(at => at.GetAuditTrailData(
                 It.IsAny<ConnectionModel>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(auditTrailDataList);

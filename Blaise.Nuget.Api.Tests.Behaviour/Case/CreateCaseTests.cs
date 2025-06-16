@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
@@ -47,7 +47,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             //arrange
             const string serverParkName = "cma";
             const string questionnaireName = "CMA_Launcher";
-            var primaryKeyValues = new Dictionary<string, string> { {"MainSurveyID", "7bded891-3aa6-41b2-824b-0be514018806" }, { "ID", "900001" } };
+            var primaryKeyValues = new Dictionary<string, string> { { "MainSurveyID", "7bded891-3aa6-41b2-824b-0be514018806" }, { "ID", "900001" } };
 
             var fieldData = new Dictionary<string, string>
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Interfaces;
@@ -35,7 +35,7 @@ namespace Blaise.Nuget.Api.Api
             var configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
-        
+
         public IEnumerable<ISurvey> GetInstalledQuestionnaires(string serverParkName)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
@@ -51,7 +51,7 @@ namespace Blaise.Nuget.Api.Api
             return _catiService.GetInstalledQuestionnaire(_connectionModel, questionnaireName, serverParkName);
         }
 
-        public DayBatchModel CreateDayBatch(string questionnaireName, string serverParkName, 
+        public DayBatchModel CreateDayBatch(string questionnaireName, string serverParkName,
             DateTime dayBatchDate, bool checkForTreatedCases)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");

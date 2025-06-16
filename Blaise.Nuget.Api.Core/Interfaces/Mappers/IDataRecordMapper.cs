@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using StatNeth.Blaise.API.DataRecord;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Mappers

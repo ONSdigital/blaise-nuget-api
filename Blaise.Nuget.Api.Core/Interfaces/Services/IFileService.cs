@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.DataInterface;
 
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
@@ -11,7 +11,8 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
         void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnaireFile,
             string questionnaireName, string serverParkName, int batchSize, bool addAudit = false);
 
-        void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName,
+        void UpdateQuestionnairePackageWithSqlConnection(
+            string questionnaireName,
             string questionnaireFile,
             bool createDatabaseObjects);
 

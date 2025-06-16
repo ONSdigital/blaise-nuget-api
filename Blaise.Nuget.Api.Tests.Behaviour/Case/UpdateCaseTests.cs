@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
@@ -41,7 +41,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 
             existingCase = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
             var fields = _sut.GetRecordDataFields(existingCase);
-            
+
             //arrange
             Assert.AreEqual("0711111111", fields[FieldNameType.TelNo.FullName()]);
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Exceptions;
@@ -261,7 +261,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dayBatchDate = _surveyDay.AddDays(1);
 
             //act && assert
-            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_connectionModel, _questionnaireName, _serverParkName, 
+            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_connectionModel, _questionnaireName, _serverParkName,
                 dayBatchDate, checkForTreatedCases));
             Assert.AreEqual($"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'", exception.Message);
         }
@@ -282,10 +282,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDayBatch(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-           Assert.IsNotNull(result);
-           Assert.IsInstanceOf<DayBatchModel>(result);
-           Assert.AreEqual(dayBatchDate, result.DayBatchDate);
-           Assert.AreEqual(caseIds, result.CaseIds);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<DayBatchModel>(result);
+            Assert.AreEqual(dayBatchDate, result.DayBatchDate);
+            Assert.AreEqual(caseIds, result.CaseIds);
         }
 
         [Test]
