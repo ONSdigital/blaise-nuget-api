@@ -47,7 +47,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
             var result = _sut.GetLastUpdated(dataRecord);
 
             //arrange
-            Assert.AreEqual(lastUpdated, result);
+            Assert.That(result, Is.EqualTo(lastUpdated));
 
             //cleanup
             _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
@@ -67,7 +67,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
             var result = _sut.FieldExists(dataRecord, fieldName);
 
             //arrange
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
     }
 }

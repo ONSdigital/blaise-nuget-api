@@ -61,8 +61,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetServerParkNames(_connectionModel);
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<IEnumerable<string>>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IEnumerable<string>>());
         }
 
         [Test]
@@ -83,23 +83,22 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetServerParkNames(_connectionModel).ToList();
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(2, result.Count);
-            Assert.True(result.Contains("ServerParkName1"));
-            Assert.True(result.Contains("ServerParkName2"));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result.Contains("ServerParkName1"), Is.True);
+            Assert.That(result.Contains("ServerParkName2"), Is.True);
         }
 
         [Test]
         public void Given_No_ServerParks_When_I_Call_GetServerParkNames_Then_A_DataNotFoundException_Is_Thrown()
         {
             //arrange
-            _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
-                => new List<IServerPark>().GetEnumerator());
+            _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => new List<IServerPark>().GetEnumerator());
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetServerParkNames(_connectionModel));
-            Assert.AreEqual("No server parks found", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("No server parks found"));
         }
 
         [TestCase("TEL")]
@@ -112,8 +111,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.ServerParkExists(_connectionModel, serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -126,8 +125,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.ServerParkExists(_connectionModel, serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -137,9 +136,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetServerPark(_connectionModel, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<IServerPark>(result);
-            Assert.AreSame(_serverParkMock.Object, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IServerPark>());
+            Assert.That(result, Is.SameAs(_serverParkMock.Object));
         }
 
         [Test]
@@ -150,7 +149,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetServerPark(_connectionModel, serverParkName));
-            Assert.AreEqual($"Server park '{serverParkName}' not found", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo($"Server park '{serverParkName}' not found"));
         }
 
         [Test]
@@ -168,22 +167,21 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetServerParks(_connectionModel).ToList();
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<IEnumerable<IServerPark>>(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(2, result.Count);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IEnumerable<IServerPark>>());
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Count, Is.EqualTo(2));
         }
 
         [Test]
         public void Given_No_ServerParks_When_I_Call_GetServerParks_Then_A_Data_Not_Found_Exception_Is_Thrown()
         {
             //arrange
-            _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
-                => new List<IServerPark>().GetEnumerator());
+            _serverParkCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => new List<IServerPark>().GetEnumerator());
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetServerParks(_connectionModel));
-            Assert.AreEqual("No server parks found", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("No server parks found"));
         }
     }
 }

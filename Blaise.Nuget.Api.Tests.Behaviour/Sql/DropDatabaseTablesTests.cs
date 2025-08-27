@@ -23,8 +23,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
             var result = _sut.DropQuestionnaireTables(questionnaireName);
 
             //Assert
-            Assert.IsTrue(result, "Expected tables were dropped given a valid questionnaire name.");
-
+            Assert.That(result, Is.True, "Expected tables were dropped given a valid questionnaire name.");
         }
 
         [Ignore("Integration")]
@@ -38,7 +37,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
             var result = _sut.DropQuestionnaireTables(questionnaireName);
 
             //Assert
-            Assert.IsTrue(result, "Expected successful execution for a nonexistent questionnaire name.");
+            Assert.That(result, Is.True, "Expected successful execution for a nonexistent questionnaire name.");
         }
     }
 }

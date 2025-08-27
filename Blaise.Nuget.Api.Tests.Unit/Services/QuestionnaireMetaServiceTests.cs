@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Models;
@@ -59,11 +58,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireModes(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(2, result.Count);
-            Assert.Contains("CAWI", result);
-            Assert.Contains("CATI", result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result, Does.Contain("CAWI"));
+            Assert.That(result, Does.Contain("CATI"));
         }
 
         [Test]
@@ -77,8 +76,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireModes(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsEmpty(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Empty);
         }
 
         [Test]
@@ -101,8 +100,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<DataEntrySettingsModel>>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
         }
 
         [Test]
@@ -149,27 +148,27 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<DataEntrySettingsModel>>(result);
-            Assert.AreEqual(2, result.Count);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
+            Assert.That(result.Count, Is.EqualTo(2));
 
             var dataEntrySettings1 = result.FirstOrDefault(n => n.Type == dataEntrySettings1Name);
-            Assert.IsNotNull(dataEntrySettings1);
-            Assert.AreEqual(dataEntrySettings1Timeout, dataEntrySettings1.SessionTimeout);
-            Assert.True(dataEntrySettings1.SaveSessionOnTimeout);
-            Assert.False(dataEntrySettings1.SaveSessionOnQuit);
-            Assert.True(dataEntrySettings1.DeleteSessionOnTimeout);
-            Assert.False(dataEntrySettings1.DeleteSessionOnQuit);
-            Assert.True(dataEntrySettings1.ApplyRecordLocking);
+            Assert.That(dataEntrySettings1, Is.Not.Null);
+            Assert.That(dataEntrySettings1.SessionTimeout, Is.EqualTo(dataEntrySettings1Timeout));
+            Assert.That(dataEntrySettings1.SaveSessionOnTimeout, Is.True);
+            Assert.That(dataEntrySettings1.SaveSessionOnQuit, Is.False);
+            Assert.That(dataEntrySettings1.DeleteSessionOnTimeout, Is.True);
+            Assert.That(dataEntrySettings1.DeleteSessionOnQuit, Is.False);
+            Assert.That(dataEntrySettings1.ApplyRecordLocking, Is.True);
 
             var dataEntrySettings2 = result.FirstOrDefault(n => n.Type == dataEntrySettings2Name);
-            Assert.IsNotNull(dataEntrySettings2);
-            Assert.AreEqual(dataEntrySettings2Timeout, dataEntrySettings2.SessionTimeout);
-            Assert.False(dataEntrySettings2.SaveSessionOnTimeout);
-            Assert.True(dataEntrySettings2.SaveSessionOnQuit);
-            Assert.False(dataEntrySettings2.DeleteSessionOnTimeout);
-            Assert.True(dataEntrySettings2.DeleteSessionOnQuit);
-            Assert.False(dataEntrySettings2.ApplyRecordLocking);
+            Assert.That(dataEntrySettings2, Is.Not.Null);
+            Assert.That(dataEntrySettings2.SessionTimeout, Is.EqualTo(dataEntrySettings2Timeout));
+            Assert.That(dataEntrySettings2.SaveSessionOnTimeout, Is.False);
+            Assert.That(dataEntrySettings2.SaveSessionOnQuit, Is.True);
+            Assert.That(dataEntrySettings2.DeleteSessionOnTimeout, Is.False);
+            Assert.That(dataEntrySettings2.DeleteSessionOnQuit, Is.True);
+            Assert.That(dataEntrySettings2.ApplyRecordLocking, Is.False);
         }
 
         [Test]
@@ -192,9 +191,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<DataEntrySettingsModel>>(result);
-            Assert.IsEmpty(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
+            Assert.That(result, Is.Empty);
         }
     }
 }

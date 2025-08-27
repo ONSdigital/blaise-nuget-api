@@ -34,8 +34,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
             var result = _sut.ValidateUser(_userName, _password);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.True(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.True);
         }
 
         [Ignore("Integration")]
@@ -46,8 +46,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
             var result = _sut.ValidateUser("meh", _password);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.False(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.False);
         }
 
         [Ignore("Integration")]
@@ -58,21 +58,20 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
             var result = _sut.ValidateUser(_userName, "meh");
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.False(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.False);
         }
 
         [Ignore("Integration")]
         [Test]
         public void Given_An_Invalid_User_When_I_Call_ValidateUser_Then_False_Is_Returned()
         {
-
             //act
             var result = _sut.ValidateUser("meh", "meh");
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.False(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.False);
         }
 
         [Ignore("Integration")]
@@ -95,12 +94,12 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
             var result = _sut.GetUser(userName);
 
             //assert
-            Assert.AreEqual(userName, result.Name);
-            Assert.AreEqual(2, result.ServerParks.Count);
+            Assert.That(result.Name, Is.EqualTo(userName));
+            Assert.That(result.ServerParks.Count, Is.EqualTo(2));
 
             foreach (var serverPark in serverParkList)
             {
-                Assert.IsTrue(result.ServerParks.Contains(serverPark));
+                Assert.That(result.ServerParks, Does.Contain(serverPark));
             }
 
             //clear down

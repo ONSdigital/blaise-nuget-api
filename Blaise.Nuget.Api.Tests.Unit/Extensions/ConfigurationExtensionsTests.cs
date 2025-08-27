@@ -16,7 +16,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Extensions
             var result = ConfigurationExtensions.GetVariableAsInt(variable, variableName);
 
             //assert
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [TestCase("one")]
@@ -28,7 +28,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Extensions
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => ConfigurationExtensions.GetVariableAsInt(invalidArgument, variableName));
-            Assert.AreEqual($"A int value for the argument '{variableName}' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo($"A int value for the argument '{variableName}' must be supplied"));
         }
     }
 }

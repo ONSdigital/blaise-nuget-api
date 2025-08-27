@@ -67,8 +67,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.KeyExists(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<bool>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<bool>());
         }
 
         [TestCase(true)]
@@ -82,8 +82,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.KeyExists(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.NotNull(result);
-            Assert.AreEqual(keyExists, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(keyExists));
         }
 
         [Test]
@@ -123,13 +123,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _dataRecordMock.Setup(d => d.Keys).Returns(mockKeyCollection.Object);
 
-
             //act
             var result = _sut.GetPrimaryKeyValues(_dataRecordMock.Object);
 
             //assert
-            Assert.NotNull(result);
-            Assert.True(result[primaryKeyName] == expectedValue);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result[primaryKeyName], Is.EqualTo(expectedValue));
         }
 
         [Test]
@@ -156,14 +155,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _dataRecordMock.Setup(d => d.Keys).Returns(mockKeyCollection.Object);
 
-
             //act
             var result = _sut.GetPrimaryKeyValues(_dataRecordMock.Object);
 
             //assert
-            Assert.NotNull(result);
-            Assert.True(result["QID.Serial_Number"] == "900001");
-            Assert.True(result["MainSurveyID"] == "6B29FC40-CA47-1067-B31D");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result["QID.Serial_Number"], Is.EqualTo("900001"));
+            Assert.That(result["MainSurveyID"], Is.EqualTo("6B29FC40-CA47-1067-B31D"));
         }
     }
 }

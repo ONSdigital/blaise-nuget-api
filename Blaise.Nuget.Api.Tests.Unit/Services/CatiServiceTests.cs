@@ -126,9 +126,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetInstalledQuestionnaires(_connectionModel, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<IEnumerable<ISurvey>>(result);
-            Assert.AreEqual(2, result.Count());
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IEnumerable<ISurvey>>());
+            Assert.That(result.Count(), Is.EqualTo(2));
         }
 
         [Test]
@@ -143,9 +143,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetInstalledQuestionnaires(_connectionModel, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<IEnumerable<ISurvey>>(result);
-            Assert.IsEmpty(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IEnumerable<ISurvey>>());
+            Assert.That(result, Is.Empty);
         }
 
         [Test]
@@ -201,10 +201,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetInstalledQuestionnaire(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<ISurvey>(result);
-            Assert.AreSame(questionnaireMock.Object, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ISurvey>());
+            Assert.That(result, Is.SameAs(questionnaireMock.Object));
         }
 
         [Test]
@@ -227,7 +226,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetInstalledQuestionnaire(_connectionModel, _questionnaireName, _serverParkName));
-            Assert.AreEqual($"No questionnaire called '{_questionnaireName}' was found on server park '{_serverParkName}'", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo($"No questionnaire called '{_questionnaireName}' was found on server park '{_serverParkName}'"));
         }
 
         [TestCase(true)]
@@ -263,7 +262,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_connectionModel, _questionnaireName, _serverParkName,
                 dayBatchDate, checkForTreatedCases));
-            Assert.AreEqual($"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo($"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'"));
         }
 
         [Test]
@@ -282,10 +281,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDayBatch(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<DayBatchModel>(result);
-            Assert.AreEqual(dayBatchDate, result.DayBatchDate);
-            Assert.AreEqual(caseIds, result.CaseIds);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<DayBatchModel>());
+            Assert.That(result.DayBatchDate, Is.EqualTo(dayBatchDate));
+            Assert.That(result.CaseIds, Is.EqualTo(caseIds));
         }
 
         [Test]
@@ -301,7 +300,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDayBatch(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]

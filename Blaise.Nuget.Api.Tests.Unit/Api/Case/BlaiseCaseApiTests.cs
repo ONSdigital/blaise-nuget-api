@@ -52,7 +52,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //act && assert
             // ReSharper disable once ObjectCreationAsStatement
-            Assert.DoesNotThrow(() => new BlaiseCaseApi());
+            Assert.That(() => new BlaiseCaseApi(), Throws.Nothing);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //act && assert
             // ReSharper disable once ObjectCreationAsStatement
-            Assert.DoesNotThrow(() => new BlaiseCaseApi(new ConnectionModel()));
+            Assert.That(() => new BlaiseCaseApi(new ConnectionModel()), Throws.Nothing);
         }
 
         [Test]
@@ -94,8 +94,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.CaseExists(_primaryKeyValues, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(caseExists, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(caseExists));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseExists(null, _questionnaireName, _serverParkName));
-            Assert.AreEqual("The argument 'primaryKeyValues' must be supplied", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("The argument 'primaryKeyValues' must be supplied"));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.CaseExists(_primaryKeyValues, string.Empty,
                 _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseExists(_primaryKeyValues, null,
                 _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.CaseExists(_primaryKeyValues,
                 _questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -169,8 +169,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetPrimaryKeyValues(dataRecordMock.Object);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(_primaryKeyValues, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(_primaryKeyValues));
         }
 
         [Test]
@@ -1193,8 +1193,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.FieldExists(dataRecordMock.Object, fieldName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(fieldExists, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(fieldExists));
         }
 
         [Test]

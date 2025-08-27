@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
@@ -34,7 +33,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             _sut.CreateCase(primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
             //assert
-            Assert.IsTrue(_sut.CaseExists(primaryKeyValues, questionnaireName, serverParkName));
+            Assert.That(_sut.CaseExists(primaryKeyValues, questionnaireName, serverParkName), Is.True);
 
             //cleanup
             _sut.RemoveCase(primaryKeyValues, questionnaireName, serverParkName);
@@ -59,7 +58,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             _sut.CreateCase(primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
             //assert
-            Assert.IsTrue(_sut.CaseExists(primaryKeyValues, questionnaireName, serverParkName));
+            Assert.That(_sut.CaseExists(primaryKeyValues, questionnaireName, serverParkName), Is.True);
 
             //cleanup
             _sut.RemoveCase(primaryKeyValues, questionnaireName, serverParkName);

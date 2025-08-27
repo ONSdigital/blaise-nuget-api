@@ -1,4 +1,3 @@
-
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -38,7 +37,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         {
             //act && assert
             // ReSharper disable once ObjectCreationAsStatement
-            Assert.DoesNotThrow(() => new BlaiseAuditTrailApi());
+            Assert.That(() => new BlaiseAuditTrailApi(), Throws.Nothing);
         }
 
         [Test]
@@ -46,7 +45,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         {
             //act && assert
             // ReSharper disable once ObjectCreationAsStatement
-            Assert.DoesNotThrow(() => new BlaiseAuditTrailApi(new ConnectionModel()));
+            Assert.That(() => new BlaiseAuditTrailApi(new ConnectionModel()), Throws.Nothing);
         }
 
         [Test]
@@ -73,8 +72,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
             var result = _sut.GetAuditTrail(_questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<AuditTrailDataModel>>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<List<AuditTrailDataModel>>());
         }
 
         [Test]
@@ -90,8 +89,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
             var result = _sut.GetAuditTrail(_questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreSame(auditTrailDataList, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.SameAs(auditTrailDataList));
         }
 
         [Test]
@@ -99,7 +98,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetAuditTrail(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -107,7 +106,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetAuditTrail(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -115,7 +114,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetAuditTrail(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -123,7 +122,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetAuditTrail(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
     }
 }

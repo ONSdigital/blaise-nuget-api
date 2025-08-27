@@ -21,8 +21,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.GetPrimaryKeyValue(primaryKeyName);
 
             // assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(primaryKeyValue, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(primaryKeyValue));
         }
 
         [Test]
@@ -38,8 +38,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.PrimaryKey;
 
             // assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(primaryKeyValue, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(primaryKeyValue));
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
 
             //act && assert
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => caseStatusModel.GetPrimaryKeyValue(primaryKeyName));
-            Assert.AreEqual("There are no primary keys defined\r\nParameter name: primaryKeyName", exception?.Message);
+            Assert.That(exception?.Message, Is.EqualTo("There are no primary keys defined\r\nParameter name: primaryKeyName"));
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => caseStatusModel.GetPrimaryKeyValue(primaryKeyName));
-            Assert.AreEqual($"The primary key name '{primaryKeyName}' does not exist in the primaryKey object", exception?.Message);
+            Assert.That(exception?.Message, Is.EqualTo($"The primary key name '{primaryKeyName}' does not exist in the primaryKey object"));
         }
 
         [Test]
@@ -79,8 +79,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.PrimaryKey;
 
             // assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(caseId, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(caseId));
         }
     }
 }

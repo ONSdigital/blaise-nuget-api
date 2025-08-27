@@ -26,14 +26,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.GetConnectionModel();
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<ConnectionModel>(result);
-            Assert.AreEqual("BlaiseServerHostNameTest", result.ServerName);
-            Assert.AreEqual("BlaiseServerUserNameTest", result.UserName);
-            Assert.AreEqual("BlaiseServerPasswordTest", result.Password);
-            Assert.AreEqual("BlaiseServerBindingTest", result.Binding);
-            Assert.AreEqual(10, result.Port);
-            Assert.AreEqual(20, result.RemotePort);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ConnectionModel>());
+            Assert.That(result.ServerName, Is.EqualTo("BlaiseServerHostNameTest"));
+            Assert.That(result.UserName, Is.EqualTo("BlaiseServerUserNameTest"));
+            Assert.That(result.Password, Is.EqualTo("BlaiseServerPasswordTest"));
+            Assert.That(result.Binding, Is.EqualTo("BlaiseServerBindingTest"));
+            Assert.That(result.Port, Is.EqualTo(10));
+            Assert.That(result.RemotePort, Is.EqualTo(20));
         }
 
         [Test]
@@ -43,8 +43,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.ConnectionExpiresInMinutes;
 
             //assert
-            Assert.NotNull(result);
-            Assert.AreEqual(60, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(60));
         }
 
         [Test]
@@ -54,8 +54,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.DatabaseConnectionString;
 
             //assert
-            Assert.NotNull(result);
-            Assert.AreEqual("user id=blaise;server=0.0.0.0;database=blaise;password=password123;defaultcommandtimeout=500;connectiontimeout=500", result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo("user id=blaise;server=0.0.0.0;database=blaise;password=password123;defaultcommandtimeout=500;connectiontimeout=500"));
         }
     }
 }
