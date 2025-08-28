@@ -92,7 +92,6 @@ stages:
               !**\*TestAdapter.dll
               !**\obj\**
             searchFolder: $(System.DefaultWorkingDirectory)
-            runInParallel: false
         - task: CopyFiles@2
           displayName: Copy artifact
           inputs:
