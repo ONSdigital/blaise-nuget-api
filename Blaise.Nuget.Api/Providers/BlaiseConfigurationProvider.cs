@@ -6,6 +6,7 @@ namespace Blaise.Nuget.Api.Providers
 {
     public class BlaiseConfigurationProvider : IBlaiseConfigurationProvider
     {
+        /// <inheritdoc/>
         public ConnectionModel GetConnectionModel()
         {
             var connectionModel = new ConnectionModel
@@ -21,12 +22,14 @@ namespace Blaise.Nuget.Api.Providers
             return connectionModel;
         }
 
+        /// <inheritdoc/>
         public int ConnectionExpiresInMinutes => ConfigurationExtensions.GetVariableAsInt(
             ConfigurationExtensions.GetConfigurationItem("ENV_CONNECTION_EXPIRES_IN_MINUTES") ?? "30",
             "ENV_CONNECTION_EXPIRES_IN_MINUTES");
 
         public string CommandTimeout => ConfigurationExtensions.GetConfigurationItem("COMMAND_TIMEOUT") ?? "300";
 
+        /// <inheritdoc/>
         public string DatabaseConnectionString => $"{ConfigurationExtensions.GetConfigurationItem("ENV_DB_CONNECTIONSTRING")};defaultcommandtimeout={CommandTimeout};connectiontimeout={CommandTimeout}";
     }
 }

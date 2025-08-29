@@ -29,6 +29,7 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
+        /// <inheritdoc/>
         public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile,
             bool auditOption = false)
         {
@@ -39,6 +40,7 @@ namespace Blaise.Nuget.Api.Api
             _fileService.UpdateQuestionnaireFileWithData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, auditOption);
         }
 
+        /// <inheritdoc/>
         public void UpdateQuestionnaireFileWithBatchedData(string serverParkName, string questionnaireName, string questionnaireFile,
             int batchSize, bool auditOption = false)
         {
@@ -49,6 +51,7 @@ namespace Blaise.Nuget.Api.Api
             _fileService.UpdateQuestionnaireFileWithBatchedData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, batchSize, auditOption);
         }
 
+        /// <inheritdoc/>
         public void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile, bool overwriteExistingData = true)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -57,6 +60,7 @@ namespace Blaise.Nuget.Api.Api
             _fileService.UpdateQuestionnairePackageWithSqlConnection(questionnaireName, questionnaireFile, overwriteExistingData);
         }
 
+        /// <inheritdoc/>
         public void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName)
         {
             fileName.ThrowExceptionIfNullOrEmpty("fileName");

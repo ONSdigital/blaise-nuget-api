@@ -18,6 +18,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _remoteDataLinkProvider = remoteDataLinkProvider;
         }
 
+        /// <inheritdoc/>
         public bool KeyExists(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
@@ -25,16 +26,19 @@ namespace Blaise.Nuget.Api.Core.Services
             return dataLink.KeyExists(key);
         }
 
+        /// <inheritdoc/>
         public IKey GetKey(IDatamodel dataModel, string keyName)
         {
             return DataRecordManager.GetKey(dataModel, keyName);
         }
 
+        /// <inheritdoc/>
         public IKey GetPrimaryKey(IDatamodel dataModel)
         {
             return DataRecordManager.GetKey(dataModel, PrimaryKeyName);
         }
 
+        /// <inheritdoc/>
         public Dictionary<string, string> GetPrimaryKeyValues(IDataRecord dataRecord)
         {
             var primaryKeyValues = new Dictionary<string, string>();
@@ -47,6 +51,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return primaryKeyValues;
         }
 
+        /// <inheritdoc/>
         public void AssignPrimaryKeyValues(IKey key, Dictionary<string, string> primaryKeyValues)
         {
             foreach (var item in primaryKeyValues)

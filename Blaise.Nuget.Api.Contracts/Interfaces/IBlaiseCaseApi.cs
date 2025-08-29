@@ -9,7 +9,9 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
     public interface IBlaiseCaseApi
     {
-        bool CaseExists(Dictionary<string, string> primaryKeyValues, string questionnaireName,
+        bool CaseExists(
+            Dictionary<string, string> primaryKeyValues,
+            string questionnaireName,
             string serverParkName);
 
         Dictionary<string, string> GetPrimaryKeyValues(IDataRecord dataRecord);

@@ -19,6 +19,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _localDataLinkProvider = localDataLinkProvider;
         }
 
+        /// <inheritdoc/>
         public IDatamodel GetDataModel(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
@@ -31,6 +32,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return dataLink.Datamodel;
         }
 
+        /// <inheritdoc/>
         public IDatamodel GetDataModel(ConnectionModel connectionModel, string databaseFile)
         {
             var dataLink = _localDataLinkProvider.GetDataLink(connectionModel, databaseFile);

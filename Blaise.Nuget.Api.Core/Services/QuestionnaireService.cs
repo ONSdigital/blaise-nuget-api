@@ -19,6 +19,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _parkService = parkService;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<string> GetQuestionnaireNames(ConnectionModel connectionModel, string serverParkName)
         {
             var questionnaires = GetQuestionnaires(connectionModel, serverParkName);
@@ -26,6 +27,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaires.Select(sp => sp.Name);
         }
 
+        /// <inheritdoc/>
         public bool QuestionnaireExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var questionnaireNames = GetQuestionnaireNames(connectionModel, serverParkName);
@@ -33,6 +35,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaireNames.Any(sp => sp.Equals(questionnaireName, StringComparison.InvariantCultureIgnoreCase));
         }
 
+        /// <inheritdoc/>
         public IEnumerable<ISurvey> GetQuestionnaires(ConnectionModel connectionModel, string serverParkName)
         {
             var serverPark = _parkService.GetServerPark(connectionModel, serverParkName);
@@ -40,6 +43,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return serverPark.Surveys;
         }
 
+        /// <inheritdoc/>
         public ISurvey GetQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var questionnaires = GetQuestionnaires(connectionModel, serverParkName);
@@ -47,6 +51,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return GetQuestionnaire(questionnaires, questionnaireName);
         }
 
+        /// <inheritdoc/>
         public DateTime GetInstallDate(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var questionnaire = GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
@@ -54,6 +59,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaire.InstallDate;
         }
 
+        /// <inheritdoc/>
         public QuestionnaireStatusType GetQuestionnaireStatus(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var questionnaire = GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
@@ -61,6 +67,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaire.Status.ToEnum<QuestionnaireStatusType>();
         }
 
+        /// <inheritdoc/>
         public QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var questionnaireConfiguration = GetQuestionnaireConfiguration(connectionModel, questionnaireName, serverParkName);
@@ -72,6 +79,7 @@ namespace Blaise.Nuget.Api.Core.Services
             };
         }
 
+        /// <inheritdoc/>
         public IEnumerable<ISurvey> GetAllQuestionnaires(ConnectionModel connectionModel)
         {
             var questionnaireList = new List<ISurvey>();
@@ -86,6 +94,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaireList;
         }
 
+        /// <inheritdoc/>
         public Guid GetQuestionnaireId(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var serverPark = _parkService.GetServerPark(connectionModel, serverParkName);
@@ -100,6 +109,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return configuration.MetaFileName;
         }
 
+        /// <inheritdoc/>
         public void InstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
             string questionnaireFile, IInstallOptions installOptions)
         {
@@ -113,6 +123,7 @@ namespace Blaise.Nuget.Api.Core.Services
             serverPark.InstallSurvey(questionnaireFile, installOptions);
         }
 
+        /// <inheritdoc/>
         public void UninstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var serverPark = _parkService.GetServerPark(connectionModel, serverParkName);

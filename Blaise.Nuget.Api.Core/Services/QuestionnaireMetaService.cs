@@ -15,6 +15,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataModelService = dataModelService;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<string> GetQuestionnaireModes(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName) as IDatamodel2;
@@ -22,6 +23,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return dataModel == null ? new List<string>() : dataModel.Modes.Select(dm => dm.Name);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<DataEntrySettingsModel> GetQuestionnaireDataEntrySettings(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);

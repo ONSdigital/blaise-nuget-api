@@ -10,6 +10,7 @@ namespace Blaise.Nuget.Api.Core.Mappers
 {
     public class AuditTrailDataMapper : IAuditTrailDataMapper
     {
+        /// <inheritdoc/>
         public AuditTrailDataModel MapAuditTrailDataModel(string keyValue, Guid sessionId, IEventInfo eventInfo)
         {
             return new AuditTrailDataModel
@@ -21,6 +22,7 @@ namespace Blaise.Nuget.Api.Core.Mappers
             };
         }
 
+        /// <inheritdoc/>
         public string MapAuditTrailCsvContent(List<AuditTrailDataModel> listOfEvents)
         {
             var csvContent = new StringBuilder();
