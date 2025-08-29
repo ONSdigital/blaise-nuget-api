@@ -19,7 +19,6 @@ namespace Blaise.Nuget.Api.Core.Services
             _parkService = parkService;
         }
 
-        /// <inheritdoc/>
         public IEnumerable<string> GetQuestionnaireNames(ConnectionModel connectionModel, string serverParkName)
         {
             var questionnaires = GetQuestionnaires(connectionModel, serverParkName);
@@ -27,15 +26,16 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaires.Select(sp => sp.Name);
         }
 
-        /// <inheritdoc/>
-        public bool QuestionnaireExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public bool QuestionnaireExists(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName)
         {
             var questionnaireNames = GetQuestionnaireNames(connectionModel, serverParkName);
 
             return questionnaireNames.Any(sp => sp.Equals(questionnaireName, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        /// <inheritdoc/>
         public IEnumerable<ISurvey> GetQuestionnaires(ConnectionModel connectionModel, string serverParkName)
         {
             var serverPark = _parkService.GetServerPark(connectionModel, serverParkName);
@@ -43,32 +43,40 @@ namespace Blaise.Nuget.Api.Core.Services
             return serverPark.Surveys;
         }
 
-        /// <inheritdoc/>
-        public ISurvey GetQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public ISurvey GetQuestionnaire(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName)
         {
             var questionnaires = GetQuestionnaires(connectionModel, serverParkName);
 
             return GetQuestionnaire(questionnaires, questionnaireName);
         }
 
-        /// <inheritdoc/>
-        public DateTime GetInstallDate(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public DateTime GetInstallDate(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName)
         {
             var questionnaire = GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
 
             return questionnaire.InstallDate;
         }
 
-        /// <inheritdoc/>
-        public QuestionnaireStatusType GetQuestionnaireStatus(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public QuestionnaireStatusType GetQuestionnaireStatus(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName)
         {
             var questionnaire = GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
 
             return questionnaire.Status.ToEnum<QuestionnaireStatusType>();
         }
 
-        /// <inheritdoc/>
-        public QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        public QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName)
         {
             var questionnaireConfiguration = GetQuestionnaireConfiguration(connectionModel, questionnaireName, serverParkName);
 
@@ -79,7 +87,6 @@ namespace Blaise.Nuget.Api.Core.Services
             };
         }
 
-        /// <inheritdoc/>
         public IEnumerable<ISurvey> GetAllQuestionnaires(ConnectionModel connectionModel)
         {
             var questionnaireList = new List<ISurvey>();
@@ -94,7 +101,6 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaireList;
         }
 
-        /// <inheritdoc/>
         public Guid GetQuestionnaireId(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var serverPark = _parkService.GetServerPark(connectionModel, serverParkName);
@@ -109,9 +115,12 @@ namespace Blaise.Nuget.Api.Core.Services
             return configuration.MetaFileName;
         }
 
-        /// <inheritdoc/>
-        public void InstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
-            string questionnaireFile, IInstallOptions installOptions)
+        public void InstallQuestionnaire(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName,
+            string questionnaireFile,
+            IInstallOptions installOptions)
         {
             var serverPark = _parkService.GetServerPark(connectionModel, serverParkName) as IServerPark6;
 
@@ -123,13 +132,24 @@ namespace Blaise.Nuget.Api.Core.Services
             serverPark.InstallSurvey(questionnaireFile, installOptions);
         }
 
-        /// <inheritdoc/>
         public void UninstallQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var serverPark = _parkService.GetServerPark(connectionModel, serverParkName);
             var questionnaireId = GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
 
             serverPark.RemoveSurvey(questionnaireId);
+        }
+
+        private static IConfiguration GetQuestionnaireConfiguration(ISurvey questionnaire)
+        {
+            var configuration = questionnaire.Configuration.Configurations.FirstOrDefault();
+
+            if (configuration == null)
+            {
+                throw new NullReferenceException($"There was no configuration found for questionnaire '{questionnaire.Name}'");
+            }
+
+            return configuration;
         }
 
         private static Guid GetQuestionnaireId(string questionnaireName, IServerPark serverPark)
@@ -156,23 +176,14 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaire;
         }
 
-        private IConfiguration GetQuestionnaireConfiguration(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
+        private IConfiguration GetQuestionnaireConfiguration(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName)
         {
             var questionnaire = GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
 
             return GetQuestionnaireConfiguration(questionnaire);
-        }
-
-        private static IConfiguration GetQuestionnaireConfiguration(ISurvey questionnaire)
-        {
-            var configuration = questionnaire.Configuration.Configurations.FirstOrDefault();
-
-            if (configuration == null)
-            {
-                throw new NullReferenceException($"There was no configuration found for questionnaire '{questionnaire.Name}'");
-            }
-
-            return configuration;
         }
     }
 }

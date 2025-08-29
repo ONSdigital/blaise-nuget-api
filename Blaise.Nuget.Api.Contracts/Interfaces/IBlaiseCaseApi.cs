@@ -22,27 +22,43 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IDataSet GetFilteredCases(string questionnaireName, string serverParkName, string filter);
 
-        IDataRecord GetCase(Dictionary<string, string> primaryKeyValues, string questionnaireName,
+        IDataRecord GetCase(
+            Dictionary<string, string> primaryKeyValues,
+            string questionnaireName,
             string serverParkName);
 
         IDataRecord GetCase(Dictionary<string, string> primaryKeyValues, string databaseFile);
 
         void CreateCases(List<CaseModel> cases, string questionnaireName, string serverParkName);
 
-        void CreateCase(Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData,
-            string questionnaireName, string serverParkName);
+        void CreateCase(
+            Dictionary<string, string> primaryKeyValues,
+            Dictionary<string, string> fieldData,
+            string questionnaireName,
+            string serverParkName);
 
         void CreateCase(IDataRecord dataRecord, string questionnaireName, string serverParkName);
 
-        void CreateCase(string databaseFile, Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData);
+        void CreateCase(
+            string databaseFile,
+            Dictionary<string, string> primaryKeyValues,
+            Dictionary<string, string> fieldData);
 
-        void UpdateCase(Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData,
-            string questionnaireName, string serverParkName);
+        void UpdateCase(
+            Dictionary<string, string> primaryKeyValues,
+            Dictionary<string, string> fieldData,
+            string questionnaireName,
+            string serverParkName);
 
-        void UpdateCase(IDataRecord dataRecord, Dictionary<string, string> fieldData,
-            string questionnaireName, string serverParkName);
+        void UpdateCase(
+            IDataRecord dataRecord,
+            Dictionary<string, string> fieldData,
+            string questionnaireName,
+            string serverParkName);
 
-        void UpdateCase(IDataRecord dataRecord, Dictionary<string, string> fieldData,
+        void UpdateCase(
+            IDataRecord dataRecord,
+            Dictionary<string, string> fieldData,
             string databaseFile);
 
         bool FieldExists(string questionnaireName, string serverParkName, FieldNameType fieldNameType);
@@ -57,10 +73,15 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IDataValue GetFieldValue(IDataRecord dataRecord, string fieldName);
 
-        IDataValue GetFieldValue(Dictionary<string, string> primaryKeyValues, string questionnaireName,
-            string serverParkName, FieldNameType fieldNameType);
+        IDataValue GetFieldValue(
+            Dictionary<string, string> primaryKeyValues,
+            string questionnaireName,
+            string serverParkName,
+            FieldNameType fieldNameType);
 
-        void RemoveCase(Dictionary<string, string> primaryKeyValues, string questionnaireName,
+        void RemoveCase(
+            Dictionary<string, string> primaryKeyValues,
+            string questionnaireName,
             string serverParkName);
 
         void RemoveCases(string questionnaireName, string serverParkName);
@@ -73,13 +94,22 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         int GetOutcomeCode(IDataRecord dataRecord);
 
-        void LockDataRecord(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName,
+        void LockDataRecord(
+            Dictionary<string, string> primaryKeyValues,
+            string questionnaireName,
+            string serverParkName,
             string lockId);
 
-        void UnLockDataRecord(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName,
-           string lockId);
+        void UnLockDataRecord(
+            Dictionary<string, string> primaryKeyValues,
+            string questionnaireName,
+            string serverParkName,
+            string lockId);
 
-        bool DataRecordIsLocked(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName);
+        bool DataRecordIsLocked(
+            Dictionary<string, string> primaryKeyValues,
+            string questionnaireName,
+            string serverParkName);
 
         DateTime? GetLastUpdated(IDataRecord dataRecord);
 
@@ -93,6 +123,9 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         IEnumerable<CaseStatusModel> GetCaseStatusModelList(string databaseFile);
 
-        CaseModel GetCaseModel(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName);
+        CaseModel GetCaseModel(
+            Dictionary<string, string> primaryKeyValues,
+            string questionnaireName,
+            string serverParkName);
     }
 }

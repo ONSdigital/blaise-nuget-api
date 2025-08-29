@@ -36,7 +36,6 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        /// <inheritdoc/>
         public IEnumerable<ISurvey> GetInstalledQuestionnaires(string serverParkName)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
@@ -44,7 +43,6 @@ namespace Blaise.Nuget.Api.Api
             return _catiService.GetInstalledQuestionnaires(_connectionModel, serverParkName);
         }
 
-        /// <inheritdoc/>
         public ISurvey GetInstalledQuestionnaire(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -53,7 +51,6 @@ namespace Blaise.Nuget.Api.Api
             return _catiService.GetInstalledQuestionnaire(_connectionModel, questionnaireName, serverParkName);
         }
 
-        /// <inheritdoc/>
         public DayBatchModel CreateDayBatch(string questionnaireName, string serverParkName,
             DateTime dayBatchDate, bool checkForTreatedCases)
         {
@@ -68,7 +65,6 @@ namespace Blaise.Nuget.Api.Api
             return _catiService.CreateDayBatch(_connectionModel, questionnaireName, serverParkName, dayBatchDate, checkForTreatedCases);
         }
 
-        /// <inheritdoc/>
         public DayBatchModel GetDayBatch(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -77,7 +73,6 @@ namespace Blaise.Nuget.Api.Api
             return _catiService.GetDayBatch(_connectionModel, questionnaireName, serverParkName);
         }
 
-        /// <inheritdoc/>
         public void AddToDayBatch(string questionnaireName, string serverParkName, string primaryKeyValue)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -87,7 +82,6 @@ namespace Blaise.Nuget.Api.Api
             _catiService.AddToDayBatch(_connectionModel, questionnaireName, serverParkName, primaryKeyValue);
         }
 
-        /// <inheritdoc/>
         public List<DateTime> GetSurveyDays(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -96,7 +90,6 @@ namespace Blaise.Nuget.Api.Api
             return _catiService.GetSurveyDays(_connectionModel, questionnaireName, serverParkName);
         }
 
-        /// <inheritdoc/>
         public void SetSurveyDay(string questionnaireName, string serverParkName, DateTime surveyDay)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -105,7 +98,6 @@ namespace Blaise.Nuget.Api.Api
             _catiService.SetSurveyDay(_connectionModel, questionnaireName, serverParkName, surveyDay);
         }
 
-        /// <inheritdoc/>
         public void SetSurveyDays(string questionnaireName, string serverParkName, List<DateTime> surveyDays)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -115,7 +107,6 @@ namespace Blaise.Nuget.Api.Api
             _catiService.SetSurveyDays(_connectionModel, questionnaireName, serverParkName, surveyDays);
         }
 
-        /// <inheritdoc/>
         public void RemoveSurveyDay(string questionnaireName, string serverParkName, DateTime surveyDay)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -124,7 +115,6 @@ namespace Blaise.Nuget.Api.Api
             _catiService.RemoveSurveyDay(_connectionModel, questionnaireName, serverParkName, surveyDay);
         }
 
-        /// <inheritdoc/>
         public void RemoveSurveyDays(string questionnaireName, string serverParkName, List<DateTime> surveyDays)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -134,7 +124,6 @@ namespace Blaise.Nuget.Api.Api
             _catiService.RemoveSurveyDays(_connectionModel, questionnaireName, serverParkName, surveyDays);
         }
 
-        /// <inheritdoc/>
         public bool MakeSuperAppointment(string questionnaireName, string serverParkName, string primaryKeyValue)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");

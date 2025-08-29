@@ -15,7 +15,6 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataModelService = dataModelService;
         }
 
-        /// <inheritdoc/>
         public bool FieldExists(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string fieldName)
         {
             var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
@@ -23,13 +22,11 @@ namespace Blaise.Nuget.Api.Core.Services
             return FieldExists(dataModel, fieldName);
         }
 
-        /// <inheritdoc/>
         public bool FieldExists(IDataRecord dataRecord, string fieldName)
         {
             return FieldExists(dataRecord.Datamodel, fieldName);
         }
 
-        /// <inheritdoc/>
         public IField GetField(IDataRecord dataRecord, string fieldName)
         {
             return dataRecord.GetField(fieldName);

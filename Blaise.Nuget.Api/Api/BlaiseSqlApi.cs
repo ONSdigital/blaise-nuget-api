@@ -28,7 +28,6 @@ namespace Blaise.Nuget.Api.Api
             _configurationProvider = UnityProvider.Resolve<IBlaiseConfigurationProvider>();
         }
 
-        /// <inheritdoc/>
         public IEnumerable<string> GetCaseIds(string questionnaireName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -36,7 +35,6 @@ namespace Blaise.Nuget.Api.Api
             return _mySqlService.GetCaseIds(_configurationProvider.DatabaseConnectionString, questionnaireName);
         }
 
-        /// <inheritdoc/>
         public IEnumerable<string> GetEditingCaseIds(string questionnaireName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -44,7 +42,6 @@ namespace Blaise.Nuget.Api.Api
             return _mySqlService.GetEditingCaseIds(_configurationProvider.DatabaseConnectionString, questionnaireName);
         }
 
-        /// <inheritdoc/>
         public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string questionnaireName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -52,7 +49,6 @@ namespace Blaise.Nuget.Api.Api
             return _mySqlService.GetCaseIdentifiers(_configurationProvider.DatabaseConnectionString, questionnaireName);
         }
 
-        /// <inheritdoc/>
         public string GetPostCode(string questionnaireName, string primaryKey)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -61,7 +57,6 @@ namespace Blaise.Nuget.Api.Api
             return _mySqlService.GetPostCode(_configurationProvider.DatabaseConnectionString, questionnaireName, primaryKey);
         }
 
-        /// <inheritdoc/>
         public bool DropQuestionnaireTables(string questionnaireName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");

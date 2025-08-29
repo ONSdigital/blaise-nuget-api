@@ -11,12 +11,17 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         ISurvey GetInstalledQuestionnaire(string questionnaireName, string serverParkName);
 
-        DayBatchModel CreateDayBatch(string questionnaireName, string serverParkName,
-            DateTime dayBatchDate, bool checkForTreatedCases);
+        DayBatchModel CreateDayBatch(
+            string questionnaireName,
+            string serverParkName,
+            DateTime dayBatchDate,
+            bool checkForTreatedCases);
 
         DayBatchModel GetDayBatch(string questionnaireName, string serverParkName);
 
-        void AddToDayBatch(string questionnaireName, string serverParkName,
+        void AddToDayBatch(
+            string questionnaireName,
+            string serverParkName,
             string primaryKeyValue);
 
         List<DateTime> GetSurveyDays(string questionnaireName, string serverParkName);

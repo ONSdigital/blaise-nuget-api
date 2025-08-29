@@ -30,13 +30,11 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        /// <inheritdoc/>
         public IEnumerable<IRole> GetRoles()
         {
             return _roleService.GetRoles(_connectionModel);
         }
 
-        /// <inheritdoc/>
         public IRole GetRole(string name)
         {
             name.ThrowExceptionIfNullOrEmpty("name");
@@ -44,7 +42,6 @@ namespace Blaise.Nuget.Api.Api
             return _roleService.GetRole(_connectionModel, name);
         }
 
-        /// <inheritdoc/>
         public bool RoleExists(string name)
         {
             name.ThrowExceptionIfNullOrEmpty("name");
@@ -52,7 +49,6 @@ namespace Blaise.Nuget.Api.Api
             return _roleService.RoleExists(_connectionModel, name);
         }
 
-        /// <inheritdoc/>
         public void AddRole(string name, string description, IEnumerable<string> permissions)
         {
             name.ThrowExceptionIfNullOrEmpty("name");
@@ -60,7 +56,6 @@ namespace Blaise.Nuget.Api.Api
             _roleService.AddRole(_connectionModel, name, description, permissions);
         }
 
-        /// <inheritdoc/>
         public void RemoveRole(string name)
         {
             name.ThrowExceptionIfNullOrEmpty("name");
@@ -68,7 +63,6 @@ namespace Blaise.Nuget.Api.Api
             _roleService.RemoveRole(_connectionModel, name);
         }
 
-        /// <inheritdoc/>
         public void UpdateRolePermissions(string name, IEnumerable<string> permissions)
         {
             name.ThrowExceptionIfNullOrEmpty("name");

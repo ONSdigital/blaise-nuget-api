@@ -24,7 +24,6 @@ namespace Blaise.Nuget.Api.Core.Services
             _auditTrailDataMapper = auditTrailDataMapper;
         }
 
-        /// <inheritdoc/>
         public List<AuditTrailDataModel> GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var instrumentId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
@@ -39,7 +38,6 @@ namespace Blaise.Nuget.Api.Core.Services
             return CreateAuditTrailDataFromEvents(auditEvents);
         }
 
-        /// <inheritdoc/>
         public string CreateAuditTrailCsvContent(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var auditTrailDataList = GetAuditTrailData(connectionModel, questionnaireName, serverParkName);

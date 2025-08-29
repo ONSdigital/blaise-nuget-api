@@ -14,7 +14,6 @@ namespace Blaise.Nuget.Api.Core.Providers
             _catiServerFactory = catiServerFactory;
         }
 
-        /// <inheritdoc/>
         public IRemoteCatiManagementServer GetCatiManagementForServerPark(ConnectionModel connectionModel, string serverParkName)
         {
             var catiManagement = _catiServerFactory.GetConnection(connectionModel);

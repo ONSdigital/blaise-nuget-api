@@ -14,7 +14,6 @@ namespace Blaise.Nuget.Api.Core.Factories
             _passwordService = passwordService;
         }
 
-        /// <inheritdoc/>
         public IRemoteAuditTrailServer GetRemoteAuditTrailServer(ConnectionModel connectionModel)
         {
             return AuditTrailManager.GetRemoteAuditTrailServer(

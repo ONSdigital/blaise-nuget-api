@@ -23,7 +23,6 @@ namespace Blaise.Nuget.Api.Core.Services
             _mapper = mapper;
         }
 
-        /// <inheritdoc/>
         public IEnumerable<IRole> GetRoles(ConnectionModel connectionModel)
         {
             var connection = _securityManagerFactory.GetConnection(connectionModel);
@@ -31,7 +30,6 @@ namespace Blaise.Nuget.Api.Core.Services
             return connection.GetRoles();
         }
 
-        /// <inheritdoc/>
         public IRole GetRole(ConnectionModel connectionModel, string name)
         {
             var roles = GetRoles(connectionModel);
@@ -45,7 +43,6 @@ namespace Blaise.Nuget.Api.Core.Services
             return role;
         }
 
-        /// <inheritdoc/>
         public bool RoleExists(ConnectionModel connectionModel, string name)
         {
             var roles = GetRoles(connectionModel);
@@ -53,7 +50,6 @@ namespace Blaise.Nuget.Api.Core.Services
             return roles.Any(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
-        /// <inheritdoc/>
         public void AddRole(ConnectionModel connectionModel, string name, string description, IEnumerable<string> permissions)
         {
             var connection = _securityManagerFactory.GetConnection(connectionModel);
@@ -64,7 +60,6 @@ namespace Blaise.Nuget.Api.Core.Services
             connection.UpdateRolePermissions(roleId, actionPermissions);
         }
 
-        /// <inheritdoc/>
         public void RemoveRole(ConnectionModel connectionModel, string name)
         {
             var role = GetRole(connectionModel, name);
@@ -73,7 +68,6 @@ namespace Blaise.Nuget.Api.Core.Services
             connection.RemoveRole(role.Id);
         }
 
-        /// <inheritdoc/>
         public void UpdateRolePermissions(ConnectionModel connectionModel, string name, IEnumerable<string> permissions)
         {
             var role = GetRole(connectionModel, name);

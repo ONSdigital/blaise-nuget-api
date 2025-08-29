@@ -20,7 +20,6 @@ namespace Blaise.Nuget.Api.Core.Factories
             _connections = new Dictionary<string, Tuple<IConnectedServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
-        /// <inheritdoc/>
         public IConnectedServer GetConnection(ConnectionModel connectionModel)
         {
             if (!_connections.ContainsKey(connectionModel.ServerName))
@@ -35,7 +34,6 @@ namespace Blaise.Nuget.Api.Core.Factories
                 : connectedServer ?? GetFreshServerConnection(connectionModel);
         }
 
-        /// <inheritdoc/>
         public IConnectedServer GetIsolatedConnection(ConnectionModel connectionModel)
         {
             return CreateServerConnection(connectionModel);

@@ -16,7 +16,6 @@ namespace Blaise.Nuget.Api.Core.Providers
             _connections = new Dictionary<string, Tuple<IDataLink6, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
-        /// <inheritdoc/>
         public IDataLink6 GetDataLink(ConnectionModel connectionModel, string databaseFile)
         {
             if (!_connections.ContainsKey(databaseFile))

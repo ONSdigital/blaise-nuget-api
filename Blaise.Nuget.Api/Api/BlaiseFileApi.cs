@@ -29,30 +29,48 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        /// <inheritdoc/>
-        public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile,
+        public void UpdateQuestionnaireFileWithData(
+            string serverParkName,
+            string questionnaireName,
+            string questionnaireFile,
             bool auditOption = false)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
-            _fileService.UpdateQuestionnaireFileWithData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, auditOption);
+            _fileService.UpdateQuestionnaireFileWithData(
+                _connectionModel,
+                questionnaireFile,
+                questionnaireName,
+                serverParkName,
+                auditOption);
         }
 
-        /// <inheritdoc/>
-        public void UpdateQuestionnaireFileWithBatchedData(string serverParkName, string questionnaireName, string questionnaireFile,
-            int batchSize, bool auditOption = false)
+        public void UpdateQuestionnaireFileWithBatchedData(
+            string serverParkName,
+            string questionnaireName,
+            string questionnaireFile,
+            int batchSize,
+            bool auditOption = false)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
-            _fileService.UpdateQuestionnaireFileWithBatchedData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, batchSize, auditOption);
+            _fileService.UpdateQuestionnaireFileWithBatchedData(
+                _connectionModel,
+                questionnaireFile,
+                questionnaireName,
+                serverParkName,
+                batchSize,
+                auditOption);
         }
 
-        /// <inheritdoc/>
-        public void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile, bool overwriteExistingData = true)
+        public void UpdateQuestionnaireFileWithSqlConnection(
+            string questionnaireName,
+            string questionnaireFile,
+            bool overwriteExistingData = true)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
@@ -60,7 +78,6 @@ namespace Blaise.Nuget.Api.Api
             _fileService.UpdateQuestionnairePackageWithSqlConnection(questionnaireName, questionnaireFile, overwriteExistingData);
         }
 
-        /// <inheritdoc/>
         public void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName)
         {
             fileName.ThrowExceptionIfNullOrEmpty("fileName");
