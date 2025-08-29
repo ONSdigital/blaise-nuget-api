@@ -21,24 +21,28 @@ stages:
       inputs:
         targetType: inline
         script: |
-          $BranchName = "$(System.PullRequest.SourceBranch)"
-          if (-not $BranchName) {
+          # Get PR source branch if present, otherwise fall back
+          $PrSourceBranch = "$(System.PullRequest.SourceBranch)"
+          if (-not $PrSourceBranch -or $PrSourceBranch -eq "System.PullRequest.SourceBranch") {
             $BranchName = "$(Build.SourceBranchName)"
           } else {
-            $BranchName = $BranchName -replace '^refs/heads/', ''
+            $BranchName = $PrSourceBranch -replace '^refs/heads/', ''
           }
+
           if ($BranchName -ne "main") {
-            $Suffix = $BranchName.Replace(".", "").Replace("-", "")
-            $Suffix = "-$Suffix"
-            Write-Host "Branch $BranchName -> Suffix $Suffix"
+            # Make NuGet-safe: replace slashes with hyphens
+            $SafeBranchName = $BranchName -replace '/', '-'
+            $Suffix = "-$SafeBranchName"
           } else {
             $Suffix = ""
           }
+
           $Version = "$(Build.BuildNumber)" -replace "^[^_]+_", ""
           $Version = "$Version$Suffix"
+
+          Write-Host "Branch: $BranchName"
           Write-Host "Version: $Version"
           Write-Host "##vso[task.setvariable variable=Version;]$Version"
-          Write-Host "##vso[task.setvariable variable=Branch;]$Suffix"
     - task: NuGetToolInstaller@1
       displayName: Install NuGet
     - task: NuGetCommand@2
