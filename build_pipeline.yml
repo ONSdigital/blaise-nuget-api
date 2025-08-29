@@ -95,15 +95,15 @@ stages:
       inputs:
         PathtoPublish: $(Build.ArtifactStagingDirectory)
 
-    - task: NuGetCommand@2
+    - task: DotNetCoreCLI@2
       displayName: Run NuGet pack
       inputs:
         command: pack
-        searchPatternPack: '**/Blaise.Nuget.Api.csproj' 
-        outputDir: '$(Build.ArtifactStagingDirectory)'
-        versioningScheme: byEnvVar
-        versionEnvVar: Version
-        properties: 'Configuration=$(buildConfiguration)'
+        packagesToPack: '**/Blaise.Nuget.Api.csproj'
+        packDirectory: '$(Build.ArtifactStagingDirectory)'
+        versioningScheme: 'byEnvVar'
+        versionEnvVar: 'Version'
+        arguments: '--configuration $(buildConfiguration) --no-build'
 
     - task: NuGetCommand@2
       displayName: Run NuGet push
