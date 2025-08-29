@@ -1,116 +1,113 @@
+---
 trigger:
   branches:
     include:
     - main
-
 pool:
   vmImage: windows-latest
-
 variables:
   solutionPath: '**/*.sln'
-  buildPlatform: 'Any CPU'
+  buildPlatform: Any CPU
   buildConfiguration: Release
-
 name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
-
 stages:
 - stage: BuildNugetApi
-  displayName: 'Build and Publish NuGet Package'
+  displayName: Build NuGet API
   jobs:
   - job: build
-    displayName: 'Build Job'
     steps:
     - task: PowerShell@2
-      displayName: 'Set Version Variable'
+      displayName: Set version variables
       inputs:
         targetType: inline
         script: |
-          $buildNumberVersion = "$(Build.BuildNumber)" -replace "^[^_]+_", ""
-          $sourceBranch = "$(Build.SourceBranchName)"
-          
-          if ($sourceBranch -eq "main") {
-            $versionSuffix = ""
+          $Branch = "$(Build.SourceBranchName)"
+          if ("$Branch" -ne "main") {
+            $Branch = $Branch.Replace(".", "").Replace("-", "")
+            $Branch = "-$Branch"
+            Write-Host "$(Build.SourceBranchName) changed to $Branch"
           } else {
-            # Create a valid pre-release suffix (e.g., -beta, -dev.featurename)
-            $sanitizedBranchName = $sourceBranch.Replace("/", "-").Replace("_", "-")
-            $versionSuffix = "-$($sanitizedBranchName)"
+            $Branch = ""
           }
-          
-          $finalVersion = "$($buildNumberVersion)$($versionSuffix)"
-          
-          Write-Host "Final package version determined to be: $($finalVersion)"
-          Write-Host "##vso[task.setvariable variable=PackageVersion;isOutput=true]$($finalVersion)"
+          $Version = "$(Build.BuildNumber)" -replace "^[^_]+_", ""
+          $Version = "$Version$Branch"
+          Write-Host "Version: $Version"
+          Write-Host "##vso[task.setvariable variable=Version;]$Version"
+          Write-Host "##vso[task.setvariable variable=Branch;]$Branch"
 
+    - task: NuGetToolInstaller@1
+      displayName: Install NuGet
+    - task: NuGetCommand@2
+      displayName: Run NuGet restore
+      inputs:
+        command: restore
+        restoreSolution: $(solutionPath)
+        feedsToUse: select
+        vstsFeed: fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0
     - task: UseDotNet@2
-      displayName: 'Install .NET 8 SDK'
       inputs:
         packageType: 'sdk'
         version: '8.x'
-
-    - script: dotnet --info
-      displayName: 'Display .NET Info'
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Install dotnet-format tool'
-      inputs:
-        command: custom
-        custom: 'tool'
-        arguments: 'install --global dotnet-format'
-
     - task: PowerShell@2
-      displayName: 'Check Code Formatting'
+      displayName: Check code formatting with dotnet-format
       inputs:
-        targetType: 'inline'
+        targetType: inline
+        errorActionPreference: 'continue'
         script: |
-          Write-Host "Running dotnet format check..."
-          dotnet format --verify-no-changes --no-restore --verbosity diagnostic
+          cd "$(Build.SourcesDirectory)"
+          dotnet format Blaise.Nuget.Api.sln --verify-no-changes --no-restore --verbosity diagnostic
           if ($LASTEXITCODE -eq 0) {
-            Write-Host "✅ Code formatting check found no issues."
+            Write-Host "✅ Code formatting is clean."
           } elseif ($LASTEXITCODE -eq 2) {
-            Write-Host "⚠️ Code formatting check found warnings, but the build will not fail."
-            exit 0
+            Write-Host "⚠️ Formatting or naming violations detected (warnings)."
+            exit 0  # Optional: don't fail build for warnings
           } else {
-            Write-Host "❌ Code formatting check failed with exit code $LASTEXITCODE. Failing the build."
+            Write-Host "❌ Formatting check failed due to errors."
             exit 1
           }
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Restore NuGet Packages'
+    - task: VSBuild@1
+      displayName: Build solution
       inputs:
-        command: 'restore'
-        projects: $(solutionPath)
-        feedsToUse: 'select'
-        vstsFeed: 'fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0'
+        solution: $(solutionPath)
+        platform: $(buildPlatform)
+        configuration: $(buildConfiguration)
+    - task: VSTest@2
+      displayName: Run unit tests
+      inputs:
+        testSelector: testAssemblies
+        testAssemblyVer2: |
+          **\*test*.dll
+          !**\*Behaviour.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: $(System.DefaultWorkingDirectory)
+    - task: CopyFiles@2
+      displayName: Copy artifact
+      inputs:
+        SourceFolder: $(System.DefaultWorkingDirectory)
+        Contents: '**\bin\$(buildConfiguration)\**'
+        TargetFolder: $(Build.ArtifactStagingDirectory)
+        CleanTargetFolder: true
+        OverWrite: true
+    - task: PublishBuildArtifacts@1
+      displayName: Publish artifact
+      inputs:
+        PathtoPublish: $(Build.ArtifactStagingDirectory)
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Build Solution'
+    - task: NuGetCommand@2
+      displayName: Run NuGet pack
       inputs:
-        command: 'build'
-        projects: $(solutionPath)
-        arguments: '--configuration $(buildConfiguration) --no-restore'
+        command: pack
+        searchPatternPack: '**/Blaise.Nuget.Api.csproj' 
+        outputDir: '$(Build.ArtifactStagingDirectory)'
+        versioningScheme: byEnvVar
+        versionEnvVar: Version
+        properties: 'Configuration=$(buildConfiguration)'
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Run Unit Tests'
+    - task: NuGetCommand@2
+      displayName: Run NuGet push
       inputs:
-        command: 'test'
-        projects: '**/*[Tt]ests/*[Tt]ests.csproj'
-        arguments: '--configuration $(buildConfiguration) --no-build --no-restore'
-        publishTestResults: true
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Pack NuGet Package'
-      inputs:
-        command: 'pack'
-        packagesToPack: '**/Blaise.Nuget.Api.csproj'
-        packDirectory: '$(Build.ArtifactStagingDirectory)'
-        nobuild: true
-        versioningScheme: 'byEnvVar'
-        versionEnvVar: 'PackageVersion'
-    
-    - task: DotNetCoreCLI@2
-      displayName: 'Push NuGet Package'
-      inputs:
-        command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
-        nuGetFeedType: 'internal'
-        publishVstsFeed: 'fbaf94f7-2d40-410a-8a27-de142d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0'
+        command: push
+        searchPatternPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+        feedPublish: fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0
