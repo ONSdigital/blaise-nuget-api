@@ -104,10 +104,18 @@ stages:
           displayName: Publish artifact
           inputs:
             PathtoPublish: $(Build.ArtifactStagingDirectory)
-        - script: |
-            Write-Host "Listing contents of the build directory:"
-            Get-ChildItem -Path "$(Build.SourcesDirectory)\Blaise.Nuget.Api\bin\Release" -Recurse
+        - task: PowerShell@2
           displayName: "Log build directory contents"
+          inputs:
+            targetType: inline
+            failOnStderr: true
+            script: |
+              if (Test-Path "$(Build.SourcesDirectory)\Blaise.Nuget.Api\bin\Release") {
+                  Write-Host "Listing contents of the build directory:"
+                  Get-ChildItem -Path "$(Build.SourcesDirectory)\Blaise.Nuget.Api\bin\Release" -Recurse
+              } else {
+                  Write-Host "Build directory does not exist."
+              }
         - task: NuGetCommand@2
           displayName: Run NuGet pack
           inputs:
