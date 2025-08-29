@@ -17,24 +17,26 @@ stages:
   - job: build
     steps:
     - task: PowerShell@2
-      displayName: Set version variables
+      displayName: Set version variable
       inputs:
         targetType: inline
         script: |
-          $Branch = "$(Build.SourceBranchName)"
-          if ("$Branch" -ne "main") {
-            $Branch = $Branch.Replace(".", "").Replace("-", "")
-            $Branch = "-$Branch"
-            Write-Host "$(Build.SourceBranchName) changed to $Branch"
+          $BranchName = "$(System.PullRequest.SourceBranch)"
+          if (-not $BranchName) {
+            $BranchName = "$(Build.SourceBranchName)"
           } else {
-            $Branch = ""
+            $BranchName = $BranchName -replace '^refs/heads/', ''
+          }
+          if ($BranchName -ne "main") {
+            $Suffix = $BranchName.Replace(".", "").Replace("-", "")
+            $Suffix = "-$Suffix"
+            Write-Host "Branch $BranchName -> Suffix $Suffix"
+          } else {
+            $Suffix = ""
           }
           $Version = "$(Build.BuildNumber)" -replace "^[^_]+_", ""
-          $Version = "$Version$Branch"
+          $Version = "$Version$Suffix"
           Write-Host "Version: $Version"
-          Write-Host "##vso[task.setvariable variable=Version;]$Version"
-          Write-Host "##vso[task.setvariable variable=Branch;]$Branch"
-
     - task: NuGetToolInstaller@1
       displayName: Install NuGet
     - task: NuGetCommand@2
@@ -49,7 +51,7 @@ stages:
         packageType: 'sdk'
         version: '8.x'
     - task: PowerShell@2
-      displayName: Check code formatting with dotnet-format
+      displayName: Check code formatting
       inputs:
         targetType: inline
         errorActionPreference: 'continue'
@@ -57,15 +59,14 @@ stages:
           cd "$(Build.SourcesDirectory)"
           dotnet format Blaise.Nuget.Api.sln --verify-no-changes --no-restore --verbosity diagnostic
           if ($LASTEXITCODE -eq 0) {
-            Write-Host "✅ Code formatting is clean."
+            Write-Host "✅ Code formatting found no issues."
           } elseif ($LASTEXITCODE -eq 2) {
-            Write-Host "⚠️ Formatting or naming violations detected (warnings)."
+            Write-Host "⚠️ Code formatting found warnings."
             exit 0  # Optional: don't fail build for warnings
           } else {
-            Write-Host "❌ Formatting check failed due to errors."
+            Write-Host "❌ Code formatting check failed."
             exit 1
           }
-
     - task: VSBuild@1
       displayName: Build solution
       inputs:
@@ -94,7 +95,6 @@ stages:
       displayName: Publish artifact
       inputs:
         PathtoPublish: $(Build.ArtifactStagingDirectory)
-
     - task: DotNetCoreCLI@2
       displayName: Run NuGet pack
       inputs:
@@ -104,7 +104,6 @@ stages:
         versioningScheme: 'byEnvVar'
         versionEnvVar: 'Version'
         arguments: '--configuration $(buildConfiguration) --no-build'
-
     - task: NuGetCommand@2
       displayName: Run NuGet push
       inputs:
