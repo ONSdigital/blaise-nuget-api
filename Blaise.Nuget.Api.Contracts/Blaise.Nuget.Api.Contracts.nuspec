@@ -15,6 +15,6 @@
 		<repository type="git" url="https://github.com/onsdigital/blaise-csharp-build.git" />
 	</metadata>
 	<files>
-		<file src="bin\release\Blaise.Nuget.Api.Contracts.dll" target="lib\net48\Blaise.Nuget.Api.Contracts.dll" />
+		<file src="bin\Release\Blaise.Nuget.Api.Contracts.dll" target="lib\net48\Blaise.Nuget.Api.Contracts.dll" />
 	</files>
 </package>
