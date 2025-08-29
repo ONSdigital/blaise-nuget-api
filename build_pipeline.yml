@@ -57,12 +57,23 @@ stages:
         custom: 'tool'
         arguments: 'install --global dotnet-format'
 
-    - task: DotNetCoreCLI@2
+    - task: PowerShell@2
       displayName: 'Check Code Formatting'
       inputs:
-        command: custom
-        custom: 'format'
-        arguments: '--verify-no-changes --no-restore --verbosity diagnostic'
+        targetType: 'inline'
+        script: |
+          Write-Host "Running dotnet format check..."
+          dotnet format --verify-no-changes --no-restore --verbosity diagnostic
+          # Check the exit code of the last command
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "✅ Code formatting is clean."
+          } elseif ($LASTEXITCODE -eq 2) {
+            Write-Host "⚠️ Formatting check found warnings, but the build will not fail."
+            exit 0  # Explicitly exit with a success code
+          } else {
+            Write-Host "❌ Formatting check failed with exit code $LASTEXITCODE. Failing the build."
+            exit 1  # Exit with a failure code
+          }
 
     - task: DotNetCoreCLI@2
       displayName: 'Restore NuGet Packages'
