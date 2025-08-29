@@ -9,7 +9,7 @@ variables:
   solutionPath: '**/*.sln'
   buildPlatform: Any CPU
   buildConfiguration: Release
-name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth).r$(Rev:r)
+name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth).$(Rev:r)
 stages:
 - stage: BuildNugetApi
   displayName: Build NuGet API
