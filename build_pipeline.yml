@@ -21,24 +21,24 @@ stages:
       inputs:
         targetType: inline
         script: |
-          # Try to get PR source branch from environment
           $PrSourceBranch = $env:SYSTEM_PULLREQUEST_SOURCEBRANCH
-
+          Write-Host "PrSourceBranch: $PrSourceBranch"
           if (-not $PrSourceBranch) {
             $BranchName = $env:BUILD_SOURCEBRANCHNAME
+            Write-Host "BranchName: $BranchName"
           } else {
-            # Strip refs/heads/ prefix
             $BranchName = $PrSourceBranch -replace '^refs/heads/', ''
           }
 
           if ($BranchName -ne "main") {
-            # Make NuGet-safe by replacing slashes with hyphens
             $SafeBranchName = $BranchName -replace '/', '-'
             $Suffix = "-$SafeBranchName"
           } else {
             $Suffix = ""
           }
 
+          Write-Host "Version: $Version"
+          Write-Host "Suffix: $Suffix"
           $Version = $env:BUILD_BUILDNUMBER -replace "^[^_]+_", ""
           $Version = "$Version$Suffix"
 
