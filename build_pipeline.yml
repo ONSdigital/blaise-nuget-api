@@ -64,15 +64,14 @@ stages:
         script: |
           Write-Host "Running dotnet format check..."
           dotnet format --verify-no-changes --no-restore --verbosity diagnostic
-          # Check the exit code of the last command
           if ($LASTEXITCODE -eq 0) {
-            Write-Host "✅ Code formatting is clean."
+            Write-Host "✅ Code formatting check found no issues."
           } elseif ($LASTEXITCODE -eq 2) {
-            Write-Host "⚠️ Formatting check found warnings, but the build will not fail."
-            exit 0  # Explicitly exit with a success code
+            Write-Host "⚠️ Code formatting check found warnings, but the build will not fail."
+            exit 0
           } else {
-            Write-Host "❌ Formatting check failed with exit code $LASTEXITCODE. Failing the build."
-            exit 1  # Exit with a failure code
+            Write-Host "❌ Code formatting check failed with exit code $LASTEXITCODE. Failing the build."
+            exit 1
           }
 
     - task: DotNetCoreCLI@2
@@ -81,7 +80,7 @@ stages:
         command: 'restore'
         projects: $(solutionPath)
         feedsToUse: 'select'
-        vstsFeed: 'fbaf94f7-2d40-410a-8a27-de142d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0'
+        vstsFeed: 'fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0'
 
     - task: DotNetCoreCLI@2
       displayName: 'Build Solution'
