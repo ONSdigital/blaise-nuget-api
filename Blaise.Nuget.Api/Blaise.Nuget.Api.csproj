@@ -8,8 +8,8 @@
 		<LangVersion>7.3</LangVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-		<OutputPath>bin\Release\</OutputPath>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'release|AnyCPU'">
+		<OutputPath>bin\release\</OutputPath>
 	</PropertyGroup>
 
 	<!-- NuGet package dependencies -->
