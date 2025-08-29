@@ -9,7 +9,7 @@ variables:
   solutionPath: '**/*.sln'
   buildPlatform: Any CPU
   buildConfiguration: Release
-name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth).r$(Rev:.r)
 stages:
 - stage: BuildNugetApi
   displayName: Build NuGet API
@@ -28,8 +28,7 @@ stages:
             $BranchName = $PullRequestSourceBranch
           }
           if ($BranchName -ne "main") {
-            $SafeBranchName = $BranchName -replace '/', '-'
-            $SafeBranchName = $BranchName -replace '.', '-'
+            $SafeBranchName = $BranchName -replace '/', '-' -replace '\.', '-'
             $Suffix = "-$SafeBranchName"
           } else {
             $Suffix = ""
@@ -100,9 +99,7 @@ stages:
       displayName: Run NuGet pack
       inputs:
         command: pack
-        packagesToPack: |
-          **/Blaise.Nuget.Api.csproj
-          **/Blaise.Nuget.Api.Contracts.csproj
+        packagesToPack: '**/Blaise.Nuget.Api.csproj; **/Blaise.Nuget.Api.Contracts.csproj'
         packDirectory: '$(Build.ArtifactStagingDirectory)'
         versioningScheme: 'byEnvVar'
         versionEnvVar: 'Version'
