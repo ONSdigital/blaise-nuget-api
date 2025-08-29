@@ -37,6 +37,8 @@ stages:
           $Version = "$(Build.BuildNumber)" -replace "^[^_]+_", ""
           $Version = "$Version$Suffix"
           Write-Host "Version: $Version"
+          Write-Host "##vso[task.setvariable variable=Version;]$Version"
+          Write-Host "##vso[task.setvariable variable=Branch;]$Suffix"
     - task: NuGetToolInstaller@1
       displayName: Install NuGet
     - task: NuGetCommand@2
@@ -62,7 +64,7 @@ stages:
             Write-Host "✅ Code formatting found no issues."
           } elseif ($LASTEXITCODE -eq 2) {
             Write-Host "⚠️ Code formatting found warnings."
-            exit 0  # Optional: don't fail build for warnings
+            exit 0
           } else {
             Write-Host "❌ Code formatting check failed."
             exit 1
