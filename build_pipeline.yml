@@ -21,23 +21,25 @@ stages:
       inputs:
         targetType: inline
         script: |
-          # Get PR source branch if present, otherwise fall back
-          $PrSourceBranch = "$(System.PullRequest.SourceBranch)"
-          if (-not $PrSourceBranch -or $PrSourceBranch -eq "System.PullRequest.SourceBranch") {
-            $BranchName = "$(Build.SourceBranchName)"
+          # Try to get PR source branch from environment
+          $PrSourceBranch = $env:SYSTEM_PULLREQUEST_SOURCEBRANCH
+
+          if (-not $PrSourceBranch) {
+            $BranchName = $env:BUILD_SOURCEBRANCHNAME
           } else {
+            # Strip refs/heads/ prefix
             $BranchName = $PrSourceBranch -replace '^refs/heads/', ''
           }
 
           if ($BranchName -ne "main") {
-            # Make NuGet-safe: replace slashes with hyphens
+            # Make NuGet-safe by replacing slashes with hyphens
             $SafeBranchName = $BranchName -replace '/', '-'
             $Suffix = "-$SafeBranchName"
           } else {
             $Suffix = ""
           }
 
-          $Version = "$(Build.BuildNumber)" -replace "^[^_]+_", ""
+          $Version = $env:BUILD_BUILDNUMBER -replace "^[^_]+_", ""
           $Version = "$Version$Suffix"
 
           Write-Host "Branch: $BranchName"
