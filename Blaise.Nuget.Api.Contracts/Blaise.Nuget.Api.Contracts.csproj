@@ -1,122 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{246051E9-49BE-4001-9508-B73839D28DC9}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blaise.Nuget.Api.Contracts</RootNamespace>
-    <AssemblyName>Blaise.Nuget.Api.Contracts</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="StatNeth.Blaise.API, Version=5.0.0.0, Culture=neutral, PublicKeyToken=ad2ddd432cb2a452, processorArchitecture=MSIL">
-      <HintPath>..\packages\StatNeth.Blaise.API.x64.5.14.6.3686\lib\net48\StatNeth.Blaise.API.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Enums\SqlFieldType.cs" />
-    <Compile Include="Enums\QuestionnaireDataEntryType.cs" />
-    <Compile Include="Enums\FieldNameType.cs" />
-    <Compile Include="Enums\QuestionnaireInterviewType.cs" />
-    <Compile Include="Enums\QuestionnaireStatusType.cs" />
-    <Compile Include="Exceptions\DataNotFoundException.cs" />
-    <Compile Include="Exceptions\QuestionnaireConfigurationException.cs" />
-    <Compile Include="Extensions\EnumExtension.cs" />
-    <Compile Include="Interfaces\IBlaiseAuditTrailApi.cs" />
-    <Compile Include="Interfaces\IBlaiseFileApi.cs" />
-    <Compile Include="Interfaces\IBlaiseCaseApi.cs" />
-    <Compile Include="Interfaces\IBlaiseHealthApi.cs" />
-    <Compile Include="Interfaces\IBlaiseRoleApi.cs" />
-    <Compile Include="Interfaces\IBlaiseServerParkApi.cs" />
-    <Compile Include="Interfaces\IBlaiseCatiApi.cs" />
-    <Compile Include="Interfaces\IBlaiseSqlApi.cs" />
-    <Compile Include="Interfaces\IBlaiseQuestionnaireApi.cs" />
-    <Compile Include="Interfaces\IBlaiseUserApi.cs" />
-    <Compile Include="Models\AuditTrailDataModel.cs" />
-    <Compile Include="Models\CaseIdentifierModel.cs" />
-    <Compile Include="Models\CaseModel.cs" />
-    <Compile Include="Models\ConnectionModel.cs" />
-    <Compile Include="Models\CaseStatusModel.cs" />
-    <Compile Include="Models\DataEntrySettingsModel.cs" />
-    <Compile Include="Models\DayBatchModel.cs" />
-    <Compile Include="Models\InstallOptions.cs" />
-    <Compile Include="Models\QuestionnaireConfigurationModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Blaise.Nuget.Api.Contracts.nuspec" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\StatNeth.Blaise.API.x64.5.14.6.3686\build\StatNeth.Blaise.API.x64.targets" Condition="Exists('..\packages\StatNeth.Blaise.API.x64.5.14.6.3686\build\StatNeth.Blaise.API.x64.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\StatNeth.Blaise.API.x64.5.14.6.3686\build\StatNeth.Blaise.API.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\StatNeth.Blaise.API.x64.5.14.6.3686\build\StatNeth.Blaise.API.x64.targets'))" />
-  </Target>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<RootNamespace>Blaise.Nuget.Api.Contracts</RootNamespace>
+		<AssemblyName>Blaise.Nuget.Api.Contracts</AssemblyName>
+		<OutputType>Library</OutputType>
+		<LangVersion>7.3</LangVersion>
+	</PropertyGroup>
+
+	<!-- NuGet package dependencies -->
+	<ItemGroup>
+		<PackageReference Include="StatNeth.Blaise.API.x64" Version="5.14.6.3686" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.3" />
+		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
+	</ItemGroup>
+
+	<!-- Project references -->
+	<ItemGroup>
+		<!-- No project references in this file -->
+	</ItemGroup>
+
+	<!-- Non-code files -->
+	<ItemGroup>
+		<None Include="Blaise.Nuget.Api.Contracts.nuspec" />
+		<None Include="packages.config" />
+	</ItemGroup>
+
 </Project>
