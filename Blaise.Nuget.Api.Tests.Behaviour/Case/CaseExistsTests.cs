@@ -37,7 +37,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var result = _sut.CaseExists(_primaryKeyValues, questionnaireName, serverParkName);
 
             //assert
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
 
             //cleanup
             _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
@@ -55,7 +55,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var result = _sut.CaseExists(_primaryKeyValues, questionnaireName, serverParkName);
 
             //assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Ignore("Integration")]
@@ -80,7 +80,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var result = _sut.CaseExists(_primaryKeyValues, questionnaireName, serverParkName);
 
             //assert
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
 
             //cleanup
             _sut.UnLockDataRecord(_primaryKeyValues, questionnaireName, serverParkName, lockId);

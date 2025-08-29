@@ -35,8 +35,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
             var audotTrailDataModels = _auditTrailApi.GetAuditTrail(serverPark, questionnaireName);
 
             // Assert
-            Assert.IsNotNull(audotTrailDataModels);
-            Assert.IsNotEmpty(audotTrailDataModels);
+            Assert.That(audotTrailDataModels, Is.Not.Null);
+            Assert.That(audotTrailDataModels, Is.Not.Empty);
         }
 
         [Ignore("Integration")]

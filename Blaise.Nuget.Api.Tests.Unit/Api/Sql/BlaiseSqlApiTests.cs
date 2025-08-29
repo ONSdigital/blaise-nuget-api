@@ -76,8 +76,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var result = _sut.GetCaseIds(_questionnaireName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreSame(caseIds, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.SameAs(caseIds));
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseIds(string.Empty));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseIds(null));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -127,8 +127,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var result = _sut.GetEditingCaseIds(_questionnaireName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreSame(caseIds, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.SameAs(caseIds));
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetEditingCaseIds(string.Empty));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -144,7 +144,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetEditingCaseIds(null));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -178,8 +178,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var result = _sut.GetCaseIdentifiers(_questionnaireName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreSame(caseIdentifiers, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.SameAs(caseIdentifiers));
         }
 
         [Test]
@@ -187,7 +187,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetCaseIdentifiers(string.Empty));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -195,7 +195,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCaseIdentifiers(null));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -225,8 +225,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var result = _sut.GetPostCode(_questionnaireName, _primaryKey);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(postCode, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(postCode));
         }
 
         [Test]
@@ -234,7 +234,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetPostCode(string.Empty, _primaryKey));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -242,7 +242,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetPostCode(null, _primaryKey));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -250,7 +250,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetPostCode(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'primaryKey' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'primaryKey' must be supplied"));
         }
 
         [Test]
@@ -258,7 +258,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetPostCode(_questionnaireName, null));
-            Assert.AreEqual("primaryKey", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("primaryKey"));
         }
     }
 }

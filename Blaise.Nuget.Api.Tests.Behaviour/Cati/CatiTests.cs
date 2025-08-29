@@ -22,7 +22,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         public void Given_An_Questionnaire_Is_Installed_When_I_Call_GetInstalledQuestionnaires_The_Correct_Questionnaires_Are_Returned()
         {
             var result = _sut.GetInstalledQuestionnaires(ServerParkName);
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
 
         [Ignore("Integration")]
@@ -30,7 +30,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         public void Given_An_Questionnaire_Is_Installed_And_Has_SurveyDays_When_I_Call_GetSurveyDays_They_Are_Returned()
         {
             var result = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
 
         [Ignore("Integration")]
@@ -42,7 +42,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
 
             //Assert
             var result = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
-            Assert.IsTrue(result.Contains(DateTime.Today));
+            Assert.That(result.Contains(DateTime.Today), Is.True);
         }
 
         [Ignore("Integration")]
@@ -61,8 +61,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
 
             //Assert
             var result = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
-            Assert.IsTrue(result.Contains(DateTime.Today));
-            Assert.IsTrue(result.Contains(DateTime.Today.AddDays(1)));
+            Assert.That(result.Contains(DateTime.Today), Is.True);
+            Assert.That(result.Contains(DateTime.Today.AddDays(1)), Is.True);
         }
 
         [Ignore("Integration")]
@@ -75,14 +75,14 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             _sut.SetSurveyDay(QuestionnaireName, ServerParkName, surveyDay);
             var surveyDays = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
 
-            Assert.IsTrue(surveyDays.Contains(DateTime.Today));
+            Assert.That(surveyDays.Contains(DateTime.Today), Is.True);
 
             //Act
             _sut.RemoveSurveyDay(QuestionnaireName, ServerParkName, surveyDay);
 
             //Assert
             var result = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
-            Assert.IsFalse(result.Contains(DateTime.Today));
+            Assert.That(result.Contains(DateTime.Today), Is.False);
         }
 
         [Ignore("Integration")]
@@ -97,16 +97,16 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             };
             _sut.SetSurveyDays(QuestionnaireName, ServerParkName, daysToAdd);
             var surveyDays = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
-            Assert.IsTrue(surveyDays.Contains(DateTime.Today));
-            Assert.IsTrue(surveyDays.Contains(DateTime.Today.AddDays(1)));
+            Assert.That(surveyDays.Contains(DateTime.Today), Is.True);
+            Assert.That(surveyDays.Contains(DateTime.Today.AddDays(1)), Is.True);
 
             //Act
             _sut.RemoveSurveyDays(QuestionnaireName, ServerParkName, daysToAdd);
 
             //Assert
             var result = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
-            Assert.IsFalse(result.Contains(DateTime.Today));
-            Assert.IsFalse(result.Contains(DateTime.Today.AddDays(1)));
+            Assert.That(result.Contains(DateTime.Today), Is.False);
+            Assert.That(result.Contains(DateTime.Today.AddDays(1)), Is.False);
         }
 
         [Ignore("Integration")]
@@ -114,7 +114,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         public void Given_An_Questionnaire_Has_A_SurveyDay_When_I_Call_GetDayBatch_The_DayBatch_Is_Created()
         {
             var result = _sut.CreateDayBatch(QuestionnaireName, ServerParkName, DateTime.Today, true);
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
 
         [Ignore("Integration")]
@@ -122,7 +122,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         public void Given_An_Questionnaire_Has_DayBatch_Entries_When_I_Call_GetDayBatch_The_Correct_Entries_Are_Returned()
         {
             var result = _sut.GetDayBatch(QuestionnaireName, ServerParkName);
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
     }
 }

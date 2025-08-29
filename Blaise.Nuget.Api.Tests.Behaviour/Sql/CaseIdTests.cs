@@ -23,8 +23,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
             var result = _sut.GetCaseIds(questionnaireName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsNotEmpty(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Not.Empty);
         }
 
         [Ignore("Integration")]
@@ -38,8 +38,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
             var result = _sut.GetCaseIdentifiers(questionnaireName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsNotEmpty(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Not.Empty);
         }
     }
 }

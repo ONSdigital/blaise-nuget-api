@@ -36,7 +36,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
         {
             //act && assert
             // ReSharper disable once ObjectCreationAsStatement
-            Assert.DoesNotThrow(() => new BlaiseServerParkApi());
+            Assert.That(() => new BlaiseServerParkApi(), Throws.Nothing);
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
         {
             //act && assert
             // ReSharper disable once ObjectCreationAsStatement
-            Assert.DoesNotThrow(() => new BlaiseServerParkApi(new ConnectionModel()));
+            Assert.That(() => new BlaiseServerParkApi(new ConnectionModel()), Throws.Nothing);
         }
 
         [Test]
@@ -74,8 +74,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
             var result = _sut.GetServerPark(_serverParkName);
 
             //assert
-            Assert.NotNull(result);
-            Assert.AreSame(serverParkMock.Object, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.SameAs(serverParkMock.Object));
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetServerPark(string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetServerPark(null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -127,8 +127,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
             var result = _sut.GetServerParks();
 
             //assert
-            Assert.NotNull(result);
-            Assert.AreSame(serverParkItems, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.SameAs(serverParkItems));
         }
 
         [Test]
@@ -156,8 +156,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
             var result = _sut.GetNamesOfServerParks();
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreSame(serverParksNames, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.SameAs(serverParksNames));
         }
 
         [Test]
@@ -184,8 +184,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
             var result = _sut.ServerParkExists(_serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(serverParkExists, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(serverParkExists));
         }
 
         [Test]
@@ -193,7 +193,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.ServerParkExists(string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.ServerParkExists(null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
     }
 }

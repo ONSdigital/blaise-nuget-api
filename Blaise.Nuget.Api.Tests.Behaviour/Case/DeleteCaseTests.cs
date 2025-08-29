@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
@@ -42,8 +41,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             _sut.RemoveCases(questionnaireName, serverParkName);
             var result = _sut.GetNumberOfCases(questionnaireName, serverParkName);
 
-            //arrange
-            Assert.AreEqual(0, result);
+            //assert
+            Assert.That(result, Is.EqualTo(0));
         }
     }
 }

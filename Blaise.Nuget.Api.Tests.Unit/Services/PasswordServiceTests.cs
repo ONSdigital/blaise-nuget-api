@@ -18,8 +18,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = passwordService.CreateSecurePassword(password);
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<SecureString>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<SecureString>());
         }
     }
 }

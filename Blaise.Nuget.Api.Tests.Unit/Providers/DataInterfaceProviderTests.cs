@@ -66,7 +66,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             _dataInterfaceMock.Verify(v => v.CreateDatabaseObjects(null, true), Times.Once);
             _dataInterfaceFactoryMock.Verify(v => v.UpdateDataFileSource(_dataInterfaceMock.Object, _sourceFile), Times.Once);
             _dataInterfaceMock.Verify(v => v.SaveToFile(true), Times.Once);
-
         }
 
         [Test]
@@ -80,9 +79,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.CreateFileDataInterface(_sourceFile, fileName, dataModelFileName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<IDataInterface>(result);
-            Assert.AreSame(_dataInterfaceMock.Object, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IDataInterface>());
+            Assert.That(result, Is.SameAs(_dataInterfaceMock.Object));
         }
 
         [Test]
@@ -133,9 +132,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName, true);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<IDataInterface>(result);
-            Assert.AreSame(_dataInterfaceMock.Object, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IDataInterface>());
+            Assert.That(result, Is.SameAs(_dataInterfaceMock.Object));
         }
 
         [TestCase(ApplicationType.Cati)]
@@ -170,9 +169,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.CreateSettingsDataInterface(_connectionString, ApplicationType.Cati, fileName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<IGeneralDataInterface>(result);
-            Assert.AreSame(_generalDataInterfaceMock.Object, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IGeneralDataInterface>());
+            Assert.That(result, Is.SameAs(_generalDataInterfaceMock.Object));
         }
     }
 }

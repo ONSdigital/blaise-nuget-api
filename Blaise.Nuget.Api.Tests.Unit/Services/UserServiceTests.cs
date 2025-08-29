@@ -115,8 +115,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetUsers(_connectionModel);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<IEnumerable<IUser>>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IEnumerable<IUser>>());
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetUsers(_connectionModel);
 
             //assert
-            Assert.AreSame(_userCollectionMock.Object, result);
+            Assert.That(result, Is.SameAs(_userCollectionMock.Object));
         }
 
         [Test]
@@ -142,8 +142,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetUser(_connectionModel, _userName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<IUser>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IUser>());
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetUser(_connectionModel, _userName);
 
             //assert
-            Assert.AreEqual(_userName, result.Name);
+            Assert.That(result.Name, Is.EqualTo(_userName));
         }
 
         [TestCase("User1")]
@@ -172,7 +172,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.UserExists(_connectionModel, userName);
 
             //assert
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.UserExists(_connectionModel, _userName);
 
             //assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -363,8 +363,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.ValidateUser(_connectionModel, _userName, _password);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.True(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -380,8 +380,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.ValidateUser(_connectionModel, _userName, _password);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.False(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.False);
         }
     }
 }

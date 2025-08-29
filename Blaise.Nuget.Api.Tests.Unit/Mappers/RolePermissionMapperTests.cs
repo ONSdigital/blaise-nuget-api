@@ -29,8 +29,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
             var result = _sut.MapToActionPermissionModels(_permissions);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<ActionPermissionModel>>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<List<ActionPermissionModel>>());
         }
 
         [Test]
@@ -40,12 +40,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
             var result = _sut.MapToActionPermissionModels(_permissions).ToList();
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<ActionPermissionModel>>(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(2, result.Count);
-            Assert.IsTrue(result.Any(r => r.Action == _permissions[0] && r.Permission == PermissionStatus.Allowed));
-            Assert.IsTrue(result.Any(r => r.Action == _permissions[1] && r.Permission == PermissionStatus.Allowed));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<List<ActionPermissionModel>>());
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result.Any(r => r.Action == _permissions[0] && r.Permission == PermissionStatus.Allowed), Is.True);
+            Assert.That(result.Any(r => r.Action == _permissions[1] && r.Permission == PermissionStatus.Allowed), Is.True);
         }
     }
 }
