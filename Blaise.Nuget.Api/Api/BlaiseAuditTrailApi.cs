@@ -13,7 +13,7 @@ namespace Blaise.Nuget.Api.Api
         private readonly IAuditTrailService _auditTrailService;
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseAuditTrailApi(
+        public BlaiseAuditTrailApi(
             IAuditTrailService auditTrailService,
             ConnectionModel connectionModel)
         {

@@ -14,7 +14,7 @@ namespace Blaise.Nuget.Api.Api
         private readonly IRoleService _roleService;
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseRoleApi(
+        public BlaiseRoleApi(
             IRoleService roleService,
             ConnectionModel connectionModel)
         {

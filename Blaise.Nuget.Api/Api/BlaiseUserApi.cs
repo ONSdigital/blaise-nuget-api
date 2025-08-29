@@ -14,7 +14,7 @@ namespace Blaise.Nuget.Api.Api
         private readonly IUserService _userService;
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseUserApi(
+        public BlaiseUserApi(
             IUserService userService,
             ConnectionModel connectionModel)
         {

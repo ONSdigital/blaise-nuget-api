@@ -14,7 +14,7 @@ namespace Blaise.Nuget.Api.Api
 
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseHealthApi(
+        public BlaiseHealthApi(
             IConnectedServerFactory connectedServerFactory,
             IRemoteDataServerFactory remoteDataServerFactory,
             ICatiManagementServerFactory catiManagementServerFactory,

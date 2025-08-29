@@ -48,8 +48,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
                 _questionnaireServiceMock.Object,
                 _questionnaireMetaServiceMock.Object,
                 _caseServiceMock.Object,
-                _connectionModel, _sqlServiceMock.Object
-                , _configurationProviderMock.Object);
+                _connectionModel,
+                _sqlServiceMock.Object,
+                _configurationProviderMock.Object);
         }
 
         [Test]

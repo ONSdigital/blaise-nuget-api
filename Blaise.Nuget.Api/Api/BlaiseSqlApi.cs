@@ -14,7 +14,7 @@ namespace Blaise.Nuget.Api.Api
 
         private readonly IBlaiseConfigurationProvider _configurationProvider;
 
-        internal BlaiseSqlApi(
+        public BlaiseSqlApi(
             ISqlService mySqlService,
             IBlaiseConfigurationProvider configurationProvider)
         {

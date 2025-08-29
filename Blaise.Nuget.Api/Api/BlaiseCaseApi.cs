@@ -18,7 +18,7 @@ namespace Blaise.Nuget.Api.Api
         private readonly ICaseService _caseService;
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseCaseApi(
+        public BlaiseCaseApi(
             ICaseService caseService,
             ConnectionModel connectionModel)
         {

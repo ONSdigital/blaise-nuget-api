@@ -13,7 +13,7 @@ namespace Blaise.Nuget.Api.Api
         private readonly IFileService _fileService;
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseFileApi(
+        public BlaiseFileApi(
             IFileService fileService,
             ConnectionModel connectionModel)
         {

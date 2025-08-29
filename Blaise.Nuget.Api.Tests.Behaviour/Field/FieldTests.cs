@@ -11,12 +11,12 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
     public class FieldTests
     {
         private readonly BlaiseCaseApi _sut;
-        private readonly string _primaryKey;
+        private readonly Dictionary<string, string> _primaryKeyValues;
 
         public FieldTests()
         {
             _sut = new BlaiseCaseApi();
-            _primaryKey = "9000001";
+            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9000001" } };
         }
 
         [Ignore("Integration")]
@@ -25,7 +25,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2102R";
+            const string questionnaireName = "OPN2102R";
             const string dateValue = "02-12-2021";
             const string timeValue = "09:23:59";
 
@@ -39,18 +39,18 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
                 {FieldNameType.LastUpdatedTime.FullName(), timeValue}
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, instrumentName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
             //act
-            var dataRecord = _sut.GetCase(_primaryKey, instrumentName, serverParkName);
+            var dataRecord = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
             var result = _sut.GetLastUpdated(dataRecord);
 
-            //arrange
-            Assert.AreEqual(lastUpdated, result);
+            //assert
+            Assert.That(result, Is.EqualTo(lastUpdated));
 
             //cleanup
-            _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
 
         [Ignore("Integration")]
@@ -59,27 +59,27 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
         {
             //arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2102R";
+            const string questionnaireName = "OPN2102R";
+            const string telNoValue = "07000000000";
 
             var fieldData = new Dictionary<string, string>
             {
                 {FieldNameType.HOut.FullName(), "110"},
-                {FieldNameType.TelNo.FullName(), "07000000000"},
-                {FieldNameType.CaseId.FullName(), _primaryKey}
+                {FieldNameType.TelNo.FullName(), telNoValue}
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, instrumentName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
             //act
-            var dataRecord = _sut.GetCase(_primaryKey, instrumentName, serverParkName);
+            var dataRecord = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
-            var result = _sut.GetFieldValue(dataRecord, FieldNameType.CaseId);
+            var result = _sut.GetFieldValue(dataRecord, FieldNameType.TelNo);
 
-            //arrange
-            Assert.AreEqual(_primaryKey, result);
+            //assert
+            Assert.That(result.ValueAsText, Is.EqualTo(telNoValue));
 
             //cleanup
-            _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Blaise.Nuget.Api.Api
         private readonly ISqlService _sqlService;
         private readonly IBlaiseConfigurationProvider _configurationProvider;
 
-        internal BlaiseQuestionnaireApi(
+        public BlaiseQuestionnaireApi(
             IQuestionnaireService questionnaireService,
             IQuestionnaireMetaService questionnaireMetaService,
             ICaseService caseService,

@@ -33,7 +33,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         {
             _sqlServiceMock = new Mock<ISqlService>();
             _configMock = new Mock<IBlaiseConfigurationProvider>();
-
             _sut = new BlaiseSqlApi(_sqlServiceMock.Object, _configMock.Object);
         }
 
