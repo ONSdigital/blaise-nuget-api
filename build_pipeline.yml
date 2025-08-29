@@ -29,12 +29,12 @@ stages:
           }
           if ($BranchName -ne "main") {
             $SafeBranchName = $BranchName -replace '/', '-' -replace '\.', '-'
-            $Suffix = "-$SafeBranchName"
+            $BranchSuffix = "-$SafeBranchName"
           } else {
-            $Suffix = ""
+            $BranchSuffix = ""
           }
-          $Version = $env:BUILD_BUILDNUMBER -replace "^[^_]+_", ""
-          $Version = "$Version$Suffix"
+          $BuildNumberStripped = $env:BUILD_BUILDNUMBER -replace "^[^_]+_", ""
+          $Version = "$BuildNumberStripped$BranchSuffix"
           Write-Host "Version: $Version"
           Write-Host "##vso[task.setvariable variable=Version;]$Version"
     - task: NuGetToolInstaller@1
@@ -59,12 +59,12 @@ stages:
           cd "$(Build.SourcesDirectory)"
           dotnet format Blaise.Nuget.Api.sln --verify-no-changes --no-restore --verbosity diagnostic
           if ($LASTEXITCODE -eq 0) {
-            Write-Host "✅ Code formatting found no issues."
+            Write-Host "✅ Check code formatting found no issues."
           } elseif ($LASTEXITCODE -eq 2) {
-            Write-Host "⚠️ Code formatting found warnings."
+            Write-Host "⚠️ Check code formatting found warnings."
             exit 0
           } else {
-            Write-Host "❌ Code formatting check failed."
+            Write-Host "❌ Check code formatting failed."
             exit 1
           }
     - task: VSBuild@1

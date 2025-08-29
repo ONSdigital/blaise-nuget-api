@@ -12,10 +12,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
-  <ItemGroup>
-    <None Include="Blaise.Nuget.Api.Contracts.nuspec" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
