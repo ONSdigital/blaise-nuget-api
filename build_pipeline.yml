@@ -104,6 +104,10 @@ stages:
           displayName: Publish artifact
           inputs:
             PathtoPublish: $(Build.ArtifactStagingDirectory)
+        - script: |
+            Write-Host "Listing contents of the build directory:"
+            Get-ChildItem -Path "$(Build.SourcesDirectory)\Blaise.Nuget.Api\bin\Release" -Recurse
+          displayName: "Log build directory contents"
         - task: NuGetCommand@2
           displayName: Run NuGet pack
           inputs:
