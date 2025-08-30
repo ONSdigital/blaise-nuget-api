@@ -1,7 +1,7 @@
-using StatNeth.Blaise.API.DataInterface;
-
 namespace Blaise.Nuget.Api.Core.Interfaces.Providers
 {
+    using StatNeth.Blaise.API.DataInterface;
+
     public interface IDataInterfaceProvider
     {
         IDataInterface CreateFileDataInterface(

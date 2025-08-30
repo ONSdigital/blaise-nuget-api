@@ -1,18 +1,20 @@
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Blaise.Nuget.Api.Core.Services;
-using Moq;
-using NUnit.Framework;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Blaise.Nuget.Api.Core.Services;
+    using Moq;
+    using NUnit.Framework;
+    using StatNeth.Blaise.API.Meta;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class QuestionnaireMetaServiceTests
     {
         private ConnectionModel _connectionModel;
+
         private string _questionnaireName;
+
         private string _serverParkName;
 
         private Mock<IDataModelService> _dataModelServiceMock;
@@ -34,7 +36,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_A_Questionnaire_Is_Installed_In_Cati_And_Cawi_Mode_When_I_Call_GetQuestionnaireModes_The_Correct_Modes_Are_Returned()
         {
-            //arrange
+            // arrange
             const string mode1 = "CATI";
             var mode1Mock = new Mock<IMode>();
             mode1Mock.Setup(m => m.Name).Returns(mode1);
@@ -51,13 +53,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dataModelMock = new Mock<IDatamodel2>();
             dataModelMock.Setup(dm => dm.Modes).Returns(modeCollection.Object);
 
-            _dataModelServiceMock.Setup(dm => dm.GetDataModel(_connectionModel,
+            _dataModelServiceMock.Setup(dm => dm.GetDataModel(
+                _connectionModel,
                 _questionnaireName, _serverParkName)).Returns(dataModelMock.Object);
 
-            //act
+            // act
             var result = _sut.GetQuestionnaireModes(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
-            //assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.Not.Empty);
             Assert.That(result.Count, Is.EqualTo(2));
@@ -68,14 +71,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_A_Questionnaire_Has_No_DataModel_When_I_Call_GetQuestionnaireModes_Then_An_Empty_List_Is_Returned()
         {
-            //arrange
-            _dataModelServiceMock.Setup(dm => dm.GetDataModel(It.IsAny<ConnectionModel>(),
+            // arrange
+            _dataModelServiceMock.Setup(dm => dm.GetDataModel(
+                It.IsAny<ConnectionModel>(),
                 It.IsAny<string>(), It.IsAny<string>())).Returns(null as IDatamodel);
 
-            //act
+            // act
             var result = _sut.GetQuestionnaireModes(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
-            //assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.Empty);
         }
@@ -83,7 +87,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_I_Call_GetQuestionnaireDataEntrySettings_I_Get_A_List_Of_DataEntrySettingsModel_Back()
         {
-            //arrange
+            // arrange
             var dataEntrySettingsList = new List<IDataEntrySettings>();
 
             var dataEntrySettingsCollection = new Mock<IDataEntrySettingsCollection>();
@@ -93,13 +97,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var datamodelMock = new Mock<IDatamodel>();
             datamodelMock.Setup(d => d.DataEntrySettings).Returns(dataEntrySettingsCollection.Object);
 
-            _dataModelServiceMock.Setup(dm => dm.GetDataModel(It.IsAny<ConnectionModel>(),
+            _dataModelServiceMock.Setup(dm => dm.GetDataModel(
+                It.IsAny<ConnectionModel>(),
                 It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
 
-            //act
+            // act
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
         }
@@ -107,9 +112,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_I_Call_GetQuestionnaireDataEntrySettings_I_Get_A_Valid_List_Of_DataEntrySettingsModel_Back()
         {
-            //arrange
+            // arrange
 
-            //data entry settings 1
+            // data entry settings 1
             var dataEntrySettings1Name = "StrictInterviewing";
             var dataEntrySettings1Timeout = 30;
             var dataEntrySettings1Mock = new Mock<IDataEntrySettings>();
@@ -141,13 +146,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var datamodelMock = new Mock<IDatamodel>();
             datamodelMock.Setup(d => d.DataEntrySettings).Returns(dataEntrySettingsCollection.Object);
 
-            _dataModelServiceMock.Setup(dm => dm.GetDataModel(It.IsAny<ConnectionModel>(),
+            _dataModelServiceMock.Setup(dm => dm.GetDataModel(
+                It.IsAny<ConnectionModel>(),
                 It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
 
-            //act
+            // act
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
-            //assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
             Assert.That(result.Count, Is.EqualTo(2));
@@ -174,7 +180,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_I_Call_GetQuestionnaireDataEntrySettings_And_There_Are_No_Settings_Configured_I_Get_An_Empty_List_Back()
         {
-            //arrange
+            // arrange
             var dataEntrySettingsList = new List<IDataEntrySettings>();
 
             var dataEntrySettingsCollection = new Mock<IDataEntrySettingsCollection>();
@@ -184,13 +190,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var datamodelMock = new Mock<IDatamodel>();
             datamodelMock.Setup(d => d.DataEntrySettings).Returns(dataEntrySettingsCollection.Object);
 
-            _dataModelServiceMock.Setup(dm => dm.GetDataModel(It.IsAny<ConnectionModel>(),
+            _dataModelServiceMock.Setup(dm => dm.GetDataModel(
+                It.IsAny<ConnectionModel>(),
                 It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
 
-            //act
+            // act
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
             Assert.That(result, Is.Empty);

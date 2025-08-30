@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Core.Interfaces.Mappers;
-using Blaise.Nuget.Api.Core.Models;
-using StatNeth.Blaise.API.Security;
-
 namespace Blaise.Nuget.Api.Core.Mappers
 {
+    using Blaise.Nuget.Api.Core.Interfaces.Mappers;
+    using Blaise.Nuget.Api.Core.Models;
+    using StatNeth.Blaise.API.Security;
+    using System.Collections.Generic;
+
     public class RolePermissionMapper : IRolePermissionMapper
     {
         public IEnumerable<ActionPermissionModel> MapToActionPermissionModels(IEnumerable<string> permissions)

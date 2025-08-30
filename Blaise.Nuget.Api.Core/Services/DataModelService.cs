@@ -1,14 +1,15 @@
-using System;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.Meta;
+    using System;
+
     public class DataModelService : IDataModelService
     {
         private readonly IRemoteDataLinkProvider _remoteDataLinkProvider;
+
         private readonly ILocalDataLinkProvider _localDataLinkProvider;
 
         public DataModelService(

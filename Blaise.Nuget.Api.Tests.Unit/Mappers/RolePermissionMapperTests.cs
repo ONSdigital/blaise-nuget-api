@@ -1,13 +1,13 @@
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Core.Interfaces.Mappers;
-using Blaise.Nuget.Api.Core.Mappers;
-using Blaise.Nuget.Api.Core.Models;
-using NUnit.Framework;
-using StatNeth.Blaise.API.Security;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Mappers
 {
+    using Blaise.Nuget.Api.Core.Interfaces.Mappers;
+    using Blaise.Nuget.Api.Core.Mappers;
+    using Blaise.Nuget.Api.Core.Models;
+    using NUnit.Framework;
+    using StatNeth.Blaise.API.Security;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class RolePermissionMapperTests
     {
         private IRolePermissionMapper _sut;
@@ -25,10 +25,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
         [Test]
         public void Given_A_List_Of_Permissions_When_I_Call_MapToActionPermissionModels_I_Get_A_List_Of_ActionPermissionModels_Returned()
         {
-            //act
+            // act
             var result = _sut.MapToActionPermissionModels(_permissions);
 
-            //assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<ActionPermissionModel>>());
         }
@@ -36,10 +36,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
         [Test]
         public void Given_A_List_Of_Permissions_When_I_Call_MapToActionPermissionModels_I_Get_An_Expected_List_Of_ActionPermissionModels_Returned()
         {
-            //act
+            // act
             var result = _sut.MapToActionPermissionModels(_permissions).ToList();
 
-            //assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<ActionPermissionModel>>());
             Assert.That(result, Is.Not.Empty);

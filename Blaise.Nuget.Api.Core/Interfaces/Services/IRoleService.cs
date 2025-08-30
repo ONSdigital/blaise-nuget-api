@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-using StatNeth.Blaise.API.Security;
-
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using StatNeth.Blaise.API.Security;
+    using System.Collections.Generic;
+
     public interface IRoleService
     {
         IEnumerable<IRole> GetRoles(ConnectionModel connectionModel);

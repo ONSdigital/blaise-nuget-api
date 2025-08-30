@@ -1,17 +1,18 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Blaise.Nuget.Api.Extensions;
-using Blaise.Nuget.Api.Providers;
-using StatNeth.Blaise.API.Security;
-
 namespace Blaise.Nuget.Api.Api
 {
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Blaise.Nuget.Api.Extensions;
+    using Blaise.Nuget.Api.Providers;
+    using StatNeth.Blaise.API.Security;
+    using System.Collections.Generic;
+
     public class BlaiseRoleApi : IBlaiseRoleApi
     {
         private readonly IRoleService _roleService;
+
         private readonly ConnectionModel _connectionModel;
 
         public BlaiseRoleApi(

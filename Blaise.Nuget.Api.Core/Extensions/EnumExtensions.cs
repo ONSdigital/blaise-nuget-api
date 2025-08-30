@@ -1,7 +1,7 @@
-using System;
-
 namespace Blaise.Nuget.Api.Core.Extensions
 {
+    using System;
+
     public static class EnumExtensions
     {
         public static T ToEnum<T>(this string value)

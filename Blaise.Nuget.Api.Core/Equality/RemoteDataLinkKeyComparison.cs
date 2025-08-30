@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 namespace Blaise.Nuget.Api.Core.Equality
 {
+    using System;
+    using System.Collections.Generic;
+
     public class RemoteDataLinkKeyComparison : IEqualityComparer<Tuple<string, string, DateTime>>
     {
         public bool Equals(Tuple<string, string, DateTime> x, Tuple<string, string, DateTime> y)

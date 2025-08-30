@@ -1,7 +1,7 @@
-using System.ComponentModel;
-
 namespace Blaise.Nuget.Api.Contracts.Enums
 {
+    using System.ComponentModel;
+
     public enum SqlFieldType
     {
         [Description("Serial_Number")]

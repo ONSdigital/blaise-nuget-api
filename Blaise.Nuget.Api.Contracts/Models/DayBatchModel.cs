@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 namespace Blaise.Nuget.Api.Contracts.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class DayBatchModel
     {
         public DayBatchModel()

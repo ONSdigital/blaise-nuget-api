@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.Meta;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class QuestionnaireMetaService : IQuestionnaireMetaService
     {
         private readonly IDataModelService _dataModelService;

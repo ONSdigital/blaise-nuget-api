@@ -1,21 +1,22 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Extensions;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Blaise.Nuget.Api.Extensions;
-using Blaise.Nuget.Api.Providers;
-using StatNeth.Blaise.API.DataLink;
-using StatNeth.Blaise.API.DataRecord;
-
 namespace Blaise.Nuget.Api.Api
 {
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Extensions;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Blaise.Nuget.Api.Extensions;
+    using Blaise.Nuget.Api.Providers;
+    using StatNeth.Blaise.API.DataLink;
+    using StatNeth.Blaise.API.DataRecord;
+    using System;
+    using System.Collections.Generic;
+
     public class BlaiseCaseApi : IBlaiseCaseApi
     {
         private readonly ICaseService _caseService;
+
         private readonly ConnectionModel _connectionModel;
 
         public BlaiseCaseApi(
@@ -320,6 +321,7 @@ namespace Blaise.Nuget.Api.Api
         }
 
         // Ugghh :(
+
         public bool DataRecordIsLocked(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName)
         {
             primaryKeyValues.ThrowExceptionIfNull("primaryKeyValues");

@@ -1,8 +1,8 @@
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using StatNeth.Blaise.API.DataInterface;
-
 namespace Blaise.Nuget.Api.Core.Factories
 {
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using StatNeth.Blaise.API.DataInterface;
+
     public class DataInterfaceFactory : IDataInterfaceFactory
     {
         public IDataInterface GetDataInterfaceForFile(string dataSourceFileName)

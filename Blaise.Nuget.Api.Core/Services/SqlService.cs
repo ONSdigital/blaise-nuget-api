@@ -1,12 +1,12 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Extensions;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using MySql.Data.MySqlClient;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Extensions;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using MySql.Data.MySqlClient;
+    using System.Collections.Generic;
+
     public class SqlService : ISqlService
     {
         public IEnumerable<string> GetCaseIds(string connectionString, string questionnaireName)

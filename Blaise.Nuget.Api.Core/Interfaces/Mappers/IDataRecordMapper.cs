@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using StatNeth.Blaise.API.DataRecord;
-
 namespace Blaise.Nuget.Api.Core.Interfaces.Mappers
 {
+    using StatNeth.Blaise.API.DataRecord;
+    using System.Collections.Generic;
+
     public interface IDataRecordMapper
     {
         IDataRecord MapDataRecordFields(

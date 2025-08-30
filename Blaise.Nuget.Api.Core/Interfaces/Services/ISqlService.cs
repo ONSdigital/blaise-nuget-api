@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using System.Collections.Generic;
+
     public interface ISqlService
     {
         IEnumerable<string> GetCaseIds(string connectionString, string questionnaireName);

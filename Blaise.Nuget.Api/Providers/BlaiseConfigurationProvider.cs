@@ -1,9 +1,9 @@
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Extensions;
-
 namespace Blaise.Nuget.Api.Providers
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Extensions;
+
     public class BlaiseConfigurationProvider : IBlaiseConfigurationProvider
     {
         public int ConnectionExpiresInMinutes => ConfigurationExtensions.GetVariableAsInt(

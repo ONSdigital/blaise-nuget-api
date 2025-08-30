@@ -1,7 +1,7 @@
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Nuget.Api.Contracts.Models
 {
+    using StatNeth.Blaise.API.ServerManager;
+
     public class InstallOptions : IInstallOptions
     {
         public string LayoutSetGroupName { get; set; }

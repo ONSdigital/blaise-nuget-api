@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Extensions;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using StatNeth.Blaise.API.DataLink;
-
 namespace Blaise.Nuget.Api.Core.Providers
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Extensions;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using StatNeth.Blaise.API.DataLink;
+    using System;
+    using System.Collections.Generic;
+
     public class LocalDataLinkProvider : ILocalDataLinkProvider
     {
         private readonly Dictionary<string, Tuple<IDataLink6, DateTime>> _connections;

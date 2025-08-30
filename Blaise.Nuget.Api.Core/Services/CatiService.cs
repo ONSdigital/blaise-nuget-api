@@ -1,18 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Exceptions;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.Cati.Runtime;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using Blaise.Nuget.Api.Contracts.Exceptions;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.Cati.Runtime;
+    using StatNeth.Blaise.API.ServerManager;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class CatiService : ICatiService
     {
         private readonly IRemoteCatiManagementServerProvider _remoteCatiManagementServerProvider;
+
         private readonly IQuestionnaireService _questionnaireService;
 
         public CatiService(

@@ -1,18 +1,20 @@
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Providers;
-using Moq;
-using NUnit.Framework;
-using StatNeth.Blaise.API.Cati.Runtime;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Providers
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Providers;
+    using Moq;
+    using NUnit.Framework;
+    using StatNeth.Blaise.API.Cati.Runtime;
+
     public class RemoteCatiManagementServerProviderTests
     {
         private Mock<ICatiManagementServerFactory> _catiFactoryMock;
+
         private Mock<IRemoteCatiManagementServer> _remoteCatiManagementMock;
 
         private readonly ConnectionModel _connectionModel;
+
         private readonly string _serverParkName;
 
         private RemoteCatiManagementServerProvider _sut;
@@ -38,10 +40,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         [Test]
         public void Given_I_Call_GetCatiManagementForServerPark_Then_The_Correct_Methods_Are_Called()
         {
-            //act
+            // act
             _sut.GetCatiManagementForServerPark(_connectionModel, _serverParkName);
 
-            //assert
+            // assert
             _catiFactoryMock.Verify(v => v.GetConnection(_connectionModel), Times.Once);
             _remoteCatiManagementMock.Verify(v => v.SelectServerPark(_serverParkName), Times.Once);
         }
@@ -49,10 +51,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         [Test]
         public void Given_I_Call_GetCatiManagementForServerPark_Then_The_Correct_Connection_Is_Returned()
         {
-            //act
+            // act
             var result = _sut.GetCatiManagementForServerPark(_connectionModel, _serverParkName);
 
-            //assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IRemoteCatiManagementServer>());
             Assert.That(result, Is.SameAs(_remoteCatiManagementMock.Object));

@@ -1,7 +1,7 @@
-using StatNeth.Blaise.API.DataInterface;
-
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
+    using StatNeth.Blaise.API.DataInterface;
+
     public interface IBlaiseFileApi
     {
         void UpdateQuestionnaireFileWithData(

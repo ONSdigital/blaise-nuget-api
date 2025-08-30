@@ -1,13 +1,14 @@
-using Blaise.Nuget.Api.Api;
-using NUnit.Framework;
-using StatNeth.Blaise.API.DataInterface;
-using System.Collections.Generic;
-
 namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
 {
+    using Blaise.Nuget.Api.Api;
+    using NUnit.Framework;
+    using StatNeth.Blaise.API.DataInterface;
+    using System.Collections.Generic;
+
     public class QuestionnaireFileTests
     {
         private readonly BlaiseFileApi _sut;
+
         public QuestionnaireFileTests()
         {
             _sut = new BlaiseFileApi();
@@ -17,17 +18,17 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
         [Test]
         public void Given_I_Call_UpdateQuestionnaireFileWithAuditData_Then_The_Questionnaire_Is_Updated()
         {
-            //arrange
+            // arrange
             const string serverParkName = "LocalDevelopment";
             const string questionnaireName = "lms2301_ts6";
             const string questionnaireFile = @"C:\Temp\LMS2301_TS61.bpkg";
 
             CreateCases(100, questionnaireName, serverParkName);
 
-            //act && assert
+            // act and assert
             Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithData(serverParkName, questionnaireName, questionnaireFile, true));
 
-            //cleanup
+            // cleanup
             DeleteCasesInDatabase(questionnaireName, serverParkName);
         }
 
@@ -35,17 +36,17 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
         [Test]
         public void Given_I_Call_UpdateQuestionnaireFileWithData_Then_The_Questionnaire_Is_Updated()
         {
-            //arrange
+            // arrange
             const string serverParkName = "LocalDevelopment";
             const string questionnaireName = "lms2301_ts6";
             const string questionnaireFile = @"C:\Temp\LMS2301_TS61.bpkg";
 
             CreateCases(100, questionnaireName, serverParkName);
 
-            //act && assert
+            // act and assert
             Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithData(serverParkName, questionnaireName, questionnaireFile));
 
-            //cleanup
+            // cleanup
             DeleteCasesInDatabase(questionnaireName, serverParkName);
         }
 
@@ -53,12 +54,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
         [Test]
         public void Given_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_The_Questionnaire_Is_Updated()
         {
-            //arrange
+            // arrange
             const string questionnaireName = "LMS2101_AA1";
             const string questionnaireFile = @"D:\Blaise\Questionnaires\LMS2101_AA1.bpkg";
 
-            //act && assert
-            Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithSqlConnection(questionnaireName,
+            // act and assert
+            Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithSqlConnection(
+                questionnaireName,
                 questionnaireFile));
         }
 
@@ -66,11 +68,11 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
         [Test]
         public void Given_I_Call_CreateSettingsDataInterfaceFile_Then_The_Interface_Is_Created()
         {
-            //arrange
+            // arrange
             const ApplicationType applicationType = ApplicationType.Cati;
             const string fileName = @"D:\OPN2101A.bcdi";
 
-            //act && assert
+            // act and assert
             Assert.DoesNotThrow(() => _sut.CreateSettingsDataInterfaceFile(applicationType, fileName));
         }
 

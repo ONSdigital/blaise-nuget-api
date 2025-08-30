@@ -1,23 +1,28 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Blaise.Nuget.Api.Extensions;
-using Blaise.Nuget.Api.Providers;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Nuget.Api.Api
 {
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Blaise.Nuget.Api.Extensions;
+    using Blaise.Nuget.Api.Providers;
+    using StatNeth.Blaise.API.ServerManager;
+    using System;
+    using System.Collections.Generic;
+
     public class BlaiseQuestionnaireApi : IBlaiseQuestionnaireApi
     {
         private readonly IQuestionnaireService _questionnaireService;
+
         private readonly IQuestionnaireMetaService _questionnaireMetaService;
+
         private readonly ICaseService _caseService;
+
         private readonly ConnectionModel _connectionModel;
+
         private readonly ISqlService _sqlService;
+
         private readonly IBlaiseConfigurationProvider _configurationProvider;
 
         public BlaiseQuestionnaireApi(

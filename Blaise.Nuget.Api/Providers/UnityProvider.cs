@@ -1,15 +1,15 @@
-using Blaise.Nuget.Api.Core.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Mappers;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Blaise.Nuget.Api.Core.Mappers;
-using Blaise.Nuget.Api.Core.Providers;
-using Blaise.Nuget.Api.Core.Services;
-using Unity;
-
 namespace Blaise.Nuget.Api.Providers
 {
+    using Blaise.Nuget.Api.Core.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Mappers;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Blaise.Nuget.Api.Core.Mappers;
+    using Blaise.Nuget.Api.Core.Providers;
+    using Blaise.Nuget.Api.Core.Services;
+    using Unity;
+
     public static class UnityProvider
     {
         private static readonly UnityContainer UnityContainer;

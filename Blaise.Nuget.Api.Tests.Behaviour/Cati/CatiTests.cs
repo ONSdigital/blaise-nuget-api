@@ -1,15 +1,16 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Api;
-using NUnit.Framework;
-
 namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
 {
+    using Blaise.Nuget.Api.Api;
+    using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+
     public class CatiTests
     {
         private readonly BlaiseCatiApi _sut;
 
         private const string ServerParkName = "LocalDevelopment";
+
         private const string QuestionnaireName = "DST2106Z";
 
         public CatiTests()
@@ -37,10 +38,10 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         [Test]
         public void Given_An_Questionnaire_Is_Installed_And_A_SurveyDay_is_Added_The_Survey_Day_Is_Returned()
         {
-            //Act
+            // act
             _sut.SetSurveyDay(QuestionnaireName, ServerParkName, DateTime.Today);
 
-            //Assert
+            // assert
             var result = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
             Assert.That(result.Contains(DateTime.Today), Is.True);
         }
@@ -49,17 +50,17 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         [Test]
         public void Given_An_Questionnaire_Is_Installed_And_Multiple_SurveyDays_Are_Added_The_Survey_Days_Are_Returned()
         {
-            //Arrange
+            // arrange
             var daysToAdd = new List<DateTime>
             {
                 DateTime.Today,
                 DateTime.Today.AddDays(1)
             };
 
-            //Act
+            // act
             _sut.SetSurveyDays(QuestionnaireName, ServerParkName, daysToAdd);
 
-            //Assert
+            // assert
             var result = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
             Assert.That(result.Contains(DateTime.Today), Is.True);
             Assert.That(result.Contains(DateTime.Today.AddDays(1)), Is.True);
@@ -69,7 +70,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         [Test]
         public void Given_An_Questionnaire_Is_Installed_And_A_SurveyDay_When_RemoveSurveyDay_Is_Called_The_SurveyDays_Are_Removed()
         {
-            //Arrange
+            // arrange
             var surveyDay = DateTime.Today;
 
             _sut.SetSurveyDay(QuestionnaireName, ServerParkName, surveyDay);
@@ -77,10 +78,10 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
 
             Assert.That(surveyDays.Contains(DateTime.Today), Is.True);
 
-            //Act
+            // act
             _sut.RemoveSurveyDay(QuestionnaireName, ServerParkName, surveyDay);
 
-            //Assert
+            // assert
             var result = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
             Assert.That(result.Contains(DateTime.Today), Is.False);
         }
@@ -89,7 +90,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
         [Test]
         public void Given_An_Questionnaire_Is_Installed_And_Has_Multiple_SurveyDays_When_RemoveSurveyDays_Is_Called_The_SurveyDays_Are_Removed()
         {
-            //Arrange
+            // arrange
             var daysToAdd = new List<DateTime>
             {
                 DateTime.Today,
@@ -100,10 +101,10 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             Assert.That(surveyDays.Contains(DateTime.Today), Is.True);
             Assert.That(surveyDays.Contains(DateTime.Today.AddDays(1)), Is.True);
 
-            //Act
+            // act
             _sut.RemoveSurveyDays(QuestionnaireName, ServerParkName, daysToAdd);
 
-            //Assert
+            // assert
             var result = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);
             Assert.That(result.Contains(DateTime.Today), Is.False);
             Assert.That(result.Contains(DateTime.Today.AddDays(1)), Is.False);

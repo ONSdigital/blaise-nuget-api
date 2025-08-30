@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Models;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using StatNeth.Blaise.API.ServerManager;
+    using System;
+    using System.Collections.Generic;
+
     public interface IQuestionnaireService
     {
         IEnumerable<string> GetQuestionnaireNames(ConnectionModel connectionModel, string serverParkName);

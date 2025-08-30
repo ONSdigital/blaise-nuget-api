@@ -1,10 +1,10 @@
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using StatNeth.Blaise.API.Cati.Runtime;
-
 namespace Blaise.Nuget.Api.Core.Providers
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using StatNeth.Blaise.API.Cati.Runtime;
+
     public class RemoteCatiManagementServerProvider : IRemoteCatiManagementServerProvider
     {
         private readonly ICatiManagementServerFactory _catiServerFactory;

@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Core.Mappers;
-using Moq;
-using NUnit.Framework;
-using StatNeth.Blaise.API.DataRecord;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Mappers
 {
+    using Blaise.Nuget.Api.Core.Mappers;
+    using Moq;
+    using NUnit.Framework;
+    using StatNeth.Blaise.API.DataRecord;
+    using System.Collections.Generic;
+
     public class DataRecordMapperTests
     {
         private DataRecordMapper _sut;
@@ -14,7 +14,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
         public void SetupTests()
         {
             _sut = new DataRecordMapper();
-
         }
 
         [Test]
@@ -30,14 +29,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
             field2Mock.Setup(f => f.FullName).Returns("Field2Name");
             field2Mock.Setup(f => f.DataValue.ValueAsText).Returns("Field2Value");
 
-
             dataRecordMock.As<IDataRecord2>().Setup(dr => dr.GetDataFields())
                 .Returns(new List<IField> { field1Mock.Object, field2Mock.Object });
 
-            //act
+            // act
             var result = _sut.MapFieldDictionaryFromRecord(dataRecordMock.Object);
 
-            //assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Dictionary<string, string>>());
             Assert.That(result.Count, Is.EqualTo(2));

@@ -1,17 +1,19 @@
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Mappers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.AuditTrail;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Mappers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.AuditTrail;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class AuditTrailService : IAuditTrailService
     {
         private readonly IQuestionnaireService _questionnaireService;
+
         private readonly IAuditTrailManagerFactory _auditTrailManagerFactory;
+
         private readonly IAuditTrailDataMapper _auditTrailDataMapper;
 
         public AuditTrailService(

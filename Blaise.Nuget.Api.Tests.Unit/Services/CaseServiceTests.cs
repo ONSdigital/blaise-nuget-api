@@ -1,43 +1,51 @@
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Exceptions;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Mappers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Blaise.Nuget.Api.Core.Services;
-using Moq;
-using NUnit.Framework;
-using StatNeth.Blaise.API.DataLink;
-using StatNeth.Blaise.API.DataRecord;
-using StatNeth.Blaise.API.Meta;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Extensions;
-
-// ReSharper disable MissingXmlDoc
-
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Exceptions;
+    using Blaise.Nuget.Api.Contracts.Extensions;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Mappers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Blaise.Nuget.Api.Core.Services;
+    using Moq;
+    using NUnit.Framework;
+    using StatNeth.Blaise.API.DataLink;
+    using StatNeth.Blaise.API.DataRecord;
+    using StatNeth.Blaise.API.Meta;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+
     public class CaseServiceTests
     {
         private Mock<IDataModelService> _dataModelServiceMock;
+
         private Mock<IKeyService> _keyServiceMock;
+
         private Mock<IDataRecordService> _dataRecordServiceMock;
+
         private Mock<IFieldService> _fieldServiceMock;
+
         private Mock<IDataRecordMapper> _mapperServiceMock;
 
         private Mock<IDatamodel> _dataModelMock;
+
         private Mock<IKey> _keyMock;
+
         private Mock<IDataRecord> _dataRecordMock;
 
         private readonly ConnectionModel _connectionModel;
-        private readonly string _questionnaireName;
-        private readonly string _serverParkName;
-        private readonly string _databaseFile;
-        private readonly string _keyName;
-        private readonly Dictionary<string, string> _primaryKeyValues;
 
+        private readonly string _questionnaireName;
+
+        private readonly string _serverParkName;
+
+        private readonly string _databaseFile;
+
+        private readonly string _keyName;
+
+        private readonly Dictionary<string, string> _primaryKeyValues;
 
         private CaseService _sut;
 
@@ -87,68 +95,67 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_I_Call_GetPrimaryKeyValues_Then_The_Correct_Key_Is_Returned()
         {
-            //act
+            // act
             var primaryKeys = new Dictionary<string, string> { { "QID.Serial_Number", "900001" } };
             _keyServiceMock.Setup(k => k.GetPrimaryKeyValues(It.IsAny<IDataRecord>())).Returns(primaryKeys);
 
             var result = _sut.GetPrimaryKeyValues(_dataRecordMock.Object);
 
-            //assert
+            // assert
             Assert.That(result, Is.SameAs(primaryKeys));
         }
 
         [Test]
         public void Given_I_Call_GetPrimaryKeyValue_Then_The_Correct_Services_Are_Called()
         {
-            //arrange
+            // arrange
             _keyServiceMock.Setup(k => k.GetPrimaryKeyValues(It.IsAny<IDataRecord>())).Returns(It.IsAny<Dictionary<string, string>>());
 
-            //act
+            // act
             _sut.GetPrimaryKeyValues(_dataRecordMock.Object);
 
-            //assert
+            // assert
             _keyServiceMock.Verify(v => v.GetPrimaryKeyValues(_dataRecordMock.Object), Times.Once);
         }
 
         [Test]
         public void Given_I_Call_GetDataSet_Then_The_Correct_Services_Are_Called()
         {
-            //act
+            // act
             _sut.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null);
 
-            //assert
+            // assert
             _dataRecordServiceMock.Verify(v => v.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null), Times.Once);
         }
 
         [Test]
         public void Given_A_File_I_Call_GetDataSet_Then_The_Correct_Services_Are_Called()
         {
-            //act
+            // act
             _sut.GetDataSet(_connectionModel, _databaseFile, null);
 
-            //assert
+            // assert
             _dataRecordServiceMock.Verify(v => v.GetDataSet(_connectionModel, _databaseFile, null), Times.Once);
         }
 
         [Test]
         public void Given_PrimaryKeyValues_And_An_QuestionnaireName_And_ServerParkName_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
         {
-            //act
+            // act
             _sut.GetDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             _dataRecordServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName), Times.Once);
         }
 
         [Test]
         public void Given_A_Record_Does_Not_Exist_When_I_Call_GetDataRecord_Then_A_DataNotFoundException_Is_Thrown()
         {
-            //arrange
+            // arrange
             _keyServiceMock.Setup(k => k.KeyExists(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName))
                 .Returns(false);
 
-
-            //act && assert
+            // act and assert
             Assert.Throws<DataNotFoundException>(() =>
                 _sut.GetDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName));
         }
@@ -156,33 +163,33 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_PrimaryKeyValues_And_A_DatabaseFile_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
         {
-            //act
+            // act
             _sut.GetDataRecord(_connectionModel, _primaryKeyValues, _databaseFile);
 
-            //assert
+            // assert
             _dataRecordServiceMock.Verify(v => v.GetDataRecord(_connectionModel, _databaseFile, _keyMock.Object), Times.Once);
         }
 
         [Test]
         public void Given_A_DatabaseFile_When_I_Call_WriteDataRecord_Then_The_Correct_Services_Are_Called()
         {
-            //act
+            // act
             _sut.WriteDataRecord(_connectionModel, _dataRecordMock.Object, _databaseFile);
 
-            //assert
+            // assert
             _dataRecordServiceMock.Verify(v => v.WriteDataRecord(_connectionModel, _dataRecordMock.Object, _databaseFile), Times.Once);
         }
 
         [Test]
         public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Correct_Services_Are_Called()
         {
-            //arrange
+            // arrange
             const string fieldName = "QHAdmin.HOut";
 
-            //act
+            // act
             _sut.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldName);
 
-            //assert
+            // assert
             _fieldServiceMock.Verify(v => v.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldName), Times.Once);
         }
 
@@ -190,36 +197,36 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase(false)]
         public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Correct_Value_Is_Returned(bool fieldExists)
         {
-            //arrange
+            // arrange
             const string fieldName = "QHAdmin.HOut";
             _fieldServiceMock.Setup(f => f.FieldExists(_connectionModel, It.IsAny<string>(), It.IsAny<string>(),
                 It.IsAny<string>())).Returns(fieldExists);
 
-            //act
+            // act
             var result = _sut.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldName);
 
-            //assert
+            // assert
             Assert.That(result, Is.EqualTo(fieldExists));
         }
 
         [Test]
         public void Given_A_FieldName_When_I_Call_FieldExists_Then_The_Correct_Services_Are_Called_For_DataRecord()
         {
-            //arrange
+            // arrange
             const string fieldName = "QHAdmin.HOut";
             _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldName)).Returns(true);
 
-            //act
+            // act
             _sut.FieldExists(_dataRecordMock.Object, fieldName);
 
-            //assert
+            // assert
             _fieldServiceMock.Verify(v => v.FieldExists(_dataRecordMock.Object, fieldName), Times.Once);
         }
 
         [Test]
         public void Given_A_FieldName_When_I_Call_GetFieldValue_Then_The_Correct_DataModel_Is_Returned()
         {
-            //arrange
+            // arrange
             const string fieldName = "QHAdmin.HOut";
             var dataValueMock = new Mock<IDataValue>();
             var fieldMock = new Mock<IField>();
@@ -227,10 +234,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
             _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldName)).Returns(fieldMock.Object);
 
-            //act
+            // act
             var result = _sut.GetFieldValue(_dataRecordMock.Object, fieldName);
 
-            //assert
+            // assert
             Assert.That(result, Is.EqualTo(dataValueMock.Object));
         }
 
@@ -263,13 +270,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_The_Date_Field_Does_Not_Exist_When_I_Call_GetLastUpdated_Then_Null_Is_Returned()
         {
-            //arrange
+            // arrange
 
-            //setup date
+            // setup date
             _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdatedDate.FullName()))
                 .Returns(false);
 
-            //setup time
+            // setup time
             var timeDataValueMock = new Mock<IDataValue>();
             var timeFieldMock = new Mock<IField>();
             timeDataValueMock.Setup(d => d.ValueAsText).Returns("09:23:59");
@@ -279,17 +286,17 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdatedTime.FullName()))
                 .Returns(timeFieldMock.Object);
 
-            //act
+            // act
             var result = _sut.GetLastUpdated(_dataRecordMock.Object);
 
-            //assert
+            // assert
             Assert.That(result, Is.Null);
         }
 
         [Test]
         public void Given_A_Valid_DataRecord_When_I_Call_GetCaseStatus_Then_An_Expected_CaseStatusModel_Is_Returned()
         {
-            //arrange
+            // arrange
             var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900000" } };
             const int outCome = 110;
             var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
@@ -307,10 +314,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName())).Returns(true);
             _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, FieldNameType.LastUpdated.FullName())).Returns(dateFieldMock.Object);
 
-            //act
+            // act
             var result = _sut.GetCaseStatus(_dataRecordMock.Object);
 
-            //assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<CaseStatusModel>());
             Assert.That(result.PrimaryKeyValues, Is.EqualTo(primaryKeyValues));
@@ -321,7 +328,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_A_Valid_DataSet_When_I_Call_GetCaseStatusModelList_Then_An_Expected_List_Of_CaseStatusModel_Is_Returned()
         {
-            //Arrange
+            // arrange
             var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900000" } };
             const int outCome = 110;
             var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
@@ -353,10 +360,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _dataRecordServiceMock.Setup(d => d.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null))
                 .Returns(dataSetMock.Object);
 
-            // Act
+            // act
             var result = _sut.GetCaseStatusModelList(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
-            // Assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<CaseStatusModel>>());
             Assert.That(result.Count, Is.EqualTo(2));
@@ -373,7 +380,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_A_Valid_DataSet_When_I_Call_GetCaseStatusModelList_For_A_File_Then_An_Expected_List_Of_CaseStatusModel_Is_Returned()
         {
-            // Arrange
+            // arrange
             var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900000" } };
             const int outCome = 110;
             var lastUpdated = DateTime.Now.ToString(CultureInfo.InvariantCulture);
@@ -413,10 +420,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Setup(d => d.GetDataSet(_connectionModel, _databaseFile, null))
                 .Returns(dataSetMock.Object);
 
-            // Act
+            // act
             var result = _sut.GetCaseStatusModelList(_connectionModel, _databaseFile).ToList();
 
-            // Assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<CaseStatusModel>>());
             Assert.That(result.Count, Is.EqualTo(2));
@@ -432,7 +439,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [Test]
         public void Given_A_Valid_DataRecord_When_I_Call_GetCaseModel_Then_An_Expected_CaseModel_Is_Returned()
         {
-            // Arrange
+            // arrange
             var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "900000" } };
             var fieldDictionary = new Dictionary<string, string>();
 
@@ -440,10 +447,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 .Setup(m => m.MapFieldDictionaryFromRecord(_dataRecordMock.Object))
                 .Returns(fieldDictionary);
 
-            // Act
+            // act
             var result = _sut.GetCaseModel(_connectionModel, primaryKeyValues, _questionnaireName, _serverParkName);
 
-            // Assert
+            // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<CaseModel>());
             Assert.That(result.PrimaryKeyValues, Is.EqualTo(primaryKeyValues));

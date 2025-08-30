@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Mappers;
-using StatNeth.Blaise.API.AuditTrail;
-
 namespace Blaise.Nuget.Api.Core.Mappers
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Mappers;
+    using StatNeth.Blaise.API.AuditTrail;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     public class AuditTrailDataMapper : IAuditTrailDataMapper
     {
         public AuditTrailDataModel MapAuditTrailDataModel(string keyValue, Guid sessionId, IEventInfo eventInfo)

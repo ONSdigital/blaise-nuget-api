@@ -1,14 +1,14 @@
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Models;
-using NUnit.Framework;
-using System;
-// ReSharper disable All
-
 namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
 {
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using NUnit.Framework;
+    using System;
+
     public class BlaiseAuditTrailApiTests
     {
         private readonly ConnectionModel _connectionModel;
+
         private BlaiseAuditTrailApi _auditTrailApi;
 
         public BlaiseAuditTrailApiTests()
@@ -19,7 +19,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
         [SetUp]
         public void Setup()
         {
-            // Initialize the AuditTrailService or mock its dependencies
             _auditTrailApi = new BlaiseAuditTrailApi(_connectionModel);
         }
 
@@ -27,14 +26,14 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
         [Test]
         public void GetAuditTrail_WithValidParameters_ReturnsAuditTrailData()
         {
-            // Arrange
+            // arrange
             var serverPark = "LocalDevelopment";
             var questionnaireName = "lms2301_ts6";
 
-            // Act
+            // act
             var audotTrailDataModels = _auditTrailApi.GetAuditTrail(serverPark, questionnaireName);
 
-            // Assert
+            // assert
             Assert.That(audotTrailDataModels, Is.Not.Null);
             Assert.That(audotTrailDataModels, Is.Not.Empty);
         }
@@ -43,11 +42,11 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
         [Test]
         public void GetAuditTrail_With_Empty_Server_Park_Returns_An_Exception()
         {
-            // Arrange
-            var serverPark = "";
+            // arrange
+            var serverPark = string.Empty;
             var questionnaireName = "lms2301_ts6";
 
-            // Act and Assert
+            // act and assert
             Assert.Throws<ArgumentNullException>(() => _auditTrailApi.GetAuditTrail(serverPark, questionnaireName));
         }
 
@@ -55,11 +54,11 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
         [Test]
         public void GetAuditTrail_With_Empty_Questionnaire_Name_Returns_An_Exception()
         {
-            // Arrange
+            // arrange
             var serverPark = "LocalDevelopment";
-            var questionnaireName = "";
+            var questionnaireName = string.Empty;
 
-            // Act and Assert
+            // act and assert
             Assert.Throws<ArgumentNullException>(() => _auditTrailApi.GetAuditTrail(serverPark, questionnaireName));
         }
     }

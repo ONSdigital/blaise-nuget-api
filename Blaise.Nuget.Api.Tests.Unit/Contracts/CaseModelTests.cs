@@ -1,10 +1,10 @@
-using System;
-using NUnit.Framework;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Contracts
 {
+    using Blaise.Nuget.Api.Contracts.Models;
+    using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+
     public class CaseModelTests
     {
         [Test]
@@ -31,7 +31,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var primaryKeyName = "QID.Serial_Number";
             var caseModel = new CaseModel();
 
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => caseModel.GetPrimaryKeyValue(primaryKeyName));
             Assert.That(exception?.Message, Is.EqualTo("There are no primary keys defined\r\nParameter name: primaryKeyName"));
         }

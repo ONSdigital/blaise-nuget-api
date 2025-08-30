@@ -1,10 +1,10 @@
-using System.IO;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using StatNeth.Blaise.API.DataInterface;
-
 namespace Blaise.Nuget.Api.Core.Providers
 {
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using StatNeth.Blaise.API.DataInterface;
+    using System.IO;
+
     public class DataInterfaceProvider : IDataInterfaceProvider
     {
         private readonly IDataInterfaceFactory _dataInterfaceFactory;
