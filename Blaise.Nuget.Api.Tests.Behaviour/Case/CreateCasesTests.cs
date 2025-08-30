@@ -1,4 +1,3 @@
-
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
@@ -64,7 +63,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             {
                 var caseId = $"{startingPrimaryKey + loopCounter}";
                 var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", caseId } };
-                Assert.IsTrue(_sut.CaseExists(primaryKeyValues, questionnaireName, serverParkName));
+                Assert.That(_sut.CaseExists(primaryKeyValues, questionnaireName, serverParkName), Is.True);
                 _sut.RemoveCase(primaryKeyValues, questionnaireName, serverParkName);
             }
         }

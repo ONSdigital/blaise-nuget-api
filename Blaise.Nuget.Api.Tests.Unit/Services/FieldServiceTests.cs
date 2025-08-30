@@ -68,8 +68,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldName);
 
             //assert
-            Assert.NotNull(result);
-            Assert.AreEqual(fieldExists, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(fieldExists));
         }
 
         [TestCase(true)]
@@ -91,8 +91,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.FieldExists(dataRecordMock.Object, fieldName);
 
             //assert
-            Assert.NotNull(result);
-            Assert.AreEqual(fieldExists, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(fieldExists));
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetField(dataRecordMock.Object, fieldName);
 
             //assert
-            Assert.AreEqual(fieldMock.Object, result);
+            Assert.That(result, Is.EqualTo(fieldMock.Object));
         }
     }
 }

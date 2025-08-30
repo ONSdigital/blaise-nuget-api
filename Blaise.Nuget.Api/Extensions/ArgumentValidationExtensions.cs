@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Blaise.Nuget.Api.Extensions
 {
-    internal static class ArgumentValidationExtensions
+    public static class ArgumentValidationExtensions
     {
         public static void ThrowExceptionIfNullOrEmpty(this string argument, string argumentName)
         {

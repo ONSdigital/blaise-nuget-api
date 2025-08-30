@@ -7,8 +7,11 @@ namespace Blaise.Nuget.Api.Core.Mappers
 {
     public class DataRecordMapper : IDataRecordMapper
     {
-        public IDataRecord MapDataRecordFields(IDataRecord dataRecord, IKey key,
-            Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData)
+        public IDataRecord MapDataRecordFields(
+            IDataRecord dataRecord,
+            IKey key,
+            Dictionary<string, string> primaryKeyValues,
+            Dictionary<string, string> fieldData)
         {
             foreach (var item in primaryKeyValues)
             {

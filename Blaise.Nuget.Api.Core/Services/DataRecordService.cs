@@ -21,7 +21,11 @@ namespace Blaise.Nuget.Api.Core.Services
             _localDataLinkProvider = localDataLinkProvider;
         }
 
-        public IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter)
+        public IDataSet GetDataSet(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName,
+            string filter)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
@@ -47,14 +51,22 @@ namespace Blaise.Nuget.Api.Core.Services
             return dataLink.ReadRecord(primaryKey);
         }
 
-        public IDataRecord GetDataRecord(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName)
+        public IDataRecord GetDataRecord(
+            ConnectionModel connectionModel,
+            IKey key,
+            string questionnaireName,
+            string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
             return dataLink.ReadRecord(key);
         }
 
-        public void WriteDataRecords(ConnectionModel connectionModel, IEnumerable<IDataRecord> dataRecords, string questionnaireName, string serverParkName)
+        public void WriteDataRecords(
+            ConnectionModel connectionModel,
+            IEnumerable<IDataRecord> dataRecords,
+            string questionnaireName,
+            string serverParkName)
         {
             var dataSet = DataLinkManager.GetDataSet(dataRecords);
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
@@ -62,7 +74,11 @@ namespace Blaise.Nuget.Api.Core.Services
             dataLink.Write(dataSet);
         }
 
-        public void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string questionnaireName, string serverParkName)
+        public void WriteDataRecord(
+            ConnectionModel connectionModel,
+            IDataRecord dataRecord,
+            string questionnaireName,
+            string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
@@ -76,7 +92,11 @@ namespace Blaise.Nuget.Api.Core.Services
             dataLink.Write(dataRecord);
         }
 
-        public void DeleteDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName)
+        public void DeleteDataRecord(
+            ConnectionModel connectionModel,
+            IKey primaryKey,
+            string questionnaireName,
+            string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
@@ -104,7 +124,11 @@ namespace Blaise.Nuget.Api.Core.Services
             return GetNumberOfRecords(records);
         }
 
-        public void LockDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName,
+        public void LockDataRecord(
+            ConnectionModel connectionModel,
+            IKey primaryKey,
+            string questionnaireName,
+            string serverParkName,
             string lockId)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
@@ -112,7 +136,11 @@ namespace Blaise.Nuget.Api.Core.Services
             dataLink.Lock(primaryKey, lockId);
         }
 
-        public void UnLockDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName,
+        public void UnLockDataRecord(
+            ConnectionModel connectionModel,
+            IKey primaryKey,
+            string questionnaireName,
+            string serverParkName,
             string lockId)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);

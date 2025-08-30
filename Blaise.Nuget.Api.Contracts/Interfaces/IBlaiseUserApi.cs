@@ -11,8 +11,12 @@ namespace Blaise.Nuget.Api.Contracts.Interfaces
 
         bool UserExists(string userName);
 
-        void AddUser(string userName, string password,
-            string role, IList<string> serverParkNames, string defaultServerPark);
+        void AddUser(
+            string userName,
+            string password,
+            string role,
+            IList<string> serverParkNames,
+            string defaultServerPark);
 
         void UpdatePassword(string userName, string password);
 

@@ -42,7 +42,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             // ReSharper disable once ObjectCreationAsStatement
-            Assert.DoesNotThrow(() => new BlaiseRoleApi());
+            Assert.That(() => new BlaiseRoleApi(), Throws.Nothing);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             // ReSharper disable once ObjectCreationAsStatement
-            Assert.DoesNotThrow(() => new BlaiseRoleApi(new ConnectionModel()));
+            Assert.That(() => new BlaiseRoleApi(new ConnectionModel()), Throws.Nothing);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
             var result = _sut.GetRoles();
 
             //assert
-            Assert.AreSame(roles, result);
+            Assert.That(result, Is.SameAs(roles));
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
             var result = _sut.GetRole(_name);
 
             //assert
-            Assert.AreSame(roleMock.Object, result);
+            Assert.That(result, Is.SameAs(roleMock.Object));
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetRole(string.Empty));
-            Assert.AreEqual("A value for the argument 'name' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'name' must be supplied"));
         }
 
         [Test]
@@ -97,21 +97,20 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetRole(null));
-            Assert.AreEqual("name", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("name"));
         }
 
         [TestCase(true)]
         [TestCase(false)]
         public void Given_Valid_Arguments_When_I_Call_RoleExists_Then_The_Correct_Value_Is_Returned(bool exists)
         {
-
             _roleServiceMock.Setup(r => r.RoleExists(_connectionModel, _name)).Returns(exists);
 
             //act
             var result = _sut.RoleExists(_name);
 
             //assert
-            Assert.AreEqual(exists, result);
+            Assert.That(result, Is.EqualTo(exists));
         }
 
         [Test]
@@ -119,7 +118,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RoleExists(string.Empty));
-            Assert.AreEqual("A value for the argument 'name' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'name' must be supplied"));
         }
 
         [Test]
@@ -127,7 +126,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RoleExists(null));
-            Assert.AreEqual("name", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("name"));
         }
 
         [Test]
@@ -145,7 +144,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.AddRole(string.Empty, _description, _permissions));
-            Assert.AreEqual("A value for the argument 'name' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'name' must be supplied"));
         }
 
         [Test]
@@ -153,7 +152,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddRole(null, _description, _permissions));
-            Assert.AreEqual("name", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("name"));
         }
 
         [Test]
@@ -171,7 +170,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveRole(string.Empty));
-            Assert.AreEqual("A value for the argument 'name' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'name' must be supplied"));
         }
 
         [Test]
@@ -179,7 +178,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveRole(null));
-            Assert.AreEqual("name", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("name"));
         }
 
         [Test]
@@ -198,7 +197,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateRolePermissions(string.Empty, _permissions));
-            Assert.AreEqual("A value for the argument 'name' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'name' must be supplied"));
         }
 
         [Test]
@@ -206,7 +205,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateRolePermissions(null, _permissions));
-            Assert.AreEqual("name", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("name"));
         }
     }
 }

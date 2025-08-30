@@ -13,7 +13,7 @@ namespace Blaise.Nuget.Api.Api
         private readonly IFileService _fileService;
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseFileApi(
+        public BlaiseFileApi(
             IFileService fileService,
             ConnectionModel connectionModel)
         {
@@ -29,27 +29,48 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        public void UpdateQuestionnaireFileWithData(string serverParkName, string questionnaireName, string questionnaireFile,
+        public void UpdateQuestionnaireFileWithData(
+            string serverParkName,
+            string questionnaireName,
+            string questionnaireFile,
             bool auditOption = false)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
-            _fileService.UpdateQuestionnaireFileWithData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, auditOption);
+            _fileService.UpdateQuestionnaireFileWithData(
+                _connectionModel,
+                questionnaireFile,
+                questionnaireName,
+                serverParkName,
+                auditOption);
         }
 
-        public void UpdateQuestionnaireFileWithBatchedData(string serverParkName, string questionnaireName, string questionnaireFile,
-            int batchSize, bool auditOption = false)
+        public void UpdateQuestionnaireFileWithBatchedData(
+            string serverParkName,
+            string questionnaireName,
+            string questionnaireFile,
+            int batchSize,
+            bool auditOption = false)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
 
-            _fileService.UpdateQuestionnaireFileWithBatchedData(_connectionModel, questionnaireFile, questionnaireName, serverParkName, batchSize, auditOption);
+            _fileService.UpdateQuestionnaireFileWithBatchedData(
+                _connectionModel,
+                questionnaireFile,
+                questionnaireName,
+                serverParkName,
+                batchSize,
+                auditOption);
         }
 
-        public void UpdateQuestionnaireFileWithSqlConnection(string questionnaireName, string questionnaireFile, bool overwriteExistingData = true)
+        public void UpdateQuestionnaireFileWithSqlConnection(
+            string questionnaireName,
+            string questionnaireFile,
+            bool overwriteExistingData = true)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");

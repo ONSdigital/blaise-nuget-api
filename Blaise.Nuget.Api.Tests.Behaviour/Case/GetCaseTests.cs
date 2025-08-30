@@ -35,8 +35,9 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             //act
             var result = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
-            //arrange
-            Assert.AreEqual(_primaryKeyValues, _sut.GetPrimaryKeyValues(result));
+            //assert
+            Assert.That(result, Is.Not.Null);
+            Assert.That(_sut.GetPrimaryKeyValues(result), Is.EqualTo(_primaryKeyValues));
 
             //cleanup
             _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
@@ -61,7 +62,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             }
 
             //assert
-            Assert.AreEqual(5, result.RecordCount);
+            Assert.That(result.RecordCount, Is.EqualTo(5));
         }
     }
 }

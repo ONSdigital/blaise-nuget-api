@@ -14,7 +14,9 @@ namespace Blaise.Nuget.Api.Core.Providers
             _dataInterfaceFactory = dataInterfaceFactory;
         }
 
-        public IDataInterface CreateFileDataInterface(string dataSourceFileName, string dataInterfaceFileName,
+        public IDataInterface CreateFileDataInterface(
+            string dataSourceFileName,
+            string dataInterfaceFileName,
             string dataModelFileName)
         {
             var dataInterface = _dataInterfaceFactory.GetDataInterfaceForFile(dataSourceFileName);
@@ -32,7 +34,11 @@ namespace Blaise.Nuget.Api.Core.Providers
             return dataInterface;
         }
 
-        public IDataInterface CreateSqlDataInterface(string databaseConnectionString, string dataInterfaceFileName, string dataModelFileName, bool createDatabaseObjects)
+        public IDataInterface CreateSqlDataInterface(
+            string databaseConnectionString,
+            string dataInterfaceFileName,
+            string dataModelFileName,
+            bool createDatabaseObjects)
         {
             var dataInterface = _dataInterfaceFactory.GetDataInterfaceForSql(databaseConnectionString);
 
@@ -50,7 +56,9 @@ namespace Blaise.Nuget.Api.Core.Providers
             return dataInterface;
         }
 
-        public IGeneralDataInterface CreateSettingsDataInterface(string databaseConnectionString, ApplicationType applicationType,
+        public IGeneralDataInterface CreateSettingsDataInterface(
+            string databaseConnectionString,
+            ApplicationType applicationType,
             string fileName)
         {
             var dataInterface = _dataInterfaceFactory.GetSettingsDataInterfaceForSql(databaseConnectionString, applicationType);

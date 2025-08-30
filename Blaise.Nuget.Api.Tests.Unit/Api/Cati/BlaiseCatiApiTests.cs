@@ -71,7 +71,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetInstalledQuestionnaires(string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetInstalledQuestionnaires(null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetInstalledQuestionnaire(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetInstalledQuestionnaire(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetInstalledQuestionnaire(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetInstalledQuestionnaire(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [TestCase(true)]
@@ -158,8 +158,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var result = _sut.CreateDayBatch(_questionnaireName, _serverParkName, dayBatchDate, checkForTreatedCases);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<DayBatchModel>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<DayBatchModel>());
         }
 
         [TestCase(true)]
@@ -174,7 +174,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_questionnaireName, _serverParkName, dayBatchDate, checkForTreatedCases));
-            Assert.AreEqual($"There are no cases available in '{_questionnaireName}' to create a daybatch", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo($"There are no cases available in '{_questionnaireName}' to create a daybatch"));
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.CreateDayBatch(string.Empty, _serverParkName, dayBatchDate, false));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -196,7 +196,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateDayBatch(null, _serverParkName, dayBatchDate, false));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -207,7 +207,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.CreateDayBatch(_questionnaireName, string.Empty, dayBatchDate, false));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -218,7 +218,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateDayBatch(_questionnaireName, null, dayBatchDate, false));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -237,7 +237,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetDayBatch(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -245,7 +245,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetDayBatch(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -253,7 +253,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetDayBatch(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -261,7 +261,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetDayBatch(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -280,7 +280,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(string.Empty, _serverParkName, _primaryKeyValue));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -288,7 +288,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(null, _serverParkName, _primaryKeyValue));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -296,7 +296,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(_questionnaireName, string.Empty, _primaryKeyValue));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -304,7 +304,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(_questionnaireName, null, _primaryKeyValue));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -312,7 +312,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.AddToDayBatch(_questionnaireName, _serverParkName, string.Empty));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'primaryKeyValue' must be supplied"));
         }
 
         [Test]
@@ -320,7 +320,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.AddToDayBatch(_questionnaireName, _serverParkName, null));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("primaryKeyValue"));
         }
 
         [Test]
@@ -344,7 +344,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDay(string.Empty, _serverParkName, surveyDay));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -355,7 +355,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDay(null, _serverParkName, surveyDay));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -366,7 +366,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDay(_questionnaireName, string.Empty, surveyDay));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -377,7 +377,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDay(_questionnaireName, null, surveyDay));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -409,7 +409,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDays(string.Empty, _serverParkName, surveyDays));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -424,7 +424,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDays(null, _serverParkName, surveyDays));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -439,7 +439,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDays(_questionnaireName, string.Empty, surveyDays));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -454,7 +454,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDays(_questionnaireName, null, surveyDays));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -462,7 +462,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.SetSurveyDays(_questionnaireName, _serverParkName, new List<DateTime>()));
-            Assert.AreEqual("A value for the argument 'surveyDays' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'surveyDays' must be supplied"));
         }
 
         [Test]
@@ -470,7 +470,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.SetSurveyDays(_questionnaireName, _serverParkName, null));
-            Assert.AreEqual("surveyDays", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("surveyDays"));
         }
 
         [Test]
@@ -488,9 +488,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var result = _sut.GetSurveyDays(_questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<DateTime>>(result);
-            Assert.AreEqual(surveyDays, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<List<DateTime>>());
+            Assert.That(result, Is.EqualTo(surveyDays));
         }
 
         [Test]
@@ -504,9 +504,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var result = _sut.GetSurveyDays(_questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<DateTime>>(result);
-            Assert.AreEqual(surveyDays, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<List<DateTime>>());
+            Assert.That(result, Is.EqualTo(surveyDays));
         }
 
         [Test]
@@ -514,7 +514,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetSurveyDays(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -522,7 +522,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetSurveyDays(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -530,7 +530,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetSurveyDays(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -538,7 +538,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetSurveyDays(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -562,7 +562,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDay(string.Empty, _serverParkName, surveyDay));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -573,7 +573,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDay(null, _serverParkName, surveyDay));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -584,7 +584,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDay(_questionnaireName, string.Empty, surveyDay));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -595,7 +595,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDay(_questionnaireName, null, surveyDay));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
 
@@ -628,7 +628,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDays(string.Empty, _serverParkName, surveyDays));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -643,7 +643,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(null, _serverParkName, surveyDays));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -658,7 +658,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDays(_questionnaireName, string.Empty, surveyDays));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -673,7 +673,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(_questionnaireName, null, surveyDays));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -681,7 +681,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveSurveyDays(_questionnaireName, _serverParkName, new List<DateTime>()));
-            Assert.AreEqual("A value for the argument 'surveyDays' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'surveyDays' must be supplied"));
         }
 
         [Test]
@@ -689,7 +689,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveSurveyDays(_questionnaireName, _serverParkName, null));
-            Assert.AreEqual("surveyDays", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("surveyDays"));
         }
 
         [Test]
@@ -708,7 +708,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(string.Empty, _serverParkName, _primaryKeyValue));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
@@ -716,7 +716,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(null, _serverParkName, _primaryKeyValue));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
@@ -724,7 +724,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(_questionnaireName, string.Empty, _primaryKeyValue));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
@@ -732,7 +732,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(_questionnaireName, null, _primaryKeyValue));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -740,7 +740,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.MakeSuperAppointment(_questionnaireName, _serverParkName, string.Empty));
-            Assert.AreEqual("A value for the argument 'primaryKeyValue' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'primaryKeyValue' must be supplied"));
         }
 
         [Test]
@@ -748,7 +748,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         {
             //act && assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.MakeSuperAppointment(_questionnaireName, _serverParkName, null));
-            Assert.AreEqual("primaryKeyValue", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("primaryKeyValue"));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var result = _sut.GetCaseStatus(dataRecord);
 
             // Assert
-            Assert.AreEqual("900001", result.PrimaryKey);
+            Assert.That("900001", Is.EqualTo(result.PrimaryKey));
 
             // Cleanup
             _sut.RemoveCase(primaryKeyValues, questionnaireName, serverParkName);
@@ -65,7 +65,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var result = _sut.GetCaseStatus(dataRecord);
 
             // Assert=
-            Assert.AreEqual("900001", result.PrimaryKey);
+            Assert.That("900001", Is.EqualTo(result.PrimaryKey));
 
             // Cleanup
             _sut.RemoveCase(primaryKeyValues, questionnaireName, serverParkName);

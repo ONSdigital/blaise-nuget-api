@@ -10,15 +10,19 @@ namespace Blaise.Nuget.Api.Core.Services
 {
     public class KeyService : IKeyService
     {
-        private readonly IRemoteDataLinkProvider _remoteDataLinkProvider;
         private const string PrimaryKeyName = "PRIMARY";
+        private readonly IRemoteDataLinkProvider _remoteDataLinkProvider;
 
         public KeyService(IRemoteDataLinkProvider remoteDataLinkProvider)
         {
             _remoteDataLinkProvider = remoteDataLinkProvider;
         }
 
-        public bool KeyExists(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName)
+        public bool KeyExists(
+            ConnectionModel connectionModel,
+            IKey key,
+            string questionnaireName,
+            string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 

@@ -39,7 +39,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
 
             //assert
             var questionnaires = _sut.GetQuestionnaires(ServerParkName).ToList();
-            Assert.IsNotNull(questionnaires.First(s => s.Name == QuestionnaireName));
+            Assert.That(questionnaires.First(s => s.Name == QuestionnaireName), Is.Not.Null);
         }
 
         [Ignore("Integration")]
@@ -50,10 +50,9 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             var result = _sut.GetQuestionnaire(QuestionnaireName, ServerParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<ISurvey>(result);
-
-            Assert.AreEqual(QuestionnaireName, result.Name);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ISurvey>());
+            Assert.That(result.Name, Is.EqualTo(QuestionnaireName));
         }
 
         [Ignore("Integration")]
@@ -64,7 +63,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             _sut.DeactivateQuestionnaire(QuestionnaireName, ServerParkName);
 
             //assert
-            Assert.AreEqual(QuestionnaireStatusType.Inactive, _sut.GetQuestionnaireStatus(QuestionnaireName, ServerParkName));
+            Assert.That(_sut.GetQuestionnaireStatus(QuestionnaireName, ServerParkName), Is.EqualTo(QuestionnaireStatusType.Inactive));
         }
 
         [Ignore("Integration")]
@@ -75,7 +74,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             _sut.ActivateQuestionnaire(QuestionnaireName, ServerParkName);
 
             //assert
-            Assert.AreEqual(QuestionnaireStatusType.Active, _sut.GetQuestionnaireStatus(QuestionnaireName, ServerParkName));
+            Assert.That(_sut.GetQuestionnaireStatus(QuestionnaireName, ServerParkName), Is.EqualTo(QuestionnaireStatusType.Active));
         }
 
         [Ignore("Integration")]
@@ -86,10 +85,10 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             var result = _sut.GetQuestionnaireModes(QuestionnaireName, ServerParkName).ToList();
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count);
-            Assert.True(result.Contains("CAWI"));
-            Assert.True(result.Contains("CATI"));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result.Contains("CAWI"), Is.True);
+            Assert.That(result.Contains("CATI"), Is.True);
         }
 
         [Ignore("Integration")]
@@ -100,8 +99,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             var result = _sut.GetQuestionnaireDataEntrySettings(QuestionnaireName, ServerParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<DataEntrySettingsModel>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<DataEntrySettingsModel>());
         }
     }
 }

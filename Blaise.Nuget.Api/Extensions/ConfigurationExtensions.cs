@@ -3,7 +3,7 @@ using System.Configuration;
 
 namespace Blaise.Nuget.Api.Extensions
 {
-    internal static class ConfigurationExtensions
+    public static class ConfigurationExtensions
     {
         public static string GetConfigurationItem(string configurationItem)
         {

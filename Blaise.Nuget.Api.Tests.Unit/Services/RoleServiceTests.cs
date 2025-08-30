@@ -56,7 +56,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetRoles(_connectionModel);
 
             //assert
-            Assert.AreSame(roles, result);
+            Assert.That(result, Is.SameAs(roles));
         }
 
         [Test]
@@ -78,8 +78,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetRole(_connectionModel, role2Name);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreSame(role2Mock.Object, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.SameAs(role2Mock.Object));
         }
 
         [TestCase("NAME1")]
@@ -100,9 +100,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act
             var result = _sut.GetRole(_connectionModel, name);
+
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreSame(role1Mock.Object, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.SameAs(role1Mock.Object));
         }
 
         [Test]
@@ -117,7 +118,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetRole(_connectionModel, "NotFound"));
-            Assert.AreEqual("The role 'NotFound' was not found", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("The role 'NotFound' was not found"));
         }
 
         [TestCase("NAME1")]
@@ -140,8 +141,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.RoleExists(_connectionModel, name);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -158,8 +159,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.RoleExists(_connectionModel, "NotFound");
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -184,7 +185,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _securityServerMock.Verify(v => v.UpdateRolePermissions(roleId, actionPermissions));
         }
 
-        [TestCase]
+        [Test]
         public void Given_A_Role_Exists_When_I_Call_RemoveRole_Then_The_Role_Is_Removed()
         {
             //arrange
@@ -217,10 +218,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.RemoveRole(_connectionModel, "NotFound"));
-            Assert.AreEqual("The role 'NotFound' was not found", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("The role 'NotFound' was not found"));
         }
 
-        [TestCase]
+        [Test]
         public void Given_A_Role_Exists_When_I_Call_UpdateRolePermissions_Then_The_Permissions_Of_The_Role_Are_Updated()
         {
             //arrange
@@ -248,7 +249,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _securityServerMock.VerifyNoOtherCalls();
         }
 
-        [TestCase]
+        [Test]
         public void Given_A_Role_Does_Not_Exist_When_I_Call_UpdateRolePermissions_Then_A_DataNotFoundException_Is_Thrown()
         {
             //arrange
@@ -263,7 +264,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.UpdateRolePermissions(_connectionModel, "NotFound", permissions));
-            Assert.AreEqual("The role 'NotFound' was not found", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("The role 'NotFound' was not found"));
         }
     }
 }

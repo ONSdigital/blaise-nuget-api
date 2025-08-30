@@ -42,8 +42,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             existingCase = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
             var fields = _sut.GetRecordDataFields(existingCase);
 
-            //arrange
-            Assert.AreEqual("0711111111", fields[FieldNameType.TelNo.FullName()]);
+            //assert
+            Assert.That(fields[FieldNameType.TelNo.FullName()], Is.EqualTo("0711111111"));
 
             //cleanup
             _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
@@ -71,7 +71,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var result = _sut.DataRecordIsLocked(_primaryKeyValues, questionnaireName, serverParkName);
 
             //assert
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
 
             //cleanup
             _sut.UnLockDataRecord(_primaryKeyValues, questionnaireName, serverParkName, lockId);
@@ -98,7 +98,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var result = _sut.DataRecordIsLocked(_primaryKeyValues, questionnaireName, serverParkName);
 
             //assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
 
             //cleanup
             _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);

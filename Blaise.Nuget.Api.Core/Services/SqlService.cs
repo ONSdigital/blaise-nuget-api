@@ -152,6 +152,21 @@ namespace Blaise.Nuget.Api.Core.Services
             return true;
         }
 
+        private static string GetDatabaseTableNameUneditedForm(string questionnaireName)
+        {
+            return $"{questionnaireName.Replace("_EDIT", string.Empty)}_Form";
+        }
+
+        private static string GetDatabaseTableNameForm(string questionnaireName)
+        {
+            return $"{questionnaireName}_Form";
+        }
+
+        private static string GetDatabaseTableNameDml(string questionnaireName)
+        {
+            return $"{questionnaireName}_Dml";
+        }
+
         private bool TableExists(string connectionString, string databaseTableName)
         {
             bool tableExists;
@@ -172,21 +187,6 @@ namespace Blaise.Nuget.Api.Core.Services
             }
 
             return tableExists;
-        }
-
-        private static string GetDatabaseTableNameForm(string questionnaireName)
-        {
-            return $"{questionnaireName}_Form";
-        }
-
-        private static string GetDatabaseTableNameUneditedForm(string questionnaireName)
-        {
-            return $"{questionnaireName.Replace("_EDIT", string.Empty)}_Form";
-        }
-
-        private static string GetDatabaseTableNameDml(string questionnaireName)
-        {
-            return $"{questionnaireName}_Dml";
         }
     }
 }

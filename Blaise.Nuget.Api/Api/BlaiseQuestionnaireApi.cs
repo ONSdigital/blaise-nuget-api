@@ -20,12 +20,13 @@ namespace Blaise.Nuget.Api.Api
         private readonly ISqlService _sqlService;
         private readonly IBlaiseConfigurationProvider _configurationProvider;
 
-        internal BlaiseQuestionnaireApi(
+        public BlaiseQuestionnaireApi(
             IQuestionnaireService questionnaireService,
             IQuestionnaireMetaService questionnaireMetaService,
             ICaseService caseService,
             ConnectionModel connectionModel,
-            ISqlService sqlService, IBlaiseConfigurationProvider configurationProvider)
+            ISqlService sqlService,
+            IBlaiseConfigurationProvider configurationProvider)
         {
             _questionnaireService = questionnaireService;
             _questionnaireMetaService = questionnaireMetaService;
@@ -104,20 +105,31 @@ namespace Blaise.Nuget.Api.Api
             return _questionnaireService.GetQuestionnaireId(_connectionModel, questionnaireName, serverParkName);
         }
 
-        public void InstallQuestionnaire(string questionnaireName, string serverParkName,
-            string questionnaireFile, IInstallOptions installOptions)
+        public void InstallQuestionnaire(
+            string questionnaireName,
+            string serverParkName,
+            string questionnaireFile,
+            IInstallOptions installOptions)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             questionnaireFile.ThrowExceptionIfNullOrEmpty("questionnaireFile");
             installOptions.ThrowExceptionIfNull("installOptions");
 
-            _questionnaireService.InstallQuestionnaire(_connectionModel, questionnaireName, serverParkName,
-                questionnaireFile, installOptions);
+            _questionnaireService.InstallQuestionnaire(
+                _connectionModel,
+                questionnaireName,
+                serverParkName,
+                questionnaireFile,
+                installOptions);
         }
 
-        public void UninstallQuestionnaire(string questionnaireName, string serverParkName, bool deleteCases = false,
-                                                                        bool clearCati = false, bool dropTables = false)
+        public void UninstallQuestionnaire(
+            string questionnaireName,
+            string serverParkName,
+            bool deleteCases = false,
+            bool clearCati = false,
+            bool dropTables = false)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");

@@ -68,10 +68,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireNames(_connectionModel, _serverParkName).ToList();
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(1, result.Count);
-            Assert.True(result.Contains(_questionnaireName));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result.Contains(_questionnaireName), Is.True);
         }
 
         [Test]
@@ -88,8 +88,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireNames(_connectionModel, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsEmpty(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Empty);
         }
 
         [Test]
@@ -109,8 +109,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireNames(_connectionModel, serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsEmpty(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Empty);
         }
 
         [TestCase("TestQuestionnaireName", true)]
@@ -121,8 +121,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.QuestionnaireExists(_connectionModel, questionnaireName, _serverParkName);
 
             //assert
-            Assert.NotNull(result);
-            Assert.AreEqual(exists, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(exists));
         }
 
         [Test]
@@ -132,10 +132,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaires(_connectionModel, _serverParkName).ToList();
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(1, result.Count);
-            Assert.True(result.Contains(_questionnaireMock.Object));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result.Contains(_questionnaireMock.Object), Is.True);
         }
 
         [Test]
@@ -151,8 +151,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaires(_connectionModel, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(0, result.Count());
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count(), Is.EqualTo(0));
         }
 
         [Test]
@@ -172,8 +172,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireNames(_connectionModel, serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsEmpty(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Empty);
         }
 
         [TestCase("Questionnaire1")]
@@ -198,10 +198,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaire(_connectionModel, questionnaire1Name, _serverParkName);
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<ISurvey>(result);
-            Assert.AreSame(questionnaire1Mock.Object, result);
-            Assert.AreEqual(questionnaire1Name, result.Name);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<ISurvey>());
+            Assert.That(result, Is.SameAs(questionnaire1Mock.Object));
+            Assert.That(result.Name, Is.EqualTo(questionnaire1Name));
         }
 
         [Test]
@@ -221,7 +221,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetQuestionnaire(_connectionModel, questionnaire2Name, _serverParkName));
-            Assert.AreEqual($"No questionnaire found for questionnaire name '{questionnaire2Name}'", exception?.Message);
+            Assert.That(exception?.Message, Is.EqualTo($"No questionnaire found for questionnaire name '{questionnaire2Name}'"));
         }
 
         [Test]
@@ -244,8 +244,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetInstallDate(_connectionModel, questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(installDate, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(installDate));
         }
 
         [TestCase("Installing", QuestionnaireStatusType.Installing)]
@@ -259,7 +259,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase("Not found", QuestionnaireStatusType.Other)]
         [TestCase("Not available", QuestionnaireStatusType.Other)]
         [TestCase("unknown", QuestionnaireStatusType.Other)]
-
         public void Given_Questionnaire_Exists_When_I_Call_GetQuestionnaireStatus_The_Correct_Status_Is_Returned(string questionnaireStatus, QuestionnaireStatusType questionnaireStatusType)
         {
             //arrange
@@ -277,7 +276,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireStatus(_connectionModel, questionnaireName, _serverParkName);
 
             //assert
-            Assert.AreEqual(questionnaireStatusType, result);
+            Assert.That(result, Is.EqualTo(questionnaireStatusType));
         }
 
 
@@ -298,7 +297,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetQuestionnaireStatus(_connectionModel, questionnaire2Name, _serverParkName));
-            Assert.AreEqual($"No questionnaire found for questionnaire name '{questionnaire2Name}'", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo($"No questionnaire found for questionnaire name '{questionnaire2Name}'"));
         }
 
         [TestCase("CATI", QuestionnaireInterviewType.Cati, "StrictInterviewing", QuestionnaireDataEntryType.StrictInterviewing)]
@@ -331,10 +330,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireConfigurationModel(_connectionModel, questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<QuestionnaireConfigurationModel>(result);
-            Assert.AreEqual(questionnaireInterviewType, result.QuestionnaireInterviewType);
-            Assert.AreEqual(questionnaireDataEntryType, result.QuestionnaireDataEntryType);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<QuestionnaireConfigurationModel>());
+            Assert.That(result.QuestionnaireInterviewType, Is.EqualTo(questionnaireInterviewType));
+            Assert.That(result.QuestionnaireDataEntryType, Is.EqualTo(questionnaireDataEntryType));
         }
 
         [Test]
@@ -373,14 +372,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetAllQuestionnaires(_connectionModel).ToList();
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(3, result.Count);
-            Assert.True(result.Contains(questionnaire1Mock.Object));
-            Assert.True(result.Contains(questionnaire2Mock.Object));
-            Assert.True(result.Contains(questionnaire3Mock.Object));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Count, Is.EqualTo(3));
+            Assert.That(result.Contains(questionnaire1Mock.Object), Is.True);
+            Assert.That(result.Contains(questionnaire2Mock.Object), Is.True);
+            Assert.That(result.Contains(questionnaire3Mock.Object), Is.True);
         }
-
 
         [Test]
         public void Given_I_Call_GetQuestionnaireId_Then_I_Get_A_Guid_Returned()
@@ -389,8 +387,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireId(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<Guid>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<Guid>());
         }
 
         [Test]
@@ -400,7 +398,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireId(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.AreEqual(_questionnaireId, result);
+            Assert.That(result, Is.EqualTo(_questionnaireId));
         }
 
         [Test]
@@ -411,7 +409,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetQuestionnaireId(_connectionModel, questionnaireName, _serverParkName));
-            Assert.AreEqual($"Questionnaire '{questionnaireName}' not found on server park '{_serverParkName}'", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo($"Questionnaire '{questionnaireName}' not found on server park '{_serverParkName}'"));
         }
 
         [Test]
@@ -422,7 +420,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             var configurationMock = new Mock<IConfiguration>();
             configurationMock.Setup(c => c.MetaFileName).Returns(metaFileName);
-
 
             var configurationItems = new List<IConfiguration> { configurationMock.Object };
 
@@ -435,8 +432,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetMetaFileName(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(metaFileName, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(metaFileName));
         }
 
         [Test]

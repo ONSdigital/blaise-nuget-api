@@ -43,8 +43,12 @@ namespace Blaise.Nuget.Api.Core.Services
             return _questionnaireService.GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
         }
 
-        public DayBatchModel CreateDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
-            DateTime dayBatchDate, bool checkForTreatedCases)
+        public DayBatchModel CreateDayBatch(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName,
+            DateTime dayBatchDate,
+            bool checkForTreatedCases)
         {
             var catiManagementServer = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
             var questionnaireId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
@@ -112,7 +116,10 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManager.AddSurveyDays(surveyDays);
         }
 
-        public void RemoveSurveyDay(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+        public void RemoveSurveyDay(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName,
             DateTime surveyDay)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
@@ -122,7 +129,10 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManager.RemoveSurveyDays(new List<DateTime> { surveyDay });
         }
 
-        public void RemoveSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+        public void RemoveSurveyDays(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName,
             List<DateTime> surveyDays)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
@@ -132,7 +142,10 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManager.RemoveSurveyDays(surveyDays);
         }
 
-        public bool MakeSuperAppointment(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+        public bool MakeSuperAppointment(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName,
             string primaryKeyValue)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
@@ -140,12 +153,6 @@ namespace Blaise.Nuget.Api.Core.Services
             var catiManager = catiManagement.LoadCatiInstrumentManager(questionnaireId);
 
             return catiManager.MakeSuperAppointment(primaryKeyValue);
-        }
-
-        private IDictionary<string, Guid> GetInstalledCatiQuestionnaires(ConnectionModel connectionModel, string serverParkName)
-        {
-            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
-            return catiManagement.GetInstalledSurveys();
         }
 
         private static DayBatchModel GetDayBatch(IRemoteCatiManagementServer catiManagementServer, Guid questionnaireId)
@@ -160,6 +167,12 @@ namespace Blaise.Nuget.Api.Core.Services
             var dayBatchDate = catiManagementServer.GetDaybatchDate(questionnaireId);
 
             return new DayBatchModel(dayBatchDate, dayBatchCaseEntries);
+        }
+
+        private IDictionary<string, Guid> GetInstalledCatiQuestionnaires(ConnectionModel connectionModel, string serverParkName)
+        {
+            var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
+            return catiManagement.GetInstalledSurveys();
         }
     }
 }

@@ -42,7 +42,11 @@ namespace Blaise.Nuget.Api.Core.Services
             return connection.Users.Any(u => u.Name.Equals(userName, StringComparison.OrdinalIgnoreCase));
         }
 
-        public void AddUser(ConnectionModel connectionModel, string userName, string password, string role, IEnumerable<string> serverParkNames, string defaultServerPark)
+        public void AddUser(
+            ConnectionModel connectionModel,
+            string userName, string password,
+            string role, IEnumerable<string> serverParkNames,
+            string defaultServerPark)
         {
             var connection = _connectedServerFactory.GetConnection(connectionModel);
             var securePassword = _passwordService.CreateSecurePassword(password);
@@ -72,8 +76,11 @@ namespace Blaise.Nuget.Api.Core.Services
             user.Save();
         }
 
-        public void UpdateServerParks(ConnectionModel connectionModel, string userName,
-            IEnumerable<string> serverParkNames, string defaultServerPark)
+        public void UpdateServerParks(
+            ConnectionModel connectionModel,
+            string userName,
+            IEnumerable<string> serverParkNames,
+            string defaultServerPark)
         {
             var user = (IUser2)GetUser(connectionModel, userName);
 

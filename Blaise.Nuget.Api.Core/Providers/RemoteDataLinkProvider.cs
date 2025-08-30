@@ -47,7 +47,10 @@ namespace Blaise.Nuget.Api.Core.Providers
             return GetFreshConnection(connectionModel, questionnaireName, serverParkName, installDate);
         }
 
-        private IDataLink6 GetFreshConnection(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+        private IDataLink6 GetFreshConnection(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName,
             DateTime installDate)
         {
             RemoveDeadConnections(questionnaireName, serverParkName);

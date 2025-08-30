@@ -14,7 +14,7 @@ namespace Blaise.Nuget.Api.Api
         private readonly IServerParkService _parkService;
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseServerParkApi(
+        public BlaiseServerParkApi(
             IServerParkService parkService,
             ConnectionModel connectionModel)
         {

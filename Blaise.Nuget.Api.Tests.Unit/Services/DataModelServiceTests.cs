@@ -49,7 +49,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _sut = new DataModelService(_remoteDataLinkProviderMock.Object, _localDataLinkProviderMock.Object);
         }
 
-
         [Test]
         public void Given_I_Call_GetDataModel_I_Get_A_DataModel_Back()
         {
@@ -57,8 +56,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataModel(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<IDatamodel>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IDatamodel>());
         }
 
         [Test]
@@ -68,7 +67,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataModel(_connectionModel, _questionnaireName, _serverParkName);
 
             //assert
-            Assert.AreEqual(_dataModelMock.Object, result);
+            Assert.That(result, Is.EqualTo(_dataModelMock.Object));
         }
 
         [Test]
@@ -79,7 +78,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<NullReferenceException>(() => _sut.GetDataModel(_connectionModel, _questionnaireName, _serverParkName));
-            Assert.AreEqual($"No datamodel was found for questionnaire '{_questionnaireName}' on server park '{_serverParkName}'", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo($"No datamodel was found for questionnaire '{_questionnaireName}' on server park '{_serverParkName}'"));
         }
 
         [Test]
@@ -100,8 +99,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataModel(_connectionModel, _databaseFile);
 
             //assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<IDatamodel>(result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IDatamodel>());
         }
 
         [Test]
@@ -111,7 +110,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataModel(_connectionModel, _databaseFile);
 
             //assert
-            Assert.AreEqual(_dataModelMock.Object, result);
+            Assert.That(result, Is.EqualTo(_dataModelMock.Object));
         }
 
         [Test]
@@ -122,7 +121,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             //act && assert
             var exception = Assert.Throws<NullReferenceException>(() => _sut.GetDataModel(_connectionModel, _databaseFile));
-            Assert.AreEqual($"No datamodel was found for file '{_databaseFile}'", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo($"No datamodel was found for file '{_databaseFile}'"));
         }
 
         [Test]

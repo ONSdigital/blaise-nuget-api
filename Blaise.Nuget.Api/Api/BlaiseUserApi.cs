@@ -14,7 +14,7 @@ namespace Blaise.Nuget.Api.Api
         private readonly IUserService _userService;
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseUserApi(
+        public BlaiseUserApi(
             IUserService userService,
             ConnectionModel connectionModel)
         {
@@ -50,8 +50,12 @@ namespace Blaise.Nuget.Api.Api
             return _userService.UserExists(_connectionModel, userName);
         }
 
-        public void AddUser(string userName, string password,
-            string role, IList<string> serverParkNames, string defaultServerPark)
+        public void AddUser(
+            string userName,
+            string password,
+            string role,
+            IList<string> serverParkNames,
+            string defaultServerPark)
         {
             userName.ThrowExceptionIfNullOrEmpty("userName");
             password.ThrowExceptionIfNullOrEmpty("password");
@@ -77,7 +81,9 @@ namespace Blaise.Nuget.Api.Api
             _userService.UpdateRole(_connectionModel, userName, role);
         }
 
-        public void UpdateServerParks(string userName, IEnumerable<string> serverParkNames,
+        public void UpdateServerParks(
+            string userName,
+            IEnumerable<string> serverParkNames,
             string defaultServerPark)
         {
             userName.ThrowExceptionIfNullOrEmpty("userName");

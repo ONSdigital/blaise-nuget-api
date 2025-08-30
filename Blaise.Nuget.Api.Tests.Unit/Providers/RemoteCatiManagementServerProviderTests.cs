@@ -53,9 +53,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.GetCatiManagementForServerPark(_connectionModel, _serverParkName);
 
             //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<IRemoteCatiManagementServer>(result);
-            Assert.AreSame(_remoteCatiManagementMock.Object, result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<IRemoteCatiManagementServer>());
+            Assert.That(result, Is.SameAs(_remoteCatiManagementMock.Object));
         }
     }
 }
