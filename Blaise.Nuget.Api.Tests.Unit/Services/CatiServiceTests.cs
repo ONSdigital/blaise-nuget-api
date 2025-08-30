@@ -270,8 +270,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var dayBatchDate = _surveyDay.AddDays(1);
 
             // act and assert
-            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(_connectionModel, _questionnaireName, _serverParkName,
-                dayBatchDate, checkForTreatedCases));
+            var exception = Assert.Throws<DataNotFoundException>(() => _sut.CreateDayBatch(
+                _connectionModel,
+                _questionnaireName,
+                _serverParkName,
+                dayBatchDate,
+                checkForTreatedCases));
             Assert.That(exception.Message, Is.EqualTo($"A survey day does not exist for the required daybatch date '{dayBatchDate.Date}'"));
         }
 

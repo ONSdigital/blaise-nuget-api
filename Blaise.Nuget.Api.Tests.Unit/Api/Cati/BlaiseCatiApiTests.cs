@@ -277,8 +277,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             // assert
             _catiServiceMock.Verify(
-                v => v.AddToDayBatch(_connectionModel, _questionnaireName,
-                _serverParkName, _primaryKeyValue), Times.Once);
+                v => v.AddToDayBatch(
+                    _connectionModel,
+                    _questionnaireName,
+                    _serverParkName,
+                    _primaryKeyValue),
+                Times.Once);
         }
 
         [Test]
@@ -707,8 +711,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             // assert
             _catiServiceMock.Verify(
-                v => v.MakeSuperAppointment(_connectionModel, _questionnaireName,
-                _serverParkName, _primaryKeyValue), Times.Once);
+                v => v.MakeSuperAppointment(
+                    _connectionModel,
+                    _questionnaireName,
+                    _serverParkName,
+                    _primaryKeyValue),
+                Times.Once);
         }
 
         [Test]

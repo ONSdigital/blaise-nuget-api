@@ -55,7 +55,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _dataModelServiceMock.Setup(dm => dm.GetDataModel(
                 _connectionModel,
-                _questionnaireName, _serverParkName)).Returns(dataModelMock.Object);
+                _questionnaireName,
+                _serverParkName)).Returns(dataModelMock.Object);
 
             // act
             var result = _sut.GetQuestionnaireModes(_connectionModel, _questionnaireName, _serverParkName).ToList();
@@ -74,7 +75,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             // arrange
             _dataModelServiceMock.Setup(dm => dm.GetDataModel(
                 It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(), It.IsAny<string>())).Returns(null as IDatamodel);
+                It.IsAny<string>(),
+                It.IsAny<string>())).Returns(null as IDatamodel);
 
             // act
             var result = _sut.GetQuestionnaireModes(_connectionModel, _questionnaireName, _serverParkName).ToList();
@@ -99,7 +101,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _dataModelServiceMock.Setup(dm => dm.GetDataModel(
                 It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
+                It.IsAny<string>(),
+                It.IsAny<string>())).Returns(datamodelMock.Object);
 
             // act
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName);
@@ -148,7 +151,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _dataModelServiceMock.Setup(dm => dm.GetDataModel(
                 It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
+                It.IsAny<string>(),
+                It.IsAny<string>())).Returns(datamodelMock.Object);
 
             // act
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName).ToList();
@@ -192,7 +196,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _dataModelServiceMock.Setup(dm => dm.GetDataModel(
                 It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(), It.IsAny<string>())).Returns(datamodelMock.Object);
+                It.IsAny<string>(),
+                It.IsAny<string>())).Returns(datamodelMock.Object);
 
             // act
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName);

@@ -1811,8 +1811,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 
             // assert
             _caseServiceMock.Verify(
-                v => v.UnLockDataRecord(_connectionModel, _primaryKeyValues, _questionnaireName, _serverParkName,
-                    lockId), Times.Once);
+                v => v.UnLockDataRecord(
+                    _connectionModel,
+                    _primaryKeyValues,
+                    _questionnaireName,
+                    _serverParkName,
+                    lockId),
+                Times.Once);
         }
 
         [Test]
@@ -1824,7 +1829,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(
                 null,
-                _questionnaireName, _serverParkName, lockId));
+                _questionnaireName,
+                _serverParkName,
+                lockId));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'primaryKeyValues' must be supplied"));
         }
 
@@ -1837,7 +1844,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.UnLockDataRecord(
                 _primaryKeyValues,
-                string.Empty, _serverParkName, lockId));
+                string.Empty,
+                _serverParkName,
+                lockId));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -1850,7 +1859,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(
                 _primaryKeyValues,
-                null, _serverParkName, lockId));
+                null,
+                _serverParkName,
+                lockId));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -1863,7 +1874,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.UnLockDataRecord(
                 _primaryKeyValues,
-                _questionnaireName, string.Empty, lockId));
+                _questionnaireName,
+                string.Empty,
+                lockId));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -1876,7 +1889,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(
                 _primaryKeyValues,
-                _questionnaireName, null, lockId));
+                _questionnaireName,
+                null,
+                lockId));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -1886,7 +1901,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.UnLockDataRecord(
                 _primaryKeyValues,
-                _questionnaireName, _serverParkName, string.Empty));
+                _questionnaireName,
+                _serverParkName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'lockId' must be supplied"));
         }
 
@@ -1896,7 +1913,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UnLockDataRecord(
                 _primaryKeyValues,
-                _questionnaireName, _serverParkName, null));
+                _questionnaireName,
+                _serverParkName,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("lockId"));
         }
 
@@ -1904,8 +1923,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Record_Is_Locked_When_I_Call_DataRecordIsLocked_Then_True_Is_returned()
         {
             // arrange
-            _caseServiceMock.Setup(d => d.GetDataRecord(It.IsAny<ConnectionModel>(), _primaryKeyValues,
-                _questionnaireName, _serverParkName)).Throws(new Exception());
+            _caseServiceMock.Setup(d => d.GetDataRecord(
+                It.IsAny<ConnectionModel>(),
+                _primaryKeyValues,
+                _questionnaireName,
+                _serverParkName)).Throws(new Exception());
 
             // act
             var result = _sut.DataRecordIsLocked(_primaryKeyValues, _questionnaireName, _serverParkName);
@@ -1919,8 +1941,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             // arrange
             var dataRecord = new Mock<IDataRecord>();
-            _caseServiceMock.Setup(d => d.GetDataRecord(_connectionModel, _primaryKeyValues,
-                _questionnaireName, _serverParkName)).Returns(dataRecord.Object);
+            _caseServiceMock.Setup(d => d.GetDataRecord(
+                _connectionModel,
+                _primaryKeyValues,
+                _questionnaireName,
+                _serverParkName)).Returns(dataRecord.Object);
 
             // act
             var result = _sut.DataRecordIsLocked(_primaryKeyValues, _questionnaireName, _serverParkName);
@@ -1935,7 +1960,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.DataRecordIsLocked(
                 null,
-                _questionnaireName, _serverParkName));
+                _questionnaireName,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'primaryKeyValues' must be supplied"));
         }
 
@@ -1945,7 +1971,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.DataRecordIsLocked(
                 _primaryKeyValues,
-                string.Empty, _serverParkName));
+                string.Empty,
+                _serverParkName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -1955,7 +1982,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.DataRecordIsLocked(
                 _primaryKeyValues,
-                null, _serverParkName));
+                null,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -1965,7 +1993,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.DataRecordIsLocked(
                 _primaryKeyValues,
-                _questionnaireName, string.Empty));
+                _questionnaireName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -1975,7 +2004,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.DataRecordIsLocked(
                 _primaryKeyValues,
-                _questionnaireName, null));
+                _questionnaireName,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 

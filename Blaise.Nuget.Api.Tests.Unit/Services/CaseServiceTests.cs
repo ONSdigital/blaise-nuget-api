@@ -199,7 +199,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         {
             // arrange
             const string fieldName = "QHAdmin.HOut";
-            _fieldServiceMock.Setup(f => f.FieldExists(_connectionModel, It.IsAny<string>(), It.IsAny<string>(),
+            _fieldServiceMock.Setup(f => f.FieldExists(
+                _connectionModel,
+                It.IsAny<string>(),
+                It.IsAny<string>(),
                 It.IsAny<string>())).Returns(fieldExists);
 
             // act

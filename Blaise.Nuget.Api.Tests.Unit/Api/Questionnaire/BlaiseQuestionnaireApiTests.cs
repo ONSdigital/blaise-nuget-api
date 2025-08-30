@@ -502,8 +502,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var installOptions = new InstallOptions();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(null, _serverParkName,
-                QuestionnaireFile, installOptions));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
+                null,
+                _serverParkName,
+                QuestionnaireFile,
+                installOptions));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -515,8 +518,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var installOptions = new InstallOptions();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(_questionnaireName, string.Empty,
-                                                                        QuestionnaireFile, installOptions));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(
+                _questionnaireName,
+                string.Empty,
+                QuestionnaireFile,
+                installOptions));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -528,8 +534,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var installOptions = new InstallOptions();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, null,
-                QuestionnaireFile, installOptions));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
+                _questionnaireName,
+                null,
+                QuestionnaireFile,
+                installOptions));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -540,8 +549,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var installOptions = new InstallOptions();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
-                string.Empty, installOptions));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(
+                _questionnaireName,
+                _serverParkName,
+                string.Empty,
+                installOptions));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireFile' must be supplied"));
         }
 
@@ -552,8 +564,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var installOptions = new InstallOptions();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
-                null, installOptions));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
+                _questionnaireName,
+                _serverParkName,
+                null,
+                installOptions));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireFile"));
         }
 
@@ -564,8 +579,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             const string QuestionnaireFile = @"d:\\opn2101a.pkg";
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
-                QuestionnaireFile, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
+                _questionnaireName,
+                _serverParkName,
+                QuestionnaireFile,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'installOptions' must be supplied"));
         }
 
@@ -591,7 +609,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             _caseServiceMock.Verify(
                 v => v.RemoveDataRecords(
                 It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+                It.IsAny<string>(),
+                It.IsAny<string>()),
+                Times.Never);
         }
 
         [Test]
@@ -605,7 +625,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             _caseServiceMock.Verify(
                 v => v.RemoveDataRecords(
                 It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+                It.IsAny<string>(),
+                It.IsAny<string>()),
+                Times.Never);
         }
 
         [Test]
