@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
+
   <ItemGroup>
-    <PackageReference Include="Blaise.Nuget.Api.Core" Version="$(Version)" />
-    <PackageReference Include="Blaise.Nuget.Api.Contracts" Version="$(Version)" />
     <PackageReference Include="Unity.Container" Version="5.11.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blaise.Nuget.Api.Contracts\Blaise.Nuget.Api.Contracts.csproj" />
+    <ProjectReference Include="..\Blaise.Nuget.Api.Core\Blaise.Nuget.Api.Core.csproj" />
   </ItemGroup>
 
 </Project>
