@@ -1,9 +1,9 @@
 namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
 {
+    using System;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Models;
     using NUnit.Framework;
-    using System;
 
     public class BlaiseAuditTrailApiTests
     {

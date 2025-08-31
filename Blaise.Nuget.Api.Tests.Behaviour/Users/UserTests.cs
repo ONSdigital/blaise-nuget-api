@@ -1,8 +1,8 @@
 namespace Blaise.Nuget.Api.Tests.Behaviour.Users
 {
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Api;
     using NUnit.Framework;
-    using System.Collections.Generic;
 
     public class UserTests
     {

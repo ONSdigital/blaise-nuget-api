@@ -1,9 +1,9 @@
 namespace Blaise.Nuget.Api.Core.Mappers
 {
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Core.Interfaces.Mappers;
     using StatNeth.Blaise.API.DataRecord;
     using StatNeth.Blaise.API.Meta;
-    using System.Collections.Generic;
 
     public class DataRecordMapper : IDataRecordMapper
     {

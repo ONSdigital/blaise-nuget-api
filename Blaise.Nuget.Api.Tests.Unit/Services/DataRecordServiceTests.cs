@@ -1,5 +1,6 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Providers;
     using Blaise.Nuget.Api.Core.Services;
@@ -8,38 +9,23 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
     using StatNeth.Blaise.API.DataLink;
     using StatNeth.Blaise.API.DataRecord;
     using StatNeth.Blaise.API.Meta;
-    using System;
 
     public class DataRecordServiceTests
     {
-        private Mock<IRemoteDataLinkProvider> _remoteDataLinkProviderMock;
-
-        private Mock<ILocalDataLinkProvider> _localDataLinkProviderMock;
-
-        private Mock<IRemoteDataServer> _remoteDataServerMock;
-
-        private Mock<IDataLink6> _remoteDataLinkMock;
-
-        private Mock<IDataLink6> _localDataLinkMock;
-
-        private Mock<IDatamodel> _dataModelMock;
-
-        private Mock<IKey> _keyMock;
-
-        private Mock<IDataSet> _dataSetMock;
-
-        private Mock<IDataRecord> _dataRecordMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _questionnaireName;
-
         private readonly string _serverParkName;
-
         private readonly string _databaseFile;
-
         private readonly Guid _questionnaireId;
-
+        private Mock<IRemoteDataLinkProvider> _remoteDataLinkProviderMock;
+        private Mock<ILocalDataLinkProvider> _localDataLinkProviderMock;
+        private Mock<IRemoteDataServer> _remoteDataServerMock;
+        private Mock<IDataLink6> _remoteDataLinkMock;
+        private Mock<IDataLink6> _localDataLinkMock;
+        private Mock<IDatamodel> _dataModelMock;
+        private Mock<IKey> _keyMock;
+        private Mock<IDataSet> _dataSetMock;
+        private Mock<IDataRecord> _dataRecordMock;
         private DataRecordService _sut;
 
         public DataRecordServiceTests()

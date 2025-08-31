@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Api
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Interfaces;
     using Blaise.Nuget.Api.Contracts.Models;
@@ -8,8 +10,6 @@ namespace Blaise.Nuget.Api.Api
     using Blaise.Nuget.Api.Extensions;
     using Blaise.Nuget.Api.Providers;
     using StatNeth.Blaise.API.ServerManager;
-    using System;
-    using System.Collections.Generic;
 
     public class BlaiseQuestionnaireApi : IBlaiseQuestionnaireApi
     {

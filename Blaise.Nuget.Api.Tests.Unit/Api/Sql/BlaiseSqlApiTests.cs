@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Interfaces;
     using Blaise.Nuget.Api.Contracts.Models;
@@ -7,21 +9,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
     using Blaise.Nuget.Api.Core.Interfaces.Services;
     using Moq;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
 
     public class BlaiseSqlApiTests
     {
-        private Mock<ISqlService> _sqlServiceMock;
-
-        private Mock<IBlaiseConfigurationProvider> _configMock;
-
         private readonly string _questionnaireName;
-
         private readonly string _primaryKey;
-
         private readonly string _connectionString;
-
+        private Mock<ISqlService> _sqlServiceMock;
+        private Mock<IBlaiseConfigurationProvider> _configMock;
         private IBlaiseSqlApi _sut;
 
         public BlaiseSqlApiTests()

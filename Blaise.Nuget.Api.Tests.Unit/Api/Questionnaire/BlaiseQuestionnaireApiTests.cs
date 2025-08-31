@@ -1,5 +1,8 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Interfaces;
@@ -9,28 +12,17 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.ServerManager;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class BlaiseQuestionnaireApiTests
     {
-        private Mock<IQuestionnaireService> _questionnaireServiceMock;
-
-        private Mock<IQuestionnaireMetaService> _questionnaireMetaServiceMock;
-
-        private Mock<ICaseService> _caseServiceMock;
-
-        private Mock<ISqlService> _sqlServiceMock;
-
-        private Mock<IBlaiseConfigurationProvider> _configurationProviderMock;
-
         private readonly string _serverParkName;
-
         private readonly string _questionnaireName;
-
         private readonly ConnectionModel _connectionModel;
-
+        private Mock<IQuestionnaireService> _questionnaireServiceMock;
+        private Mock<IQuestionnaireMetaService> _questionnaireMetaServiceMock;
+        private Mock<ICaseService> _caseServiceMock;
+        private Mock<ISqlService> _sqlServiceMock;
+        private Mock<IBlaiseConfigurationProvider> _configurationProviderMock;
         private IBlaiseQuestionnaireApi _sut;
 
         public BlaiseQuestionnaireApiTests()
@@ -477,8 +469,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
 
             // assert
             _questionnaireServiceMock.Verify(
-                v => v.InstallQuestionnaire(_connectionModel, _questionnaireName,
-                _serverParkName, QuestionnaireFile, installOptions), Times.Once);
+                v => v.InstallQuestionnaire(
+                    _connectionModel,
+                    _questionnaireName,
+                    _serverParkName,
+                    QuestionnaireFile,
+                    installOptions),
+                Times.Once);
         }
 
         [Test]
@@ -489,8 +486,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var installOptions = new InstallOptions();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(string.Empty, _serverParkName,
-                QuestionnaireFile, installOptions));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(
+                string.Empty,
+                _serverParkName,
+                QuestionnaireFile,
+                installOptions));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 

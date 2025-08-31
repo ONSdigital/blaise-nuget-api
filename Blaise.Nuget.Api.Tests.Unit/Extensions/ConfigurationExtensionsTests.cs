@@ -1,8 +1,8 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Extensions
 {
+    using System;
     using Blaise.Nuget.Api.Extensions;
     using NUnit.Framework;
-    using System;
 
     public class ConfigurationExtensionsTests
     {

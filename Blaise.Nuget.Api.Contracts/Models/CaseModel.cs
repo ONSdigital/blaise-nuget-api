@@ -20,7 +20,7 @@ namespace Blaise.Nuget.Api.Contracts.Models
 
         public Dictionary<string, string> FieldData { get; set; }
 
-        public string PrimaryKey => GetPrimaryKeyValue("QID.Serial_Number");// specifically to support minimal changes for Nisra ingest
+        public string PrimaryKey => GetPrimaryKeyValue("QID.Serial_Number"); // specifically to support minimal changes for NISRA ingest
 
         public string GetPrimaryKeyValue(string primaryKeyName)
         {

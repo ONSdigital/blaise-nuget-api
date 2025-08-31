@@ -1,25 +1,21 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Interfaces;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Services;
     using Moq;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
 
     public class BlaiseAuditTrailApiTests
     {
-        private IBlaiseAuditTrailApi _sut;
-
-        private readonly ConnectionModel _connectionModel;
-
-        private Mock<IAuditTrailService> _auditTrailServiceMock;
-
         private readonly string _questionnaireName;
-
         private readonly string _serverParkName;
+        private readonly ConnectionModel _connectionModel;
+        private IBlaiseAuditTrailApi _sut;
+        private Mock<IAuditTrailService> _auditTrailServiceMock;
 
         public BlaiseAuditTrailApiTests()
         {

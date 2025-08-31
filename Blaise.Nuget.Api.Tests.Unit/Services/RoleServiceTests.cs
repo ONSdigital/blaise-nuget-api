@@ -1,5 +1,6 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Exceptions;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Factories;
@@ -10,18 +11,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.Security;
-    using System.Collections.Generic;
 
     public class RoleServiceTests
     {
-        private Mock<ISecurityManagerFactory> _securityFactoryMock;
-
-        private Mock<IRolePermissionMapper> _mapperMock;
-
-        private Mock<ISecurityServer> _securityServerMock;
-
         private readonly ConnectionModel _connectionModel;
-
+        private Mock<ISecurityManagerFactory> _securityFactoryMock;
+        private Mock<IRolePermissionMapper> _mapperMock;
+        private Mock<ISecurityServer> _securityServerMock;
         private IRoleService _sut;
 
         public RoleServiceTests()

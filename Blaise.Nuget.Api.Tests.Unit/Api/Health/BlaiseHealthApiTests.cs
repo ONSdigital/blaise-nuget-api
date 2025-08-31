@@ -1,5 +1,6 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
 {
+    using System;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Interfaces;
     using Blaise.Nuget.Api.Contracts.Models;
@@ -9,7 +10,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
     using StatNeth.Blaise.API.Cati.Runtime;
     using StatNeth.Blaise.API.DataLink;
     using StatNeth.Blaise.API.ServerManager;
-    using System;
 
     public class BlaiseHealthApiTests
     {

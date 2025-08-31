@@ -1,9 +1,9 @@
 namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
 {
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Api;
     using NUnit.Framework;
     using StatNeth.Blaise.API.DataInterface;
-    using System.Collections.Generic;
 
     public class QuestionnaireFileTests
     {

@@ -1,13 +1,13 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Mappers
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Mappers;
     using Blaise.Nuget.Api.Core.Mappers;
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.AuditTrail;
-    using System;
-    using System.Collections.Generic;
 
     public class AuditTrailDataMapperTests
     {

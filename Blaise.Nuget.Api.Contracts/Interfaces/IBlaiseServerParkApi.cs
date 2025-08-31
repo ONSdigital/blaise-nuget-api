@@ -1,7 +1,7 @@
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
-    using StatNeth.Blaise.API.ServerManager;
     using System.Collections.Generic;
+    using StatNeth.Blaise.API.ServerManager;
 
     public interface IBlaiseServerParkApi
     {

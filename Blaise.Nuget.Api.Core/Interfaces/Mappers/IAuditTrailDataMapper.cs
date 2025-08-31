@@ -1,9 +1,9 @@
 namespace Blaise.Nuget.Api.Core.Interfaces.Mappers
 {
-    using Blaise.Nuget.Api.Contracts.Models;
-    using StatNeth.Blaise.API.AuditTrail;
     using System;
     using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using StatNeth.Blaise.API.AuditTrail;
 
     public interface IAuditTrailDataMapper
     {

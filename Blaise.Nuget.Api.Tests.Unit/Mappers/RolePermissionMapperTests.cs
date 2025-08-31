@@ -1,12 +1,12 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Mappers
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Blaise.Nuget.Api.Core.Interfaces.Mappers;
     using Blaise.Nuget.Api.Core.Mappers;
     using Blaise.Nuget.Api.Core.Models;
     using NUnit.Framework;
     using StatNeth.Blaise.API.Security;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class RolePermissionMapperTests
     {

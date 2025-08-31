@@ -8,16 +8,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
 
     public class DataInterfaceProviderTests
     {
-        private Mock<IDataInterfaceFactory> _dataInterfaceFactoryMock;
-
-        private Mock<IDataInterface> _dataInterfaceMock;
-
-        private Mock<IGeneralDataInterface> _generalDataInterfaceMock;
-
         private readonly string _sourceFile;
-
         private readonly string _connectionString;
-
+        private Mock<IDataInterfaceFactory> _dataInterfaceFactoryMock;
+        private Mock<IDataInterface> _dataInterfaceMock;
+        private Mock<IGeneralDataInterface> _generalDataInterfaceMock;
         private DataInterfaceProvider _sut;
 
         public DataInterfaceProviderTests()

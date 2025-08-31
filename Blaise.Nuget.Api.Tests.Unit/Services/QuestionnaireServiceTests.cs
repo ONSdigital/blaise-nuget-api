@@ -1,5 +1,8 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Exceptions;
     using Blaise.Nuget.Api.Contracts.Extensions;
@@ -9,28 +12,17 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.ServerManager;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class QuestionnaireServiceTests
     {
-        private Mock<IServerParkService> _parkServiceMock;
-
-        private Mock<ISurvey> _questionnaireMock;
-
-        private Mock<ISurveyCollection> _questionnaireCollectionMock;
-
-        private Mock<IServerPark6> _serverParkMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _questionnaireName;
-
         private readonly string _serverParkName;
-
         private readonly Guid _questionnaireId;
-
+        private Mock<IServerParkService> _parkServiceMock;
+        private Mock<ISurvey> _questionnaireMock;
+        private Mock<ISurveyCollection> _questionnaireCollectionMock;
+        private Mock<IServerPark6> _serverParkMock;
         private QuestionnaireService _sut;
 
         public QuestionnaireServiceTests()

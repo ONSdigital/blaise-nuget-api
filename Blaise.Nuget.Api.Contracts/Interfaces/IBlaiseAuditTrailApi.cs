@@ -1,7 +1,7 @@
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
-    using Blaise.Nuget.Api.Contracts.Models;
     using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
 
     public interface IBlaiseAuditTrailApi
     {

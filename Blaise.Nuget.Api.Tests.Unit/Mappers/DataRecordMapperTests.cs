@@ -1,10 +1,10 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Mappers
 {
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Core.Mappers;
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.DataRecord;
-    using System.Collections.Generic;
 
     public class DataRecordMapperTests
     {

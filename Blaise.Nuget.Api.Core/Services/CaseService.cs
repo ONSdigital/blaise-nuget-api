@@ -1,5 +1,9 @@
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Exceptions;
     using Blaise.Nuget.Api.Contracts.Extensions;
@@ -8,10 +12,6 @@ namespace Blaise.Nuget.Api.Core.Services
     using Blaise.Nuget.Api.Core.Interfaces.Services;
     using StatNeth.Blaise.API.DataLink;
     using StatNeth.Blaise.API.DataRecord;
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
 
     public class CaseService : ICaseService
     {

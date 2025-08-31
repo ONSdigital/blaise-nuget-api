@@ -1,5 +1,6 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Providers;
     using Blaise.Nuget.Api.Core.Services;
@@ -7,26 +8,17 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
     using NUnit.Framework;
     using StatNeth.Blaise.API.DataLink;
     using StatNeth.Blaise.API.Meta;
-    using System;
 
     public class DataModelServiceTests
     {
-        private Mock<IRemoteDataLinkProvider> _remoteDataLinkProviderMock;
-
-        private Mock<ILocalDataLinkProvider> _localDataLinkProviderMock;
-
-        private Mock<IDataLink6> _dataLinkMock;
-
-        private Mock<IDatamodel> _dataModelMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _questionnaireName;
-
         private readonly string _serverParkName;
-
         private readonly string _databaseFile;
-
+        private Mock<IRemoteDataLinkProvider> _remoteDataLinkProviderMock;
+        private Mock<ILocalDataLinkProvider> _localDataLinkProviderMock;
+        private Mock<IDataLink6> _dataLinkMock;
+        private Mock<IDatamodel> _dataModelMock;
         private DataModelService _sut;
 
         public DataModelServiceTests()

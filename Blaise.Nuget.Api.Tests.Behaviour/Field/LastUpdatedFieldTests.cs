@@ -1,12 +1,12 @@
 namespace Blaise.Nuget.Api.Tests.Behaviour.Field
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Extensions;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
 
     public class LastUpdatedFieldTests
     {

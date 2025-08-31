@@ -10,14 +10,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
     public class FieldServiceTests
     {
-        private Mock<IDataModelService> _dataModelServiceMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _questionnaireName;
-
         private readonly string _serverParkName;
-
+        private Mock<IDataModelService> _dataModelServiceMock;
         private IFieldService _sut;
 
         public FieldServiceTests()

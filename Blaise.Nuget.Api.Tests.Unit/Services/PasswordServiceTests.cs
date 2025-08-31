@@ -1,8 +1,8 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System.Security;
     using Blaise.Nuget.Api.Core.Services;
     using NUnit.Framework;
-    using System.Security;
 
     public class PasswordServiceTests
     {

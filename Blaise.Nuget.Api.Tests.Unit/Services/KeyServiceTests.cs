@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Providers;
     using Blaise.Nuget.Api.Core.Services;
@@ -8,31 +10,19 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
     using StatNeth.Blaise.API.DataLink;
     using StatNeth.Blaise.API.DataRecord;
     using StatNeth.Blaise.API.Meta;
-    using System;
-    using System.Collections.Generic;
 
     public class KeyServiceTests
     {
-        private Mock<IRemoteDataLinkProvider> _remoteDataLinkProviderMock;
-
-        private Mock<IRemoteDataServer> _remoteDataServerMock;
-
-        private Mock<IDataLink6> _remoteDataLinkMock;
-
-        private Mock<IDatamodel> _dataModelMock;
-
-        private Mock<IKey> _keyMock;
-
-        private Mock<IDataRecord> _dataRecordMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _questionnaireName;
-
         private readonly string _serverParkName;
-
         private readonly Guid _questionnaireId;
-
+        private Mock<IRemoteDataLinkProvider> _remoteDataLinkProviderMock;
+        private Mock<IRemoteDataServer> _remoteDataServerMock;
+        private Mock<IDataLink6> _remoteDataLinkMock;
+        private Mock<IDatamodel> _dataModelMock;
+        private Mock<IKey> _keyMock;
+        private Mock<IDataRecord> _dataRecordMock;
         private KeyService _sut;
 
         public KeyServiceTests()

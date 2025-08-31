@@ -1,12 +1,12 @@
 namespace Blaise.Nuget.Api.Core.Factories
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Extensions;
     using Blaise.Nuget.Api.Core.Interfaces.Factories;
     using Blaise.Nuget.Api.Core.Interfaces.Services;
     using StatNeth.Blaise.API.ServerManager;
-    using System;
-    using System.Collections.Generic;
 
     public class ConnectedServerFactory : IConnectedServerFactory
     {

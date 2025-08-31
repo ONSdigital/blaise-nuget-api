@@ -1,12 +1,12 @@
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Factories;
     using Blaise.Nuget.Api.Core.Interfaces.Services;
     using StatNeth.Blaise.API.ServerManager;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class UserService : IUserService
     {
@@ -45,8 +45,10 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public void AddUser(
             ConnectionModel connectionModel,
-            string userName, string password,
-            string role, IEnumerable<string> serverParkNames,
+            string userName,
+            string password,
+            string role,
+            IEnumerable<string> serverParkNames,
             string defaultServerPark)
         {
             var connection = _connectedServerFactory.GetConnection(connectionModel);
@@ -113,8 +115,9 @@ namespace Blaise.Nuget.Api.Core.Services
                 });
                 return true;
             }
-            catch // sad times
+            catch
             {
+                // sad times
                 return false;
             }
             finally

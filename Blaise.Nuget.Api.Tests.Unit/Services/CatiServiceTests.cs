@@ -1,5 +1,8 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Blaise.Nuget.Api.Contracts.Exceptions;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -10,32 +13,19 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
     using StatNeth.Blaise.API.Cati.Runtime;
     using StatNeth.Blaise.API.Cati.Specification;
     using StatNeth.Blaise.API.ServerManager;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class CatiServiceTests
     {
-        private Mock<IRemoteCatiManagementServerProvider> _catiProviderMock;
-
-        private Mock<IQuestionnaireService> _questionnaireServiceMock;
-
-        private Mock<ICatiInstrumentManager> _catiQuestionnaireManagerMock;
-
-        private Mock<IRemoteCatiManagementServer> _catiManagementServerMock;
-
-        private Mock<ISurveyDayCollection> _surveyDayCollection;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _questionnaireName;
-
         private readonly string _serverParkName;
-
         private readonly Guid _questionnaireId;
-
         private readonly DateTime _surveyDay;
-
+        private Mock<IRemoteCatiManagementServerProvider> _catiProviderMock;
+        private Mock<IQuestionnaireService> _questionnaireServiceMock;
+        private Mock<ICatiInstrumentManager> _catiQuestionnaireManagerMock;
+        private Mock<IRemoteCatiManagementServer> _catiManagementServerMock;
+        private Mock<ISurveyDayCollection> _surveyDayCollection;
         private CatiService _sut;
 
         public CatiServiceTests()

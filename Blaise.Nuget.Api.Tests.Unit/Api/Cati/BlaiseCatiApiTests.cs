@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Exceptions;
     using Blaise.Nuget.Api.Contracts.Interfaces;
@@ -7,23 +9,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
     using Blaise.Nuget.Api.Core.Interfaces.Services;
     using Moq;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
 
     public class BlaiseCatiApiTests
     {
-        private Mock<ICatiService> _catiServiceMock;
-
-        private Mock<ICaseService> _caseServiceMock;
-
         private readonly string _serverParkName;
-
         private readonly string _questionnaireName;
-
         private readonly string _primaryKeyValue;
-
         private readonly ConnectionModel _connectionModel;
-
+        private Mock<ICatiService> _catiServiceMock;
+        private Mock<ICaseService> _caseServiceMock;
         private IBlaiseCatiApi _sut;
 
         public BlaiseCatiApiTests()
@@ -141,8 +135,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             // assert
             _catiServiceMock.Verify(
-                v => v.CreateDayBatch(_connectionModel, _questionnaireName,
-                _serverParkName, dayBatchDate, checkForTreatedCases), Times.Once);
+                v => v.CreateDayBatch(
+                    _connectionModel,
+                    _questionnaireName,
+                    _serverParkName,
+                    dayBatchDate,
+                    checkForTreatedCases),
+                Times.Once);
         }
 
         [TestCase(true)]
@@ -233,8 +232,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
             // assert
             _catiServiceMock.Verify(
-                v => v.GetDayBatch(_connectionModel, _questionnaireName,
-                _serverParkName), Times.Once);
+                v => v.GetDayBatch(
+                    _connectionModel,
+                    _questionnaireName,
+                    _serverParkName),
+                Times.Once);
         }
 
         [Test]

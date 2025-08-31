@@ -1,7 +1,7 @@
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
-    using StatNeth.Blaise.API.Security;
     using System.Collections.Generic;
+    using StatNeth.Blaise.API.Security;
 
     public interface IBlaiseRoleApi
     {

@@ -9,14 +9,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
 
     public class RemoteCatiManagementServerProviderTests
     {
-        private Mock<ICatiManagementServerFactory> _catiFactoryMock;
-
-        private Mock<IRemoteCatiManagementServer> _remoteCatiManagementMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _serverParkName;
-
+        private Mock<ICatiManagementServerFactory> _catiFactoryMock;
+        private Mock<IRemoteCatiManagementServer> _remoteCatiManagementMock;
         private RemoteCatiManagementServerProvider _sut;
 
         public RemoteCatiManagementServerProviderTests()

@@ -1,7 +1,7 @@
 namespace Blaise.Nuget.Api.Core.Interfaces.Mappers
 {
-    using Blaise.Nuget.Api.Core.Models;
     using System.Collections.Generic;
+    using Blaise.Nuget.Api.Core.Models;
 
     public interface IRolePermissionMapper
     {

@@ -1,7 +1,7 @@
 namespace Blaise.Nuget.Api.Core.Interfaces.Mappers
 {
-    using StatNeth.Blaise.API.DataRecord;
     using System.Collections.Generic;
+    using StatNeth.Blaise.API.DataRecord;
 
     public interface IDataRecordMapper
     {

@@ -1,9 +1,9 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Contracts
 {
-    using Blaise.Nuget.Api.Contracts.Models;
-    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using NUnit.Framework;
 
     public class CaseModelTests
     {

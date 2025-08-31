@@ -1,13 +1,13 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Services;
     using Blaise.Nuget.Api.Core.Services;
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.Meta;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class QuestionnaireMetaServiceTests
     {

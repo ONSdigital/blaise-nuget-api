@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Blaise.Nuget.Api.Contracts.Exceptions;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Factories;
@@ -7,23 +9,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.ServerManager;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class ServerParkServiceTests
     {
-        private Mock<IConnectedServerFactory> _connectionFactoryMock;
-
-        private Mock<IServerPark> _serverParkMock;
-
-        private Mock<IConnectedServer> _connectedServerMock;
-
-        private Mock<IServerParkCollection> _serverParkCollectionMock;
-
         private readonly ConnectionModel _connectionModel;
-
+        private Mock<IConnectedServerFactory> _connectionFactoryMock;
+        private Mock<IServerPark> _serverParkMock;
+        private Mock<IConnectedServer> _connectedServerMock;
+        private Mock<IServerParkCollection> _serverParkCollectionMock;
         private string _serverParkName;
-
         private ServerParkService _sut;
 
         public ServerParkServiceTests()

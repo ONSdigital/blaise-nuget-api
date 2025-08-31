@@ -1,10 +1,10 @@
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Models;
     using StatNeth.Blaise.API.DataLink;
     using StatNeth.Blaise.API.DataRecord;
-    using System;
-    using System.Collections.Generic;
 
     public interface ICaseService
     {

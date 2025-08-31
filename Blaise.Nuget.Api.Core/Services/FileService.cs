@@ -1,14 +1,14 @@
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System;
+    using System.IO;
+    using System.IO.Compression;
+    using System.Linq;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Providers;
     using Blaise.Nuget.Api.Core.Interfaces.Services;
     using StatNeth.Blaise.API.DataInterface;
     using StatNeth.Blaise.API.DataRecord;
-    using System;
-    using System.IO;
-    using System.IO.Compression;
-    using System.Linq;
 
     public class FileService : IFileService
     {

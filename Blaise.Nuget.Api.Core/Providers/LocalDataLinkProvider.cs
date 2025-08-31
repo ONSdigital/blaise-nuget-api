@@ -1,11 +1,11 @@
 namespace Blaise.Nuget.Api.Core.Providers
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Extensions;
     using Blaise.Nuget.Api.Core.Interfaces.Providers;
     using StatNeth.Blaise.API.DataLink;
-    using System;
-    using System.Collections.Generic;
 
     public class LocalDataLinkProvider : ILocalDataLinkProvider
     {

@@ -1,5 +1,8 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Security;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Factories;
     using Blaise.Nuget.Api.Core.Interfaces.Services;
@@ -7,42 +10,24 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.ServerManager;
-    using System;
-    using System.Collections.Generic;
-    using System.Security;
 
     public class UserServiceTests
     {
-        private Mock<IConnectedServerFactory> _connectionFactoryMock;
-
-        private Mock<IPasswordService> _passwordServiceMock;
-
-        private Mock<IServerPark> _serverParkMock;
-
-        private Mock<IConnectedServer> _connectedServerMock;
-
-        private Mock<IServerParkCollection> _serverParkCollectionMock;
-
-        private Mock<IUser> _userMock;
-
-        private Mock<IUserServerParkCollection> _userServerParkCollectionMock;
-
-        private Mock<IUserCollection> _userCollectionMock;
-
-        private Mock<IUserPreferenceCollection> _userPreferenceCollectionMock;
-
-        private Mock<IUserPreference> _userPreferenceMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _serverParkName;
-
         private readonly string _userName;
-
         private readonly string _password;
-
         private readonly SecureString _securePassword;
-
+        private Mock<IConnectedServerFactory> _connectionFactoryMock;
+        private Mock<IPasswordService> _passwordServiceMock;
+        private Mock<IServerPark> _serverParkMock;
+        private Mock<IConnectedServer> _connectedServerMock;
+        private Mock<IServerParkCollection> _serverParkCollectionMock;
+        private Mock<IUser> _userMock;
+        private Mock<IUserServerParkCollection> _userServerParkCollectionMock;
+        private Mock<IUserCollection> _userCollectionMock;
+        private Mock<IUserPreferenceCollection> _userPreferenceCollectionMock;
+        private Mock<IUserPreference> _userPreferenceMock;
         private UserService _sut;
 
         public UserServiceTests()
@@ -63,12 +48,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             var serverParkItems = new List<IServerPark> { _serverParkMock.Object };
 
-            // Mock user preference
+            // mock user preference
             _userPreferenceMock = new Mock<IUserPreference>();
             _userPreferenceMock.Setup(s => s.Type).Returns("TestDefaultServerParkType");
             _userPreferenceMock.Setup(s => s.Value).Returns("TestDefaultServerParkValue");
 
-            // Mock user preference
+            // mock user preference
             _userPreferenceCollectionMock = new Mock<IUserPreferenceCollection>();
             _userPreferenceCollectionMock.Setup(s => s.Add(It.IsAny<string>())).Returns(() => _userPreferenceMock.Object);
             _userPreferenceCollectionMock.Setup(s => s.GetItem(It.IsAny<string>())).Returns(() => _userPreferenceMock.Object);

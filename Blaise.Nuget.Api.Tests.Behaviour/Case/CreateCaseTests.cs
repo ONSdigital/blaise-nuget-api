@@ -1,10 +1,10 @@
 namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 {
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Extensions;
     using NUnit.Framework;
-    using System.Collections.Generic;
 
     public class CreateCaseTests
     {

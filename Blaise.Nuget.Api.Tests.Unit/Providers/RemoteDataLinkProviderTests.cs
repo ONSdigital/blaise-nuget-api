@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Providers
 {
+    using System;
+    using System.Threading;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Factories;
     using Blaise.Nuget.Api.Core.Interfaces.Providers;
@@ -9,31 +11,19 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
     using NUnit.Framework;
     using StatNeth.Blaise.API.DataLink;
     using StatNeth.Blaise.API.Meta;
-    using System;
-    using System.Threading;
 
     public class RemoteDataLinkProviderTests
     {
-        private Mock<IRemoteDataServerFactory> _connectionFactoryMock;
-
-        private Mock<IQuestionnaireService> _questionnaireServiceMock;
-
-        private Mock<IRemoteDataServer> _remoteDataServerMock;
-
-        private Mock<IDataLink4> _dataLinkMock;
-
-        private Mock<IDatamodel> _dataModelMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _questionnaireName;
-
         private readonly string _serverParkName;
-
         private readonly DateTime _installDate;
-
         private readonly Guid _questionnaireId;
-
+        private Mock<IRemoteDataServerFactory> _connectionFactoryMock;
+        private Mock<IQuestionnaireService> _questionnaireServiceMock;
+        private Mock<IRemoteDataServer> _remoteDataServerMock;
+        private Mock<IDataLink4> _dataLinkMock;
+        private Mock<IDatamodel> _dataModelMock;
         private IRemoteDataLinkProvider _sut;
 
         public RemoteDataLinkProviderTests()

@@ -1,5 +1,8 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Extensions;
@@ -9,26 +12,16 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.DataRecord;
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
 
     public class BlaiseCaseApiTests
     {
-        private Mock<ICaseService> _caseServiceMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly Dictionary<string, string> _primaryKeyValues;
-
         private readonly string _serverParkName;
-
         private readonly string _questionnaireName;
-
         private readonly string _databaseFile;
-
         private readonly string _filter = "Id=10";
-
+        private Mock<ICaseService> _caseServiceMock;
         private IBlaiseCaseApi _sut;
 
         public BlaiseCaseApiTests()
@@ -112,7 +105,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_An_Empty_QuestionnaireName_When_I_Call_CaseExists_Then_An_ArgumentException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CaseExists(_primaryKeyValues, string.Empty,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CaseExists(
+                _primaryKeyValues,
+                string.Empty,
                 _serverParkName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
@@ -121,7 +116,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_QuestionnaireName_When_I_Call_CaseExists_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseExists(_primaryKeyValues, null,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseExists(
+                _primaryKeyValues,
+                null,
                 _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
@@ -132,7 +129,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.CaseExists(
                 _primaryKeyValues,
-                _questionnaireName, string.Empty));
+                _questionnaireName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -142,7 +140,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CaseExists(
                 _primaryKeyValues,
-                _questionnaireName, null));
+                _questionnaireName,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -342,7 +341,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(
                 _primaryKeyValues,
-                string.Empty, _serverParkName));
+                string.Empty,
+                _serverParkName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -360,7 +360,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetCase(
                 _primaryKeyValues,
-                _questionnaireName, string.Empty));
+                _questionnaireName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -370,7 +371,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetCase(
                 _primaryKeyValues,
-                _questionnaireName, null));
+                _questionnaireName,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -534,8 +536,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_Dictionary_Of_FieldData_When_I_Call_CreateCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_primaryKeyValues, null,
-                _questionnaireName, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(
+                _primaryKeyValues,
+                null,
+                _questionnaireName,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'fieldData' must be supplied"));
         }
 
@@ -546,8 +551,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(_primaryKeyValues, fieldData,
-                string.Empty, _serverParkName));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(
+                _primaryKeyValues,
+                fieldData,
+                string.Empty,
+                _serverParkName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -558,8 +566,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_primaryKeyValues, fieldData,
-                null, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(
+                _primaryKeyValues,
+                fieldData,
+                null,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -570,8 +581,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(_primaryKeyValues, fieldData,
-                _questionnaireName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(
+                _primaryKeyValues,
+                fieldData,
+                _questionnaireName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -582,8 +596,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(_primaryKeyValues, fieldData,
-                _questionnaireName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(
+                _primaryKeyValues,
+                fieldData,
+                _questionnaireName,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -592,8 +609,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             // arrange
             var dataRecord = new Mock<IDataRecord>();
-            _caseServiceMock.Setup(d => d.CreateNewDataRecord(_connectionModel, It.IsAny<IDataRecord>(),
-                 It.IsAny<string>(), It.IsAny<string>()));
+            _caseServiceMock.Setup(d => d.CreateNewDataRecord(
+                _connectionModel,
+                It.IsAny<IDataRecord>(),
+                It.IsAny<string>(),
+                It.IsAny<string>()));
 
             // act
             _sut.CreateCase(dataRecord.Object, _questionnaireName, _serverParkName);
@@ -610,7 +630,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(
                 null,
-                _questionnaireName, _serverParkName));
+                _questionnaireName,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'dataRecord' must be supplied"));
         }
 
@@ -623,7 +644,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(
                 dataRecord.Object,
-                string.Empty, _serverParkName));
+                string.Empty,
+                _serverParkName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -636,7 +658,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(
                 dataRecord.Object,
-                null, _serverParkName));
+                null,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -649,7 +672,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.CreateCase(
                 dataRecord.Object,
-                _questionnaireName, string.Empty));
+                _questionnaireName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -662,7 +686,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateCase(
                 dataRecord.Object,
-                _questionnaireName, null));
+                _questionnaireName,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -728,16 +753,25 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // arrange
             var fieldData = new Dictionary<string, string>();
 
-            _caseServiceMock.Setup(d => d.UpdateDataRecord(_connectionModel, It.IsAny<Dictionary<string, string>>(),
-                It.IsAny<Dictionary<string, string>>(), It.IsAny<string>(), It.IsAny<string>()));
+            _caseServiceMock.Setup(d => d.UpdateDataRecord(
+                _connectionModel,
+                It.IsAny<Dictionary<string, string>>(),
+                It.IsAny<Dictionary<string, string>>(),
+                It.IsAny<string>(),
+                It.IsAny<string>()));
 
             // act
             _sut.UpdateCase(_primaryKeyValues, fieldData, _questionnaireName, _serverParkName);
 
             // assert
             _caseServiceMock.Verify(
-                v => v.UpdateDataRecord(_connectionModel, _primaryKeyValues, fieldData,
-                _questionnaireName, _serverParkName), Times.Once);
+                v => v.UpdateDataRecord(
+                    _connectionModel,
+                    _primaryKeyValues,
+                    fieldData,
+                    _questionnaireName,
+                    _serverParkName),
+                Times.Once);
         }
 
         [Test]
@@ -747,8 +781,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase((Dictionary<string, string>)null, fieldData,
-                _questionnaireName, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
+                (Dictionary<string, string>)null,
+                fieldData,
+                _questionnaireName,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'primaryKeyValues' must be supplied"));
         }
 
@@ -756,8 +793,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_Null_Dictionary_Of_FieldData_When_I_Call_UpdateCase_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(_primaryKeyValues, null,
-                _questionnaireName, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
+                _primaryKeyValues,
+                null,
+                _questionnaireName,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'fieldData' must be supplied"));
         }
 
@@ -768,7 +808,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(_primaryKeyValues, fieldData, string.Empty,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(
+                _primaryKeyValues,
+                fieldData,
+                string.Empty,
                 _serverParkName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
@@ -780,8 +823,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(_primaryKeyValues, fieldData,
-                null, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
+                _primaryKeyValues,
+                fieldData,
+                null,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -792,8 +838,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(_primaryKeyValues, fieldData,
-                _questionnaireName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(
+                _primaryKeyValues,
+                fieldData,
+                _questionnaireName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -804,8 +853,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(_primaryKeyValues, fieldData,
-                _questionnaireName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
+                _primaryKeyValues,
+                fieldData,
+                _questionnaireName,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -823,8 +875,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 
             // assert
             _caseServiceMock.Verify(
-                v => v.UpdateDataRecord(_connectionModel, dataRecordMock.Object, fieldData,
-                _questionnaireName, _serverParkName), Times.Once);
+                v => v.UpdateDataRecord(
+                    _connectionModel,
+                    dataRecordMock.Object,
+                    fieldData,
+                    _questionnaireName,
+                    _serverParkName),
+                Times.Once);
         }
 
         [Test]
@@ -834,8 +891,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase((IDataRecord)null, fieldData,
-                _questionnaireName, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
+                (IDataRecord)null,
+                fieldData,
+                _questionnaireName,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'dataRecord' must be supplied"));
         }
 
@@ -846,8 +906,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var dataRecordMock = new Mock<IDataRecord>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(dataRecordMock.Object, null,
-                _questionnaireName, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
+                dataRecordMock.Object,
+                null,
+                _questionnaireName,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'fieldData' must be supplied"));
         }
 
@@ -859,7 +922,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(dataRecordMock.Object, fieldData, string.Empty,
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(
+                dataRecordMock.Object,
+                fieldData,
+                string.Empty,
                 _serverParkName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
@@ -872,8 +938,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(dataRecordMock.Object, fieldData,
-                null, _serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
+                dataRecordMock.Object,
+                fieldData,
+                null,
+                _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -885,8 +954,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(dataRecordMock.Object, fieldData,
-                _questionnaireName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UpdateCase(
+                dataRecordMock.Object,
+                fieldData,
+                _questionnaireName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -900,7 +972,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
                 dataRecordMock.Object,
-                fieldData, _questionnaireName, null));
+                fieldData,
+                _questionnaireName,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -918,8 +992,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
 
             // assert
             _caseServiceMock.Verify(
-                v => v.UpdateDataRecord(_connectionModel, dataRecordMock.Object, fieldData,
-                _databaseFile), Times.Once);
+                v => v.UpdateDataRecord(
+                    _connectionModel,
+                    dataRecordMock.Object,
+                    fieldData,
+                    _databaseFile),
+                Times.Once);
         }
 
         [Test]
@@ -929,7 +1007,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(null, fieldData,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
+                null,
+                fieldData,
                 _databaseFile));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'dataRecord' must be supplied"));
         }
@@ -941,7 +1021,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var dataRecordMock = new Mock<IDataRecord>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(dataRecordMock.Object, null,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
+                dataRecordMock.Object,
+                null,
                 _databaseFile));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'fieldData' must be supplied"));
         }
@@ -966,7 +1048,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var fieldData = new Dictionary<string, string>();
 
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(dataRecordMock.Object, fieldData,
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateCase(
+                dataRecordMock.Object,
+                fieldData,
                 null));
             Assert.That(exception.ParamName, Is.EqualTo("databaseFile"));
         }
@@ -976,8 +1060,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             // arrange
             const string fieldName = "QHAdmin.HOut";
-            _caseServiceMock.Setup(d => d.FieldExists(_connectionModel, It.IsAny<string>(),
-                It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<bool>());
+            _caseServiceMock.Setup(d => d.FieldExists(
+                _connectionModel,
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<string>())).Returns(It.IsAny<bool>());
 
             // act
             _sut.FieldExists(_questionnaireName, _serverParkName, fieldName);
@@ -992,7 +1079,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         {
             // arrange
             const string fieldName = "QHAdmin.HOut";
-            _caseServiceMock.Setup(d => d.FieldExists(_connectionModel, It.IsAny<string>(), It.IsAny<string>(),
+            _caseServiceMock.Setup(d => d.FieldExists(
+                _connectionModel,
+                It.IsAny<string>(),
+                It.IsAny<string>(),
                 It.IsAny<string>())).Returns(fieldExists);
 
             // act
@@ -1012,7 +1102,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.FieldExists(
                 string.Empty,
-                _serverParkName, fieldName));
+                _serverParkName,
+                fieldName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -1025,7 +1116,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.FieldExists(
                 null,
-                _serverParkName, fieldName));
+                _serverParkName,
+                fieldName));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -1038,7 +1130,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.FieldExists(
                 _questionnaireName,
-                string.Empty, fieldName));
+                string.Empty,
+                fieldName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -1051,7 +1144,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.FieldExists(
                 _questionnaireName,
-                null, fieldName));
+                null,
+                fieldName));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -1061,7 +1155,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.FieldExists(
                 _questionnaireName,
-                _serverParkName, string.Empty));
+                _serverParkName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'fieldName' must be supplied"));
         }
 
@@ -1071,7 +1166,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.FieldExists(
                 _questionnaireName,
-                _serverParkName, null));
+                _serverParkName,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("fieldName"));
         }
 
@@ -1081,8 +1177,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_Valid_Arguments_When_I_Call_FieldExists_Then_The_Correct_Service_Method_Is_Called(FieldNameType fieldNameType)
         {
             // arrange
-            _caseServiceMock.Setup(d => d.FieldExists(_connectionModel, It.IsAny<string>(),
-                It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<bool>());
+            _caseServiceMock.Setup(d => d.FieldExists(
+                _connectionModel,
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<string>())).Returns(It.IsAny<bool>());
 
             // act
             _sut.FieldExists(_questionnaireName, _serverParkName, fieldNameType);
@@ -1096,7 +1195,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_Valid_Arguments_When_I_Call_FieldExists_Then_The_Expected_Result_Is_Returned(bool fieldExists)
         {
             // arrange
-            _caseServiceMock.Setup(d => d.FieldExists(_connectionModel, It.IsAny<string>(), It.IsAny<string>(),
+            _caseServiceMock.Setup(d => d.FieldExists(
+                _connectionModel,
+                It.IsAny<string>(),
+                It.IsAny<string>(),
                 It.IsAny<string>())).Returns(fieldExists);
 
             // act
@@ -1113,7 +1215,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.FieldExists(
                 string.Empty,
-                _serverParkName, FieldNameType.HOut));
+                _serverParkName,
+                FieldNameType.HOut));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -1123,7 +1226,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.FieldExists(
                 null,
-                _serverParkName, FieldNameType.HOut));
+                _serverParkName,
+                FieldNameType.HOut));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -1133,7 +1237,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.FieldExists(
                 _questionnaireName,
-                string.Empty, FieldNameType.HOut));
+                string.Empty,
+                FieldNameType.HOut));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -1143,7 +1248,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.FieldExists(
                 _questionnaireName,
-                null, FieldNameType.HOut));
+                null,
+                FieldNameType.HOut));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -1347,8 +1453,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_Null_PrimaryKeysValues_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(null, _questionnaireName,
-                _serverParkName, FieldNameType.HOut));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(
+                null,
+                _questionnaireName,
+                _serverParkName,
+                FieldNameType.HOut));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'primaryKeyValues' must be supplied"));
         }
 
@@ -1356,8 +1465,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_primaryKeys_And_An_Empty_QuestionnaireName_When_I_Call_GetFieldValue_Then_An_ArgumentException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFieldValue(_primaryKeyValues, string.Empty,
-                _serverParkName, FieldNameType.HOut));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFieldValue(
+                _primaryKeyValues,
+                string.Empty,
+                _serverParkName,
+                FieldNameType.HOut));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -1365,8 +1477,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_primaryKeys_And_A_Null_QuestionnaireName_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(_primaryKeyValues, null,
-                _serverParkName, FieldNameType.HOut));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(
+                _primaryKeyValues,
+                null,
+                _serverParkName,
+                FieldNameType.HOut));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -1374,8 +1489,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_primaryKeys_And_An_Empty_ServerParkName_When_I_Call_GetFieldValue_Then_An_ArgumentException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFieldValue(_primaryKeyValues, _questionnaireName,
-                string.Empty, FieldNameType.HOut));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.GetFieldValue(
+                _primaryKeyValues,
+                _questionnaireName,
+                string.Empty,
+                FieldNameType.HOut));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -1383,8 +1501,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         public void Given_A_primaryKeys_And_A_Null_ServerParkName_When_I_Call_GetFieldValue_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(_primaryKeyValues, _questionnaireName,
-                null, FieldNameType.HOut));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetFieldValue(
+                _primaryKeyValues,
+                _questionnaireName,
+                null,
+                FieldNameType.HOut));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -1526,7 +1647,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveCase(
                 _primaryKeyValues,
-                string.Empty, _serverParkName));
+                string.Empty,
+                _serverParkName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -1547,7 +1669,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.RemoveCase(
                 _primaryKeyValues,
-                _questionnaireName, string.Empty));
+                _questionnaireName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -1557,7 +1680,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveCase(
                 _primaryKeyValues,
-                _questionnaireName, null));
+                _questionnaireName,
+                null));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -1702,16 +1826,26 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // arrange
             const string lockId = "Lock123";
 
-            _caseServiceMock.Setup(d => d.LockDataRecord(It.IsAny<ConnectionModel>(), It.IsAny<Dictionary<string, string>>(),
-                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            _caseServiceMock.Setup(
+                d => d.LockDataRecord(
+                    It.IsAny<ConnectionModel>(),
+                    It.IsAny<Dictionary<string, string>>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()));
 
             // act
             _sut.LockDataRecord(_primaryKeyValues, _questionnaireName, _serverParkName, lockId);
 
             // assert
             _caseServiceMock.Verify(
-                v => v.LockDataRecord(_connectionModel, _primaryKeyValues,
-                _questionnaireName, _serverParkName, lockId), Times.Once);
+                v => v.LockDataRecord(
+                    _connectionModel,
+                    _primaryKeyValues,
+                    _questionnaireName,
+                    _serverParkName,
+                    lockId),
+                Times.Once);
         }
 
         [Test]
@@ -1723,7 +1857,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.LockDataRecord(
                 null,
-                _questionnaireName, _serverParkName, lockId));
+                _questionnaireName,
+                _serverParkName,
+                lockId));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'primaryKeyValues' must be supplied"));
         }
 
@@ -1736,7 +1872,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.LockDataRecord(
                 _primaryKeyValues,
-                string.Empty, _serverParkName, lockId));
+                string.Empty,
+                _serverParkName,
+                lockId));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -1749,7 +1887,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.LockDataRecord(
                 _primaryKeyValues,
-                null, _serverParkName, lockId));
+                null,
+                _serverParkName,
+                lockId));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -1762,7 +1902,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.LockDataRecord(
                 _primaryKeyValues,
-                _questionnaireName, string.Empty, lockId));
+                _questionnaireName,
+                string.Empty,
+                lockId));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -1775,7 +1917,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.LockDataRecord(
                 _primaryKeyValues,
-                _questionnaireName, null, lockId));
+                _questionnaireName,
+                null,
+                lockId));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -1785,7 +1929,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.LockDataRecord(
                 _primaryKeyValues,
-                _questionnaireName, _serverParkName, string.Empty));
+                _questionnaireName,
+                _serverParkName,
+                string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'lockId' must be supplied"));
         }
 
@@ -1803,8 +1949,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // arrange
             const string lockId = "Lock123";
 
-            _caseServiceMock.Setup(d => d.UnLockDataRecord(It.IsAny<ConnectionModel>(), It.IsAny<Dictionary<string, string>>(),
-                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            _caseServiceMock.Setup(
+                d => d.UnLockDataRecord(
+                    It.IsAny<ConnectionModel>(),
+                    It.IsAny<Dictionary<string, string>>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()));
 
             // act
             _sut.UnLockDataRecord(_primaryKeyValues, _questionnaireName, _serverParkName, lockId);

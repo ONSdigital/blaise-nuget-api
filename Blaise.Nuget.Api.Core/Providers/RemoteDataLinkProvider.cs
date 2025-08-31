@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Core.Providers
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Equality;
     using Blaise.Nuget.Api.Core.Extensions;
@@ -7,8 +9,6 @@ namespace Blaise.Nuget.Api.Core.Providers
     using Blaise.Nuget.Api.Core.Interfaces.Providers;
     using Blaise.Nuget.Api.Core.Interfaces.Services;
     using StatNeth.Blaise.API.DataLink;
-    using System;
-    using System.Collections.Generic;
 
     public class RemoteDataLinkProvider : IRemoteDataLinkProvider
     {

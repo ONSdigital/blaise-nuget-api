@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Api
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Extensions;
     using Blaise.Nuget.Api.Contracts.Interfaces;
@@ -10,8 +12,6 @@ namespace Blaise.Nuget.Api.Api
     using Blaise.Nuget.Api.Providers;
     using StatNeth.Blaise.API.DataLink;
     using StatNeth.Blaise.API.DataRecord;
-    using System;
-    using System.Collections.Generic;
 
     public class BlaiseCaseApi : IBlaiseCaseApi
     {
@@ -321,7 +321,6 @@ namespace Blaise.Nuget.Api.Api
         }
 
         // Ugghh :(
-
         public bool DataRecordIsLocked(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName)
         {
             primaryKeyValues.ThrowExceptionIfNull("primaryKeyValues");

@@ -1,7 +1,7 @@
 namespace Blaise.Nuget.Api.Core.Services
 {
-    using Blaise.Nuget.Api.Core.Interfaces.Services;
     using System.Security;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
 
     public class PasswordService : IPasswordService
     {

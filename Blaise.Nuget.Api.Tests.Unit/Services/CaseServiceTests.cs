@@ -1,5 +1,9 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Exceptions;
     using Blaise.Nuget.Api.Contracts.Extensions;
@@ -12,41 +16,23 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
     using StatNeth.Blaise.API.DataLink;
     using StatNeth.Blaise.API.DataRecord;
     using StatNeth.Blaise.API.Meta;
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
 
     public class CaseServiceTests
     {
-        private Mock<IDataModelService> _dataModelServiceMock;
-
-        private Mock<IKeyService> _keyServiceMock;
-
-        private Mock<IDataRecordService> _dataRecordServiceMock;
-
-        private Mock<IFieldService> _fieldServiceMock;
-
-        private Mock<IDataRecordMapper> _mapperServiceMock;
-
-        private Mock<IDatamodel> _dataModelMock;
-
-        private Mock<IKey> _keyMock;
-
-        private Mock<IDataRecord> _dataRecordMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _questionnaireName;
-
         private readonly string _serverParkName;
-
         private readonly string _databaseFile;
-
         private readonly string _keyName;
-
         private readonly Dictionary<string, string> _primaryKeyValues;
-
+        private Mock<IDataModelService> _dataModelServiceMock;
+        private Mock<IKeyService> _keyServiceMock;
+        private Mock<IDataRecordService> _dataRecordServiceMock;
+        private Mock<IFieldService> _fieldServiceMock;
+        private Mock<IDataRecordMapper> _mapperServiceMock;
+        private Mock<IDatamodel> _dataModelMock;
+        private Mock<IKey> _keyMock;
+        private Mock<IDataRecord> _dataRecordMock;
         private CaseService _sut;
 
         public CaseServiceTests()
@@ -244,32 +230,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.That(result, Is.EqualTo(dataValueMock.Object));
         }
 
-        private void SetupField(FieldNameType fieldType, string fieldValue)
-        {
-            var dataValueMock = new Mock<IDataValue>();
-            var fieldMock = new Mock<IField>();
-
-            dataValueMock.Setup(d => d.ValueAsText).Returns(fieldValue);
-            fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
-
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldType.FullName()))
-                .Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldType.FullName()))
-                .Returns(fieldMock.Object);
-        }
-
-        private void MockFieldWithMockDataValue(FieldNameType fieldType, string fieldValue)
-        {
-            var dataValueMock = new Mock<IDataValue>();
-            var fieldMock = new Mock<IField>();
-
-            dataValueMock.Setup(d => d.ValueAsText).Returns(fieldValue);
-            fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
-
-            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldType.FullName())).Returns(true);
-            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldType.FullName())).Returns(fieldMock.Object);
-        }
-
         [Test]
         public void Given_The_Date_Field_Does_Not_Exist_When_I_Call_GetLastUpdated_Then_Null_Is_Returned()
         {
@@ -458,6 +418,32 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.That(result, Is.InstanceOf<CaseModel>());
             Assert.That(result.PrimaryKeyValues, Is.EqualTo(primaryKeyValues));
             Assert.That(result.FieldData, Is.SameAs(fieldDictionary));
+        }
+
+        private void SetupField(FieldNameType fieldType, string fieldValue)
+        {
+            var dataValueMock = new Mock<IDataValue>();
+            var fieldMock = new Mock<IField>();
+
+            dataValueMock.Setup(d => d.ValueAsText).Returns(fieldValue);
+            fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
+
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldType.FullName()))
+                .Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldType.FullName()))
+                .Returns(fieldMock.Object);
+        }
+
+        private void MockFieldWithMockDataValue(FieldNameType fieldType, string fieldValue)
+        {
+            var dataValueMock = new Mock<IDataValue>();
+            var fieldMock = new Mock<IField>();
+
+            dataValueMock.Setup(d => d.ValueAsText).Returns(fieldValue);
+            fieldMock.Setup(f => f.DataValue).Returns(dataValueMock.Object);
+
+            _fieldServiceMock.Setup(f => f.FieldExists(_dataRecordMock.Object, fieldType.FullName())).Returns(true);
+            _fieldServiceMock.Setup(f => f.GetField(_dataRecordMock.Object, fieldType.FullName())).Returns(fieldMock.Object);
         }
     }
 }

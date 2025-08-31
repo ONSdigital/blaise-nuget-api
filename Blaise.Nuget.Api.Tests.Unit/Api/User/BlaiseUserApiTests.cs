@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Api.User
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Interfaces;
     using Blaise.Nuget.Api.Contracts.Models;
@@ -7,19 +9,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.ServerManager;
-    using System;
-    using System.Collections.Generic;
 
     public class BlaiseUserApiTests
     {
-        private Mock<IUserService> _userServiceMock;
-
         private readonly ConnectionModel _connectionModel;
-
         private readonly string _userName;
-
         private readonly string _password;
-
+        private Mock<IUserService> _userServiceMock;
         private IBlaiseUserApi _sut;
 
         public BlaiseUserApiTests()

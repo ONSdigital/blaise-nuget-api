@@ -1,9 +1,9 @@
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
-    using Blaise.Nuget.Api.Contracts.Models;
-    using StatNeth.Blaise.API.ServerManager;
     using System;
     using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using StatNeth.Blaise.API.ServerManager;
 
     public interface IBlaiseCatiApi
     {

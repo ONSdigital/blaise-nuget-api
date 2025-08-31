@@ -1,22 +1,20 @@
 namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
 {
+    using System.Linq;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Extensions;
     using Blaise.Nuget.Api.Contracts.Models;
     using NUnit.Framework;
     using StatNeth.Blaise.API.ServerManager;
-    using System.Linq;
 
     public class QuestionnaireTests
     {
-        private readonly BlaiseQuestionnaireApi _sut;
-
         private const string ServerParkName = "gusty";
-
         private const string FullQuestionnairePath = @"D:\Blaise\Instruments\DST2304Z.bpkg";
-
         private const string QuestionnaireName = "DST2304Z";
+
+        private readonly BlaiseQuestionnaireApi _sut;
 
         public QuestionnaireTests()
         {

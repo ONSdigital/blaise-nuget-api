@@ -1,17 +1,16 @@
 namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
 {
-    using Blaise.Nuget.Api.Api;
-    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
+    using Blaise.Nuget.Api.Api;
+    using NUnit.Framework;
 
     public class CatiTests
     {
-        private readonly BlaiseCatiApi _sut;
-
         private const string ServerParkName = "LocalDevelopment";
-
         private const string QuestionnaireName = "DST2106Z";
+
+        private readonly BlaiseCatiApi _sut;
 
         public CatiTests()
         {

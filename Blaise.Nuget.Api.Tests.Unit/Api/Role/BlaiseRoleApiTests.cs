@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Interfaces;
     using Blaise.Nuget.Api.Contracts.Models;
@@ -7,13 +9,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
     using Moq;
     using NUnit.Framework;
     using StatNeth.Blaise.API.Security;
-    using System;
-    using System.Collections.Generic;
 
     public class BlaiseRoleApiTests
     {
-        private Mock<IRoleService> _roleServiceMock;
-
         private readonly ConnectionModel _connectionModel;
 
         private readonly string _name;
@@ -21,6 +19,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         private readonly string _description;
 
         private readonly List<string> _permissions;
+
+        private Mock<IRoleService> _roleServiceMock;
 
         private IBlaiseRoleApi _sut;
 

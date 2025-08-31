@@ -1,5 +1,7 @@
 namespace Blaise.Nuget.Api.Api
 {
+    using System;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Exceptions;
     using Blaise.Nuget.Api.Contracts.Interfaces;
     using Blaise.Nuget.Api.Contracts.Models;
@@ -8,8 +10,6 @@ namespace Blaise.Nuget.Api.Api
     using Blaise.Nuget.Api.Extensions;
     using Blaise.Nuget.Api.Providers;
     using StatNeth.Blaise.API.ServerManager;
-    using System;
-    using System.Collections.Generic;
 
     public class BlaiseCatiApi : IBlaiseCatiApi
     {
@@ -53,8 +53,11 @@ namespace Blaise.Nuget.Api.Api
             return _catiService.GetInstalledQuestionnaire(_connectionModel, questionnaireName, serverParkName);
         }
 
-        public DayBatchModel CreateDayBatch(string questionnaireName, string serverParkName,
-            DateTime dayBatchDate, bool checkForTreatedCases)
+        public DayBatchModel CreateDayBatch(
+            string questionnaireName,
+            string serverParkName,
+            DateTime dayBatchDate,
+            bool checkForTreatedCases)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");

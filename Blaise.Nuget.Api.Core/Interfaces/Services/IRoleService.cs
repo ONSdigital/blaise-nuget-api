@@ -1,8 +1,8 @@
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Models;
     using StatNeth.Blaise.API.Security;
-    using System.Collections.Generic;
 
     public interface IRoleService
     {
