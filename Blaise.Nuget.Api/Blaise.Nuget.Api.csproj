@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <PackageReference Include="Unity.Container" Version="5.11.11" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
