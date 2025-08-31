@@ -7,7 +7,7 @@ pool:
   vmImage: windows-latest
 variables:
   solutionPath: '**/*.sln'
-  buildPlatform: Any CPU
+  buildPlatform: x64
   buildConfiguration: Release
 name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth).$(Rev:r)
 stages:
