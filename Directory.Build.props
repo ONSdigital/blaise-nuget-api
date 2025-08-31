@@ -2,8 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
+    <Platforms>x64</Platforms>
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>latest</LangVersion>
+    <IncludeReferencedProjects>true</IncludeReferencedProjects>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
