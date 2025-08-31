@@ -8,7 +8,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Blaise.Nuget.Api.Contracts\Blaise.Nuget.Api.Contracts.csproj" />    
     <ProjectReference Include="..\Blaise.Nuget.Api.Core\Blaise.Nuget.Api.Core.csproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
 
