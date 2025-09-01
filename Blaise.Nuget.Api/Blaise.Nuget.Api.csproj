@@ -23,4 +23,16 @@
     </Content>
   </ItemGroup>
 
+  <Target Name="CheckForCoreDll" BeforeTargets="Pack">
+    <PropertyGroup>
+      <CoreDllPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\Blaise.Nuget.Api.Core\bin\$(Configuration)\net48\Blaise.Nuget.Api.Core.dll'))</CoreDllPath>
+    </PropertyGroup>
+
+    <Message Text="Checking for Core DLL at: $(CoreDllPath)" Importance="high" />
+
+    <Error Condition="!Exists('$(CoreDllPath)')" Text="ERROR: The Core DLL was not found." />
+
+    <Message Condition="Exists('$(CoreDllPath)')" Text="SUCCESS: Core DLL was found and should be packed." Importance="high" />
+  </Target>
+
 </Project>
