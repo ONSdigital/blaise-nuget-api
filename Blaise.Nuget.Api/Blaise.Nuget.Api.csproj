@@ -16,4 +16,13 @@
     </ProjectReference>
   </ItemGroup>
 
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <Content Include="..\Blaise.Nuget.Api.Core\bin\$(Configuration)\net48\Blaise.Nuget.Api.Core.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib\net48</PackagePath>
+    </Content>
+  </ItemGroup>
+
 </Project>
