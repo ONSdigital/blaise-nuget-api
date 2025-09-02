@@ -36,7 +36,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
             var result = _sut.MapAuditTrailDataModel(keyValue, sessionId, eventInfoMock.Object);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<AuditTrailDataModel>());
             Assert.That(result.KeyValue, Is.EqualTo(keyValue));
             Assert.That(result.SessionId, Is.EqualTo(sessionId));
@@ -73,7 +72,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
             var result = _sut.MapAuditTrailCsvContent(auditTrailDataModels);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<string>());
             Assert.That(result, Is.EqualTo(expectedCsv));
         }

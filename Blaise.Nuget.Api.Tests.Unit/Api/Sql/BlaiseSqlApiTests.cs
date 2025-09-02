@@ -1,15 +1,15 @@
+using System;
+using System.Collections.Generic;
+using Blaise.Nuget.Api.Api;
+using Blaise.Nuget.Api.Contracts.Interfaces;
+using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Core.Interfaces.Providers;
+using Blaise.Nuget.Api.Core.Interfaces.Services;
+using Moq;
+using NUnit.Framework;
+
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
 {
-    using System;
-    using System.Collections.Generic;
-    using Blaise.Nuget.Api.Api;
-    using Blaise.Nuget.Api.Contracts.Interfaces;
-    using Blaise.Nuget.Api.Contracts.Models;
-    using Blaise.Nuget.Api.Core.Interfaces.Providers;
-    using Blaise.Nuget.Api.Core.Interfaces.Services;
-    using Moq;
-    using NUnit.Framework;
-
     public class BlaiseSqlApiTests
     {
         private readonly string _questionnaireName;
@@ -35,7 +35,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
-        public void Given_I_Instantiate_BlaiseCaseApi_No_Exceptions_Are_Thrown()
+        public void Given_I_Instantiate_BlaiseSqlApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
             // ReSharper disable once ObjectCreationAsStatement
@@ -73,7 +73,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var result = _sut.GetCaseIds(_questionnaireName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(caseIds));
         }
 
@@ -124,7 +123,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var result = _sut.GetEditingCaseIds(_questionnaireName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(caseIds));
         }
 
@@ -175,7 +173,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var result = _sut.GetCaseIdentifiers(_questionnaireName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(caseIdentifiers));
         }
 
@@ -222,7 +219,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var result = _sut.GetPostCode(_questionnaireName, _primaryKey);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(postCode));
         }
 
@@ -256,6 +252,51 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetPostCode(_questionnaireName, null));
             Assert.That(exception.ParamName, Is.EqualTo("primaryKey"));
+        }
+
+        [Test]
+        public void Given_Valid_Arguments_When_I_Call_DropQuestionnaireTables_Then_The_Correct_Service_Method_Is_Called()
+        {
+            // arrange
+            _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
+            _sqlServiceMock.Setup(s => s.DropQuestionnaireTables(It.IsAny<string>(), It.IsAny<string>()));
+
+            // act
+            _sut.DropQuestionnaireTables(_questionnaireName);
+
+            // assert
+            _sqlServiceMock.Verify(v => v.DropQuestionnaireTables(_connectionString, _questionnaireName), Times.Once);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Given_Valid_Arguments_When_I_Call_DropQuestionnaireTables_Then_The_Expected_Result_Is_Returned(bool dropResult)
+        {
+            // arrange
+            _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
+            _sqlServiceMock.Setup(s => s.DropQuestionnaireTables(It.IsAny<string>(), It.IsAny<string>())).Returns(dropResult);
+
+            // act
+            var result = _sut.DropQuestionnaireTables(_questionnaireName);
+
+            // assert
+            Assert.That(result, Is.EqualTo(dropResult));
+        }
+
+        [Test]
+        public void Given_An_Empty_QuestionnaireName_When_I_Call_DropQuestionnaireTables_Then_An_ArgumentException_Is_Thrown()
+        {
+            // act and assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.DropQuestionnaireTables(string.Empty));
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
+        }
+
+        [Test]
+        public void Given_A_Null_QuestionnaireName_When_I_Call_DropQuestionnaireTables_Then_An_ArgumentNullException_Is_Thrown()
+        {
+            // act and assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.DropQuestionnaireTables(null));
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
     }
 }

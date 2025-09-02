@@ -20,7 +20,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseModel.GetPrimaryKeyValue(primaryKeyName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(primaryKeyValue));
         }
 
@@ -37,7 +36,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
         }
 
         [Test]
-        public void Given_A_CaseModel_Has_A_CaseId_When_I_Call_CaseId_The_Correct_PrimaryKey_Value_Is_Returned()
+        public void Given_A_CaseModel_Has_A_CaseId_When_I_Access_The_PrimaryKey_Property_The_Correct_Value_Is_Returned()
         {
             // arrange
             var caseId = "900001";
@@ -48,7 +47,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.PrimaryKey;
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(caseId));
         }
     }

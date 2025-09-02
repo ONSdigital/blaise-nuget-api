@@ -123,7 +123,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetInstalledQuestionnaires(_connectionModel, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<ISurvey>>());
             Assert.That(result.Count(), Is.EqualTo(2));
         }
@@ -140,7 +139,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetInstalledQuestionnaires(_connectionModel, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<ISurvey>>());
             Assert.That(result, Is.Empty);
         }
@@ -199,7 +197,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetInstalledQuestionnaire(_connectionModel, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<ISurvey>());
             Assert.That(result, Is.SameAs(questionnaireMock.Object));
         }
@@ -285,7 +282,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDayBatch(_connectionModel, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<DayBatchModel>());
             Assert.That(result.DayBatchDate, Is.EqualTo(dayBatchDate));
             Assert.That(result.CaseIds, Is.EqualTo(caseIds));

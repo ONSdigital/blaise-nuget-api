@@ -37,7 +37,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             // arrange
             const string fieldName = "QHAdmin.HOut";
             var dataModelMock = new Mock<IDatamodel>();
-            dataModelMock.As<IDefinitionScope2>();
             dataModelMock.As<IDefinitionScope2>().Setup(d => d.FieldExists(fieldName)).Returns(It.IsAny<bool>());
 
             _dataModelServiceMock.Setup(d => d.GetDataModel(_connectionModel, It.IsAny<string>(), It.IsAny<string>()))
@@ -57,7 +56,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             // arrange
             const string fieldName = "QHAdmin.HOut";
             var dataModelMock = new Mock<IDatamodel>();
-            dataModelMock.As<IDefinitionScope2>();
             dataModelMock.As<IDefinitionScope2>().Setup(d => d.FieldExists(fieldName)).Returns(fieldExists);
             _dataModelServiceMock.Setup(d => d.GetDataModel(_connectionModel, It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(dataModelMock.Object);
@@ -66,7 +64,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.FieldExists(_connectionModel, _questionnaireName, _serverParkName, fieldName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(fieldExists));
         }
 
@@ -77,7 +74,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             // arrange
             const string fieldName = "QHAdmin.HOut";
             var dataModelMock = new Mock<IDatamodel>();
-            dataModelMock.As<IDefinitionScope2>();
             dataModelMock.As<IDefinitionScope2>().Setup(d => d.FieldExists(fieldName)).Returns(fieldExists);
             _dataModelServiceMock.Setup(d => d.GetDataModel(_connectionModel, It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(dataModelMock.Object);
@@ -89,7 +85,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.FieldExists(dataRecordMock.Object, fieldName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(fieldExists));
         }
 

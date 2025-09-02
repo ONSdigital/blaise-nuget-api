@@ -109,7 +109,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetUsers(_connectionModel);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<IUser>>());
         }
 
@@ -136,7 +135,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetUser(_connectionModel, _userName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IUser>());
         }
 
@@ -214,7 +212,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_An_Error_Occurs_In_Setting_The_User_Role_When_I_Call_AddUser_Then_The_User_Is_Still_Added()
+        public void Given_An_Error_Occurs_When_Setting_The_User_Role_When_I_Call_AddUser_Then_The_Other_Setup_Steps_Still_Complete()
         {
             // arrange
             var serverParkNameList = new List<string>
@@ -222,25 +220,25 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 "ServerPark1",
                 "ServerPark2"
             };
-
             const string role = "King";
             const string defaultServerPark = "ServerPark1";
 
-            _userMock.As<IUser2>().Setup(u => u.Role).Throws(new Exception());
+            _userMock.As<IUser2>().SetupSet(u => u.Role = It.IsAny<string>()).Throws(new Exception("Role error"));
 
-            // act
-            _sut.AddUser(_connectionModel, _userName, _password, role, serverParkNameList, defaultServerPark);
-
-            // assert
-            _passwordServiceMock.Verify(v => v.CreateSecurePassword(_password), Times.Once);
-            _connectedServerMock.Verify(v => v.AddUser(_userName, _securePassword), Times.Once);
-
-            foreach (var serverParkName in serverParkNameList)
+            // act and assert
+            Assert.Multiple(() =>
             {
-                _userServerParkCollectionMock.Verify(v => v.Add(serverParkName), Times.Once);
-            }
+                Assert.DoesNotThrow(() => _sut.AddUser(_connectionModel, _userName, _password, role, serverParkNameList, defaultServerPark));
+                _passwordServiceMock.Verify(v => v.CreateSecurePassword(_password), Times.Once);
+                _connectedServerMock.Verify(v => v.AddUser(_userName, _securePassword), Times.Once);
 
-            _userMock.Verify(v => v.Save(), Times.Once);
+                foreach (var serverParkName in serverParkNameList)
+                {
+                    _userServerParkCollectionMock.Verify(v => v.Add(serverParkName), Times.Once);
+                }
+                
+                _userMock.Verify(v => v.Save(), Times.Once);
+            });
         }
 
         [Test]
@@ -303,7 +301,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_When_I_Call_UpdateServerParks_Twice_Then_The_Add_Preferences_Is_Only_Called_Once()
+        public void Given_Preference_Already_Exists_When_I_Call_UpdateServerParks_Then_Preference_Is_Not_Added_Again()
         {
             // Mock user preference
             _userPreferenceMock = new Mock<IUserPreference>();
@@ -357,7 +355,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.ValidateUser(_connectionModel, _userName, _password);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.True);
         }
 
@@ -374,7 +371,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.ValidateUser(_connectionModel, _userName, _password);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
     }

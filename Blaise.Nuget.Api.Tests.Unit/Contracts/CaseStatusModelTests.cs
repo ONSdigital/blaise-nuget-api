@@ -21,7 +21,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.GetPrimaryKeyValue(primaryKeyName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(primaryKeyValue));
         }
 
@@ -38,7 +37,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.PrimaryKey;
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(primaryKeyValue));
         }
 
@@ -79,7 +77,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.PrimaryKey;
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(caseId));
         }
     }

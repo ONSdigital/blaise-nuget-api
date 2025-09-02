@@ -89,7 +89,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.CaseExists(_primaryKeyValues, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(caseExists));
         }
 
@@ -172,7 +171,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetPrimaryKeyValues(dataRecordMock.Object);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(_primaryKeyValues));
         }
 
@@ -1089,7 +1087,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.FieldExists(_questionnaireName, _serverParkName, fieldName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(fieldExists));
         }
 
@@ -1205,7 +1202,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.FieldExists(_questionnaireName, _serverParkName, FieldNameType.HOut);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(fieldExists));
         }
 
@@ -1285,7 +1281,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.FieldExists(dataRecordMock.Object, fieldNameType);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(fieldExists));
         }
 
@@ -1325,7 +1320,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.FieldExists(dataRecordMock.Object, fieldName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(fieldExists));
         }
 
@@ -1357,7 +1351,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetFieldValue(dataRecordMock.Object, fieldNameType);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(dataValueMock.Object));
         }
 
@@ -1387,7 +1380,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetFieldValue(dataRecordMock.Object, fieldName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(dataValueMock.Object));
         }
 
@@ -1445,7 +1437,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetFieldValue(_primaryKeyValues, _questionnaireName, _serverParkName, fieldNameType);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(dataValueMock.Object));
         }
 
@@ -1538,7 +1529,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetNumberOfCases(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(numberOfCases));
         }
 
@@ -1603,7 +1593,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetNumberOfCases(_databaseFile);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(numberOfCases));
         }
 
@@ -1765,7 +1754,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetRecordDataFields(dataRecord.Object);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Dictionary<string, string>>());
             Assert.That(result, Is.EqualTo(fieldDictionary));
         }
@@ -1807,7 +1795,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetOutcomeCode(dataRecord.Object);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<int>());
             Assert.That(result, Is.EqualTo(outcomeCode));
         }
@@ -2247,7 +2234,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetCaseStatus(dataRecord.Object);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<CaseStatusModel>());
             Assert.That(result.PrimaryKeyValues, Is.EqualTo(_primaryKeyValues));
             Assert.That(result.Outcome, Is.EqualTo(outCome));
@@ -2274,7 +2260,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetCaseStatusModelList(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<CaseStatusModel>>());
             Assert.That(result, Is.EqualTo(caseStatusModelList));
         }
@@ -2323,7 +2308,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetCaseStatusModelList(_databaseFile);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<CaseStatusModel>>());
             Assert.That(result, Is.EqualTo(caseStatusModelList));
         }
@@ -2356,7 +2340,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             var result = _sut.GetCaseModel(_primaryKeyValues, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<CaseModel>());
             Assert.That(result, Is.EqualTo(caseModel));
         }

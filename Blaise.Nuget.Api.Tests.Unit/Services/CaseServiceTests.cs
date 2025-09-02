@@ -281,7 +281,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetCaseStatus(_dataRecordMock.Object);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<CaseStatusModel>());
             Assert.That(result.PrimaryKeyValues, Is.EqualTo(primaryKeyValues));
             Assert.That(result.Outcome, Is.EqualTo(outCome));
@@ -327,7 +326,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetCaseStatusModelList(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<CaseStatusModel>>());
             Assert.That(result.Count, Is.EqualTo(2));
 
@@ -387,7 +385,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetCaseStatusModelList(_connectionModel, _databaseFile).ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<CaseStatusModel>>());
             Assert.That(result.Count, Is.EqualTo(2));
 
@@ -414,7 +411,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetCaseModel(_connectionModel, primaryKeyValues, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<CaseModel>());
             Assert.That(result.PrimaryKeyValues, Is.EqualTo(primaryKeyValues));
             Assert.That(result.FieldData, Is.SameAs(fieldDictionary));

@@ -37,7 +37,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var result = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(_sut.GetPrimaryKeyValues(result), Is.EqualTo(_primaryKeyValues));
 
             // cleanup
@@ -55,12 +54,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 
             // act
             var result = _sut.GetFilteredCases(questionnaireName, serverParkName, filter);
-
-            while (!result.EndOfSet)
-            {
-                var record = result.ActiveRecord;
-                result.MoveNext();
-            }
 
             // assert
             Assert.That(result.RecordCount, Is.EqualTo(5));

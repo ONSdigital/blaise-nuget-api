@@ -75,7 +75,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetRole(_connectionModel, role2Name);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(role2Mock.Object));
         }
 
@@ -99,7 +98,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetRole(_connectionModel, name);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(role1Mock.Object));
         }
 
@@ -138,7 +136,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.RoleExists(_connectionModel, name);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.True);
         }
 
@@ -156,7 +153,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.RoleExists(_connectionModel, "NotFound");
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 

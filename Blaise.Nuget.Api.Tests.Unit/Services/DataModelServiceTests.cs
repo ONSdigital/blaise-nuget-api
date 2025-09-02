@@ -53,7 +53,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataModel(_connectionModel, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IDatamodel>());
         }
 
@@ -96,7 +95,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataModel(_connectionModel, _databaseFile);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IDatamodel>());
         }
 

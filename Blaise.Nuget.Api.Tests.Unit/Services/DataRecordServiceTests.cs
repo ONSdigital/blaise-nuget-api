@@ -74,7 +74,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IDataSet>());
         }
 
@@ -88,7 +87,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataSet(_connectionModel, _questionnaireName, _serverParkName, null);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(_dataSetMock.Object));
         }
 
@@ -116,7 +114,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataSet(_connectionModel, _databaseFile, null);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IDataSet>());
         }
 
@@ -130,7 +127,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataSet(_connectionModel, _databaseFile, null);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(_dataSetMock.Object));
         }
 
@@ -158,7 +154,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataRecord(_connectionModel, _databaseFile, _keyMock.Object);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(_dataRecordMock.Object));
         }
 
@@ -186,7 +181,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IDataRecord>());
         }
 
@@ -200,7 +194,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(_dataRecordMock.Object));
         }
 
@@ -286,7 +279,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetNumberOfRecords(_connectionModel, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(2));
         }
 
@@ -305,7 +297,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetNumberOfRecords(_connectionModel, _databaseFile);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(2));
         }
 

@@ -55,14 +55,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
         }
 
         [Test]
-        public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseCaseApi_No_Exceptions_Are_Thrown()
+        public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseHealthApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
             Assert.That(() => new BlaiseHealthApi(), Throws.Nothing);
         }
 
         [Test]
-        public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseCaseApi_No_Exceptions_Are_Thrown()
+        public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseHealthApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
             Assert.That(() => new BlaiseHealthApi(new ConnectionModel()), Throws.Nothing);
@@ -75,7 +75,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.ConnectionModelIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.True);
         }
 
@@ -89,7 +88,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.ConnectionModelIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
@@ -103,12 +101,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.ConnectionModelIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
         [Test]
-        public void Given_An_Invalid_Password_When_I_ConnectionModelIsHealthy_Then_False_Is_Returned()
+        public void Given_An_Invalid_Password_When_I_Call_ConnectionModelIsHealthy_Then_False_Is_Returned()
         {
             // arrange
             _connectionModel.Password = string.Empty;
@@ -117,7 +114,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.ConnectionModelIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
@@ -131,7 +127,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.ConnectionModelIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
@@ -145,7 +140,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.ConnectionModelIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
@@ -159,7 +153,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.ConnectionModelIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
@@ -174,7 +167,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.ConnectionToBlaiseIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.True);
         }
 
@@ -188,7 +180,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.ConnectionToBlaiseIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
@@ -204,7 +195,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.RemoteConnectionToBlaiseIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.True);
         }
 
@@ -218,7 +208,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.RemoteConnectionToBlaiseIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
@@ -234,7 +223,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.RemoteConnectionToCatiIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.True);
         }
 
@@ -248,7 +236,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
             var result = _sut.RemoteConnectionToCatiIsHealthy();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
     }

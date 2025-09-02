@@ -62,7 +62,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var result = _sut.GetUsers();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<IUser>>());
             Assert.That(result, Is.SameAs(userList));
         }
@@ -79,7 +78,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var result = _sut.GetUser(_userName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IUser>());
             Assert.That(result, Is.SameAs(userMock.Object));
         }

@@ -146,7 +146,7 @@ namespace Blaise.Nuget.Api.Api
 
             if (clearCati)
             {
-                // Placeholder for future implementation in Blaise 5.14 (expected August 2024)
+                // placeholder for future implementation in Blaise 5.14+
             }
 
             if (dropTables)

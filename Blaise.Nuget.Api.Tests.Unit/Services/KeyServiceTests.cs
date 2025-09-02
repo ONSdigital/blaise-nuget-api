@@ -64,7 +64,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.KeyExists(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<bool>());
         }
 
@@ -79,7 +78,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.KeyExists(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(keyExists));
         }
 
@@ -124,7 +122,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetPrimaryKeyValues(_dataRecordMock.Object);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result[primaryKeyName], Is.EqualTo(expectedValue));
         }
 
@@ -156,7 +153,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetPrimaryKeyValues(_dataRecordMock.Object);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result["QID.Serial_Number"], Is.EqualTo("900001"));
             Assert.That(result["MainSurveyID"], Is.EqualTo("6B29FC40-CA47-1067-B31D"));
         }

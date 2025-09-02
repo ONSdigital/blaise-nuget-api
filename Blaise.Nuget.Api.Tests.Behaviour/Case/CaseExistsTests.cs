@@ -46,7 +46,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 
         [Ignore("Integration")]
         [Test]
-        public void Given_A_Case_Does_Not_Exist_When_I_Call_CaseExists_Then_True_Is_Returned()
+        public void Given_A_Case_Does_Not_Exist_When_I_Call_CaseExists_Then_False_Is_Returned()
         {
             // arrange
             const string serverParkName = "LocalDevelopment";

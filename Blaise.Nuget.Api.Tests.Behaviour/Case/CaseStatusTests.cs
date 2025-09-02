@@ -63,7 +63,9 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var result = _sut.GetCaseStatus(dataRecord);
 
             // assert=
-            Assert.That("900001", Is.EqualTo(result.PrimaryKey));
+            Assert.That(result.PrimaryKeyValues.Count, Is.EqualTo(2));
+            Assert.That(result.PrimaryKeyValues["MainSurveyID"], Is.EqualTo("7bded891-3aa6-41b2-824b-0be514018806"));
+            Assert.That(result.PrimaryKeyValues["ID"], Is.EqualTo("900001"));
 
             // Cleanup
             _sut.RemoveCase(primaryKeyValues, questionnaireName, serverParkName);

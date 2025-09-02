@@ -75,7 +75,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
             var result = _sut.GetServerPark(_serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(serverParkMock.Object));
         }
 
@@ -128,7 +127,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
             var result = _sut.GetServerParks();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(serverParkItems));
         }
 
@@ -157,7 +155,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
             var result = _sut.GetNamesOfServerParks();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.SameAs(serverParksNames));
         }
 
@@ -185,7 +182,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
             var result = _sut.ServerParkExists(_serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(serverParkExists));
         }
 

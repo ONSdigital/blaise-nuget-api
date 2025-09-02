@@ -50,7 +50,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             var result = _sut.GetQuestionnaire(QuestionnaireName, ServerParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<ISurvey>());
             Assert.That(result.Name, Is.EqualTo(QuestionnaireName));
         }
@@ -85,7 +84,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             var result = _sut.GetQuestionnaireModes(QuestionnaireName, ServerParkName).ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result.Count, Is.EqualTo(2));
             Assert.That(result.Contains("CAWI"), Is.True);
             Assert.That(result.Contains("CATI"), Is.True);
@@ -99,7 +97,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
             var result = _sut.GetQuestionnaireDataEntrySettings(QuestionnaireName, ServerParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<DataEntrySettingsModel>());
         }
     }

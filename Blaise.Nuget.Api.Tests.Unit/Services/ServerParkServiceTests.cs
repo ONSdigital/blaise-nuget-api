@@ -58,7 +58,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetServerParkNames(_connectionModel);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<string>>());
         }
 
@@ -108,7 +107,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.ServerParkExists(_connectionModel, serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.True);
         }
 
@@ -122,7 +120,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.ServerParkExists(_connectionModel, serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
@@ -133,7 +130,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetServerPark(_connectionModel, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IServerPark>());
             Assert.That(result, Is.SameAs(_serverParkMock.Object));
         }
@@ -164,7 +160,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetServerParks(_connectionModel).ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IEnumerable<IServerPark>>());
             Assert.That(result, Is.Not.Empty);
             Assert.That(result.Count, Is.EqualTo(2));

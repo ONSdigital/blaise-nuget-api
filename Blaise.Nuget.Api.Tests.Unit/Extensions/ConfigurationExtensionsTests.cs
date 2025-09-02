@@ -21,7 +21,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Extensions
 
         [TestCase("one")]
         [TestCase("")]
-        public void Given_An_Invalid_Argument_When_I_Call_GetVariableAsInt_A_NullReferenceException_Is_Thrown(string invalidArgument)
+        public void Given_An_Invalid_Argument_When_I_Call_GetVariableAsInt_An_ArgumentException_Is_Thrown(string invalidArgument)
         {
             // arrange
             const string variableName = "name";

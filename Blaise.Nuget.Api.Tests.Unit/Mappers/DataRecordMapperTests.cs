@@ -36,13 +36,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
             var result = _sut.MapFieldDictionaryFromRecord(dataRecordMock.Object);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<Dictionary<string, string>>());
             Assert.That(result.Count, Is.EqualTo(2));
-
             Assert.That(result.ContainsKey("Field1Name"), Is.True);
             Assert.That(result["Field1Name"], Is.EqualTo("Field1Value"));
-
             Assert.That(result.ContainsKey("Field2Name"), Is.True);
             Assert.That(result["Field2Name"], Is.EqualTo("Field2Value"));
         }

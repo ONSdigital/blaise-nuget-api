@@ -161,7 +161,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var result = _sut.CreateDayBatch(_questionnaireName, _serverParkName, dayBatchDate, checkForTreatedCases);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<DayBatchModel>());
         }
 
@@ -501,7 +500,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var result = _sut.GetSurveyDays(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<DateTime>>());
             Assert.That(result, Is.EqualTo(surveyDays));
         }
@@ -518,7 +516,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var result = _sut.GetSurveyDays(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<DateTime>>());
             Assert.That(result, Is.EqualTo(surveyDays));
         }

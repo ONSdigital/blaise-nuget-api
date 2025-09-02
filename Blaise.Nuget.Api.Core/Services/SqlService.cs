@@ -122,7 +122,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public bool DropQuestionnaireTables(string connectionString, string questionnaireName)
         {
-            /*Had to implement it this way as StatsNeth have no functionality to achieve the same result*/
+            // implemented this was as StatNeth don't currently provide a way to drop the SQL tables via the API
             var firstDatabaseTableName = GetDatabaseTableNameForm(questionnaireName);
             var secondDatabaseTableName = GetDatabaseTableNameDml(questionnaireName);
 
@@ -134,18 +134,17 @@ namespace Blaise.Nuget.Api.Core.Services
                     con.Open();
                     cmd.Connection = con;
 
-                    // Drop first table
+                    // drop first table
                     cmd.CommandText = $"DROP TABLE IF EXISTS `{firstDatabaseTableName}`";
                     cmd.ExecuteNonQuery();
 
-                    // Drop second table
+                    // drop second table
                     cmd.CommandText = $"DROP TABLE IF EXISTS `{secondDatabaseTableName}`";
                     cmd.ExecuteNonQuery();
                 }
             }
             catch
             {
-                // Handle exception
                 return false;
             }
 

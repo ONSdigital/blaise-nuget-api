@@ -23,26 +23,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
         }
 
         [Test]
-        public void Given_A_List_Of_Permissions_When_I_Call_MapToActionPermissionModels_I_Get_A_List_Of_ActionPermissionModels_Returned()
-        {
-            // act
-            var result = _sut.MapToActionPermissionModels(_permissions);
-
-            // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<List<ActionPermissionModel>>());
-        }
-
-        [Test]
         public void Given_A_List_Of_Permissions_When_I_Call_MapToActionPermissionModels_I_Get_An_Expected_List_Of_ActionPermissionModels_Returned()
         {
             // act
             var result = _sut.MapToActionPermissionModels(_permissions).ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<ActionPermissionModel>>());
-            Assert.That(result, Is.Not.Empty);
             Assert.That(result.Count, Is.EqualTo(2));
             Assert.That(result.Any(r => r.Action == _permissions[0] && r.Permission == PermissionStatus.Allowed), Is.True);
             Assert.That(result.Any(r => r.Action == _permissions[1] && r.Permission == PermissionStatus.Allowed), Is.True);

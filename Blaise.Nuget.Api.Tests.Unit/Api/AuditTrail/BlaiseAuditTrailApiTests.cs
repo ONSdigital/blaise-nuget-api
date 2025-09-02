@@ -64,37 +64,21 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetAuditTrail_Then_A_List_Of_AuditTrailDataModels_Is_Returned()
+        public void Given_Valid_Arguments_When_I_Call_GetAuditTrail_Then_It_Returns_The_Data_From_The_Service()
         {
             // arrange
-            var auditTrailDataList = new List<AuditTrailDataModel>();
+            var expectedAuditTrailData = new List<AuditTrailDataModel>();
             _auditTrailServiceMock.Setup(at => at.GetAuditTrailData(
-                    It.IsAny<ConnectionModel>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(auditTrailDataList);
+                It.IsAny<ConnectionModel>(),
+                It.IsAny<string>(),
+                It.IsAny<string>()))
+                .Returns(expectedAuditTrailData);
 
             // act
             var result = _sut.GetAuditTrail(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<List<AuditTrailDataModel>>());
-        }
-
-        [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetAuditTrail_Then_The_Expected_Byte_Array_Is_Returned()
-        {
-            // arrange
-            var auditTrailDataList = new List<AuditTrailDataModel>();
-            _auditTrailServiceMock.Setup(at => at.GetAuditTrailData(
-                It.IsAny<ConnectionModel>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(auditTrailDataList);
-
-            // act
-            var result = _sut.GetAuditTrail(_questionnaireName, _serverParkName);
-
-            // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.SameAs(auditTrailDataList));
+            Assert.That(result, Is.SameAs(expectedAuditTrailData));
         }
 
         [Test]

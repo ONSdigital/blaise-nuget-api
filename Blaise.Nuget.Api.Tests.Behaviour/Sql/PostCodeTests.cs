@@ -24,7 +24,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
             var result = _sut.GetPostCode(questionnaireName, primaryKey);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo("NP899XX"));
         }
     }

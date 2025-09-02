@@ -62,7 +62,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireModes(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.Not.Empty);
             Assert.That(result.Count, Is.EqualTo(2));
             Assert.That(result, Does.Contain("CAWI"));
@@ -108,7 +107,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
         }
 
@@ -158,7 +156,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName).ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
             Assert.That(result.Count, Is.EqualTo(2));
 
@@ -203,7 +200,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
             Assert.That(result, Is.Empty);
         }

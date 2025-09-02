@@ -22,7 +22,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.GetConnectionModel();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<ConnectionModel>());
             Assert.That(result.ServerName, Is.EqualTo("BlaiseServerHostNameTest"));
             Assert.That(result.UserName, Is.EqualTo("BlaiseServerUserNameTest"));
@@ -39,7 +38,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.ConnectionExpiresInMinutes;
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(60));
         }
 
@@ -50,7 +48,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.DatabaseConnectionString;
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo("user id=blaise;server=0.0.0.0;database=blaise;password=password123;defaultcommandtimeout=500;connectiontimeout=500"));
         }
     }

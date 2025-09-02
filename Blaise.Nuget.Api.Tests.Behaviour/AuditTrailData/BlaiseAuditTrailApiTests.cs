@@ -31,11 +31,11 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
             var questionnaireName = "lms2301_ts6";
 
             // act
-            var audotTrailDataModels = _auditTrailApi.GetAuditTrail(serverPark, questionnaireName);
+            var auditTrailDataModels = _auditTrailApi.GetAuditTrail(serverPark, questionnaireName);
 
             // assert
-            Assert.That(audotTrailDataModels, Is.Not.Null);
-            Assert.That(audotTrailDataModels, Is.Not.Empty);
+            Assert.That(auditTrailDataModels, Is.Not.Null);
+            Assert.That(auditTrailDataModels, Is.Not.Empty);
         }
 
         [Ignore("Integration")]

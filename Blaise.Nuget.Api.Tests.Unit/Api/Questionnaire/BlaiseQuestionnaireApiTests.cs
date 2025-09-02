@@ -1,18 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Blaise.Nuget.Api.Api;
+using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Interfaces;
+using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Core.Interfaces.Providers;
+using Blaise.Nuget.Api.Core.Interfaces.Services;
+using Moq;
+using NUnit.Framework;
+using StatNeth.Blaise.API.ServerManager;
+
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Blaise.Nuget.Api.Api;
-    using Blaise.Nuget.Api.Contracts.Enums;
-    using Blaise.Nuget.Api.Contracts.Interfaces;
-    using Blaise.Nuget.Api.Contracts.Models;
-    using Blaise.Nuget.Api.Core.Interfaces.Providers;
-    using Blaise.Nuget.Api.Core.Interfaces.Services;
-    using Moq;
-    using NUnit.Framework;
-    using StatNeth.Blaise.API.ServerManager;
-
     public class BlaiseQuestionnaireApiTests
     {
         private readonly string _serverParkName;
@@ -91,7 +91,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var result = _sut.QuestionnaireExists(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(exists));
         }
 
@@ -156,12 +155,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var result = _sut.GetQuestionnairesAcrossServerParks().ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.Not.Empty);
-            Assert.That(result.Count, Is.EqualTo(3));
-            Assert.That(result, Does.Contain(questionnaire1Mock.Object));
-            Assert.That(result, Does.Contain(questionnaire2Mock.Object));
-            Assert.That(result, Does.Contain(questionnaire3Mock.Object));
+            Assert.That(result, Is.EquivalentTo(questionnaires));
         }
 
         [Test]
@@ -194,10 +188,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var result = _sut.GetQuestionnaires(_serverParkName).ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Count, Is.EqualTo(2));
-            Assert.That(result, Does.Contain(questionnaire1Mock.Object));
-            Assert.That(result, Does.Contain(questionnaire2Mock.Object));
+            Assert.That(result, Is.EquivalentTo(questionnaireList));
         }
 
         [Test]
@@ -241,8 +232,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var result = _sut.GetQuestionnaire(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<ISurvey>());
             Assert.That(result, Is.SameAs(questionnaire1Mock.Object));
         }
 
@@ -306,8 +295,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var result = _sut.GetQuestionnaireStatus(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.InstanceOf<QuestionnaireStatusType>());
             Assert.That(result, Is.EqualTo(questionnaireStatusType));
         }
 
@@ -362,8 +349,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             // arrange
             var questionnaireList = new List<string>
             {
-                "Questionnaire",
-                "Questionnaire"
+                "QuestionnaireA",
+                "QuestionnaireB"
             };
 
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireNames(_connectionModel, _serverParkName)).Returns(questionnaireList);
@@ -372,10 +359,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var result = _sut.GetNamesOfQuestionnaires(_serverParkName).ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Count, Is.EqualTo(2));
-            Assert.That(result, Does.Contain("Questionnaire"));
-            Assert.That(result, Does.Contain("Questionnaire"));
+            Assert.That(result, Is.EquivalentTo(questionnaireList));
         }
 
         [Test]
@@ -419,7 +403,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var result = _sut.GetIdOfQuestionnaire(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.EqualTo(questionnaireId));
         }
 
@@ -461,11 +444,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_Valid_Arguments_When_I_Call_InstallQuestionnaire_Then_The_Correct_Service_Method_Is_Called(QuestionnaireInterviewType questionnaireInterviewType)
         {
             // arrange
-            const string QuestionnaireFile = @"d:\\opn2101a.pkg";
+            const string questionnaireFile = @"d:\\opn2101a.pkg";
             var installOptions = new InstallOptions();
 
             // act
-            _sut.InstallQuestionnaire(_questionnaireName, _serverParkName, QuestionnaireFile, installOptions);
+            _sut.InstallQuestionnaire(_questionnaireName, _serverParkName, questionnaireFile, installOptions);
 
             // assert
             _questionnaireServiceMock.Verify(
@@ -473,7 +456,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
                     _connectionModel,
                     _questionnaireName,
                     _serverParkName,
-                    QuestionnaireFile,
+                    questionnaireFile,
                     installOptions),
                 Times.Once);
         }
@@ -482,14 +465,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_An_Empty_QuestionnaireName_When_I_Call_InstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
             // arrange
-            const string QuestionnaireFile = @"d:\\opn2101a.pkg";
+            const string questionnaireFile = @"d:\\opn2101a.pkg";
             var installOptions = new InstallOptions();
 
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(
                 string.Empty,
                 _serverParkName,
-                QuestionnaireFile,
+                questionnaireFile,
                 installOptions));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
@@ -498,14 +481,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_A_Null_QuestionnaireName_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
             // arrange
-            const string QuestionnaireFile = @"d:\\opn2101a.pkg";
+            const string questionnaireFile = @"d:\\opn2101a.pkg";
             var installOptions = new InstallOptions();
 
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
                 null,
                 _serverParkName,
-                QuestionnaireFile,
+                questionnaireFile,
                 installOptions));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
@@ -514,14 +497,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_An_Empty_ServerParkName_When_I_Call_InstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
             // arrange
-            const string QuestionnaireFile = @"d:\\opn2101a.pkg";
+            const string questionnaireFile = @"d:\\opn2101a.pkg";
             var installOptions = new InstallOptions();
 
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(
                 _questionnaireName,
                 string.Empty,
-                QuestionnaireFile,
+                questionnaireFile,
                 installOptions));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
@@ -530,14 +513,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_A_Null_ServerParkName_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
             // arrange
-            const string QuestionnaireFile = @"d:\\opn2101a.pkg";
+            const string questionnaireFile = @"d:\\opn2101a.pkg";
             var installOptions = new InstallOptions();
 
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
                 _questionnaireName,
                 null,
-                QuestionnaireFile,
+                questionnaireFile,
                 installOptions));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
@@ -576,13 +559,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_A_Null_InstallOptions_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
             // arrange
-            const string QuestionnaireFile = @"d:\\opn2101a.pkg";
+            const string questionnaireFile = @"d:\\opn2101a.pkg";
 
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
                 _questionnaireName,
                 _serverParkName,
-                QuestionnaireFile,
+                questionnaireFile,
                 null));
             Assert.That(exception.ParamName, Is.EqualTo("The argument 'installOptions' must be supplied"));
         }
@@ -591,7 +574,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_DeleteCases_Is_True_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Service_Methods_Are_Called()
         {
             // act
-            _sut.UninstallQuestionnaire(this._questionnaireName, this._serverParkName, deleteCases: true);
+            _sut.UninstallQuestionnaire(_questionnaireName, _serverParkName, deleteCases: true);
 
             // assert
             _questionnaireServiceMock.Verify(v => v.UninstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
@@ -602,39 +585,51 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_DeleteCases_Is_False_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Service_Methods_Are_Called()
         {
             // act
-            _sut.UninstallQuestionnaire(this._questionnaireName, this._serverParkName);
+            _sut.UninstallQuestionnaire(_questionnaireName, _serverParkName);
 
             // assert
             _questionnaireServiceMock.Verify(v => v.UninstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
             _caseServiceMock.Verify(
                 v => v.RemoveDataRecords(
-                It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(),
-                It.IsAny<string>()),
+                    It.IsAny<ConnectionModel>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()),
                 Times.Never);
         }
 
         [Test]
-        public void Given_DeleteCases_Not_Provided_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Service_Methods_Are_Called()
+        public void Given_DropTables_Is_True_When_I_Call_UninstallQuestionnaire_Then_The_SqlService_Is_Called_To_Drop_Tables()
         {
+            // arrange
+            const string connectionString = "test-connection-string";
+            _configurationProviderMock.Setup(c => c.DatabaseConnectionString).Returns(connectionString);
+
             // act
-            _sut.UninstallQuestionnaire(this._questionnaireName, this._serverParkName);
+            _sut.UninstallQuestionnaire(_questionnaireName, _serverParkName, dropTables: true);
 
             // assert
+            _sqlServiceMock.Verify(v => v.DropQuestionnaireTables(connectionString, _questionnaireName), Times.Once);
             _questionnaireServiceMock.Verify(v => v.UninstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
-            _caseServiceMock.Verify(
-                v => v.RemoveDataRecords(
-                It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(),
-                It.IsAny<string>()),
-                Times.Never);
+            _caseServiceMock.Verify(v => v.RemoveDataRecords(It.IsAny<ConnectionModel>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Test]
+        public void Given_DropTables_Is_False_When_I_Call_UninstallQuestionnaire_Then_The_SqlService_Is_Not_Called()
+        {
+            // act
+            _sut.UninstallQuestionnaire(_questionnaireName, _serverParkName, dropTables: false);
+
+            // assert
+            _sqlServiceMock.Verify(v => v.DropQuestionnaireTables(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _questionnaireServiceMock.Verify(v => v.UninstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(v => v.RemoveDataRecords(It.IsAny<ConnectionModel>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_UninstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UninstallQuestionnaire(this._questionnaireName, string.Empty));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UninstallQuestionnaire(_questionnaireName, string.Empty));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
@@ -642,7 +637,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_A_Null_ServerParkName_When_I_Call_UninstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UninstallQuestionnaire(this._questionnaireName, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UninstallQuestionnaire(_questionnaireName, null));
             Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
@@ -650,7 +645,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_An_Empty_QuestionnaireName_When_I_Call_UninstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UninstallQuestionnaire(string.Empty, this._serverParkName));
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UninstallQuestionnaire(string.Empty, _serverParkName));
             Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
@@ -658,7 +653,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_A_Null_QuestionnaireName_When_I_Call_UninstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UninstallQuestionnaire(null, this._serverParkName));
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UninstallQuestionnaire(null, _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
@@ -679,11 +674,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var result = _sut.GetQuestionnaireConfigurationModel(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.QuestionnaireInterviewType, Is.InstanceOf<QuestionnaireInterviewType>());
-            Assert.That(result.QuestionnaireInterviewType, Is.EqualTo(questionnaireInterviewType));
-            Assert.That(result.QuestionnaireDataEntryType, Is.InstanceOf<QuestionnaireDataEntryType>());
-            Assert.That(result.QuestionnaireDataEntryType, Is.EqualTo(questionnaireDataEntryType));
+            Assert.That(result, Is.SameAs(questionnaireConfigurationModel));
         }
 
         [Test]
@@ -868,7 +859,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var result = _sut.GetQuestionnaireDataEntrySettings(_questionnaireName, _serverParkName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
         }
 
@@ -897,11 +887,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var result = _sut.GetQuestionnaireDataEntrySettings(_questionnaireName, _serverParkName).ToList();
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result.Count, Is.EqualTo(1));
 
             var dataEntrySettings = result.First();
-            Assert.That(dataEntrySettings, Is.Not.Null);
             Assert.That(dataEntrySettings.Type, Is.EqualTo("StrictInterviewing"));
             Assert.That(dataEntrySettings.SessionTimeout, Is.EqualTo(30));
             Assert.That(dataEntrySettings.SaveSessionOnTimeout, Is.EqualTo(timeout));

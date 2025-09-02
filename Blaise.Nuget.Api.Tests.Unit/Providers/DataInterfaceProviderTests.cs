@@ -48,7 +48,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_CreateFileDataInterface_Then_The_Correct_DataInterface_Is_Created()
+        public void Given_I_Call_CreateFileDataInterface_Then_The_Correct_Service_Methods_Are_Called()
         {
             // arrange
             const string fileName = "OPN.bdix";
@@ -76,7 +76,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.CreateFileDataInterface(_sourceFile, fileName, dataModelFileName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IDataInterface>());
             Assert.That(result, Is.SameAs(_dataInterfaceMock.Object));
         }
@@ -129,7 +128,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName, true);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IDataInterface>());
             Assert.That(result, Is.SameAs(_dataInterfaceMock.Object));
         }
@@ -166,7 +164,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
             var result = _sut.CreateSettingsDataInterface(_connectionString, ApplicationType.Cati, fileName);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.InstanceOf<IGeneralDataInterface>());
             Assert.That(result, Is.SameAs(_generalDataInterfaceMock.Object));
         }

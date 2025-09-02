@@ -196,7 +196,6 @@ namespace Blaise.Nuget.Api.Api
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
-            serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
             fieldName.ThrowExceptionIfNullOrEmpty("fieldName");
 
             return _caseService.FieldExists(_connectionModel, questionnaireName, serverParkName, fieldName);
@@ -320,14 +319,13 @@ namespace Blaise.Nuget.Api.Api
             _caseService.UnLockDataRecord(_connectionModel, primaryKeyValues, questionnaireName, serverParkName, lockId);
         }
 
-        // Ugghh :(
-        public bool DataRecordIsLocked(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName)
+         public bool DataRecordIsLocked(Dictionary<string, string> primaryKeyValues, string questionnaireName, string serverParkName)
         {
             primaryKeyValues.ThrowExceptionIfNull("primaryKeyValues");
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
 
-            /* StatNeth recommended way of checking that a data record is locked :( Not good practice */
+            // StatNeth recommended way of checking that a data record is locked
             try
             {
                 _caseService.GetDataRecord(_connectionModel, primaryKeyValues, questionnaireName, serverParkName);

@@ -89,27 +89,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             Assert.That(result, Is.Empty);
         }
 
-        [Test]
-        public void Given_No_Questionnaires_Are_On_A_ServerPark_When_I_Call_GetQuestionnaireNames_Then_A_Data_Not_Found_Exception_Is_Thrown()
-        {
-            // arrange
-            const string serverParkName = "ServerParkDoesNotExist";
-
-            _questionnaireCollectionMock = new Mock<ISurveyCollection>();
-            _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
-                => new List<ISurvey>().GetEnumerator());
-
-            _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
-            _parkServiceMock.Setup(p => p.GetServerPark(_connectionModel, It.IsAny<string>())).Returns(_serverParkMock.Object);
-
-            // act
-            var result = _sut.GetQuestionnaireNames(_connectionModel, serverParkName);
-
-            // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.Empty);
-        }
-
         [TestCase("TestQuestionnaireName", true)]
         [TestCase("QuestionnaireNotFound", false)]
         public void Given_I_Call_QuestionnaireExists_Then_I_Get_A_Correct_Value_Returned(string questionnaireName, bool exists)
@@ -136,7 +115,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_No_Questionnaires_When_I_Call_GetQuestionnaires_Then_An_Empty_Lst_Is_Returned()
+        public void Given_No_Questionnaires_When_I_Call_GetQuestionnaires_Then_An_Empty_List_Is_Returned()
         {
             // arrange
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
@@ -150,27 +129,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             // assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Count(), Is.EqualTo(0));
-        }
-
-        [Test]
-        public void Given_No_Surveys_Are_On_A_ServerPark_When_I_Call_GetSurveys_Then_A_Data_Not_Found_Exception_Is_Thrown()
-        {
-            // arrange
-            const string serverParkName = "ServerParkDoesNotExist";
-
-            _questionnaireCollectionMock = new Mock<ISurveyCollection>();
-            _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
-                => new List<ISurvey>().GetEnumerator());
-
-            _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
-            _parkServiceMock.Setup(p => p.GetServerPark(_connectionModel, It.IsAny<string>())).Returns(_serverParkMock.Object);
-
-            // act
-            var result = _sut.GetQuestionnaireNames(_connectionModel, serverParkName);
-
-            // assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.Empty);
         }
 
         [TestCase("Questionnaire1")]

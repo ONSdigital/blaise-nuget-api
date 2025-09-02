@@ -199,8 +199,6 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
 
-            Console.WriteLine($"CreateSqlDataInterface with interfaceName '{interfaceName}'");
-
             var dataInterfaceFile = interfaceName is null
                 ? BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseFileNameExt)
                 : BuildFilePath(questionnairePath, interfaceName, DatabaseFileNameExt);

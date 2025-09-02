@@ -117,12 +117,8 @@ namespace Blaise.Nuget.Api.Core.Services
             }
             catch
             {
-                // sad times
+                // currently only way to validate user...
                 return false;
-            }
-            finally
-            {
-                _connectedServerFactory.GetIsolatedConnection(connectionModel);
             }
         }
 
@@ -136,7 +132,14 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private static void AssignRoleToUser(IUser2 user, string role)
         {
-            user.Role = role;
+            try
+            {
+                user.Role = role;
+            }
+            catch
+            {
+                // still continue..!?
+            }
         }
 
         private static void AddCatiPreferenceToUser(IUser2 user, string defaultServerPark)

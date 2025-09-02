@@ -32,7 +32,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
             var result = _sut.ValidateUser(_userName, _password);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.True);
         }
 
@@ -44,7 +43,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
             var result = _sut.ValidateUser("meh", _password);
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
@@ -56,7 +54,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
             var result = _sut.ValidateUser(_userName, "meh");
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
@@ -68,7 +65,6 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
             var result = _sut.ValidateUser("meh", "meh");
 
             // assert
-            Assert.That(result, Is.Not.Null);
             Assert.That(result, Is.False);
         }
 
