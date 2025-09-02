@@ -27,7 +27,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var fieldData = new Dictionary<string, string>
             {
                 { FieldNameType.HOut.FullName(), "110" },
-                { FieldNameType.TelNo.FullName(), "07000000000" }
+                { FieldNameType.TelNo.FullName(), "07000000000" },
             };
 
             for (var i = 0; i < 1000; i++)

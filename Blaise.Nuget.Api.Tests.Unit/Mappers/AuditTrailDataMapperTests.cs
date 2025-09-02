@@ -54,15 +54,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
                     KeyValue = "keyValue1",
                     SessionId = Guid.NewGuid(),
                     TimeStamp = DateTime.Now.AddDays(-1),
-                    Content = "blah"
+                    Content = "blah",
                 },
                 new AuditTrailDataModel
                 {
                     KeyValue = "keyValue2",
                     SessionId = Guid.NewGuid(),
                     TimeStamp = DateTime.Now,
-                    Content = "meh"
-                }
+                    Content = "meh",
+                },
             };
 
             var expectedCsv =

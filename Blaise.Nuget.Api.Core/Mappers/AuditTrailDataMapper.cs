@@ -17,7 +17,7 @@ namespace Blaise.Nuget.Api.Core.Mappers
                 KeyValue = keyValue,
                 SessionId = sessionId,
                 TimeStamp = eventInfo.TimeStamp,
-                Content = eventInfo.ToString()
+                Content = eventInfo.ToString(),
             };
         }
 

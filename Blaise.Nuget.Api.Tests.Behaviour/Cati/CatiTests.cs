@@ -53,7 +53,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             var daysToAdd = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act
@@ -93,7 +93,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Cati
             var daysToAdd = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
             _sut.SetSurveyDays(QuestionnaireName, ServerParkName, daysToAdd);
             var surveyDays = _sut.GetSurveyDays(QuestionnaireName, ServerParkName);

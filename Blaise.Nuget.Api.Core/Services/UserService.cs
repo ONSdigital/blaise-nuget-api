@@ -111,7 +111,7 @@ namespace Blaise.Nuget.Api.Core.Services
                     Password = password,
                     Binding = connectionModel.Binding,
                     Port = connectionModel.Port,
-                    ConnectionExpiresInMinutes = connectionModel.ConnectionExpiresInMinutes
+                    ConnectionExpiresInMinutes = connectionModel.ConnectionExpiresInMinutes,
                 });
                 return true;
             }

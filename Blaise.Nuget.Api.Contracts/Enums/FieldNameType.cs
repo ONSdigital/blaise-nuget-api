@@ -23,6 +23,6 @@ namespace Blaise.Nuget.Api.Contracts.Enums
         LastUpdatedTime,
 
         [Description("QDataBag.PostCode")]
-        PostCode
+        PostCode,
     }
 }

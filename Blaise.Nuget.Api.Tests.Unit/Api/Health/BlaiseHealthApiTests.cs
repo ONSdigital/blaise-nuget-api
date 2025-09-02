@@ -40,7 +40,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
                 Binding = "http",
                 Port = 1,
                 RemotePort = 2,
-                ConnectionExpiresInMinutes = 90
+                ConnectionExpiresInMinutes = 90,
             };
 
             _connectionFactoryMock = new Mock<IConnectedServerFactory>();

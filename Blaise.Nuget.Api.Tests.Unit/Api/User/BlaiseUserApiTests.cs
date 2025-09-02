@@ -145,7 +145,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -165,7 +165,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -183,7 +183,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -201,7 +201,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -219,7 +219,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -237,7 +237,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -254,7 +254,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -271,7 +271,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string role = "King";
@@ -288,7 +288,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string role = "King";
@@ -398,7 +398,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -417,7 +417,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -434,7 +434,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -451,7 +451,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             // act and assert
@@ -466,7 +466,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.User
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             // act and assert

@@ -83,7 +83,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return new QuestionnaireConfigurationModel
             {
                 QuestionnaireDataEntryType = questionnaireConfiguration.InitialDataEntrySettingsName.ToEnum<QuestionnaireDataEntryType>(),
-                QuestionnaireInterviewType = questionnaireConfiguration.InitialLayoutSetGroupName.ToEnum<QuestionnaireInterviewType>()
+                QuestionnaireInterviewType = questionnaireConfiguration.InitialLayoutSetGroupName.ToEnum<QuestionnaireInterviewType>(),
             };
         }
 

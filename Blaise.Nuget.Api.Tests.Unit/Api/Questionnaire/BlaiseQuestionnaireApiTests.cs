@@ -1,18 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Moq;
-using NUnit.Framework;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Moq;
+    using NUnit.Framework;
+    using StatNeth.Blaise.API.ServerManager;
+
     public class BlaiseQuestionnaireApiTests
     {
         private readonly string _serverParkName;
@@ -179,7 +179,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var questionnaireList = new List<ISurvey>
             {
                 questionnaire1Mock.Object,
-                questionnaire2Mock.Object
+                questionnaire2Mock.Object,
             };
 
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaires(_connectionModel, _serverParkName)).Returns(questionnaireList);
@@ -350,7 +350,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var questionnaireList = new List<string>
             {
                 "QuestionnaireA",
-                "QuestionnaireB"
+                "QuestionnaireB",
             };
 
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireNames(_connectionModel, _serverParkName)).Returns(questionnaireList);
@@ -666,7 +666,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             var questionnaireConfigurationModel = new QuestionnaireConfigurationModel
             {
                 QuestionnaireInterviewType = questionnaireInterviewType,
-                QuestionnaireDataEntryType = questionnaireDataEntryType
+                QuestionnaireDataEntryType = questionnaireDataEntryType,
             };
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireConfigurationModel(_connectionModel, _questionnaireName, _serverParkName)).Returns(questionnaireConfigurationModel);
 
@@ -852,7 +852,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             _questionnaireMetaServiceMock.Setup(s => s.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName))
                 .Returns(new List<DataEntrySettingsModel>
                 {
-                    new DataEntrySettingsModel { Type = "StrictInterviewing", DeleteSessionOnTimeout = true, DeleteSessionOnQuit = true }
+                    new DataEntrySettingsModel { Type = "StrictInterviewing", DeleteSessionOnTimeout = true, DeleteSessionOnQuit = true },
                 });
 
             // act
@@ -879,8 +879,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
                         SaveSessionOnTimeout = timeout,
                         SaveSessionOnQuit = quit,
                         DeleteSessionOnTimeout = timeout,
-                        DeleteSessionOnQuit = quit
-                    }
+                        DeleteSessionOnQuit = quit,
+                    },
                 });
 
             // act

@@ -29,7 +29,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var fieldData = new Dictionary<string, string>
             {
                 { FieldNameType.HOut.FullName(), "110" },
-                { FieldNameType.TelNo.FullName(), "07000000000" }
+                { FieldNameType.TelNo.FullName(), "07000000000" },
             };
 
             _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
@@ -71,7 +71,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             var fieldData = new Dictionary<string, string>
             {
                 { FieldNameType.HOut.FullName(), "110" },
-                { FieldNameType.TelNo.FullName(), "07000000000" }
+                { FieldNameType.TelNo.FullName(), "07000000000" },
             };
 
             _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);

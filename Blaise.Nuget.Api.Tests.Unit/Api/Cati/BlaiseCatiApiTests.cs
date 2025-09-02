@@ -398,7 +398,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act
@@ -415,7 +415,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act and assert
@@ -430,7 +430,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act and assert
@@ -445,7 +445,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act and assert
@@ -460,7 +460,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act and assert
@@ -490,7 +490,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 new DateTime(2020, 12, 10),
-                new DateTime(2020, 12, 11)
+                new DateTime(2020, 12, 11),
             };
 
             // arrange
@@ -616,7 +616,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act
@@ -633,7 +633,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act and assert
@@ -648,7 +648,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act and assert
@@ -663,7 +663,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act and assert
@@ -678,7 +678,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act and assert

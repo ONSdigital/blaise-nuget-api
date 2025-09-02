@@ -12,6 +12,6 @@ namespace Blaise.Nuget.Api.Contracts.Enums
 
         Erroneous,
 
-        Failed
+        Failed,
     }
 }

@@ -31,7 +31,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
                 DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
                 InitialAppLayoutSetGroupName = QuestionnaireInterviewType.Cati.FullName(),
                 LayoutSetGroupName = QuestionnaireInterviewType.Cati.FullName(),
-                OverwriteMode = DataOverwriteMode.Always
+                OverwriteMode = DataOverwriteMode.Always,
             };
 
             // act

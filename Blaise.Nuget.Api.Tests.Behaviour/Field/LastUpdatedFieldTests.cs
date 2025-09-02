@@ -37,7 +37,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
                 { FieldNameType.HOut.FullName(), "110" },
                 { FieldNameType.TelNo.FullName(), "07000000000" },
                 { FieldNameType.LastUpdatedDate.FullName(), dateValue },
-                { FieldNameType.LastUpdatedTime.FullName(), timeValue }
+                { FieldNameType.LastUpdatedTime.FullName(), timeValue },
             };
 
             _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);

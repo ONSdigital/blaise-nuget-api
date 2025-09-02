@@ -39,7 +39,7 @@ namespace Blaise.Nuget.Api.Core.Services
                     SaveSessionOnQuit = ((IDataEntrySettings6)dataEntrySetting).SaveOnQuit,
                     DeleteSessionOnTimeout = ((IDataEntrySettings6)dataEntrySetting).DeleteSessionOnTimeout,
                     DeleteSessionOnQuit = ((IDataEntrySettings6)dataEntrySetting).DeleteSessionOnQuit,
-                    ApplyRecordLocking = ((IDataEntrySettings4)dataEntrySetting).ApplyRecordLocking
+                    ApplyRecordLocking = ((IDataEntrySettings4)dataEntrySetting).ApplyRecordLocking,
                 });
             }
 

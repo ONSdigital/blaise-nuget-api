@@ -80,7 +80,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var installedQuestionnaires = new Dictionary<string, Guid>
             {
                 { questionnaire1, Guid.NewGuid() },
-                { questionnaire2, Guid.NewGuid() }
+                { questionnaire2, Guid.NewGuid() },
             };
 
             var questionnaireMock = new Mock<ISurvey>();
@@ -110,7 +110,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var installedQuestionnaires = new Dictionary<string, Guid>
             {
                 { questionnaire1, Guid.NewGuid() },
-                { questionnaire2, Guid.NewGuid() }
+                { questionnaire2, Guid.NewGuid() },
             };
 
             var questionnaireMock = new Mock<ISurvey>();
@@ -153,7 +153,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             {
                 { questionnaire1, Guid.NewGuid() },
                 { questionnaire2, Guid.NewGuid() },
-                { _questionnaireName, Guid.NewGuid() }
+                { _questionnaireName, Guid.NewGuid() },
             };
 
             var questionnaireMock = new Mock<ISurvey>();
@@ -184,7 +184,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             {
                 { questionnaire1, Guid.NewGuid() },
                 { questionnaire2, Guid.NewGuid() },
-                { _questionnaireName, Guid.NewGuid() }
+                { _questionnaireName, Guid.NewGuid() },
             };
 
             var questionnaireMock = new Mock<ISurvey>();
@@ -210,7 +210,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var installedQuestionnaires = new Dictionary<string, Guid>
             {
                 { questionnaire1, Guid.NewGuid() },
-                { questionnaire2, Guid.NewGuid() }
+                { questionnaire2, Guid.NewGuid() },
             };
 
             var questionnaireMock = new Mock<ISurvey>();
@@ -323,7 +323,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act
@@ -372,7 +372,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var surveyDays = new List<DateTime>
             {
                 DateTime.Today,
-                DateTime.Today.AddDays(1)
+                DateTime.Today.AddDays(1),
             };
 
             // act

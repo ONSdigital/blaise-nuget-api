@@ -29,7 +29,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                 = new Dictionary<string, string>
                                 {
                                     { FieldNameType.HOut.FullName(), "110" },
-                                    { FieldNameType.TelNo.FullName(), "07000000000" }
+                                    { FieldNameType.TelNo.FullName(), "07000000000" },
                                 };
 
             var caseCount = 1000;

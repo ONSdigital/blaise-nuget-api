@@ -11,6 +11,6 @@ namespace Blaise.Nuget.Api.Contracts.Enums
         Cawi,
 
         [Description("CAPI")]
-        Capi
+        Capi,
     }
 }

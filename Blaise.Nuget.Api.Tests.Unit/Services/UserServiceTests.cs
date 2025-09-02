@@ -187,7 +187,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";
@@ -218,7 +218,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
             const string role = "King";
             const string defaultServerPark = "ServerPark1";
@@ -277,7 +277,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark2";
@@ -315,7 +315,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var serverParkNameList = new List<string>
             {
                 "ServerPark1",
-                "ServerPark2"
+                "ServerPark2",
             };
 
             const string defaultServerPark = "ServerPark1";

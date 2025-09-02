@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Moq;
-using NUnit.Framework;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Moq;
+    using NUnit.Framework;
+
     public class BlaiseSqlApiTests
     {
         private readonly string _questionnaireName;
@@ -63,7 +63,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var caseIds = new List<string>
             {
                 "12345678",
-                "91011188"
+                "91011188",
             };
 
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
@@ -113,7 +113,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var caseIds = new List<string>
             {
                 "12345678",
-                "91011188"
+                "91011188",
             };
 
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
@@ -163,7 +163,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
             var caseIdentifiers = new List<CaseIdentifierModel>
             {
                 new CaseIdentifierModel("12345678", "NP1234"),
-                new CaseIdentifierModel("91011188", "NP1235")
+                new CaseIdentifierModel("91011188", "NP1235"),
             };
 
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);

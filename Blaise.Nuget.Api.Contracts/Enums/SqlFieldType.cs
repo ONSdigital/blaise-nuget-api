@@ -14,6 +14,6 @@ namespace Blaise.Nuget.Api.Contracts.Enums
         EditLastUpdated,
 
         [Description("QEdit_edited")]
-        Edited
+        Edited,
     }
 }
