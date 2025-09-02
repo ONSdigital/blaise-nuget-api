@@ -1,20 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Unity.Container" Version="5.11.11" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Blaise.Nuget.Api.Contracts\Blaise.Nuget.Api.Contracts.csproj" />    
     <ProjectReference Include="..\Blaise.Nuget.Api.Core\Blaise.Nuget.Api.Core.csproj">
       <PrivateAssets>all</PrivateAssets>
     </ProjectReference>
   </ItemGroup>
+  
   <ItemGroup>
     <Content Include="..\Blaise.Nuget.Api.Core\bin\$(Configuration)\net48\Blaise.Nuget.Api.Core.dll">
       <Pack>true</Pack>
       <PackagePath>lib\net48</PackagePath>
     </Content>
   </ItemGroup>
+
 </Project>

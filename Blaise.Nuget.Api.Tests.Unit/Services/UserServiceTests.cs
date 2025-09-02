@@ -236,7 +236,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 {
                     _userServerParkCollectionMock.Verify(v => v.Add(serverParkName), Times.Once);
                 }
-                
+
                 _userMock.Verify(v => v.Save(), Times.Once);
             });
         }
