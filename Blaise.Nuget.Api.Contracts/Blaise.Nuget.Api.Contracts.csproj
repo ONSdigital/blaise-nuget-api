@@ -3,5 +3,9 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Update="MySql.Data" Version="9.0.0" />
+  </ItemGroup>
   
 </Project>

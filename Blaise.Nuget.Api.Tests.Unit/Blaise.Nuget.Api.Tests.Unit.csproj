@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Blaise.Nuget.Api\Blaise.Nuget.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="MySql.Data" Version="9.0.0" />
+  </ItemGroup>
+
 </Project>
