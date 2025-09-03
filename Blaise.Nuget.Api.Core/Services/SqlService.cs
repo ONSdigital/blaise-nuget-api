@@ -9,6 +9,7 @@ namespace Blaise.Nuget.Api.Core.Services
 
     public class SqlService : ISqlService
     {
+        /// <inheritdoc/>
         public IEnumerable<string> GetCaseIds(string connectionString, string questionnaireName)
         {
             var caseIds = new List<string>();
@@ -34,6 +35,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIds;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<string> GetEditingCaseIds(string connectionString, string questionnaireName)
         {
             var caseIds = new List<string>();
@@ -72,6 +74,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIds;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string connectionString, string questionnaireName)
         {
             var caseIdentifiers = new List<CaseIdentifierModel>();
@@ -97,6 +100,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIdentifiers;
         }
 
+        /// <inheritdoc/>
         public string GetPostCode(string connectionString, string questionnaireName, string primaryKey)
         {
             string postCode;
@@ -120,9 +124,10 @@ namespace Blaise.Nuget.Api.Core.Services
             return postCode;
         }
 
+        /// <inheritdoc/>
         public bool DropQuestionnaireTables(string connectionString, string questionnaireName)
         {
-            // implemented this was as StatNeth don't currently provide a way to drop the SQL tables via the API
+            // implemented this way as StatNeth don't currently provide a way to drop the SQL tables via the API
             var firstDatabaseTableName = GetDatabaseTableNameForm(questionnaireName);
             var secondDatabaseTableName = GetDatabaseTableNameDml(questionnaireName);
 
@@ -134,11 +139,9 @@ namespace Blaise.Nuget.Api.Core.Services
                     con.Open();
                     cmd.Connection = con;
 
-                    // drop first table
                     cmd.CommandText = $"DROP TABLE IF EXISTS `{firstDatabaseTableName}`";
                     cmd.ExecuteNonQuery();
 
-                    // drop second table
                     cmd.CommandText = $"DROP TABLE IF EXISTS `{secondDatabaseTableName}`";
                     cmd.ExecuteNonQuery();
                 }

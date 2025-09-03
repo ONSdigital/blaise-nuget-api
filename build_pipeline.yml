@@ -8,7 +8,7 @@ pool:
 
 variables:
   solutionPath: '**/*.sln'
-  buildPlatform: x64
+  buildPlatform: Any CPU
   buildConfiguration: Release
 
 name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth).$(Rev:r)

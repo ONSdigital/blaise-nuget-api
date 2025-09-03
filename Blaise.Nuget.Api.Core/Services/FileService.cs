@@ -42,6 +42,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _sqlService = sqlService;
         }
 
+        /// <inheritdoc/>
         public void UpdateQuestionnaireFileWithData(
             ConnectionModel connectionModel,
             string questionnaireFile,
@@ -55,6 +56,7 @@ namespace Blaise.Nuget.Api.Core.Services
             UpdateQuestionnairePackage(connectionModel, questionnaireFile, questionnaireName, serverParkName, questionnairePath, addAudit);
         }
 
+        /// <inheritdoc/>
         public void UpdateQuestionnaireFileWithBatchedData(
             ConnectionModel connectionModel,
             string questionnaireFile,
@@ -69,6 +71,7 @@ namespace Blaise.Nuget.Api.Core.Services
             UpdateQuestionnairePackage(connectionModel, questionnaireFile, questionnaireName, serverParkName, questionnairePath, addAudit);
         }
 
+        /// <inheritdoc/>
         public void UpdateQuestionnairePackageWithSqlConnection(
             string questionnaireName,
             string questionnaireFile,
@@ -80,6 +83,7 @@ namespace Blaise.Nuget.Api.Core.Services
             CreateQuestionnairePackage(questionnairePath, questionnaireFile);
         }
 
+        /// <inheritdoc/>
         public void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName)
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString

@@ -22,6 +22,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _passwordService = passwordService;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<IUser> GetUsers(ConnectionModel connectionModel)
         {
             var connection = _connectedServerFactory.GetConnection(connectionModel);
@@ -29,6 +30,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return connection.Users;
         }
 
+        /// <inheritdoc/>
         public IUser GetUser(ConnectionModel connectionModel, string userName)
         {
             var connection = _connectedServerFactory.GetConnection(connectionModel);
@@ -36,6 +38,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return connection.Users.GetItem(userName);
         }
 
+        /// <inheritdoc/>
         public bool UserExists(ConnectionModel connectionModel, string userName)
         {
             var connection = _connectedServerFactory.GetConnection(connectionModel);
@@ -43,6 +46,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return connection.Users.Any(u => u.Name.Equals(userName, StringComparison.OrdinalIgnoreCase));
         }
 
+        /// <inheritdoc/>
         public void AddUser(
             ConnectionModel connectionModel,
             string userName,
@@ -62,6 +66,7 @@ namespace Blaise.Nuget.Api.Core.Services
             user.Save();
         }
 
+        /// <inheritdoc/>
         public void UpdatePassword(ConnectionModel connectionModel, string userName, string password)
         {
             var securePassword = _passwordService.CreateSecurePassword(password);
@@ -71,6 +76,7 @@ namespace Blaise.Nuget.Api.Core.Services
             user.Save();
         }
 
+        /// <inheritdoc/>
         public void UpdateRole(ConnectionModel connectionModel, string userName, string role)
         {
             var user = (IUser2)GetUser(connectionModel, userName);
@@ -79,6 +85,7 @@ namespace Blaise.Nuget.Api.Core.Services
             user.Save();
         }
 
+        /// <inheritdoc/>
         public void UpdateServerParks(
             ConnectionModel connectionModel,
             string userName,
@@ -93,6 +100,7 @@ namespace Blaise.Nuget.Api.Core.Services
             user.Save();
         }
 
+        /// <inheritdoc/>
         public void RemoveUser(ConnectionModel connectionModel, string userName)
         {
             var connection = _connectedServerFactory.GetConnection(connectionModel);
@@ -100,6 +108,7 @@ namespace Blaise.Nuget.Api.Core.Services
             connection.RemoveUser(userName);
         }
 
+        /// <inheritdoc/>
         public bool ValidateUser(ConnectionModel connectionModel, string userName, string password)
         {
             try

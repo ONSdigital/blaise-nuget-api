@@ -31,6 +31,7 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
+        /// <inheritdoc/>
         public IServerPark GetServerPark(string serverParkName)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
@@ -38,16 +39,19 @@ namespace Blaise.Nuget.Api.Api
             return _parkService.GetServerPark(_connectionModel, serverParkName);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<IServerPark> GetServerParks()
         {
             return _parkService.GetServerParks(_connectionModel);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<string> GetNamesOfServerParks()
         {
             return _parkService.GetServerParkNames(_connectionModel);
         }
 
+        /// <inheritdoc/>
         public bool ServerParkExists(string serverParkName)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");

@@ -7,6 +7,7 @@ namespace Blaise.Nuget.Api.Core.Mappers
 
     public class RolePermissionMapper : IRolePermissionMapper
     {
+        /// <inheritdoc/>
         public IEnumerable<ActionPermissionModel> MapToActionPermissionModels(IEnumerable<string> permissions)
         {
             var actionPermissions = new List<ActionPermissionModel>();

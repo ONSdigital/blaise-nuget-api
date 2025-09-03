@@ -51,6 +51,7 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
+        /// <inheritdoc/>
         public bool QuestionnaireExists(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -59,11 +60,13 @@ namespace Blaise.Nuget.Api.Api
             return _questionnaireService.QuestionnaireExists(_connectionModel, questionnaireName, serverParkName);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<ISurvey> GetQuestionnairesAcrossServerParks()
         {
             return _questionnaireService.GetAllQuestionnaires(_connectionModel);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<ISurvey> GetQuestionnaires(string serverParkName)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
@@ -71,6 +74,7 @@ namespace Blaise.Nuget.Api.Api
             return _questionnaireService.GetQuestionnaires(_connectionModel, serverParkName);
         }
 
+        /// <inheritdoc/>
         public ISurvey GetQuestionnaire(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -79,6 +83,7 @@ namespace Blaise.Nuget.Api.Api
             return _questionnaireService.GetQuestionnaire(_connectionModel, questionnaireName, serverParkName);
         }
 
+        /// <inheritdoc/>
         public QuestionnaireStatusType GetQuestionnaireStatus(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -87,6 +92,7 @@ namespace Blaise.Nuget.Api.Api
             return _questionnaireService.GetQuestionnaireStatus(_connectionModel, questionnaireName, serverParkName);
         }
 
+        /// <inheritdoc/>
         public QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -95,6 +101,7 @@ namespace Blaise.Nuget.Api.Api
             return _questionnaireService.GetQuestionnaireConfigurationModel(_connectionModel, questionnaireName, serverParkName);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<string> GetNamesOfQuestionnaires(string serverParkName)
         {
             serverParkName.ThrowExceptionIfNullOrEmpty("serverParkName");
@@ -102,6 +109,7 @@ namespace Blaise.Nuget.Api.Api
             return _questionnaireService.GetQuestionnaireNames(_connectionModel, serverParkName);
         }
 
+        /// <inheritdoc/>
         public Guid GetIdOfQuestionnaire(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -110,6 +118,7 @@ namespace Blaise.Nuget.Api.Api
             return _questionnaireService.GetQuestionnaireId(_connectionModel, questionnaireName, serverParkName);
         }
 
+        /// <inheritdoc/>
         public void InstallQuestionnaire(
             string questionnaireName,
             string serverParkName,
@@ -129,6 +138,7 @@ namespace Blaise.Nuget.Api.Api
                 installOptions);
         }
 
+        /// <inheritdoc/>
         public void UninstallQuestionnaire(
             string questionnaireName,
             string serverParkName,
@@ -157,6 +167,7 @@ namespace Blaise.Nuget.Api.Api
             _questionnaireService.UninstallQuestionnaire(_connectionModel, questionnaireName, serverParkName);
         }
 
+        /// <inheritdoc/>
         public void ActivateQuestionnaire(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -167,6 +178,7 @@ namespace Blaise.Nuget.Api.Api
             questionnaire.Activate();
         }
 
+        /// <inheritdoc/>
         public void DeactivateQuestionnaire(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -177,6 +189,7 @@ namespace Blaise.Nuget.Api.Api
             questionnaire.Deactivate();
         }
 
+        /// <inheritdoc/>
         public IEnumerable<string> GetQuestionnaireModes(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");
@@ -185,6 +198,7 @@ namespace Blaise.Nuget.Api.Api
             return _questionnaireMetaService.GetQuestionnaireModes(_connectionModel, questionnaireName, serverParkName);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<DataEntrySettingsModel> GetQuestionnaireDataEntrySettings(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");

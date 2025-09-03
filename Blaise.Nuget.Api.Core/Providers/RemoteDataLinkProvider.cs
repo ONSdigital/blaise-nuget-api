@@ -28,6 +28,7 @@ namespace Blaise.Nuget.Api.Core.Providers
             _dataLinkConnections = new Dictionary<Tuple<string, string, DateTime>, Tuple<IDataLink4, DateTime>>(new RemoteDataLinkKeyComparison());
         }
 
+        /// <inheritdoc/>
         public IDataLink6 GetDataLink(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var installDate = _questionnaireService.GetInstallDate(connectionModel, questionnaireName, serverParkName);
