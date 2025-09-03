@@ -41,9 +41,6 @@ stages:
           Write-Host "Version: $Version"
           Write-Host "##vso[task.setvariable variable=Version;]$Version"
 
-    - task: NuGetToolInstaller@1
-      displayName: Install NuGet
-
     - task: NuGetCommand@2
       displayName: Run NuGet restore
       inputs:
