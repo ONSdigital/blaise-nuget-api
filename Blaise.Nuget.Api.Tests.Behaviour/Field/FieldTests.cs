@@ -1,31 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Extensions;
-using NUnit.Framework;
-
 namespace Blaise.Nuget.Api.Tests.Behaviour.Field
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Extensions;
+    using NUnit.Framework;
+
     public class FieldTests
     {
         private readonly BlaiseCaseApi _sut;
-        private readonly string _primaryKey;
+
+        private readonly Dictionary<string, string> _primaryKeyValues;
 
         public FieldTests()
         {
             _sut = new BlaiseCaseApi();
-            _primaryKey = "9000001";
+            _primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9000001" } };
         }
 
         [Ignore("Integration")]
         [Test]
         public void Given_Value_Set_When_I_Call_GetLastUpdatedDateTime_Then_The_Correct_Value_Is_Returned()
         {
-            //arrange
+            // arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2102R";
+            const string questionnaireName = "OPN2102R";
             const string dateValue = "02-12-2021";
             const string timeValue = "09:23:59";
 
@@ -33,53 +34,53 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
 
             var fieldData = new Dictionary<string, string>
             {
-                {FieldNameType.HOut.FullName(), "110"},
-                {FieldNameType.TelNo.FullName(), "07000000000"},
-                {FieldNameType.LastUpdatedDate.FullName(), dateValue},
-                {FieldNameType.LastUpdatedTime.FullName(), timeValue}
+                { FieldNameType.HOut.FullName(), "110" },
+                { FieldNameType.TelNo.FullName(), "07000000000" },
+                { FieldNameType.LastUpdatedDate.FullName(), dateValue },
+                { FieldNameType.LastUpdatedTime.FullName(), timeValue },
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, instrumentName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
-            //act
-            var dataRecord = _sut.GetCase(_primaryKey, instrumentName, serverParkName);
+            // act
+            var dataRecord = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
             var result = _sut.GetLastUpdated(dataRecord);
 
-            //arrange
-            Assert.AreEqual(lastUpdated, result);
+            // assert
+            Assert.That(result, Is.EqualTo(lastUpdated));
 
-            //cleanup
-            _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
+            // cleanup
+            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
 
         [Ignore("Integration")]
         [Test]
         public void Given_Value_Set_When_I_Call_GetField_Then_The_Correct_Value_Is_Returned()
         {
-            //arrange
+            // arrange
             const string serverParkName = "LocalDevelopment";
-            const string instrumentName = "OPN2102R";
+            const string questionnaireName = "OPN2102R";
+            const string telNoValue = "07000000000";
 
             var fieldData = new Dictionary<string, string>
             {
-                {FieldNameType.HOut.FullName(), "110"},
-                {FieldNameType.TelNo.FullName(), "07000000000"},
-                {FieldNameType.CaseId.FullName(), _primaryKey}
+                { FieldNameType.HOut.FullName(), "110" },
+                { FieldNameType.TelNo.FullName(), telNoValue },
             };
 
-            _sut.CreateCase(_primaryKey, fieldData, instrumentName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
-            //act
-            var dataRecord = _sut.GetCase(_primaryKey, instrumentName, serverParkName);
+            // act
+            var dataRecord = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
-            var result = _sut.GetFieldValue(dataRecord, FieldNameType.CaseId);
+            var result = _sut.GetFieldValue(dataRecord, FieldNameType.TelNo);
 
-            //arrange
-            Assert.AreEqual(_primaryKey, result);
+            // assert
+            Assert.That(result.ValueAsText, Is.EqualTo(telNoValue));
 
-            //cleanup
-            _sut.RemoveCase(_primaryKey, instrumentName, serverParkName);
+            // cleanup
+            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
     }
 }

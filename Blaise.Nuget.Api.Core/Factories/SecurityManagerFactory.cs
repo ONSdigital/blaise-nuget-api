@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Extensions;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.Security;
-using StatNeth.Blaise.Shared.API;
-
 namespace Blaise.Nuget.Api.Core.Factories
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Extensions;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.Security;
+    using StatNeth.Blaise.Shared.API;
+
     public class SecurityManagerFactory : ISecurityManagerFactory
     {
         private readonly IPasswordService _passwordService;
@@ -21,6 +21,7 @@ namespace Blaise.Nuget.Api.Core.Factories
             _connections = new Dictionary<string, Tuple<ISecurityServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
+        /// <inheritdoc/>
         public ISecurityServer GetConnection(ConnectionModel connectionModel)
         {
             if (!_connections.ContainsKey(connectionModel.ServerName))

@@ -1,16 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Extensions;
-using NUnit.Framework;
-
 namespace Blaise.Nuget.Api.Tests.Behaviour.Field
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Extensions;
+    using NUnit.Framework;
+
     public class LastUpdatedFieldTests
     {
         private readonly BlaiseCaseApi _sut;
+
         private readonly Dictionary<string, string> _primaryKeyValues;
 
         public LastUpdatedFieldTests()
@@ -23,7 +24,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
         [Test]
         public void Given_Value_Set_When_I_Call_GetLastUpdatedDateTime_Then_The_Correct_Value_Is_Returned()
         {
-            //arrange
+            // arrange
             const string serverParkName = "LocalDevelopment";
             const string questionnaireName = "OPN2102R";
             const string dateValue = "02-12-2021";
@@ -33,23 +34,23 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
 
             var fieldData = new Dictionary<string, string>
             {
-                {FieldNameType.HOut.FullName(), "110"},
-                {FieldNameType.TelNo.FullName(), "07000000000"},
-                {FieldNameType.LastUpdatedDate.FullName(), dateValue},
-                {FieldNameType.LastUpdatedTime.FullName(), timeValue}
+                { FieldNameType.HOut.FullName(), "110" },
+                { FieldNameType.TelNo.FullName(), "07000000000" },
+                { FieldNameType.LastUpdatedDate.FullName(), dateValue },
+                { FieldNameType.LastUpdatedTime.FullName(), timeValue },
             };
 
             _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
-            //act
+            // act
             var dataRecord = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
             var result = _sut.GetLastUpdated(dataRecord);
 
-            //arrange
-            Assert.AreEqual(lastUpdated, result);
+            // arrange
+            Assert.That(result, Is.EqualTo(lastUpdated));
 
-            //cleanup
+            // cleanup
             _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
 
@@ -57,17 +58,17 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
         [Test]
         public void Given_A_Questionnaire_Has_A_Field_When_I_Call_FieldExists_Then_The_Expected_Result_Is_Returned()
         {
-            //arrange
+            // arrange
             const string serverParkName = "gusty";
             const string questionnaireName = "LMS2209_EM1";
             const string fieldName = "QHAdmin.HOut";
             var dataRecord = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
-            //act
+            // act
             var result = _sut.FieldExists(dataRecord, fieldName);
 
-            //arrange
-            Assert.NotNull(result);
+            // arrange
+            Assert.That(result, Is.Not.Null);
         }
     }
 }

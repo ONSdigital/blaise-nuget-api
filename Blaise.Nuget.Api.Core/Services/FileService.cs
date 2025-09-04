@@ -1,26 +1,32 @@
-using System;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.DataInterface;
-using StatNeth.Blaise.API.DataRecord;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System;
+    using System.IO;
+    using System.IO.Compression;
+    using System.Linq;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.DataInterface;
+    using StatNeth.Blaise.API.DataRecord;
+
     public class FileService : IFileService
     {
-        private readonly IBlaiseConfigurationProvider _configurationProvider;
-        private readonly IDataInterfaceProvider _dataInterfaceService;
-        private readonly ICaseService _caseService;
-        private readonly IAuditTrailService _auditTrailService;
-        private readonly ISqlService _sqlService;
-
         private const string DatabaseFileNameExt = "bdix";
+
         private const string DatabaseSourceExt = "bdbx";
+
         private const string DatabaseModelExt = "bmix";
+
+        private readonly IBlaiseConfigurationProvider _configurationProvider;
+
+        private readonly IDataInterfaceProvider _dataInterfaceService;
+
+        private readonly ICaseService _caseService;
+
+        private readonly IAuditTrailService _auditTrailService;
+
+        private readonly ISqlService _sqlService;
 
         public FileService(
             IBlaiseConfigurationProvider configurationProvider,
@@ -36,8 +42,13 @@ namespace Blaise.Nuget.Api.Core.Services
             _sqlService = sqlService;
         }
 
-        public void UpdateQuestionnaireFileWithData(ConnectionModel connectionModel, string questionnaireFile,
-            string questionnaireName, string serverParkName, bool addAudit = false)
+        /// <inheritdoc/>
+        public void UpdateQuestionnaireFileWithData(
+            ConnectionModel connectionModel,
+            string questionnaireFile,
+            string questionnaireName,
+            string serverParkName,
+            bool addAudit = false)
         {
             var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
 
@@ -45,8 +56,14 @@ namespace Blaise.Nuget.Api.Core.Services
             UpdateQuestionnairePackage(connectionModel, questionnaireFile, questionnaireName, serverParkName, questionnairePath, addAudit);
         }
 
-        public void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnaireFile,
-            string questionnaireName, string serverParkName, int batchSize, bool addAudit = false)
+        /// <inheritdoc/>
+        public void UpdateQuestionnaireFileWithBatchedData(
+            ConnectionModel connectionModel,
+            string questionnaireFile,
+            string questionnaireName,
+            string serverParkName,
+            int batchSize,
+            bool addAudit = false)
         {
             var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
 
@@ -54,7 +71,11 @@ namespace Blaise.Nuget.Api.Core.Services
             UpdateQuestionnairePackage(connectionModel, questionnaireFile, questionnaireName, serverParkName, questionnairePath, addAudit);
         }
 
-        public void UpdateQuestionnairePackageWithSqlConnection(string questionnaireName, string questionnaireFile, bool createDatabaseObjects)
+        /// <inheritdoc/>
+        public void UpdateQuestionnairePackageWithSqlConnection(
+            string questionnaireName,
+            string questionnaireFile,
+            bool createDatabaseObjects)
         {
             var questionnairePath = ExtractQuestionnairePackage(questionnaireFile);
 
@@ -62,6 +83,7 @@ namespace Blaise.Nuget.Api.Core.Services
             CreateQuestionnairePackage(questionnairePath, questionnaireFile);
         }
 
+        /// <inheritdoc/>
         public void CreateSettingsDataInterfaceFile(ApplicationType applicationType, string fileName)
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString
@@ -70,7 +92,56 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataInterfaceService.CreateSettingsDataInterface(databaseConnectionString, applicationType, fileName);
         }
 
-        private void UpdateQuestionnaireFileWithAllData(ConnectionModel connectionModel, string questionnairePath, string questionnaireName)
+        private static string ExtractQuestionnairePackage(string questionnaireFile)
+        {
+            var questionnairePath = $"{Path.GetDirectoryName(questionnaireFile)}\\{Guid.NewGuid()}";
+
+            if (Directory.Exists(questionnairePath))
+            {
+                Directory.Delete(questionnairePath, true);
+            }
+
+            ZipFile.ExtractToDirectory(questionnaireFile, questionnairePath);
+            File.Delete(questionnaireFile);
+
+            return questionnairePath;
+        }
+
+        private static void CreateQuestionnairePackage(string questionnairePath, string questionnaireFile)
+        {
+            ZipFile.CreateFromDirectory(questionnairePath, questionnaireFile);
+            Directory.Delete(questionnairePath, true);
+        }
+
+        private static void DeleteFileIfExists(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+
+        private static string BuildFilePath(string rootPath, string questionnaireName, string extension)
+        {
+            return Path.Combine(rootPath, $"{questionnaireName}.{extension}");
+        }
+
+        private static string BuildFilePathAndCheckItExists(string rootPath, string questionnaireName, string extension)
+        {
+            var filePath = BuildFilePath(rootPath, questionnaireName, extension);
+
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"Could not find file {filePath}");
+            }
+
+            return filePath;
+        }
+
+        private void UpdateQuestionnaireFileWithAllData(
+            ConnectionModel connectionModel,
+            string questionnairePath,
+            string questionnaireName)
         {
             var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, false, $"{questionnaireName}_sql");
             var outputDataInterfaceFile = CreateLocalDataInterface(questionnairePath, questionnaireName);
@@ -85,7 +156,11 @@ namespace Blaise.Nuget.Api.Core.Services
             }
         }
 
-        private void UpdateQuestionnaireFileWithBatchedData(ConnectionModel connectionModel, string questionnairePath, string questionnaireName, int batchSize)
+        private void UpdateQuestionnaireFileWithBatchedData(
+            ConnectionModel connectionModel,
+            string questionnairePath,
+            string questionnaireName,
+            int batchSize)
         {
             var inputDataInterfaceFile = CreateSqlDataInterface(questionnairePath, questionnaireName, false, $"{questionnaireName}_sql");
             var outputDataInterfaceFile = CreateLocalDataInterface(questionnairePath, questionnaireName);
@@ -120,11 +195,13 @@ namespace Blaise.Nuget.Api.Core.Services
             return dataInterfaceFile;
         }
 
-        private string CreateSqlDataInterface(string questionnairePath, string questionnaireName, bool createDatabaseObjects, string interfaceName = null)
+        private string CreateSqlDataInterface(
+            string questionnairePath,
+            string questionnaireName,
+            bool createDatabaseObjects,
+            string interfaceName = null)
         {
             var databaseConnectionString = _configurationProvider.DatabaseConnectionString;
-
-            Console.WriteLine($"CreateSqlDataInterface with interfaceName '{interfaceName}'");
 
             var dataInterfaceFile = interfaceName is null
                 ? BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseFileNameExt)
@@ -132,16 +209,25 @@ namespace Blaise.Nuget.Api.Core.Services
 
             var dataModelFile = BuildFilePathAndCheckItExists(questionnairePath, questionnaireName, DatabaseModelExt);
 
-            _dataInterfaceService.CreateSqlDataInterface(databaseConnectionString, dataInterfaceFile,
-                dataModelFile, createDatabaseObjects);
+            _dataInterfaceService.CreateSqlDataInterface(
+                databaseConnectionString,
+                dataInterfaceFile,
+                dataModelFile,
+                createDatabaseObjects);
 
             return dataInterfaceFile;
         }
 
-        private void CreateAuditTrailCsv(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+        private void CreateAuditTrailCsv(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName,
             string questionnairePath)
         {
-            var auditTrailCsvContent = _auditTrailService.CreateAuditTrailCsvContent(connectionModel, questionnaireName, serverParkName);
+            var auditTrailCsvContent = _auditTrailService.CreateAuditTrailCsvContent(
+                connectionModel,
+                questionnaireName,
+                serverParkName);
 
             if (string.IsNullOrWhiteSpace(auditTrailCsvContent))
             {
@@ -152,23 +238,13 @@ namespace Blaise.Nuget.Api.Core.Services
             File.WriteAllText(pathAndFileName, auditTrailCsvContent);
         }
 
-        private static string ExtractQuestionnairePackage(string questionnaireFile)
-        {
-            var questionnairePath = $"{Path.GetDirectoryName(questionnaireFile)}\\{Guid.NewGuid()}";
-
-            if (Directory.Exists(questionnairePath))
-            {
-                Directory.Delete(questionnairePath, true);
-            }
-
-            ZipFile.ExtractToDirectory(questionnaireFile, questionnairePath);
-            File.Delete(questionnaireFile);
-
-            return questionnairePath;
-        }
-
-        private void UpdateQuestionnairePackage(ConnectionModel connectionModel, string questionnaireFile,
-            string questionnaireName, string serverParkName, string questionnairePath, bool addAudit = false)
+        private void UpdateQuestionnairePackage(
+            ConnectionModel connectionModel,
+            string questionnaireFile,
+            string questionnaireName,
+            string serverParkName,
+            string questionnairePath,
+            bool addAudit = false)
         {
             if (addAudit)
             {
@@ -176,37 +252,6 @@ namespace Blaise.Nuget.Api.Core.Services
             }
 
             CreateQuestionnairePackage(questionnairePath, questionnaireFile);
-        }
-
-        private static void CreateQuestionnairePackage(string questionnairePath, string questionnaireFile)
-        {
-            ZipFile.CreateFromDirectory(questionnairePath, questionnaireFile);
-            Directory.Delete(questionnairePath, true);
-        }
-
-        private static void DeleteFileIfExists(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-        }
-
-        private static string BuildFilePath(string rootPath, string questionnaireName, string extension)
-        {
-            return Path.Combine(rootPath, $"{questionnaireName}.{extension}");
-        }
-
-        private static string BuildFilePathAndCheckItExists(string rootPath, string questionnaireName, string extension)
-        {
-            var filePath = BuildFilePath(rootPath, questionnaireName, extension);
-
-            if (!File.Exists(filePath))
-            {
-                throw new FileNotFoundException($"Could not find file {filePath}");
-            }
-
-            return filePath;
         }
     }
 }

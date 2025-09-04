@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.Meta;
+
     public class QuestionnaireMetaService : IQuestionnaireMetaService
     {
         private readonly IDataModelService _dataModelService;
@@ -15,6 +15,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _dataModelService = dataModelService;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<string> GetQuestionnaireModes(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName) as IDatamodel2;
@@ -22,6 +23,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return dataModel == null ? new List<string>() : dataModel.Modes.Select(dm => dm.Name);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<DataEntrySettingsModel> GetQuestionnaireDataEntrySettings(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var dataModel = _dataModelService.GetDataModel(connectionModel, questionnaireName, serverParkName);
@@ -39,7 +41,7 @@ namespace Blaise.Nuget.Api.Core.Services
                     SaveSessionOnQuit = ((IDataEntrySettings6)dataEntrySetting).SaveOnQuit,
                     DeleteSessionOnTimeout = ((IDataEntrySettings6)dataEntrySetting).DeleteSessionOnTimeout,
                     DeleteSessionOnQuit = ((IDataEntrySettings6)dataEntrySetting).DeleteSessionOnQuit,
-                    ApplyRecordLocking = ((IDataEntrySettings4)dataEntrySetting).ApplyRecordLocking
+                    ApplyRecordLocking = ((IDataEntrySettings4)dataEntrySetting).ApplyRecordLocking,
                 });
             }
 

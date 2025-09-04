@@ -1,23 +1,21 @@
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Api;
-using NUnit.Framework;
-using Org.BouncyCastle.Crypto.Macs;
-using StatNeth.Blaise.API.Security;
-
 namespace Blaise.Nuget.Api.Tests.Behaviour.Users
 {
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Api;
+    using NUnit.Framework;
+
     public class UserTests
     {
         private readonly string _userName;
+
         private readonly string _password;
 
         private BlaiseUserApi _sut;
 
         public UserTests()
         {
-            _userName = "";
-            _password = "";
+            _userName = string.Empty;
+            _password = string.Empty;
         }
 
         [SetUp]
@@ -30,56 +28,51 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
         [Test]
         public void Given_A_Valid_User_When_I_Call_ValidateUser_Then_True_Is_Returned()
         {
-            //act
+            // act
             var result = _sut.ValidateUser(_userName, _password);
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.True(result);
+            // assert
+            Assert.That(result, Is.True);
         }
 
         [Ignore("Integration")]
         [Test]
         public void Given_An_Invalid_User_Name_When_I_Call_ValidateUser_Then_False_Is_Returned()
         {
-            //act
+            // act
             var result = _sut.ValidateUser("meh", _password);
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.False(result);
+            // assert
+            Assert.That(result, Is.False);
         }
 
         [Ignore("Integration")]
         [Test]
         public void Given_An_Invalid_User_Password_When_I_Call_ValidateUser_Then_False_Is_Returned()
         {
-            //act
+            // act
             var result = _sut.ValidateUser(_userName, "meh");
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.False(result);
+            // assert
+            Assert.That(result, Is.False);
         }
 
         [Ignore("Integration")]
         [Test]
         public void Given_An_Invalid_User_When_I_Call_ValidateUser_Then_False_Is_Returned()
         {
-
-            //act
+            // act
             var result = _sut.ValidateUser("meh", "meh");
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.False(result);
+            // assert
+            Assert.That(result, Is.False);
         }
 
         [Ignore("Integration")]
         [Test]
         public void Given_An_Existing_User_When_I_Call_Update_serverParks_Then_The_Users_ServerParks_Are_Updated()
         {
-            //arrange
+            // arrange
             const string userName = "jamie123";
             const string password = "password123";
             const string role = "DST";
@@ -90,20 +83,20 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
             const string cmaServerPark = "cma";
             serverParkList.Add(cmaServerPark);
 
-            //act
+            // act
             _sut.UpdateServerParks(userName, serverParkList, cmaServerPark);
             var result = _sut.GetUser(userName);
 
-            //assert
-            Assert.AreEqual(userName, result.Name);
-            Assert.AreEqual(2, result.ServerParks.Count);
+            // assert
+            Assert.That(result.Name, Is.EqualTo(userName));
+            Assert.That(result.ServerParks.Count, Is.EqualTo(2));
 
             foreach (var serverPark in serverParkList)
             {
-                Assert.IsTrue(result.ServerParks.Contains(serverPark));
+                Assert.That(result.ServerParks, Does.Contain(serverPark));
             }
 
-            //clear down
+            // clear down
             _sut.RemoveUser(userName);
         }
     }

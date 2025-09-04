@@ -1,19 +1,20 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Blaise.Nuget.Api.Extensions;
-using Blaise.Nuget.Api.Providers;
-
 namespace Blaise.Nuget.Api.Api
 {
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Blaise.Nuget.Api.Extensions;
+    using Blaise.Nuget.Api.Providers;
+
     public class BlaiseAuditTrailApi : IBlaiseAuditTrailApi
     {
         private readonly IAuditTrailService _auditTrailService;
+
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseAuditTrailApi(
+        public BlaiseAuditTrailApi(
             IAuditTrailService auditTrailService,
             ConnectionModel connectionModel)
         {
@@ -29,6 +30,7 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
+        /// <inheritdoc/>
         public IEnumerable<AuditTrailDataModel> GetAuditTrail(string questionnaireName, string serverParkName)
         {
             questionnaireName.ThrowExceptionIfNullOrEmpty("questionnaireName");

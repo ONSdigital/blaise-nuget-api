@@ -1,10 +1,11 @@
-using System;
-using System.Collections.Generic;
-
 namespace Blaise.Nuget.Api.Core.Equality
 {
+    using System;
+    using System.Collections.Generic;
+
     public class RemoteDataLinkKeyComparison : IEqualityComparer<Tuple<string, string, DateTime>>
     {
+        /// <inheritdoc/>
         public bool Equals(Tuple<string, string, DateTime> x, Tuple<string, string, DateTime> y)
         {
             if (x == null || y == null)
@@ -17,6 +18,7 @@ namespace Blaise.Nuget.Api.Core.Equality
                    x.Item3 == y.Item3;
         }
 
+        /// <inheritdoc/>
         public int GetHashCode(Tuple<string, string, DateTime> key)
         {
             return StringComparer.CurrentCultureIgnoreCase.GetHashCode(key.Item1) ^

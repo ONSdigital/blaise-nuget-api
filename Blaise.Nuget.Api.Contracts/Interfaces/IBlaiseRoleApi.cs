@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using StatNeth.Blaise.API.Security;
-
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
+    using System.Collections.Generic;
+    using StatNeth.Blaise.API.Security;
+
     public interface IBlaiseRoleApi
     {
         IEnumerable<IRole> GetRoles();

@@ -1,20 +1,22 @@
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Providers;
-
 namespace Blaise.Nuget.Api.Api
 {
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Providers;
+
     public class BlaiseHealthApi : IBlaiseHealthApi
     {
         private readonly IConnectedServerFactory _connectedServerFactory;
+
         private readonly IRemoteDataServerFactory _remoteDataServerFactory;
+
         private readonly ICatiManagementServerFactory _catiManagementServerFactory;
 
         private readonly ConnectionModel _connectionModel;
 
-        internal BlaiseHealthApi(
+        public BlaiseHealthApi(
             IConnectedServerFactory connectedServerFactory,
             IRemoteDataServerFactory remoteDataServerFactory,
             ICatiManagementServerFactory catiManagementServerFactory,
@@ -36,6 +38,7 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
+        /// <inheritdoc/>
         public bool ConnectionModelIsHealthy()
         {
             return !string.IsNullOrWhiteSpace(_connectionModel.ServerName) &&
@@ -46,6 +49,7 @@ namespace Blaise.Nuget.Api.Api
                    _connectionModel.RemotePort > 0;
         }
 
+        /// <inheritdoc/>
         public bool ConnectionToBlaiseIsHealthy()
         {
             try
@@ -59,6 +63,7 @@ namespace Blaise.Nuget.Api.Api
             }
         }
 
+        /// <inheritdoc/>
         public bool RemoteConnectionToBlaiseIsHealthy()
         {
             try
@@ -72,6 +77,7 @@ namespace Blaise.Nuget.Api.Api
             }
         }
 
+        /// <inheritdoc/>
         public bool RemoteConnectionToCatiIsHealthy()
         {
             try

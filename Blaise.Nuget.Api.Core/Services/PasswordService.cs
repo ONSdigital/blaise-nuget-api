@@ -1,10 +1,11 @@
-using System.Security;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System.Security;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+
     public class PasswordService : IPasswordService
     {
+        /// <inheritdoc/>
         public SecureString CreateSecurePassword(string password)
         {
             var securePassword = new SecureString();

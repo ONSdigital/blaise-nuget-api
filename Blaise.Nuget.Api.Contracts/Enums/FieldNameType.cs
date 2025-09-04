@@ -1,7 +1,7 @@
-using System.ComponentModel;
-
 namespace Blaise.Nuget.Api.Contracts.Enums
 {
+    using System.ComponentModel;
+
     public enum FieldNameType
     {
         [Description("QHAdmin.HOut")]
@@ -23,6 +23,6 @@ namespace Blaise.Nuget.Api.Contracts.Enums
         LastUpdatedTime,
 
         [Description("QDataBag.PostCode")]
-        PostCode
+        PostCode,
     }
 }

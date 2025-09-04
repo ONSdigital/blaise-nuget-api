@@ -1,155 +1,65 @@
 # Blaise NuGet API 
 
-This NuGet package wraps the official Blaise NuGet package, providing a simplified and more intuitive CRUD-style interface for interacting with Blaise. This package is available internally to the ONS via an Azure DevOps artifact feed.
+This repository contains a .NET Framework class library that wraps the official Blaise NuGet package, providing a simplified and intuitive API for interacting with Blaise environments. It abstracts the complexity of the underlying Blaise APIs and exposes a consistent, testable interface that underpins our backend services and UIs.
 
-# Concepts
+This library is consumed by internal applications such as our RESTful API wrapper and CLI tool to simplify interactions with Blaise.
 
-This solution is designed with maintainability and testability in mind, incorporating principles from the SOLID paradigm. To enable robust unit testing, dependency injection is consistently applied throughout the codebase, allowing for loose coupling and greater flexibility.
+The solution produces two NuGet packages, published to a private Azure DevOps artifact feed:
 
-# Local setup
+- `Blaise.Nuget.Api` – The main implementation package. Reference this in your application to access the full API.
 
-To run tests locally you will need a PAT to login to the NuGet API.
+- `Blaise.Nuget.Api.Contracts` – A lightweight package containing only the public interfaces. Reference this in your unit test projects to mock the API without bringing in its dependencies.
 
-In Azure DevOps on your on-net:
+## Getting Started
 
-- click your profile picture in the top-right
-- select the ellipsis (three horiztonal dots)
-- select user-settings
-- select Personal access tokens
-- select New token
-- give it a name, any name
-- add a 90 day expiration
-- add all the highest permissions (read, write and manage for most of them)
-- don't forget to select view the additional 29
-- save your token locally
-- this is your password
+### Prerequisites and Authentication
 
-In Miscrosoft Visual Studio, login to the NuGet API. Either...
+To develop with this repository or consume its NuGet packages, you'll need to authenticate with our private Azure DevOps artifact feed. This is because both the official Blaise NuGet package and the packages produced by this solution are hosted there.
 
-- Build the solution and wait for the sign-in prompt.
-- Right-click Solution Explorer and select Manage NuGet Packages for Solution. In the far-right corner, select CSharp from the Source dropdown and wait for the sign-in prompt.
+1. **Generate a Personal Access Token (PAT):** In the Azure DevOps web UI, generate a PAT with the necessary permissions to access the artifact feed.
 
-Sign in, using your windows email address and your newly created PAT as the password
+1. **Configure your NuGet Source:** Add the feed to your environment, either through the Visual Studio UI or by manually updating your NuGet.config file (typically found at %APPDATA%\NuGet\nuget.config).
 
-Populate the App.config file accordingly, **never commit a populated App.config file!**
+Once the source is configured, you can install the package via the NuGet Package Manager in Visual Studio.
 
-Finally, build solution and run the tests.
+### Local Development and Configuration
 
-# Usage
+To run the service locally, you must provide the necessary connection details for a Blaise environment. You can achieve this in two ways:
 
-This repository contains several packages. The contracts package contains the interface for the API, you can use this package in your project unit test mocks, so you do not need to consume the complete functionality.
+- **Populate `App.config`:** Update the `App.config` file with the required Blaise connection details.
+- **Use Environment Variables:** Alternatively, you can use `setx` commands to set environment variables. This is a great way to handle sensitive data. For example: `setx ENV_BLAISE_SERVER_HOST_NAME=blah /m`.
 
-You can use the fluid API style class 'FluentBlaiseApi', which implements the 'IFluentBlaiseApi' interface.
-		
-# Azure DevOps pipeline
+⚠️ **Important:** Never commit `App.config` files with populated secrets or credentials to source control. To safely commit your changes without including the `App.config` file, you can use the command: `git add . ':!app.config'`.
 
-The yml file in the root of the repository is used to create the Azure DevOps pipeline. The pipeline is triggered whenever changes are pushed to main.
+**Connecting to a Blaise Environment:** The service needs to communicate with Blaise on two specific ports which are defined in the `App.config` file. To connect to a Blaise environment deployed on Google Cloud Platform (GCP), you can open IAP tunnels to the virtual machines.
 
-To update the pipeline, make changes to the yml file and then commit/push to this GitHub repository. 
+```bash
+gcloud auth login
 
-If you need to test on a feature branch, commit/push changes and then go into the Azure DevOps console UI. From there you can run the build-nuget-api pipeline manually by selecting Run pipeline, and setting the relevant branch. This will create a 'prerelease' version.  This version is annotated as {yyyy.m.dd.version}-{branch_name}, for example, 
-'2023.6.22.8-BLAIS53764'. This prerelease can then be installed in other packages, such as blase-cli.  To do this, once a prerelease version has been built:
-- in an IDE, go to relevant repository, such as blaise-cli
-- right-click the solution and select 'Manage NuGet Packages for Solution'
-- select 'CSharp' from the packages dropdown on the right
-- check the 'Include prerelease' tick box
-- select the relevant library as necessary, and install
--- note, on the right-hand side of the library, it will display the version it's going from, and the version it's going to, such as '2023.6.22.8' and '2023.6.22.8-BLAIS53764'
+gcloud config set project ons-blaise-v2-<env>
 
-When deploying feature versions to formal environments, the above steps will need to be completed, but from a prerelease to a version. This will only need to be done for main/dev. Go into the Azure DevOps console UI, from there you can run the pipeline manually by selecting the relevant branch. 
+gcloud compute start-iap-tunnel blaise-gusty-mgmt 8031 --local-host-port=localhost:8031
 
----
+gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localhost:8033
+```
 
-## Coding Standard Rules (C#)
+## Continuous Integration and Publishing
 
-This project uses a standardized set of formatting and naming rules to ensure consistency and maintainability in the codebase. These rules are enforced via the `.editorconfig` file.
+This project uses an automated build pipeline to ensure consistent code quality and package delivery. The pipeline performs the following steps:
 
-The Nuget package StyleCop.Analyzers is responsible for auto code-fixing when the 'dotnet format' command is run in terminal. The extensive list of rules which this package can enforce be found here: https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/DOCUMENTATION.md
+- Building the solution.
+- Running unit tests.
+- Enforcing code formatting standards.
+- Packing and publishing the NuGet packages.
 
-The editor config contains a mix of rules which only DotNet Format can understand (which the server pipeline relies on) and StyleCop.Analyzers rules which help auto code fix locally (these will have the prefix 'SA' with a number code).
+**Package Versions**
 
-### Formatting Rules (`*.cs`)
+Builds are automatically given a name based on the date and a build number (e.g., 2023.10.26.1).
 
-#### Indentation & Spacing
+**Pre-release Packages**
 
-* **Spaces, not tabs**: `indent_style = space`
-* **Indent size**: `indent_size = 4`
-* **Tab width**: `tab_width = 4`
-* **Final newline**: Required (`insert_final_newline = true`)
-* **Trim trailing whitespace**: `trim_trailing_whitespace = true`
+The pipeline will automatically build and publish a pre-release version for a feature branch only when there is a Pull Request (PR) into the main branch. Otherwise, these can be run manually via the Azure DevOps web console UI. To install these packages, you must check the "Include prerelease" box in the NuGet Package Manager.
 
-#### Line Endings
+**Coding Standards**
 
-* **Windows-style line endings**: `end_of_line = crlf`
-
-#### Curly Braces & Parentheses
-
-* **Brace spacing**: Ignored (`csharp_space_between_braces = ignore`)
-* **No space inside parentheses**: `csharp_space_between_parentheses = false`
-
-#### Empty Lines
-
-* **No multiple blank lines allowed**: `dotnet_style_allow_multiple_blank_lines = false`
-
-#### Single-Line Statements
-
-* **Preserve single-line formatting**: `csharp_preserve_single_line_statements = true`
-
-#### Comma Spacing
-
-* **Space after commas**: Yes (`dotnet_style_spacing_after_comma = true`)
-* **Space before commas**: No (`dotnet_style_spacing_before_comma = false`)
-
----
-
-### Miscellaneous C# Formatting
-
-* **Label indentation**: Flush left (`csharp_indent_labels = flush_left`)
-* **`using` directive placement**: Outside namespace (`csharp_using_directive_placement = outside_namespace:silent`)
-* **Prefer simple `using` statements**: Enabled (`csharp_prefer_simple_using_statement = true:suggestion`)
-* **Require braces for blocks**: Yes (`csharp_prefer_braces = true:silent`)
-* **Namespace style**: Block scoped (`csharp_style_namespace_declarations = block_scoped:silent`)
-* **Prefer method group conversions**: Yes (`csharp_style_prefer_method_group_conversion = true:silent`)
-* **Prefer top-level statements**: Yes (`csharp_style_prefer_top_level_statements = true:silent`)
-* **Prefer primary constructors**: Yes (`csharp_style_prefer_primary_constructors = true:suggestion`)
-* **Prefer `System.Threading.Monitor` lock**: Yes (`csharp_prefer_system_threading_lock = true:suggestion`)
-* **Expression-bodied methods**: Disabled (`csharp_style_expression_bodied_methods = false:silent`)
-
----
-
-### Naming Rules (`*.{cs,vb}`)
-
-#### Interfaces
-
-* **Must begin with "I"**
-  Rule: `interface_should_be_begins_with_i`
-  Style: `IName` (PascalCase with "I" prefix)
-
-#### Types (classes, structs, interfaces, enums)
-
-* **Must use PascalCase**
-  Rule: `types_should_be_pascal_case`
-  Style: `TypeName`
-
-#### Non-field Members (methods, properties, events)
-
-* **Must use PascalCase**
-  Rule: `non_field_members_should_be_pascal_case`
-  Style: `MemberName`
-
-#### Operator Placement
-
-* **Operators placed at the beginning of the line when wrapping**:
-  `dotnet_style_operator_placement_when_wrapping = beginning_of_line`
-
----
-
-### Character Encoding
-
-* **Charset**: UTF-8 (`charset = utf-8`)
-
----
-
-This configuration promotes a consistent and readable codebase, aligned with modern C# conventions. All contributors should ensure their editors respect this `.editorconfig` file.
-
----
+The project enforces a strict set of coding and formatting rules via an `.editorconfig` file, which is used by StyleCop. Builds may error or issue warnings if these standards are not followed. You can use `dotnet format` to automatically fix some formatting issues.

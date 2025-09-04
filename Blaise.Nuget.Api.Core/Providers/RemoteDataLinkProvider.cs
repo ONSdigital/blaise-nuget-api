@@ -1,18 +1,19 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Equality;
-using Blaise.Nuget.Api.Core.Extensions;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.DataLink;
-
 namespace Blaise.Nuget.Api.Core.Providers
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Equality;
+    using Blaise.Nuget.Api.Core.Extensions;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.DataLink;
+
     public class RemoteDataLinkProvider : IRemoteDataLinkProvider
     {
         private readonly IRemoteDataServerFactory _connectionFactory;
+
         private readonly IQuestionnaireService _questionnaireService;
 
         private readonly Dictionary<Tuple<string, string, DateTime>, Tuple<IDataLink4, DateTime>> _dataLinkConnections;
@@ -27,6 +28,7 @@ namespace Blaise.Nuget.Api.Core.Providers
             _dataLinkConnections = new Dictionary<Tuple<string, string, DateTime>, Tuple<IDataLink4, DateTime>>(new RemoteDataLinkKeyComparison());
         }
 
+        /// <inheritdoc/>
         public IDataLink6 GetDataLink(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var installDate = _questionnaireService.GetInstallDate(connectionModel, questionnaireName, serverParkName);
@@ -47,7 +49,10 @@ namespace Blaise.Nuget.Api.Core.Providers
             return GetFreshConnection(connectionModel, questionnaireName, serverParkName, installDate);
         }
 
-        private IDataLink6 GetFreshConnection(ConnectionModel connectionModel, string questionnaireName, string serverParkName,
+        private IDataLink6 GetFreshConnection(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName,
             DateTime installDate)
         {
             RemoveDeadConnections(questionnaireName, serverParkName);

@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-using StatNeth.Blaise.API.DataLink;
-using StatNeth.Blaise.API.DataRecord;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using StatNeth.Blaise.API.DataLink;
+    using StatNeth.Blaise.API.DataRecord;
+    using StatNeth.Blaise.API.Meta;
+
     public interface IDataRecordService
     {
         IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter);
@@ -18,8 +18,11 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         IDataRecord GetDataRecord(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName);
 
-        void WriteDataRecords(ConnectionModel connectionModel, IEnumerable<IDataRecord> dataRecords,
-            string questionnaireName, string serverParkName);
+        void WriteDataRecords(
+            ConnectionModel connectionModel,
+            IEnumerable<IDataRecord> dataRecords,
+            string questionnaireName,
+            string serverParkName);
 
         void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string questionnaireName, string serverParkName);
 
@@ -33,10 +36,18 @@ namespace Blaise.Nuget.Api.Core.Interfaces.Services
 
         int GetNumberOfRecords(ConnectionModel connectionModel, string databaseFile);
 
-        void LockDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName,
+        void LockDataRecord(
+            ConnectionModel connectionModel,
+            IKey primaryKey,
+            string questionnaireName,
+            string serverParkName,
             string lockId);
 
-        void UnLockDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName,
-             string lockId);
+        void UnLockDataRecord(
+            ConnectionModel connectionModel,
+            IKey primaryKey,
+            string questionnaireName,
+            string serverParkName,
+            string lockId);
     }
 }

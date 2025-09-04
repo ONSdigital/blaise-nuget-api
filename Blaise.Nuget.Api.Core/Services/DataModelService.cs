@@ -1,14 +1,15 @@
-using System;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.Meta;
+
     public class DataModelService : IDataModelService
     {
         private readonly IRemoteDataLinkProvider _remoteDataLinkProvider;
+
         private readonly ILocalDataLinkProvider _localDataLinkProvider;
 
         public DataModelService(
@@ -19,6 +20,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _localDataLinkProvider = localDataLinkProvider;
         }
 
+        /// <inheritdoc/>
         public IDatamodel GetDataModel(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
@@ -31,6 +33,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return dataLink.Datamodel;
         }
 
+        /// <inheritdoc/>
         public IDatamodel GetDataModel(ConnectionModel connectionModel, string databaseFile)
         {
             var dataLink = _localDataLinkProvider.GetDataLink(connectionModel, databaseFile);

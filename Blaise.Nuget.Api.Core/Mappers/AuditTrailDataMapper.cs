@@ -1,15 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Mappers;
-using StatNeth.Blaise.API.AuditTrail;
-
 namespace Blaise.Nuget.Api.Core.Mappers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Mappers;
+    using StatNeth.Blaise.API.AuditTrail;
+
     public class AuditTrailDataMapper : IAuditTrailDataMapper
     {
+        /// <inheritdoc/>
         public AuditTrailDataModel MapAuditTrailDataModel(string keyValue, Guid sessionId, IEventInfo eventInfo)
         {
             return new AuditTrailDataModel
@@ -17,10 +18,11 @@ namespace Blaise.Nuget.Api.Core.Mappers
                 KeyValue = keyValue,
                 SessionId = sessionId,
                 TimeStamp = eventInfo.TimeStamp,
-                Content = eventInfo.ToString()
+                Content = eventInfo.ToString(),
             };
         }
 
+        /// <inheritdoc/>
         public string MapAuditTrailCsvContent(List<AuditTrailDataModel> listOfEvents)
         {
             var csvContent = new StringBuilder();

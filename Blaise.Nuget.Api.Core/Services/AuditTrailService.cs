@@ -1,17 +1,19 @@
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Mappers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.AuditTrail;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Mappers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.AuditTrail;
+
     public class AuditTrailService : IAuditTrailService
     {
         private readonly IQuestionnaireService _questionnaireService;
+
         private readonly IAuditTrailManagerFactory _auditTrailManagerFactory;
+
         private readonly IAuditTrailDataMapper _auditTrailDataMapper;
 
         public AuditTrailService(
@@ -24,6 +26,7 @@ namespace Blaise.Nuget.Api.Core.Services
             _auditTrailDataMapper = auditTrailDataMapper;
         }
 
+        /// <inheritdoc/>
         public List<AuditTrailDataModel> GetAuditTrailData(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var instrumentId = _questionnaireService.GetQuestionnaireId(connectionModel, questionnaireName, serverParkName);
@@ -38,6 +41,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return CreateAuditTrailDataFromEvents(auditEvents);
         }
 
+        /// <inheritdoc/>
         public string CreateAuditTrailCsvContent(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var auditTrailDataList = GetAuditTrailData(connectionModel, questionnaireName, serverParkName);

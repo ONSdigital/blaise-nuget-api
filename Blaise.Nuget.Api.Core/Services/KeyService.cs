@@ -1,40 +1,49 @@
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.DataRecord;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.DataRecord;
+    using StatNeth.Blaise.API.Meta;
+
     public class KeyService : IKeyService
     {
-        private readonly IRemoteDataLinkProvider _remoteDataLinkProvider;
         private const string PrimaryKeyName = "PRIMARY";
+
+        private readonly IRemoteDataLinkProvider _remoteDataLinkProvider;
 
         public KeyService(IRemoteDataLinkProvider remoteDataLinkProvider)
         {
             _remoteDataLinkProvider = remoteDataLinkProvider;
         }
 
-        public bool KeyExists(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName)
+        /// <inheritdoc/>
+        public bool KeyExists(
+            ConnectionModel connectionModel,
+            IKey key,
+            string questionnaireName,
+            string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
             return dataLink.KeyExists(key);
         }
 
+        /// <inheritdoc/>
         public IKey GetKey(IDatamodel dataModel, string keyName)
         {
             return DataRecordManager.GetKey(dataModel, keyName);
         }
 
+        /// <inheritdoc/>
         public IKey GetPrimaryKey(IDatamodel dataModel)
         {
             return DataRecordManager.GetKey(dataModel, PrimaryKeyName);
         }
 
+        /// <inheritdoc/>
         public Dictionary<string, string> GetPrimaryKeyValues(IDataRecord dataRecord)
         {
             var primaryKeyValues = new Dictionary<string, string>();
@@ -47,6 +56,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return primaryKeyValues;
         }
 
+        /// <inheritdoc/>
         public void AssignPrimaryKeyValues(IKey key, Dictionary<string, string> primaryKeyValues)
         {
             foreach (var item in primaryKeyValues)

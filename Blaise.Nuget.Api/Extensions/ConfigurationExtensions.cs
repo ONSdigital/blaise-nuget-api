@@ -1,9 +1,9 @@
-using System;
-using System.Configuration;
-
 namespace Blaise.Nuget.Api.Extensions
 {
-    internal static class ConfigurationExtensions
+    using System;
+    using System.Configuration;
+
+    public static class ConfigurationExtensions
     {
         public static string GetConfigurationItem(string configurationItem)
         {

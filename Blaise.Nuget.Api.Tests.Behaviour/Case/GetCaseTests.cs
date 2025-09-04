@@ -1,14 +1,15 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Extensions;
-using NUnit.Framework;
-
 namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 {
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Extensions;
+    using NUnit.Framework;
+
     public class GetCaseTests
     {
         private readonly BlaiseCaseApi _sut;
+
         private readonly Dictionary<string, string> _primaryKeyValues;
 
         public GetCaseTests()
@@ -21,24 +22,24 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         [Test]
         public void Given_Valid_Arguments_When_I_Call_GetCase_Then_The_Case_is_Returned()
         {
-            //arrange
+            // arrange
             const string serverParkName = "LocalDevelopment";
             const string questionnaireName = "OPN2102R";
             var fieldData = new Dictionary<string, string>
             {
-                {FieldNameType.HOut.FullName(), "110"},
-                {FieldNameType.TelNo.FullName(), "07000000000"}
+                { FieldNameType.HOut.FullName(), "110" },
+                { FieldNameType.TelNo.FullName(), "07000000000" },
             };
 
             _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
 
-            //act
+            // act
             var result = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
 
-            //arrange
-            Assert.AreEqual(_primaryKeyValues, _sut.GetPrimaryKeyValues(result));
+            // assert
+            Assert.That(_sut.GetPrimaryKeyValues(result), Is.EqualTo(_primaryKeyValues));
 
-            //cleanup
+            // cleanup
             _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
         }
 
@@ -46,22 +47,16 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         [Test]
         public void Given_Cases_Exist_When_I_Specify_A_Filter_Then_The_Expected_Cases_Are_Returned()
         {
-            //arrange
+            // arrange
             const string serverParkName = "gusty";
             const string questionnaireName = "LMS2405_HU1";
             const string filter = "Id=10";
 
-            //act
+            // act
             var result = _sut.GetFilteredCases(questionnaireName, serverParkName, filter);
 
-            while (!result.EndOfSet)
-            {
-                var record = result.ActiveRecord;
-                result.MoveNext();
-            }
-
-            //assert
-            Assert.AreEqual(5, result.RecordCount);
+            // assert
+            Assert.That(result.RecordCount, Is.EqualTo(5));
         }
     }
 }

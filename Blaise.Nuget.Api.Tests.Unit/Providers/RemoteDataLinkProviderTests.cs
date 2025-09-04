@@ -1,32 +1,29 @@
-using System;
-using System.Threading;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Blaise.Nuget.Api.Core.Providers;
-using Moq;
-using NUnit.Framework;
-using StatNeth.Blaise.API.DataLink;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Providers
 {
+    using System;
+    using System.Threading;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Blaise.Nuget.Api.Core.Providers;
+    using Moq;
+    using NUnit.Framework;
+    using StatNeth.Blaise.API.DataLink;
+    using StatNeth.Blaise.API.Meta;
+
     public class RemoteDataLinkProviderTests
     {
-        private Mock<IRemoteDataServerFactory> _connectionFactoryMock;
-        private Mock<IQuestionnaireService> _questionnaireServiceMock;
-
-        private Mock<IRemoteDataServer> _remoteDataServerMock;
-        private Mock<IDataLink4> _dataLinkMock;
-        private Mock<IDatamodel> _dataModelMock;
-
         private readonly ConnectionModel _connectionModel;
         private readonly string _questionnaireName;
         private readonly string _serverParkName;
         private readonly DateTime _installDate;
         private readonly Guid _questionnaireId;
-
+        private Mock<IRemoteDataServerFactory> _connectionFactoryMock;
+        private Mock<IQuestionnaireService> _questionnaireServiceMock;
+        private Mock<IRemoteDataServer> _remoteDataServerMock;
+        private Mock<IDataLink4> _dataLinkMock;
+        private Mock<IDatamodel> _dataModelMock;
         private IRemoteDataLinkProvider _sut;
 
         public RemoteDataLinkProviderTests()
@@ -65,23 +62,23 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         [Test]
         public void Given_InstallDate_Has_Not_Changed_When_I_Call_GetDataLink_With_The_Same_QuestionnaireName_And_ServerParkName_More_Than_Once_Then_The_Same_DataLink_Is_Used()
         {
-            //arrange
+            // arrange
             _connectionModel.ConnectionExpiresInMinutes = 1;
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
             _remoteDataServerMock.Setup(r => r.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>())).Returns(_dataLinkMock.Object);
 
-            //act
+            // act
             _sut.GetDataLink(_connectionModel, _questionnaireName, _serverParkName);
             _sut.GetDataLink(_connectionModel, _questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             _remoteDataServerMock.Verify(v => v.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>()), Times.Once);
         }
 
         [Test]
         public void Given_InstallDate_Has_Changed_I_Call_GetDataLink_With_The_Same_QuestionnaireName_And_ServerParkName_More_Than_Once_Then_A_New_DataLink_Is_Established()
         {
-            //arrange
+            // arrange
             _connectionModel.ConnectionExpiresInMinutes = 1;
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
             _remoteDataServerMock.Setup(r => r.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>())).Returns(_dataLinkMock.Object);
@@ -89,73 +86,73 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
                 .Returns(_installDate)
                 .Returns(DateTime.Today.AddHours(1));
 
-            //act
+            // act
             _sut.GetDataLink(_connectionModel, _questionnaireName, _serverParkName);
             _sut.GetDataLink(_connectionModel, _questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             _remoteDataServerMock.Verify(v => v.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>()), Times.Exactly(2));
         }
 
         [Test]
         public void Given_I_Call_GetDataLink_With_The_Same_QuestionnaireName_And_ServerParkName_But_Connection_Has_expired_Then_A_New_DataLink_Is_Established()
         {
-            //arrange
+            // arrange
             _connectionModel.ConnectionExpiresInMinutes = 0;
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
             _remoteDataServerMock.Setup(r => r.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>())).Returns(_dataLinkMock.Object);
 
-            //act
+            // act
             _sut.GetDataLink(_connectionModel, _questionnaireName, _serverParkName);
             Thread.Sleep(2000);
             _sut.GetDataLink(_connectionModel, _questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             _remoteDataServerMock.Verify(v => v.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>()), Times.Exactly(2));
         }
 
         [Test]
         public void Given_I_Call_GetDataLink_With_A_Different_QuestionnaireName_More_Than_Once_Then_A_New_DataLink_Is_Established()
         {
-            //arrange
+            // arrange
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
             _remoteDataServerMock.Setup(r => r.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>())).Returns(_dataLinkMock.Object);
 
-            //act
+            // act
             _sut.GetDataLink(_connectionModel, _questionnaireName, _serverParkName);
             _sut.GetDataLink(_connectionModel, "NewQuestionnaireName", _serverParkName);
 
-            //assert
+            // assert
             _remoteDataServerMock.Verify(v => v.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>()), Times.Exactly(2));
         }
 
         [Test]
         public void Given_I_Call_GetDataLink_With_A_Different_ServerParkName_More_Than_Once_Then_A_New_DataLink_Is_Established()
         {
-            //arrange
+            // arrange
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
             _remoteDataServerMock.Setup(r => r.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>())).Returns(_dataLinkMock.Object);
 
-            //act
+            // act
             _sut.GetDataLink(_connectionModel, _questionnaireName, _serverParkName);
             _sut.GetDataLink(_connectionModel, _questionnaireName, "NewServerParkName");
 
-            //assert
+            // assert
             _remoteDataServerMock.Verify(v => v.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>()), Times.Exactly(2));
         }
 
         [Test]
         public void Given_I_Call_GetDataLink_With_A_Different_QuestionnaireName_And_ServerParkName_More_Than_Once_Then_A_New_DataLink_Is_Established()
         {
-            //arrange
+            // arrange
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
             _remoteDataServerMock.Setup(r => r.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>())).Returns(_dataLinkMock.Object);
 
-            //act
+            // act
             _sut.GetDataLink(_connectionModel, _questionnaireName, _serverParkName);
             _sut.GetDataLink(_connectionModel, "NewQuestionnaireName", "NewServerParkName");
 
-            //assert
+            // assert
             _remoteDataServerMock.Verify(v => v.GetDataLink(It.IsAny<Guid>(), It.IsAny<string>()), Times.Exactly(2));
         }
     }

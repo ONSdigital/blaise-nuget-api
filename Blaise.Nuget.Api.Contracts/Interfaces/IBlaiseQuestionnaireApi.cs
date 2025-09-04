@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Models;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using StatNeth.Blaise.API.ServerManager;
+
     public interface IBlaiseQuestionnaireApi
     {
         bool QuestionnaireExists(string questionnaireName, string serverParkName);

@@ -1,14 +1,15 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Extensions;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using MySql.Data.MySqlClient;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Extensions;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using MySql.Data.MySqlClient;
+
     public class SqlService : ISqlService
     {
+        /// <inheritdoc/>
         public IEnumerable<string> GetCaseIds(string connectionString, string questionnaireName)
         {
             var caseIds = new List<string>();
@@ -34,6 +35,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIds;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<string> GetEditingCaseIds(string connectionString, string questionnaireName)
         {
             var caseIds = new List<string>();
@@ -72,6 +74,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIds;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<CaseIdentifierModel> GetCaseIdentifiers(string connectionString, string questionnaireName)
         {
             var caseIdentifiers = new List<CaseIdentifierModel>();
@@ -97,6 +100,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return caseIdentifiers;
         }
 
+        /// <inheritdoc/>
         public string GetPostCode(string connectionString, string questionnaireName, string primaryKey)
         {
             string postCode;
@@ -120,9 +124,10 @@ namespace Blaise.Nuget.Api.Core.Services
             return postCode;
         }
 
+        /// <inheritdoc/>
         public bool DropQuestionnaireTables(string connectionString, string questionnaireName)
         {
-            /*Had to implement it this way as StatsNeth have no functionality to achieve the same result*/
+            // implemented this way as StatNeth don't currently provide a way to drop the SQL tables via the API
             var firstDatabaseTableName = GetDatabaseTableNameForm(questionnaireName);
             var secondDatabaseTableName = GetDatabaseTableNameDml(questionnaireName);
 
@@ -134,22 +139,34 @@ namespace Blaise.Nuget.Api.Core.Services
                     con.Open();
                     cmd.Connection = con;
 
-                    // Drop first table
                     cmd.CommandText = $"DROP TABLE IF EXISTS `{firstDatabaseTableName}`";
                     cmd.ExecuteNonQuery();
 
-                    // Drop second table
                     cmd.CommandText = $"DROP TABLE IF EXISTS `{secondDatabaseTableName}`";
                     cmd.ExecuteNonQuery();
                 }
             }
             catch
             {
-                // Handle exception
                 return false;
             }
 
             return true;
+        }
+
+        private static string GetDatabaseTableNameUneditedForm(string questionnaireName)
+        {
+            return $"{questionnaireName.Replace("_EDIT", string.Empty)}_Form";
+        }
+
+        private static string GetDatabaseTableNameForm(string questionnaireName)
+        {
+            return $"{questionnaireName}_Form";
+        }
+
+        private static string GetDatabaseTableNameDml(string questionnaireName)
+        {
+            return $"{questionnaireName}_Dml";
         }
 
         private bool TableExists(string connectionString, string databaseTableName)
@@ -172,21 +189,6 @@ namespace Blaise.Nuget.Api.Core.Services
             }
 
             return tableExists;
-        }
-
-        private static string GetDatabaseTableNameForm(string questionnaireName)
-        {
-            return $"{questionnaireName}_Form";
-        }
-
-        private static string GetDatabaseTableNameUneditedForm(string questionnaireName)
-        {
-            return $"{questionnaireName.Replace("_EDIT", string.Empty)}_Form";
-        }
-
-        private static string GetDatabaseTableNameDml(string questionnaireName)
-        {
-            return $"{questionnaireName}_Dml";
         }
     }
 }

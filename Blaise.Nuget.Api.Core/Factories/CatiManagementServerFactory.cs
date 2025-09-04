@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Extensions;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.Cati.Runtime;
-
 namespace Blaise.Nuget.Api.Core.Factories
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Extensions;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.Cati.Runtime;
+
     public class CatiManagementServerFactory : ICatiManagementServerFactory
     {
         private readonly IPasswordService _passwordService;
@@ -20,6 +20,7 @@ namespace Blaise.Nuget.Api.Core.Factories
             _connections = new Dictionary<string, Tuple<IRemoteCatiManagementServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
+        /// <inheritdoc/>
         public IRemoteCatiManagementServer GetConnection(ConnectionModel connectionModel)
         {
             if (!_connections.ContainsKey(connectionModel.ServerName))

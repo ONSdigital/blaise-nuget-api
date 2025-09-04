@@ -1,22 +1,27 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Nuget.Api.Contracts.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using StatNeth.Blaise.API.ServerManager;
+
     public interface IBlaiseCatiApi
     {
         IEnumerable<ISurvey> GetInstalledQuestionnaires(string serverParkName);
 
         ISurvey GetInstalledQuestionnaire(string questionnaireName, string serverParkName);
 
-        DayBatchModel CreateDayBatch(string questionnaireName, string serverParkName,
-            DateTime dayBatchDate, bool checkForTreatedCases);
+        DayBatchModel CreateDayBatch(
+            string questionnaireName,
+            string serverParkName,
+            DateTime dayBatchDate,
+            bool checkForTreatedCases);
 
         DayBatchModel GetDayBatch(string questionnaireName, string serverParkName);
 
-        void AddToDayBatch(string questionnaireName, string serverParkName,
+        void AddToDayBatch(
+            string questionnaireName,
+            string serverParkName,
             string primaryKeyValue);
 
         List<DateTime> GetSurveyDays(string questionnaireName, string serverParkName);

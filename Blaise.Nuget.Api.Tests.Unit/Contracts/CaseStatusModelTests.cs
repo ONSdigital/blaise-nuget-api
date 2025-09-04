@@ -1,11 +1,11 @@
-using System;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Globalization;
-using Blaise.Nuget.Api.Contracts.Models;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Contracts
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using NUnit.Framework;
+
     public class CaseStatusModelTests
     {
         [Test]
@@ -21,8 +21,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.GetPrimaryKeyValue(primaryKeyName);
 
             // assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(primaryKeyValue, result);
+            Assert.That(result, Is.EqualTo(primaryKeyValue));
         }
 
         [Test]
@@ -38,8 +37,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.PrimaryKey;
 
             // assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(primaryKeyValue, result);
+            Assert.That(result, Is.EqualTo(primaryKeyValue));
         }
 
         [Test]
@@ -49,9 +47,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var primaryKeyName = "QID.Serial_Number";
             var caseStatusModel = new CaseStatusModel();
 
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => caseStatusModel.GetPrimaryKeyValue(primaryKeyName));
-            Assert.AreEqual("There are no primary keys defined\r\nParameter name: primaryKeyName", exception?.Message);
+            Assert.That(exception?.Message, Is.EqualTo("There are no primary keys defined\r\nParameter name: primaryKeyName"));
         }
 
         [Test]
@@ -62,9 +60,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var primaryKeyValues = new Dictionary<string, string> { { "MainSurveyID", "dgss-5ghghg-ttggh" } };
             var caseStatusModel = new CaseStatusModel(primaryKeyValues, 110, DateTime.Now.ToString(CultureInfo.InvariantCulture));
 
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => caseStatusModel.GetPrimaryKeyValue(primaryKeyName));
-            Assert.AreEqual($"The primary key name '{primaryKeyName}' does not exist in the primaryKey object", exception?.Message);
+            Assert.That(exception?.Message, Is.EqualTo($"The primary key name '{primaryKeyName}' does not exist in the primaryKey object"));
         }
 
         [Test]
@@ -79,8 +77,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.PrimaryKey;
 
             // assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(caseId, result);
+            Assert.That(result, Is.EqualTo(caseId));
         }
     }
 }

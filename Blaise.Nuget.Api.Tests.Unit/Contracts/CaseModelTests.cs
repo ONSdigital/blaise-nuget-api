@@ -1,10 +1,10 @@
-using System;
-using NUnit.Framework;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Contracts
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using NUnit.Framework;
+
     public class CaseModelTests
     {
         [Test]
@@ -20,8 +20,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseModel.GetPrimaryKeyValue(primaryKeyName);
 
             // assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(primaryKeyValue, result);
+            Assert.That(result, Is.EqualTo(primaryKeyValue));
         }
 
         [Test]
@@ -31,13 +30,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var primaryKeyName = "QID.Serial_Number";
             var caseModel = new CaseModel();
 
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => caseModel.GetPrimaryKeyValue(primaryKeyName));
-            Assert.AreEqual("There are no primary keys defined\r\nParameter name: primaryKeyName", exception?.Message);
+            Assert.That(exception?.Message, Is.EqualTo("There are no primary keys defined\r\nParameter name: primaryKeyName"));
         }
 
         [Test]
-        public void Given_A_CaseModel_Has_A_CaseId_When_I_Call_CaseId_The_Correct_PrimaryKey_Value_Is_Returned()
+        public void Given_A_CaseModel_Has_A_CaseId_When_I_Access_The_PrimaryKey_Property_The_Correct_Value_Is_Returned()
         {
             // arrange
             var caseId = "900001";
@@ -48,8 +47,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
             var result = caseStatusModel.PrimaryKey;
 
             // assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(caseId, result);
+            Assert.That(result, Is.EqualTo(caseId));
         }
     }
 }

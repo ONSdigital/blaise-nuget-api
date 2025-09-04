@@ -1,31 +1,28 @@
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using Moq;
-using NUnit.Framework;
-using StatNeth.Blaise.API.ServerManager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using Moq;
+    using NUnit.Framework;
+    using StatNeth.Blaise.API.ServerManager;
 
     public class BlaiseQuestionnaireApiTests
     {
+        private readonly string _serverParkName;
+        private readonly string _questionnaireName;
+        private readonly ConnectionModel _connectionModel;
         private Mock<IQuestionnaireService> _questionnaireServiceMock;
         private Mock<IQuestionnaireMetaService> _questionnaireMetaServiceMock;
         private Mock<ICaseService> _caseServiceMock;
         private Mock<ISqlService> _sqlServiceMock;
         private Mock<IBlaiseConfigurationProvider> _configurationProviderMock;
-
-        private readonly string _serverParkName;
-        private readonly string _questionnaireName;
-        private readonly ConnectionModel _connectionModel;
-
         private IBlaiseQuestionnaireApi _sut;
 
         public BlaiseQuestionnaireApiTests()
@@ -48,14 +45,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
                 _questionnaireServiceMock.Object,
                 _questionnaireMetaServiceMock.Object,
                 _caseServiceMock.Object,
-                _connectionModel, _sqlServiceMock.Object
-                , _configurationProviderMock.Object);
+                _connectionModel,
+                _sqlServiceMock.Object,
+                _configurationProviderMock.Object);
         }
 
         [Test]
         public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseQuestionnaireApi_No_Exceptions_Are_Thrown()
         {
-            //act && assert
+            // act and assert
             // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseQuestionnaireApi());
         }
@@ -63,21 +61,21 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         [Test]
         public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseQuestionnaireApi_No_Exceptions_Are_Thrown()
         {
-            //act && assert
+            // act and assert
             // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseQuestionnaireApi(new ConnectionModel()));
-
         }
+
         [Test]
         public void Given_Valid_Arguments_When_I_Call_QuestionnaireExists_Then_The_Correct_Service_Method_Is_Called()
         {
-            //arrange
+            // arrange
             _questionnaireServiceMock.Setup(p => p.QuestionnaireExists(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<bool>());
 
-            //act
+            // act
             _sut.QuestionnaireExists(_questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             _questionnaireServiceMock.Verify(v => v.QuestionnaireExists(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
 
@@ -85,67 +83,66 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         [TestCase(false)]
         public void Given_Valid_Arguments_When_I_Call_QuestionnaireExists_Then_The_Expected_Result_Is_Returned(bool exists)
         {
-            //arrange
+            // arrange
             _questionnaireServiceMock.Setup(p => p.QuestionnaireExists(_connectionModel, _questionnaireName, _serverParkName))
                 .Returns(exists);
 
-            //act            
+            // act
             var result = _sut.QuestionnaireExists(_questionnaireName, _serverParkName);
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(exists, result);
+            // assert
+            Assert.That(result, Is.EqualTo(exists));
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_QuestionnaireExists_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.QuestionnaireExists(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_QuestionnaireExists_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.QuestionnaireExists(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_QuestionnaireExists_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.QuestionnaireExists(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_QuestionnaireExists_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.QuestionnaireExists(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
         public void When_I_Call_GetQuestionnairesAcrossServerParks_Then_The_Correct_Service_Method_Is_Called()
         {
-            //arrange
+            // arrange
             _questionnaireServiceMock.Setup(p => p.GetAllQuestionnaires(_connectionModel)).Returns(It.IsAny<List<ISurvey>>());
 
-            //act
+            // act
             _sut.GetQuestionnairesAcrossServerParks();
 
-            //assert
+            // assert
             _questionnaireServiceMock.Verify(v => v.GetAllQuestionnaires(_connectionModel), Times.Once);
         }
 
         [Test]
         public void When_I_Call_GetQuestionnairesAcrossServerParks_Then_The_Expected_Questionnaires_Are_Returned()
         {
-            //arrange
+            // arrange
             var questionnaire1Mock = new Mock<ISurvey>();
             var questionnaire2Mock = new Mock<ISurvey>();
             var questionnaire3Mock = new Mock<ISurvey>();
@@ -154,16 +151,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
 
             _questionnaireServiceMock.Setup(p => p.GetAllQuestionnaires(_connectionModel)).Returns(questionnaires);
 
-            //act
+            // act
             var result = _sut.GetQuestionnairesAcrossServerParks().ToList();
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(3, result.Count);
-            Assert.True(result.Contains(questionnaire1Mock.Object));
-            Assert.True(result.Contains(questionnaire2Mock.Object));
-            Assert.True(result.Contains(questionnaire3Mock.Object));
+            // assert
+            Assert.That(result, Is.EquivalentTo(questionnaires));
         }
 
         [Test]
@@ -171,51 +163,48 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         {
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaires(_connectionModel, It.IsAny<string>())).Returns(It.IsAny<List<ISurvey>>());
 
-            //act
+            // act
             _sut.GetQuestionnaires(_serverParkName);
 
-            //assert
+            // assert
             _questionnaireServiceMock.Verify(v => v.GetQuestionnaires(_connectionModel, _serverParkName), Times.Once);
         }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_GetQuestionnaires_Then_The_Expected_Result_Is_Returned()
         {
-            //arrange
+            // arrange
             var questionnaire1Mock = new Mock<ISurvey>();
             var questionnaire2Mock = new Mock<ISurvey>();
             var questionnaireList = new List<ISurvey>
             {
                 questionnaire1Mock.Object,
-                questionnaire2Mock.Object
+                questionnaire2Mock.Object,
             };
 
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaires(_connectionModel, _serverParkName)).Returns(questionnaireList);
 
-            //act            
+            // act
             var result = _sut.GetQuestionnaires(_serverParkName).ToList();
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count);
-            Assert.True(result.Contains(questionnaire1Mock.Object));
-            Assert.True(result.Contains(questionnaire2Mock.Object));
+            // assert
+            Assert.That(result, Is.EquivalentTo(questionnaireList));
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_GetQuestionnaires_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaires(string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_GetQuestionnaires_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaires(null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -224,60 +213,58 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaire(_connectionModel, It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(It.IsAny<ISurvey>());
 
-            //act
+            // act
             _sut.GetQuestionnaire(_questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             _questionnaireServiceMock.Verify(v => v.GetQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_GetQuestionnaire_Then_The_Expected_Result_Is_Returned()
         {
-            //arrange
+            // arrange
             var questionnaire1Mock = new Mock<ISurvey>();
 
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaire(_connectionModel, _questionnaireName, _serverParkName)).Returns(questionnaire1Mock.Object);
 
-            //act            
+            // act
             var result = _sut.GetQuestionnaire(_questionnaireName, _serverParkName);
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<ISurvey>(result);
-            Assert.AreSame(questionnaire1Mock.Object, result);
+            // assert
+            Assert.That(result, Is.SameAs(questionnaire1Mock.Object));
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_GetQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaire(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_GetQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaire(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_GetQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaire(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_GetQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaire(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
@@ -286,10 +273,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireStatus(_connectionModel, It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(It.IsAny<QuestionnaireStatusType>());
 
-            //act
+            // act
             _sut.GetQuestionnaireStatus(_questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             _questionnaireServiceMock.Verify(v => v.GetQuestionnaireStatus(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
 
@@ -301,160 +288,154 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         [TestCase(QuestionnaireStatusType.Other)]
         public void Given_Valid_Arguments_When_I_Call_GetQuestionnaireStatus_Then_The_Expected_Result_Is_Returned(QuestionnaireStatusType questionnaireStatusType)
         {
-            //arrange
+            // arrange
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireStatus(_connectionModel, _questionnaireName, _serverParkName)).Returns(questionnaireStatusType);
 
-            //act            
+            // act
             var result = _sut.GetQuestionnaireStatus(_questionnaireName, _serverParkName);
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<QuestionnaireStatusType>(result);
-            Assert.AreEqual(questionnaireStatusType, result);
+            // assert
+            Assert.That(result, Is.EqualTo(questionnaireStatusType));
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_GetQuestionnaireStatus_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireStatus(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_GetQuestionnaireStatus_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireStatus(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_GetQuestionnaireStatus_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireStatus(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_GetQuestionnaireStatus_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireStatus(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_GetQuestionnaireNames_Then_The_Correct_Service_Method_Is_Called()
         {
-            //arrange
+            // arrange
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireNames(_connectionModel, It.IsAny<string>())).Returns(It.IsAny<List<string>>());
 
-            //act
+            // act
             _sut.GetNamesOfQuestionnaires(_serverParkName);
 
-            //assert
+            // assert
             _questionnaireServiceMock.Verify(v => v.GetQuestionnaireNames(_connectionModel, _serverParkName), Times.Once);
         }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_GetQuestionnaireNames_Then_The_Expected_Result_Is_Returned()
         {
-            //arrange
+            // arrange
             var questionnaireList = new List<string>
             {
-                "Questionnaire",
-                "Questionnaire"
+                "QuestionnaireA",
+                "QuestionnaireB",
             };
 
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireNames(_connectionModel, _serverParkName)).Returns(questionnaireList);
 
-            //act            
+            // act
             var result = _sut.GetNamesOfQuestionnaires(_serverParkName).ToList();
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count);
-            Assert.True(result.Contains("Questionnaire"));
-            Assert.True(result.Contains("Questionnaire"));
+            // assert
+            Assert.That(result, Is.EquivalentTo(questionnaireList));
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_GetQuestionnaireNames_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetNamesOfQuestionnaires(string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_GetNamesOfQuestionnaires_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetNamesOfQuestionnaires(null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_GetQuestionnaireId_Then_The_Correct_Service_Method_Is_Called()
         {
-            //arrange
+            // arrange
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
 
-            //act
+            // act
             _sut.GetIdOfQuestionnaire(_questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             _questionnaireServiceMock.Verify(v => v.GetQuestionnaireId(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_GetQuestionnaireId_Then_The_Expected_Result_Is_Returned()
         {
-            //arrange
+            // arrange
             var questionnaireId = Guid.NewGuid();
 
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, _questionnaireName, _serverParkName)).Returns(questionnaireId);
 
-            //act
+            // act
             var result = _sut.GetIdOfQuestionnaire(_questionnaireName, _serverParkName);
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(questionnaireId, result);
+            // assert
+            Assert.That(result, Is.EqualTo(questionnaireId));
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_GetIdOfQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetIdOfQuestionnaire(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_GetIdOfQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetIdOfQuestionnaire(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_GetIdOfQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetIdOfQuestionnaire(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_GetIdOfQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetIdOfQuestionnaire(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [TestCase(QuestionnaireInterviewType.Cati)]
@@ -462,113 +443,140 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         [TestCase(QuestionnaireInterviewType.Capi)]
         public void Given_Valid_Arguments_When_I_Call_InstallQuestionnaire_Then_The_Correct_Service_Method_Is_Called(QuestionnaireInterviewType questionnaireInterviewType)
         {
-            //arrange
+            // arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
             var installOptions = new InstallOptions();
 
-            //act
+            // act
             _sut.InstallQuestionnaire(_questionnaireName, _serverParkName, questionnaireFile, installOptions);
 
-            //assert
-            _questionnaireServiceMock.Verify(v => v.InstallQuestionnaire(_connectionModel, _questionnaireName,
-                _serverParkName, questionnaireFile, installOptions), Times.Once);
+            // assert
+            _questionnaireServiceMock.Verify(
+                v => v.InstallQuestionnaire(
+                    _connectionModel,
+                    _questionnaireName,
+                    _serverParkName,
+                    questionnaireFile,
+                    installOptions),
+                Times.Once);
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_InstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //arrange
+            // arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
             var installOptions = new InstallOptions();
 
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(string.Empty, _serverParkName,
-                questionnaireFile, installOptions));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            // act and assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(
+                string.Empty,
+                _serverParkName,
+                questionnaireFile,
+                installOptions));
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //arrange
+            // arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
             var installOptions = new InstallOptions();
 
-            //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(null, _serverParkName,
-                questionnaireFile, installOptions));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            // act and assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
+                null,
+                _serverParkName,
+                questionnaireFile,
+                installOptions));
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_InstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //arrange
+            // arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
             var installOptions = new InstallOptions();
 
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(_questionnaireName, string.Empty,
-                                                                        questionnaireFile, installOptions));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            // act and assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(
+                _questionnaireName,
+                string.Empty,
+                questionnaireFile,
+                installOptions));
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //arrange
+            // arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
             var installOptions = new InstallOptions();
 
-            //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, null,
-                questionnaireFile, installOptions));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            // act and assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
+                _questionnaireName,
+                null,
+                questionnaireFile,
+                installOptions));
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireFile_When_I_Call_InstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //arrange
+            // arrange
             var installOptions = new InstallOptions();
 
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
-                string.Empty, installOptions));
-            Assert.AreEqual("A value for the argument 'questionnaireFile' must be supplied", exception.Message);
+            // act and assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.InstallQuestionnaire(
+                _questionnaireName,
+                _serverParkName,
+                string.Empty,
+                installOptions));
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireFile' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireFile_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //arrange
+            // arrange
             var installOptions = new InstallOptions();
 
-            //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
-                null, installOptions));
-            Assert.AreEqual("questionnaireFile", exception.ParamName);
+            // act and assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
+                _questionnaireName,
+                _serverParkName,
+                null,
+                installOptions));
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireFile"));
         }
 
         [Test]
         public void Given_A_Null_InstallOptions_When_I_Call_InstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //arrange
+            // arrange
             const string questionnaireFile = @"d:\\opn2101a.pkg";
 
-            //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(_questionnaireName, _serverParkName,
-                questionnaireFile, null));
-            Assert.AreEqual("The argument 'installOptions' must be supplied", exception.ParamName);
+            // act and assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.InstallQuestionnaire(
+                _questionnaireName,
+                _serverParkName,
+                questionnaireFile,
+                null));
+            Assert.That(exception.ParamName, Is.EqualTo("The argument 'installOptions' must be supplied"));
         }
 
         [Test]
         public void Given_DeleteCases_Is_True_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Service_Methods_Are_Called()
         {
-            //act
-            _sut.UninstallQuestionnaire(this._questionnaireName, this._serverParkName, deleteCases: true);
+            // act
+            _sut.UninstallQuestionnaire(_questionnaireName, _serverParkName, deleteCases: true);
 
-            //assert
+            // assert
             _questionnaireServiceMock.Verify(v => v.UninstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
             _caseServiceMock.Verify(v => v.RemoveDataRecords(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
@@ -576,57 +584,77 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         [Test]
         public void Given_DeleteCases_Is_False_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Service_Methods_Are_Called()
         {
-            //act
-            _sut.UninstallQuestionnaire(this._questionnaireName, this._serverParkName);
+            // act
+            _sut.UninstallQuestionnaire(_questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             _questionnaireServiceMock.Verify(v => v.UninstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
-            _caseServiceMock.Verify(v => v.RemoveDataRecords(It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _caseServiceMock.Verify(
+                v => v.RemoveDataRecords(
+                    It.IsAny<ConnectionModel>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()),
+                Times.Never);
         }
 
         [Test]
-        public void Given_DeleteCases_Not_Provided_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Service_Methods_Are_Called()
+        public void Given_DropTables_Is_True_When_I_Call_UninstallQuestionnaire_Then_The_SqlService_Is_Called_To_Drop_Tables()
         {
-            //act
-            _sut.UninstallQuestionnaire(this._questionnaireName, this._serverParkName);
+            // arrange
+            const string connectionString = "test-connection-string";
+            _configurationProviderMock.Setup(c => c.DatabaseConnectionString).Returns(connectionString);
 
-            //assert
+            // act
+            _sut.UninstallQuestionnaire(_questionnaireName, _serverParkName, dropTables: true);
+
+            // assert
+            _sqlServiceMock.Verify(v => v.DropQuestionnaireTables(connectionString, _questionnaireName), Times.Once);
             _questionnaireServiceMock.Verify(v => v.UninstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
-            _caseServiceMock.Verify(v => v.RemoveDataRecords(It.IsAny<ConnectionModel>(),
-                It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _caseServiceMock.Verify(v => v.RemoveDataRecords(It.IsAny<ConnectionModel>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Test]
+        public void Given_DropTables_Is_False_When_I_Call_UninstallQuestionnaire_Then_The_SqlService_Is_Not_Called()
+        {
+            // act
+            _sut.UninstallQuestionnaire(_questionnaireName, _serverParkName, dropTables: false);
+
+            // assert
+            _sqlServiceMock.Verify(v => v.DropQuestionnaireTables(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _questionnaireServiceMock.Verify(v => v.UninstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(v => v.RemoveDataRecords(It.IsAny<ConnectionModel>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_UninstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UninstallQuestionnaire(this._questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            // act and assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UninstallQuestionnaire(_questionnaireName, string.Empty));
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_UninstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UninstallQuestionnaire(this._questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            // act and assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UninstallQuestionnaire(_questionnaireName, null));
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_UninstallQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
-            var exception = Assert.Throws<ArgumentException>(() => _sut.UninstallQuestionnaire(string.Empty, this._serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            // act and assert
+            var exception = Assert.Throws<ArgumentException>(() => _sut.UninstallQuestionnaire(string.Empty, _serverParkName));
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_UninstallQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
-            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UninstallQuestionnaire(null, this._serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            // act and assert
+            var exception = Assert.Throws<ArgumentNullException>(() => _sut.UninstallQuestionnaire(null, _serverParkName));
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [TestCase(QuestionnaireInterviewType.Cati, QuestionnaireDataEntryType.StrictInterviewing)]
@@ -634,209 +662,204 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         [TestCase(QuestionnaireInterviewType.Cawi, QuestionnaireDataEntryType.StrictInterviewing)]
         public void Given_Valid_Arguments_When_I_Call_GetQuestionnaireConfigurationModel_Then_The_Expected_Result_Is_Returned(QuestionnaireInterviewType questionnaireInterviewType, QuestionnaireDataEntryType questionnaireDataEntryType)
         {
-            //arrange
+            // arrange
             var questionnaireConfigurationModel = new QuestionnaireConfigurationModel
             {
                 QuestionnaireInterviewType = questionnaireInterviewType,
-                QuestionnaireDataEntryType = questionnaireDataEntryType
+                QuestionnaireDataEntryType = questionnaireDataEntryType,
             };
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireConfigurationModel(_connectionModel, _questionnaireName, _serverParkName)).Returns(questionnaireConfigurationModel);
 
-            //act            
+            // act
             var result = _sut.GetQuestionnaireConfigurationModel(_questionnaireName, _serverParkName);
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<QuestionnaireInterviewType>(result.QuestionnaireInterviewType);
-            Assert.AreEqual(questionnaireInterviewType, result.QuestionnaireInterviewType);
-            Assert.IsInstanceOf<QuestionnaireDataEntryType>(result.QuestionnaireDataEntryType);
-            Assert.AreEqual(questionnaireDataEntryType, result.QuestionnaireDataEntryType);
+            // assert
+            Assert.That(result, Is.SameAs(questionnaireConfigurationModel));
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_GetQuestionnaireConfigurationModel_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireConfigurationModel(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_GetQuestionnaireConfigurationModel_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireConfigurationModel(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_GetQuestionnaireConfigurationModel_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireConfigurationModel(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_GetQuestionnaireConfigurationModel_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireConfigurationModel(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_ActivateQuestionnaire_Then_The_Correct_Service_Method_Is_Called()
         {
-            //arrange
+            // arrange
             var questionnaireMock = new Mock<ISurvey>();
 
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaire(_connectionModel, _questionnaireName, _serverParkName)).Returns(questionnaireMock.Object);
 
-            //act
+            // act
             _sut.ActivateQuestionnaire(_questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             questionnaireMock.Verify(v => v.Activate(), Times.Once);
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_ActivateQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.ActivateQuestionnaire(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_ActivateQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.ActivateQuestionnaire(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_ActivateQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.ActivateQuestionnaire(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_ActivateQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.ActivateQuestionnaire(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_DeactivateQuestionnaire_Then_The_Correct_Service_Method_Is_Called()
         {
-            //arrange
+            // arrange
             var questionnaireMock = new Mock<ISurvey>();
 
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaire(_connectionModel, _questionnaireName, _serverParkName)).Returns(questionnaireMock.Object);
 
-            //act
+            // act
             _sut.DeactivateQuestionnaire(_questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             questionnaireMock.Verify(v => v.Deactivate(), Times.Once);
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_DeactivateQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.DeactivateQuestionnaire(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_DeactivateQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.DeactivateQuestionnaire(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_DeactivateQuestionnaire_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.DeactivateQuestionnaire(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_DeactivateQuestionnaire_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.DeactivateQuestionnaire(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
         public void Given_Valid_Arguments_When_I_Call_GetQuestionnaireModes_Then_The_Correct_Service_Method_Is_Called()
         {
-            //act
+            // act
             _sut.GetQuestionnaireModes(_questionnaireName, _serverParkName);
 
-            //assert
+            // assert
             _questionnaireMetaServiceMock.Verify(v => v.GetQuestionnaireModes(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
         }
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_GetQuestionnaireModes_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireModes(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_GetQuestionnaireModes_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireModes(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
         public void Given_An_Empty_QuestionnaireName_When_I_Call_GetQuestionnaireModes_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireModes(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_GetQuestionnaireModes_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireModes(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
 
         [Test]
         public void Given_I_Call_GetQuestionnaireDataEntrySettings_I_Get_A_DataEntrySettingsModel_Back()
         {
-            //arrange
+            // arrange
             _questionnaireMetaServiceMock.Setup(s => s.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName))
                 .Returns(new List<DataEntrySettingsModel>
                 {
-                    new DataEntrySettingsModel { Type = "StrictInterviewing", DeleteSessionOnTimeout = true, DeleteSessionOnQuit = true }
+                    new DataEntrySettingsModel { Type = "StrictInterviewing", DeleteSessionOnTimeout = true, DeleteSessionOnQuit = true },
                 });
 
-            //act
+            // act
             var result = _sut.GetQuestionnaireDataEntrySettings(_questionnaireName, _serverParkName);
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<DataEntrySettingsModel>>(result);
+            // assert
+            Assert.That(result, Is.InstanceOf<List<DataEntrySettingsModel>>());
         }
 
         [TestCase(true, true)]
@@ -845,7 +868,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         [TestCase(false, false)]
         public void Given_I_Call_GetQuestionnaireDataEntrySettings_I_Get_A_Valid_DataEntrySettingsModel_Back(bool timeout, bool quit)
         {
-            //arrange
+            // arrange
             _questionnaireMetaServiceMock.Setup(s => s.GetQuestionnaireDataEntrySettings(_connectionModel, _questionnaireName, _serverParkName))
                 .Returns(new List<DataEntrySettingsModel>
                 {
@@ -856,58 +879,55 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
                         SaveSessionOnTimeout = timeout,
                         SaveSessionOnQuit = quit,
                         DeleteSessionOnTimeout = timeout,
-                        DeleteSessionOnQuit = quit
-                    }
+                        DeleteSessionOnQuit = quit,
+                    },
                 });
 
-            //act
+            // act
             var result = _sut.GetQuestionnaireDataEntrySettings(_questionnaireName, _serverParkName).ToList();
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count);
+            // assert
+            Assert.That(result.Count, Is.EqualTo(1));
 
             var dataEntrySettings = result.First();
-            Assert.IsNotNull(dataEntrySettings);
-            Assert.AreEqual("StrictInterviewing", dataEntrySettings.Type);
-            Assert.AreEqual(30, dataEntrySettings.SessionTimeout);
-            Assert.AreEqual(timeout, dataEntrySettings.SaveSessionOnTimeout);
-            Assert.AreEqual(quit, dataEntrySettings.SaveSessionOnQuit);
-            Assert.AreEqual(timeout, dataEntrySettings.DeleteSessionOnTimeout);
-            Assert.AreEqual(quit, dataEntrySettings.DeleteSessionOnQuit);
+            Assert.That(dataEntrySettings.Type, Is.EqualTo("StrictInterviewing"));
+            Assert.That(dataEntrySettings.SessionTimeout, Is.EqualTo(30));
+            Assert.That(dataEntrySettings.SaveSessionOnTimeout, Is.EqualTo(timeout));
+            Assert.That(dataEntrySettings.SaveSessionOnQuit, Is.EqualTo(quit));
+            Assert.That(dataEntrySettings.DeleteSessionOnTimeout, Is.EqualTo(timeout));
+            Assert.That(dataEntrySettings.DeleteSessionOnQuit, Is.EqualTo(quit));
         }
-
 
         [Test]
         public void Given_An_Empty_ServerParkName_When_I_Call_GetQuestionnaireDataEntrySettings_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireDataEntrySettings(_questionnaireName, string.Empty));
-            Assert.AreEqual("A value for the argument 'serverParkName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'serverParkName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_ServerParkName_When_I_Call_GetQuestionnaireDataEntrySettings_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireDataEntrySettings(_questionnaireName, null));
-            Assert.AreEqual("serverParkName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("serverParkName"));
         }
 
         [Test]
         public void Given_An_Empty_questionnaireName_When_I_Call_GetQuestionnaireDataEntrySettings_Then_An_ArgumentException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetQuestionnaireDataEntrySettings(string.Empty, _serverParkName));
-            Assert.AreEqual("A value for the argument 'questionnaireName' must be supplied", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("A value for the argument 'questionnaireName' must be supplied"));
         }
 
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_GetQuestionnaireDataEntrySettings_Then_An_ArgumentNullException_Is_Thrown()
         {
-            //act && assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetQuestionnaireDataEntrySettings(null, _serverParkName));
-            Assert.AreEqual("questionnaireName", exception.ParamName);
+            Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
     }
 }

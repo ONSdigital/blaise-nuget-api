@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-using StatNeth.Blaise.API.DataRecord;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Core.Interfaces.Services
 {
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using StatNeth.Blaise.API.DataRecord;
+    using StatNeth.Blaise.API.Meta;
+
     public interface IKeyService
     {
         bool KeyExists(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName);

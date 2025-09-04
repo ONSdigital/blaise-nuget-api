@@ -1,9 +1,9 @@
-using System;
-using System.ComponentModel;
-using System.Linq;
-
 namespace Blaise.Nuget.Api.Contracts.Extensions
 {
+    using System;
+    using System.ComponentModel;
+    using System.Linq;
+
     public static class EnumExtension
     {
         public static string FullName(this Enum value)

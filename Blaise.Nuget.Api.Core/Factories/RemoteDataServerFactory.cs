@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Extensions;
-using Blaise.Nuget.Api.Core.Interfaces.Factories;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.DataLink;
-
 namespace Blaise.Nuget.Api.Core.Factories
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Extensions;
+    using Blaise.Nuget.Api.Core.Interfaces.Factories;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.DataLink;
+
     public class RemoteDataServerFactory : IRemoteDataServerFactory
     {
         private readonly IPasswordService _passwordService;
@@ -20,6 +20,7 @@ namespace Blaise.Nuget.Api.Core.Factories
             _connections = new Dictionary<string, Tuple<IRemoteDataServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
+        /// <inheritdoc/>
         public IRemoteDataServer GetConnection(ConnectionModel connectionModel)
         {
             if (!_connections.ContainsKey(connectionModel.ServerName))

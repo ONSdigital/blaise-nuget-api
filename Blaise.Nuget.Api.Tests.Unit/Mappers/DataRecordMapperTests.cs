@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Core.Mappers;
-using Moq;
-using NUnit.Framework;
-using StatNeth.Blaise.API.DataRecord;
-
 namespace Blaise.Nuget.Api.Tests.Unit.Mappers
 {
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Core.Mappers;
+    using Moq;
+    using NUnit.Framework;
+    using StatNeth.Blaise.API.DataRecord;
+
     public class DataRecordMapperTests
     {
         private DataRecordMapper _sut;
@@ -14,7 +14,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
         public void SetupTests()
         {
             _sut = new DataRecordMapper();
-
         }
 
         [Test]
@@ -30,23 +29,19 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
             field2Mock.Setup(f => f.FullName).Returns("Field2Name");
             field2Mock.Setup(f => f.DataValue.ValueAsText).Returns("Field2Value");
 
-
             dataRecordMock.As<IDataRecord2>().Setup(dr => dr.GetDataFields())
                 .Returns(new List<IField> { field1Mock.Object, field2Mock.Object });
 
-            //act
+            // act
             var result = _sut.MapFieldDictionaryFromRecord(dataRecordMock.Object);
 
-            //assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<Dictionary<string, string>>(result);
-            Assert.AreEqual(2, result.Count);
-
-            Assert.True(result.ContainsKey("Field1Name"));
-            Assert.AreEqual(result["Field1Name"], "Field1Value");
-
-            Assert.True(result.ContainsKey("Field2Name"));
-            Assert.AreEqual(result["Field2Name"], "Field2Value");
+            // assert
+            Assert.That(result, Is.InstanceOf<Dictionary<string, string>>());
+            Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result.ContainsKey("Field1Name"), Is.True);
+            Assert.That(result["Field1Name"], Is.EqualTo("Field1Value"));
+            Assert.That(result.ContainsKey("Field2Name"), Is.True);
+            Assert.That(result["Field2Name"], Is.EqualTo("Field2Value"));
         }
     }
 }

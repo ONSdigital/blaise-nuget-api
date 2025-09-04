@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Blaise.Nuget.Api.Extensions
 {
-    internal static class ArgumentValidationExtensions
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    public static class ArgumentValidationExtensions
     {
         public static void ThrowExceptionIfNullOrEmpty(this string argument, string argumentName)
         {

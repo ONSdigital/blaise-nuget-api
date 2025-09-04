@@ -1,16 +1,17 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Nuget.Api.Core.Interfaces.Providers;
-using Blaise.Nuget.Api.Core.Interfaces.Services;
-using StatNeth.Blaise.API.DataLink;
-using StatNeth.Blaise.API.DataRecord;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Nuget.Api.Core.Interfaces.Providers;
+    using Blaise.Nuget.Api.Core.Interfaces.Services;
+    using StatNeth.Blaise.API.DataLink;
+    using StatNeth.Blaise.API.DataRecord;
+    using StatNeth.Blaise.API.Meta;
+
     public class DataRecordService : IDataRecordService
     {
         private readonly IRemoteDataLinkProvider _remoteDataLinkProvider;
+
         private readonly ILocalDataLinkProvider _localDataLinkProvider;
 
         public DataRecordService(
@@ -21,13 +22,19 @@ namespace Blaise.Nuget.Api.Core.Services
             _localDataLinkProvider = localDataLinkProvider;
         }
 
-        public IDataSet GetDataSet(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string filter)
+        /// <inheritdoc/>
+        public IDataSet GetDataSet(
+            ConnectionModel connectionModel,
+            string questionnaireName,
+            string serverParkName,
+            string filter)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
             return dataLink.Read(filter, null);
         }
 
+        /// <inheritdoc/>
         public IDataSet GetDataSet(ConnectionModel connectionModel, string databaseFile, string filter)
         {
             var dataLink = _localDataLinkProvider.GetDataLink(connectionModel, databaseFile);
@@ -35,11 +42,13 @@ namespace Blaise.Nuget.Api.Core.Services
             return dataLink.Read(filter, null);
         }
 
+        /// <inheritdoc/>
         public IDataRecord GetDataRecord(IDatamodel dataModel)
         {
             return DataRecordManager.GetDataRecord(dataModel);
         }
 
+        /// <inheritdoc/>
         public IDataRecord GetDataRecord(ConnectionModel connectionModel, string databaseFile, IKey primaryKey)
         {
             var dataLink = _localDataLinkProvider.GetDataLink(connectionModel, databaseFile);
@@ -47,14 +56,24 @@ namespace Blaise.Nuget.Api.Core.Services
             return dataLink.ReadRecord(primaryKey);
         }
 
-        public IDataRecord GetDataRecord(ConnectionModel connectionModel, IKey key, string questionnaireName, string serverParkName)
+        /// <inheritdoc/>
+        public IDataRecord GetDataRecord(
+            ConnectionModel connectionModel,
+            IKey key,
+            string questionnaireName,
+            string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
             return dataLink.ReadRecord(key);
         }
 
-        public void WriteDataRecords(ConnectionModel connectionModel, IEnumerable<IDataRecord> dataRecords, string questionnaireName, string serverParkName)
+        /// <inheritdoc/>
+        public void WriteDataRecords(
+            ConnectionModel connectionModel,
+            IEnumerable<IDataRecord> dataRecords,
+            string questionnaireName,
+            string serverParkName)
         {
             var dataSet = DataLinkManager.GetDataSet(dataRecords);
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
@@ -62,13 +81,19 @@ namespace Blaise.Nuget.Api.Core.Services
             dataLink.Write(dataSet);
         }
 
-        public void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string questionnaireName, string serverParkName)
+        /// <inheritdoc/>
+        public void WriteDataRecord(
+            ConnectionModel connectionModel,
+            IDataRecord dataRecord,
+            string questionnaireName,
+            string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
             dataLink.Write(dataRecord);
         }
 
+        /// <inheritdoc/>
         public void WriteDataRecord(ConnectionModel connectionModel, IDataRecord dataRecord, string databaseFile)
         {
             var dataLink = _localDataLinkProvider.GetDataLink(connectionModel, databaseFile);
@@ -76,13 +101,19 @@ namespace Blaise.Nuget.Api.Core.Services
             dataLink.Write(dataRecord);
         }
 
-        public void DeleteDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName)
+        /// <inheritdoc/>
+        public void DeleteDataRecord(
+            ConnectionModel connectionModel,
+            IKey primaryKey,
+            string questionnaireName,
+            string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
 
             dataLink.Delete(primaryKey);
         }
 
+        /// <inheritdoc/>
         public void DeleteDataRecords(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
@@ -90,6 +121,7 @@ namespace Blaise.Nuget.Api.Core.Services
             dataLink.DeleteAll();
         }
 
+        /// <inheritdoc/>
         public int GetNumberOfRecords(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var records = GetDataSet(connectionModel, questionnaireName, serverParkName, null);
@@ -97,6 +129,7 @@ namespace Blaise.Nuget.Api.Core.Services
             return GetNumberOfRecords(records);
         }
 
+        /// <inheritdoc/>
         public int GetNumberOfRecords(ConnectionModel connectionModel, string databaseFile)
         {
             var records = GetDataSet(connectionModel, databaseFile, null);
@@ -104,7 +137,12 @@ namespace Blaise.Nuget.Api.Core.Services
             return GetNumberOfRecords(records);
         }
 
-        public void LockDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName,
+        /// <inheritdoc/>
+        public void LockDataRecord(
+            ConnectionModel connectionModel,
+            IKey primaryKey,
+            string questionnaireName,
+            string serverParkName,
             string lockId)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);
@@ -112,7 +150,12 @@ namespace Blaise.Nuget.Api.Core.Services
             dataLink.Lock(primaryKey, lockId);
         }
 
-        public void UnLockDataRecord(ConnectionModel connectionModel, IKey primaryKey, string questionnaireName, string serverParkName,
+        /// <inheritdoc/>
+        public void UnLockDataRecord(
+            ConnectionModel connectionModel,
+            IKey primaryKey,
+            string questionnaireName,
+            string serverParkName,
             string lockId)
         {
             var dataLink = _remoteDataLinkProvider.GetDataLink(connectionModel, questionnaireName, serverParkName);

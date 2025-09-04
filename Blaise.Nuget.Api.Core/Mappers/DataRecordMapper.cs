@@ -1,14 +1,18 @@
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Core.Interfaces.Mappers;
-using StatNeth.Blaise.API.DataRecord;
-using StatNeth.Blaise.API.Meta;
-
 namespace Blaise.Nuget.Api.Core.Mappers
 {
+    using System.Collections.Generic;
+    using Blaise.Nuget.Api.Core.Interfaces.Mappers;
+    using StatNeth.Blaise.API.DataRecord;
+    using StatNeth.Blaise.API.Meta;
+
     public class DataRecordMapper : IDataRecordMapper
     {
-        public IDataRecord MapDataRecordFields(IDataRecord dataRecord, IKey key,
-            Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData)
+        /// <inheritdoc/>
+        public IDataRecord MapDataRecordFields(
+            IDataRecord dataRecord,
+            IKey key,
+            Dictionary<string, string> primaryKeyValues,
+            Dictionary<string, string> fieldData)
         {
             foreach (var item in primaryKeyValues)
             {
@@ -19,15 +23,15 @@ namespace Blaise.Nuget.Api.Core.Mappers
             return MapDataRecordFields(dataRecord, fieldData);
         }
 
+        /// <inheritdoc/>
         public IDataRecord MapDataRecordFields(IDataRecord dataRecord, Dictionary<string, string> fieldData)
         {
             var definitionScope = (IDefinitionScope2)dataRecord.Datamodel;
 
             foreach (var field in fieldData)
             {
-                /* Adding try / catch around processing payload fields so that it doesn't stop
-                   if a field is found that isn't in the Blaise data model as we still want to process the
-                   remaining fields */
+                // adding try/catch when processing payload fields ensures the process continues
+                // even if a field doesn't match the Blaise data model we still want the process to continue
                 try
                 {
                     if (!definitionScope.FieldExists(field.Key))
@@ -48,6 +52,7 @@ namespace Blaise.Nuget.Api.Core.Mappers
             return dataRecord;
         }
 
+        /// <inheritdoc/>
         public Dictionary<string, string> MapFieldDictionaryFromRecord(IDataRecord dataRecord)
         {
             var fieldDictionary = new Dictionary<string, string>();
