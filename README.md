@@ -1,4 +1,4 @@
-# Blaise NuGet API 
+# Blaise NuGet API
 
 This repository contains a .NET Framework class library that wraps the official Blaise NuGet package, providing a simplified and intuitive API for interacting with Blaise environments. It abstracts the complexity of the underlying Blaise APIs and exposes a consistent, testable interface that underpins our backend services and UIs.
 
