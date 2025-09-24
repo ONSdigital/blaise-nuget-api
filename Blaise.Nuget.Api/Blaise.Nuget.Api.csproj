@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Unity.Container" Version="5.11.11" />
+    <PackageReference Include="MySql.Data" Version="9.4.0" />
   </ItemGroup>
 
   <ItemGroup>
