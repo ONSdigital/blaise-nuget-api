@@ -20,7 +20,6 @@ namespace Blaise.Nuget.Api.Core.Factories
             _connections = new Dictionary<string, Tuple<IRemoteDataServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
-        /// <inheritdoc/>
         public IRemoteDataServer GetConnection(ConnectionModel connectionModel)
         {
             if (!_connections.ContainsKey(connectionModel.ServerName))

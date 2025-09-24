@@ -31,13 +31,11 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        /// <inheritdoc/>
         public IEnumerable<IUser> GetUsers()
         {
             return _userService.GetUsers(_connectionModel);
         }
 
-        /// <inheritdoc/>
         public IUser GetUser(string userName)
         {
             userName.ThrowExceptionIfNullOrEmpty("userName");
@@ -45,7 +43,6 @@ namespace Blaise.Nuget.Api.Api
             return _userService.GetUser(_connectionModel, userName);
         }
 
-        /// <inheritdoc/>
         public bool UserExists(string userName)
         {
             userName.ThrowExceptionIfNullOrEmpty("userName");
@@ -53,7 +50,6 @@ namespace Blaise.Nuget.Api.Api
             return _userService.UserExists(_connectionModel, userName);
         }
 
-        /// <inheritdoc/>
         public void AddUser(
             string userName,
             string password,
@@ -69,7 +65,6 @@ namespace Blaise.Nuget.Api.Api
             _userService.AddUser(_connectionModel, userName, password, role, serverParkNames, defaultServerPark);
         }
 
-        /// <inheritdoc/>
         public void UpdatePassword(string userName, string password)
         {
             userName.ThrowExceptionIfNullOrEmpty("userName");
@@ -78,7 +73,6 @@ namespace Blaise.Nuget.Api.Api
             _userService.UpdatePassword(_connectionModel, userName, password);
         }
 
-        /// <inheritdoc/>
         public void UpdateRole(string userName, string role)
         {
             userName.ThrowExceptionIfNullOrEmpty("userName");
@@ -87,7 +81,6 @@ namespace Blaise.Nuget.Api.Api
             _userService.UpdateRole(_connectionModel, userName, role);
         }
 
-        /// <inheritdoc/>
         public void UpdateServerParks(
             string userName,
             IEnumerable<string> serverParkNames,
@@ -99,7 +92,6 @@ namespace Blaise.Nuget.Api.Api
             _userService.UpdateServerParks(_connectionModel, userName, serverParkNames, defaultServerPark);
         }
 
-        /// <inheritdoc/>
         public void RemoveUser(string userName)
         {
             userName.ThrowExceptionIfNullOrEmpty("userName");
@@ -107,7 +99,6 @@ namespace Blaise.Nuget.Api.Api
             _userService.RemoveUser(_connectionModel, userName);
         }
 
-        /// <inheritdoc/>
         public bool ValidateUser(string userName, string password)
         {
             userName.ThrowExceptionIfNullOrEmpty("userName");

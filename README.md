@@ -27,7 +27,7 @@ Once the source is configured, you can install the package via the NuGet Package
 To run the service locally, you must provide the necessary connection details for a Blaise environment. You can achieve this in two ways:
 
 - **Populate `App.config`:** Update the `App.config` file with the required Blaise connection details.
-- **Use Environment Variables:** Alternatively, you can use `setx` commands to set environment variables. This is a great way to handle sensitive data. For example: `setx ENV_BLAISE_SERVER_HOST_NAME=blah /m`.
+- **Use Environment Variables:** Alternatively, you can use `setx` commands to set environment variables. For example: `setx ENV_BLAISE_SERVER_HOST_NAME=blah /m`.
 
 ⚠️ **Important:** Never commit `App.config` files with populated secrets or credentials to source control. To safely commit your changes without including the `App.config` file, you can use the command: `git add . ':!app.config'`.
 

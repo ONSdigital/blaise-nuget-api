@@ -36,7 +36,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseAuditTrailApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.That(() => new BlaiseAuditTrailApi(), Throws.Nothing);
         }
 
@@ -44,7 +43,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseAuditTrailApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.That(() => new BlaiseAuditTrailApi(new ConnectionModel()), Throws.Nothing);
         }
 

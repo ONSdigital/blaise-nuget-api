@@ -54,7 +54,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseQuestionnaireApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseQuestionnaireApi());
         }
 
@@ -62,7 +61,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Questionnaire
         public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseQuestionnaireApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseQuestionnaireApi(new ConnectionModel()));
         }
 

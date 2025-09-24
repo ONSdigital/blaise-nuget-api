@@ -41,7 +41,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseCatiApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseCatiApi());
         }
 
@@ -49,7 +48,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseCatiApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseCatiApi(new ConnectionModel()));
         }
 

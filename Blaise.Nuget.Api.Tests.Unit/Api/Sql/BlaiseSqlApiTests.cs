@@ -38,7 +38,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         public void Given_I_Instantiate_BlaiseSqlApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseSqlApi());
         }
 

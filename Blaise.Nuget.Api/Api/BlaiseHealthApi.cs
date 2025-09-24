@@ -38,7 +38,6 @@ namespace Blaise.Nuget.Api.Api
             _connectionModel = connectionModel ?? configurationProvider.GetConnectionModel();
         }
 
-        /// <inheritdoc/>
         public bool ConnectionModelIsHealthy()
         {
             return !string.IsNullOrWhiteSpace(_connectionModel.ServerName) &&
@@ -49,7 +48,6 @@ namespace Blaise.Nuget.Api.Api
                    _connectionModel.RemotePort > 0;
         }
 
-        /// <inheritdoc/>
         public bool ConnectionToBlaiseIsHealthy()
         {
             try
@@ -63,7 +61,6 @@ namespace Blaise.Nuget.Api.Api
             }
         }
 
-        /// <inheritdoc/>
         public bool RemoteConnectionToBlaiseIsHealthy()
         {
             try
@@ -77,7 +74,6 @@ namespace Blaise.Nuget.Api.Api
             }
         }
 
-        /// <inheritdoc/>
         public bool RemoteConnectionToCatiIsHealthy()
         {
             try

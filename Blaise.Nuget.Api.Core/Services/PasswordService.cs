@@ -5,7 +5,6 @@ namespace Blaise.Nuget.Api.Core.Services
 
     public class PasswordService : IPasswordService
     {
-        /// <inheritdoc/>
         public SecureString CreateSecurePassword(string password)
         {
             var securePassword = new SecureString();

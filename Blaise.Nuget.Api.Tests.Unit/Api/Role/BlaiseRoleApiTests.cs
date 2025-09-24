@@ -44,7 +44,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseRoleApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.That(() => new BlaiseRoleApi(), Throws.Nothing);
         }
 
@@ -52,7 +51,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseRoleApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.That(() => new BlaiseRoleApi(new ConnectionModel()), Throws.Nothing);
         }
 
