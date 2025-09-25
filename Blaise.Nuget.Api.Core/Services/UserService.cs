@@ -115,9 +115,10 @@ namespace Blaise.Nuget.Api.Core.Services
                 });
                 return true;
             }
-            catch
+            catch (Exception exception)
             {
                 // currently only way to validate user...
+                Console.WriteLine($"Failed to validate user '{userName}': {exception}");
                 return false;
             }
         }
@@ -136,9 +137,11 @@ namespace Blaise.Nuget.Api.Core.Services
             {
                 user.Role = role;
             }
-            catch
+            catch (Exception exception)
             {
-                // still continue..!?
+                // a decision has been made to not fail the entire process if the role cannot be assigned
+                // we are logging the error to ensure it is not hidden
+                Console.WriteLine($"Failed to assign role '{role}' to user '{user.Name}': {exception}");
             }
         }
 

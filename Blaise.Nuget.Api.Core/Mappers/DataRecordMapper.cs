@@ -1,5 +1,6 @@
 namespace Blaise.Nuget.Api.Core.Mappers
 {
+    using System;
     using System.Collections.Generic;
     using Blaise.Nuget.Api.Core.Interfaces.Mappers;
     using StatNeth.Blaise.API.DataRecord;
@@ -40,8 +41,11 @@ namespace Blaise.Nuget.Api.Core.Mappers
                     var item = dataRecord.GetField(field.Key);
                     item.DataValue.Assign(field.Value);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    // a decision has been made to not fail the entire process if a field fails to map
+                    // we are logging the error to ensure it is not hidden
+                    Console.WriteLine($"Failed to map field '{field.Key}' with value '{field.Value}': {exception}");
                 }
             }
 

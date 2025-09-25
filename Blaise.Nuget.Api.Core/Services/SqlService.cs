@@ -146,7 +146,7 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             ValidateInputs(connectionString, questionnaireName);
 
-            // Implemented this way as StatNeth don't currently provide a way to drop the SQL tables via the API
+            // implemented this way as StatNeth don't currently provide a way to drop the SQL tables via the API
             var firstDatabaseTableName = GetDatabaseTableNameForm(questionnaireName);
             var secondDatabaseTableName = GetDatabaseTableNameDml(questionnaireName);
 
@@ -165,12 +165,14 @@ namespace Blaise.Nuget.Api.Core.Services
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (MySqlException ex)
+            catch (MySqlException mySqlException)
             {
+                Console.WriteLine($"Failed to drop questionnaire tables for '{questionnaireName}': {mySqlException}");
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
+                Console.WriteLine($"Failed to drop questionnaire tables for '{questionnaireName}': {exception}");
                 return false;
             }
 
