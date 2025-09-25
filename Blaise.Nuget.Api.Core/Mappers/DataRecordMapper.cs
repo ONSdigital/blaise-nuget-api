@@ -41,7 +41,7 @@ namespace Blaise.Nuget.Api.Core.Mappers
                     var item = dataRecord.GetField(field.Key);
                     item.DataValue.Assign(field.Value);
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
                     // a decision has been made to not fail the entire process if a field fails to map
                     // we are logging the error to ensure it is not hidden
