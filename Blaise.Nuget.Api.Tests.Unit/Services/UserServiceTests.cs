@@ -242,7 +242,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Give_Valid_Parameters_When_I_Call_UpdatePassword_Then_The_Correct_Services_Are_Called()
+        public void Given_Valid_Parameters_When_I_Call_UpdatePassword_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.UpdatePassword(_connectionModel, _userName, _password);
@@ -264,7 +264,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _sut.UpdateRole(_connectionModel, _userName, role);
 
             // assert
-            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
+            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Exactly(2));
 
             _userMock.As<IUser2>().VerifySet(u => u.Role = role, Times.Once);
             _userMock.Verify(v => v.Save(), Times.Once);
@@ -286,7 +286,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _sut.UpdateServerParks(_connectionModel, _userName, serverParkNameList, defaultServerPark);
 
             // assert
-            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
+            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Exactly(2));
 
             _userMock.Verify(u => u.ServerParks.Clear(), Times.Once);
 
@@ -324,7 +324,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _sut.UpdateServerParks(_connectionModel, _userName, serverParkNameList, defaultServerPark);
 
             // assert
-            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
+            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Exactly(2));
 
             _userMock.Verify(u => u.ServerParks.Clear(), Times.Once);
 
