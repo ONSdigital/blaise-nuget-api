@@ -249,7 +249,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             // assert
             _passwordServiceMock.Verify(v => v.CreateSecurePassword(_password), Times.Once);
-            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
+            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Exactly(2));
             _userMock.As<IUser2>().Verify(v => v.ChangePassword(_securePassword), Times.Once);
             _userMock.Verify(v => v.Save(), Times.Once);
         }
