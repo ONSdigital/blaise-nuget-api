@@ -37,8 +37,10 @@ namespace Blaise.Nuget.Api.Core.Services
         /// <inheritdoc/>
         public IServerPark GetServerPark(ConnectionModel connectionModel, string serverParkName)
         {
+            
             var serverParks = GetServerParks(connectionModel);
             var serverPark = serverParks.FirstOrDefault(sp => sp.Name.Equals(serverParkName, StringComparison.InvariantCultureIgnoreCase));
+            Console.WriteLine($"Info - Got the required server park i-e, {serverParkName}.");
 
             if (serverPark == null)
             {
@@ -52,6 +54,8 @@ namespace Blaise.Nuget.Api.Core.Services
         public IEnumerable<IServerPark> GetServerParks(ConnectionModel connectionModel)
         {
             var connection = _connectionFactory.GetConnection(connectionModel);
+
+            Console.WriteLine($"Info - Getting all server parks...");
             var serverParks = connection.ServerParks;
 
             if (!serverParks.Any())

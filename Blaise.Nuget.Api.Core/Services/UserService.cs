@@ -35,6 +35,7 @@ namespace Blaise.Nuget.Api.Core.Services
         {
             var connection = _connectedServerFactory.GetConnection(connectionModel);
 
+            Console.WriteLine($"Info - Connection user {connection.Users.GetItem(userName)}");
             return connection.Users.GetItem(userName);
         }
 
@@ -127,7 +128,12 @@ namespace Blaise.Nuget.Api.Core.Services
             catch
             {
                 // currently only way to validate user...
+                Console.WriteLine($"Info - Validate Connection user failed");
                 return false;
+            }
+            finally
+            {
+                _connectedServerFactory.GetIsolatedConnection(connectionModel);
             }
         }
 
