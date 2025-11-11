@@ -7,7 +7,6 @@ namespace Blaise.Nuget.Api.Core.Mappers
 
     public class DataRecordMapper : IDataRecordMapper
     {
-        /// <inheritdoc/>
         public IDataRecord MapDataRecordFields(
             IDataRecord dataRecord,
             IKey key,
@@ -23,7 +22,6 @@ namespace Blaise.Nuget.Api.Core.Mappers
             return MapDataRecordFields(dataRecord, fieldData);
         }
 
-        /// <inheritdoc/>
         public IDataRecord MapDataRecordFields(IDataRecord dataRecord, Dictionary<string, string> fieldData)
         {
             var definitionScope = (IDefinitionScope2)dataRecord.Datamodel;
@@ -52,7 +50,6 @@ namespace Blaise.Nuget.Api.Core.Mappers
             return dataRecord;
         }
 
-        /// <inheritdoc/>
         public Dictionary<string, string> MapFieldDictionaryFromRecord(IDataRecord dataRecord)
         {
             var fieldDictionary = new Dictionary<string, string>();

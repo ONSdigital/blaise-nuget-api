@@ -24,7 +24,6 @@ namespace Blaise.Nuget.Api.Core.Services
             _questionnaireService = questionnaireService;
         }
 
-        /// <inheritdoc/>
         public IEnumerable<ISurvey> GetInstalledQuestionnaires(ConnectionModel connectionModel, string serverParkName)
         {
             var questionnaires = GetInstalledCatiQuestionnaires(connectionModel, serverParkName);
@@ -33,7 +32,6 @@ namespace Blaise.Nuget.Api.Core.Services
             return questionnaireNames.Select(questionnaireName => _questionnaireService.GetQuestionnaire(connectionModel, questionnaireName, serverParkName)).ToList();
         }
 
-        /// <inheritdoc/>
         public ISurvey GetInstalledQuestionnaire(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var questionnaires = GetInstalledCatiQuestionnaires(connectionModel, serverParkName);
@@ -46,7 +44,6 @@ namespace Blaise.Nuget.Api.Core.Services
             return _questionnaireService.GetQuestionnaire(connectionModel, questionnaireName, serverParkName);
         }
 
-        /// <inheritdoc/>
         public DayBatchModel CreateDayBatch(
             ConnectionModel connectionModel,
             string questionnaireName,
@@ -68,7 +65,6 @@ namespace Blaise.Nuget.Api.Core.Services
             return GetDayBatch(catiManagementServer, questionnaireId);
         }
 
-        /// <inheritdoc/>
         public DayBatchModel GetDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var catiManagementServer = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
@@ -77,7 +73,6 @@ namespace Blaise.Nuget.Api.Core.Services
             return GetDayBatch(catiManagementServer, questionnaireId);
         }
 
-        /// <inheritdoc/>
         public void AddToDayBatch(ConnectionModel connectionModel, string questionnaireName, string serverParkName, string primaryKeyValue)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
@@ -86,7 +81,6 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManagement.AddToDaybatch(questionnaireId, primaryKeyValue);
         }
 
-        /// <inheritdoc/>
         public List<DateTime> GetSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName)
         {
             var surveyDays = new List<DateTime>();
@@ -105,7 +99,6 @@ namespace Blaise.Nuget.Api.Core.Services
             return surveyDays;
         }
 
-        /// <inheritdoc/>
         public void SetSurveyDay(ConnectionModel connectionModel, string questionnaireName, string serverParkName, DateTime surveyDay)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
@@ -115,7 +108,6 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManager.AddSurveyDays(new List<DateTime> { surveyDay });
         }
 
-        /// <inheritdoc/>
         public void SetSurveyDays(ConnectionModel connectionModel, string questionnaireName, string serverParkName, List<DateTime> surveyDays)
         {
             var catiManagement = _remoteCatiManagementServerProvider.GetCatiManagementForServerPark(connectionModel, serverParkName);
@@ -125,7 +117,6 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManager.AddSurveyDays(surveyDays);
         }
 
-        /// <inheritdoc/>
         public void RemoveSurveyDay(
             ConnectionModel connectionModel,
             string questionnaireName,
@@ -139,7 +130,6 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManager.RemoveSurveyDays(new List<DateTime> { surveyDay });
         }
 
-        /// <inheritdoc/>
         public void RemoveSurveyDays(
             ConnectionModel connectionModel,
             string questionnaireName,
@@ -153,7 +143,6 @@ namespace Blaise.Nuget.Api.Core.Services
             catiManager.RemoveSurveyDays(surveyDays);
         }
 
-        /// <inheritdoc/>
         public bool MakeSuperAppointment(
             ConnectionModel connectionModel,
             string questionnaireName,
