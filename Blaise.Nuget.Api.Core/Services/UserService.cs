@@ -101,16 +101,17 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public bool ValidateUser(ConnectionModel connectionModel, string userName, string password)
         {
-            IConnectedServer validationConnection = null;
+            IConnectedServer isolatedConnection = null;
             try
             {
-                validationConnection = _connectedServerFactory.GetConnection(new ConnectionModel
+                isolatedConnection = _connectedServerFactory.GetIsolatedConnection(new ConnectionModel
                 {
                     ServerName = connectionModel.ServerName,
                     UserName = userName,
                     Password = password,
                     Binding = connectionModel.Binding,
-                    Port = connectionModel.Port
+                    Port = connectionModel.Port,
+                    ConnectionExpiresInMinutes = connectionModel.ConnectionExpiresInMinutes,
                 });
                 return true;
             }
@@ -121,10 +122,7 @@ namespace Blaise.Nuget.Api.Core.Services
             }
             finally
             {
-                if (validationConnection is IDisposable disposableConnection)
-                {
-                    disposableConnection.Dispose();
-                }
+                _connectedServerFactory.GetIsolatedConnection(connectionModel);
             }
         }
 
