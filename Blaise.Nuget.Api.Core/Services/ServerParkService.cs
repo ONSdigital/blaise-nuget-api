@@ -3,60 +3,158 @@ namespace Blaise.Nuget.Api.Core.Services
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Blaise.Nuget.Api.Contracts.Exceptions;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Interfaces.Factories;
     using Blaise.Nuget.Api.Core.Interfaces.Services;
     using StatNeth.Blaise.API.ServerManager;
 
-    public class ServerParkService : IServerParkService
+    public class UserService : IUserService
     {
-        private readonly IConnectedServerFactory _connectionFactory;
+        private readonly IConnectedServerFactory _connectedServerFactory;
+        private readonly IPasswordService _passwordService;
 
-        public ServerParkService(IConnectedServerFactory connectionFactory)
+        public UserService(
+            IConnectedServerFactory connectedServerFactory,
+            IPasswordService passwordService)
         {
-            _connectionFactory = connectionFactory;
+            _connectedServerFactory = connectedServerFactory;
+            _passwordService = passwordService;
         }
 
-        public IEnumerable<string> GetServerParkNames(ConnectionModel connectionModel)
+        public IEnumerable<IUser> GetUsers(ConnectionModel connectionModel)
         {
-            var serverParks = GetServerParks(connectionModel);
+            var connection = _connectedServerFactory.GetConnection(connectionModel);
 
-            return serverParks.Select(sp => sp.Name);
+            return connection.Users;
         }
 
-        public bool ServerParkExists(ConnectionModel connectionModel, string serverParkName)
+        public IUser GetUser(ConnectionModel connectionModel, string userName)
         {
-            var serverParkNames = GetServerParkNames(connectionModel);
+            var connection = _connectedServerFactory.GetConnection(connectionModel);
 
-            return serverParkNames.Any(sp => sp.Equals(serverParkName, StringComparison.InvariantCultureIgnoreCase));
+            return connection.Users.GetItem(userName);
         }
 
-        public IServerPark GetServerPark(ConnectionModel connectionModel, string serverParkName)
+        public bool UserExists(ConnectionModel connectionModel, string userName)
         {
-            var serverParks = GetServerParks(connectionModel);
-            var serverPark = serverParks.FirstOrDefault(sp => sp.Name.Equals(serverParkName, StringComparison.InvariantCultureIgnoreCase));
+            var connection = _connectedServerFactory.GetConnection(connectionModel);
 
-            if (serverPark == null)
+            return connection.Users.Any(u => u.Name.Equals(userName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public void AddUser(
+            ConnectionModel connectionModel,
+            string userName,
+            string password,
+            string role,
+            IEnumerable<string> serverParkNames,
+            string defaultServerPark)
+        {
+            var connection = _connectedServerFactory.GetConnection(connectionModel);
+            var securePassword = _passwordService.CreateSecurePassword(password);
+            var user = (IUser2)connection.AddUser(userName, securePassword);
+
+            AssignRoleToUser(user, role);
+            AddServerParksToUser(user, serverParkNames);
+            AddCatiPreferenceToUser(user, defaultServerPark);
+
+            user.Save();
+        }
+
+        public void UpdatePassword(ConnectionModel connectionModel, string userName, string password)
+        {
+            var securePassword = _passwordService.CreateSecurePassword(password);
+            var user = (IUser2)GetUser(connectionModel, userName);
+
+            user.ChangePassword(securePassword);
+            user.Save();
+        }
+
+        public void UpdateRole(ConnectionModel connectionModel, string userName, string role)
+        {
+            var user = (IUser2)GetUser(connectionModel, userName);
+
+            AssignRoleToUser(user, role);
+            user.Save();
+        }
+
+        public void UpdateServerParks(
+            ConnectionModel connectionModel,
+            string userName,
+            IEnumerable<string> serverParkNames,
+            string defaultServerPark)
+        {
+            var user = (IUser2)GetUser(connectionModel, userName);
+
+            user.ServerParks.Clear();
+            AddServerParksToUser(user, serverParkNames);
+            AddCatiPreferenceToUser(user, defaultServerPark);
+            user.Save();
+        }
+
+        public void RemoveUser(ConnectionModel connectionModel, string userName)
+        {
+            var connection = _connectedServerFactory.GetConnection(connectionModel);
+
+            connection.RemoveUser(userName);
+        }
+
+        public bool ValidateUser(ConnectionModel connectionModel, string userName, string password)
+        {
+            IConnectedServer isolatedConnection = null;
+            try
             {
-                throw new DataNotFoundException($"Server park '{serverParkName}' not found");
+                isolatedConnection = _connectedServerFactory.GetIsolatedConnection(new ConnectionModel
+                {
+                    ServerName = connectionModel.ServerName,
+                    UserName = userName,
+                    Password = password,
+                    Binding = connectionModel.Binding,
+                    Port = connectionModel.Port,
+                    ConnectionExpiresInMinutes = connectionModel.ConnectionExpiresInMinutes,
+                });
+                return true;
+            }
+            catch
+            {
+                // currently only way to validate user
+                return false;
+            }
+            finally
+            {
+                _connectedServerFactory.GetIsolatedConnection(connectionModel);
+            }
+        }
+
+        private static void AddServerParksToUser(IUser user, IEnumerable<string> serverParkNames)
+        {
+            foreach (var serverParkName in serverParkNames)
+            {
+                user.ServerParks.Add(serverParkName);
+            }
+        }
+
+        private static void AssignRoleToUser(IUser2 user, string role)
+        {
+            try
+            {
+                user.Role = role;
+            }
+            catch
+            {
+                // still continue..!?
+            }
+        }
+
+        private static void AddCatiPreferenceToUser(IUser2 user, string defaultServerPark)
+        {
+            if (user.Preferences.All(userPreference => userPreference.Type != "CATI.Preferences"))
+            {
+                user.Preferences.Add("CATI.Preferences");
             }
 
-            return serverPark;
-        }
-
-        public IEnumerable<IServerPark> GetServerParks(ConnectionModel connectionModel)
-        {
-            var connection = _connectionFactory.GetConnection(connectionModel);
-
-            var serverParks = connection.ServerParks;
-
-            if (!serverParks.Any())
-            {
-                throw new DataNotFoundException("No server parks found");
-            }
-
-            return serverParks;
+            var catiPreference = user.Preferences.GetItem("CATI.Preferences");
+            catiPreference.Value = $"<CatiDashboard><ServerPark>{defaultServerPark}</ServerPark></CatiDashboard>";
         }
     }
 }

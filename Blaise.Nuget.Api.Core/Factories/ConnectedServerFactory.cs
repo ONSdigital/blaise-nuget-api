@@ -2,6 +2,7 @@ namespace Blaise.Nuget.Api.Core.Factories
 {
     using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Extensions;
     using Blaise.Nuget.Api.Core.Interfaces.Factories;
@@ -19,39 +20,45 @@ namespace Blaise.Nuget.Api.Core.Factories
             _connections = new ConcurrentDictionary<string, Tuple<IConnectedServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
         }
 
-        public IConnectedServer GetIsolatedConnection(ConnectionModel connectionModel)
-        {
-            if (_connections.TryGetValue(connectionModel.UserName, out var connection) &&
-                !connection.Item2.HasExpired())
-            {
-                return connection.Item1;
-            }
-
-            var connectedServer = GetConnection(connectionModel);
-            var expiry = DateTime.Now.AddMinutes(connectionModel.ConnectionExpiresInMinutes);
-            _connections.AddOrUpdate(connectionModel.UserName,
-                new Tuple<IConnectedServer, DateTime>(connectedServer, expiry),
-                (key, old) => new Tuple<IConnectedServer, DateTime>(connectedServer, expiry));
-
-            return connectedServer;
-        }
-
         public IConnectedServer GetConnection(ConnectionModel connectionModel)
         {
-            return GetConnection(connectionModel.ServerName, connectionModel.UserName, connectionModel.Password,
-                connectionModel.Binding, connectionModel.Port);
+            var connectionTuple = _connections.AddOrUpdate(
+                connectionModel.ServerName,
+                key => CreateNewConnectionTuple(connectionModel),
+                (key, existingTuple) =>
+                {
+                    if (existingTuple.Item2.HasExpired())
+                    {
+                        return CreateNewConnectionTuple(connectionModel);
+                    }
+                    else
+                    {
+                        return existingTuple;
+                    }
+                });
+            return connectionTuple.Item1;
         }
 
-        private IConnectedServer GetConnection(string serverName, string userName, string password, string binding, int port)
+        public IConnectedServer GetIsolatedConnection(ConnectionModel connectionModel)
         {
-            var connection = ClientFactory.CreateConnection(
-                serverName,
-                port,
-                binding,
-                userName,
-                password);
+            return CreateServerConnection(connectionModel);
+        }
 
-            return connection;
+        private Tuple<IConnectedServer, DateTime> CreateNewConnectionTuple(ConnectionModel connectionModel)
+        {
+            var connectedServer = CreateServerConnection(connectionModel);
+            var expiryDate = connectionModel.ConnectionExpiresInMinutes.GetExpiryDate();
+            return new Tuple<IConnectedServer, DateTime>(connectedServer, expiryDate);
+        }
+
+        private IConnectedServer CreateServerConnection(ConnectionModel connectionModel)
+        {
+            return ServerManager.ConnectToServer(
+                connectionModel.ServerName,
+                connectionModel.Port,
+                connectionModel.UserName,
+                _passwordService.CreateSecurePassword(connectionModel.Password),
+                connectionModel.Binding);
         }
     }
 }
