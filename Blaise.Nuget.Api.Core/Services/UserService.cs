@@ -11,6 +11,7 @@ namespace Blaise.Nuget.Api.Core.Services
     public class UserService : IUserService
     {
         private readonly IConnectedServerFactory _connectedServerFactory;
+
         private readonly IPasswordService _passwordService;
 
         public UserService(
@@ -101,10 +102,9 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public bool ValidateUser(ConnectionModel connectionModel, string userName, string password)
         {
-            IConnectedServer isolatedConnection = null;
             try
             {
-                isolatedConnection = _connectedServerFactory.GetIsolatedConnection(new ConnectionModel
+                _connectedServerFactory.GetIsolatedConnection(new ConnectionModel
                 {
                     ServerName = connectionModel.ServerName,
                     UserName = userName,
@@ -117,7 +117,7 @@ namespace Blaise.Nuget.Api.Core.Services
             }
             catch
             {
-                // currently only way to validate user
+                // currently only way to validate user...
                 return false;
             }
             finally
