@@ -22,43 +22,20 @@ namespace Blaise.Nuget.Api.Core.Factories
 
         public IConnectedServer GetConnection(ConnectionModel connectionModel)
         {
-            var connectionTuple = _connections.AddOrUpdate(
-                connectionModel.ServerName,
-                key => CreateNewConnectionTuple(connectionModel),
-                (key, existingTuple) =>
-                {
-                    if (existingTuple.Item2.HasExpired())
-                    {
-                        return CreateNewConnectionTuple(connectionModel);
-                    }
-                    else
-                    {
-                        return existingTuple;
-                    }
-                });
-            return connectionTuple.Item1;
+            return GetConnection(connectionModel.ServerName, connectionModel.UserName, connectionModel.Password,
+                connectionModel.Binding, connectionModel.Port);
         }
 
-        public IConnectedServer GetIsolatedConnection(ConnectionModel connectionModel)
+        private IConnectedServer GetConnection(string serverName, string userName, string password, string binding, int port)
         {
-            return CreateServerConnection(connectionModel);
-        }
+            var connection = ClientFactory.CreateConnection(
+                serverName,
+                port,
+                binding,
+                userName,
+                password);
 
-        private Tuple<IConnectedServer, DateTime> CreateNewConnectionTuple(ConnectionModel connectionModel)
-        {
-            var connectedServer = CreateServerConnection(connectionModel);
-            var expiryDate = connectionModel.ConnectionExpiresInMinutes.GetExpiryDate();
-            return new Tuple<IConnectedServer, DateTime>(connectedServer, expiryDate);
-        }
-
-        private IConnectedServer CreateServerConnection(ConnectionModel connectionModel)
-        {
-            return ServerManager.ConnectToServer(
-                connectionModel.ServerName,
-                connectionModel.Port,
-                connectionModel.UserName,
-                _passwordService.CreateSecurePassword(connectionModel.Password),
-                connectionModel.Binding);
+            return connection;
         }
     }
 }
