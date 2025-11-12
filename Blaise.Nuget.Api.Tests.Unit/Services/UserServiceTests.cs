@@ -249,7 +249,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             // assert
             _passwordServiceMock.Verify(v => v.CreateSecurePassword(_password), Times.Once);
-            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Exactly(2));
+            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
             _userMock.As<IUser2>().Verify(v => v.ChangePassword(_securePassword), Times.Once);
             _userMock.Verify(v => v.Save(), Times.Once);
         }
@@ -264,7 +264,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _sut.UpdateRole(_connectionModel, _userName, role);
 
             // assert
-            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Exactly(2));
+            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
 
             _userMock.As<IUser2>().VerifySet(u => u.Role = role, Times.Once);
             _userMock.Verify(v => v.Save(), Times.Once);
@@ -286,7 +286,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _sut.UpdateServerParks(_connectionModel, _userName, serverParkNameList, defaultServerPark);
 
             // assert
-            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Exactly(2));
+            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
 
             _userMock.Verify(u => u.ServerParks.Clear(), Times.Once);
 
@@ -324,7 +324,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _sut.UpdateServerParks(_connectionModel, _userName, serverParkNameList, defaultServerPark);
 
             // assert
-            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Exactly(2));
+            _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
 
             _userMock.Verify(u => u.ServerParks.Clear(), Times.Once);
 

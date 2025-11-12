@@ -35,8 +35,7 @@ namespace Blaise.Nuget.Api.Core.Factories
                     {
                         return existingTuple;
                     }
-                }
-            );
+                });
             return connectionTuple.Item1;
         }
 
