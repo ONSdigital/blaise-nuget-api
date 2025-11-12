@@ -2,7 +2,6 @@ namespace Blaise.Nuget.Api.Core.Factories
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Nuget.Api.Core.Extensions;
     using Blaise.Nuget.Api.Core.Interfaces.Factories;
@@ -18,6 +17,23 @@ namespace Blaise.Nuget.Api.Core.Factories
         {
             _passwordService = passwordService;
             _connections = new ConcurrentDictionary<string, Tuple<IConnectedServer, DateTime>>(StringComparer.OrdinalIgnoreCase);
+        }
+
+        public IConnectedServer GetIsolatedConnection(ConnectionModel connectionModel)
+        {
+            if (_connections.TryGetValue(connectionModel.UserName, out var connection) &&
+                !connection.Item2.HasExpired())
+            {
+                return connection.Item1;
+            }
+
+            var connectedServer = GetConnection(connectionModel);
+            var expiry = DateTime.Now.AddMinutes(connectionModel.ConnectionExpiresInMinutes);
+            _connections.AddOrUpdate(connectionModel.UserName,
+                new Tuple<IConnectedServer, DateTime>(connectedServer, expiry),
+                (key, old) => new Tuple<IConnectedServer, DateTime>(connectedServer, expiry));
+
+            return connectedServer;
         }
 
         public IConnectedServer GetConnection(ConnectionModel connectionModel)
