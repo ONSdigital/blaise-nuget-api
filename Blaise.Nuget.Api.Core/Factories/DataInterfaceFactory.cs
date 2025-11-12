@@ -5,7 +5,6 @@ namespace Blaise.Nuget.Api.Core.Factories
 
     public class DataInterfaceFactory : IDataInterfaceFactory
     {
-        /// <inheritdoc/>
         public IDataInterface GetDataInterfaceForFile(string dataSourceFileName)
         {
             var dataInterface = DataInterfaceManager.GetDataInterface();
@@ -20,7 +19,6 @@ namespace Blaise.Nuget.Api.Core.Factories
             return dataInterface;
         }
 
-        /// <inheritdoc/>
         public void UpdateDataFileSource(IDataInterface dataInterface, string dataSourceFileName)
         {
             var connectionBuilder = DataInterfaceManager.GetBlaiseConnectionStringBuilder();
@@ -28,7 +26,6 @@ namespace Blaise.Nuget.Api.Core.Factories
             dataInterface.ConnectionInfo.SetConnectionString(connectionBuilder.ConnectionString);
         }
 
-        /// <inheritdoc/>
         public IDataInterface GetDataInterfaceForSql(string databaseConnectionString)
         {
             var dataInterface = DataInterfaceManager.GetDataInterface();
@@ -43,7 +40,6 @@ namespace Blaise.Nuget.Api.Core.Factories
             return dataInterface;
         }
 
-        /// <inheritdoc/>
         public IGeneralDataInterface GetSettingsDataInterfaceForSql(
             string databaseConnectionString,
             ApplicationType applicationType)

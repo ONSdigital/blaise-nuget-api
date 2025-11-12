@@ -242,7 +242,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Give_Valid_Parameters_When_I_Call_UpdatePassword_Then_The_Correct_Services_Are_Called()
+        public void Given_Valid_Parameters_When_I_Call_UpdatePassword_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.UpdatePassword(_connectionModel, _userName, _password);
