@@ -22,4 +22,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="StatNeth.Blaise.API.x64" Version="5.16.3.4037" />
+  </ItemGroup>
+
 </Project>
