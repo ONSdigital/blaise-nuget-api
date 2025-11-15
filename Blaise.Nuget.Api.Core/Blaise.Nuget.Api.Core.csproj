@@ -8,8 +8,4 @@
     <ProjectReference Include="..\Blaise.Nuget.Api.Contracts\Blaise.Nuget.Api.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="StatNeth.Blaise.API.x64" Version="5.16.3.4037" />
-  </ItemGroup>
-
 </Project>
