@@ -110,7 +110,8 @@ stages:
         packagesToPack: '**/Blaise.Nuget.Api.csproj;**/Blaise.Nuget.Api.Contracts.csproj'
         packDirectory: $(Build.ArtifactStagingDirectory)
         versioningScheme: byEnvVar
-        versionEnvVar: Version        arguments: --configuration $(buildConfiguration) --no-build
+        versionEnvVar: Version
+        arguments: --configuration $(buildConfiguration) --no-build
 
     - task: DotNetCoreCLI@2
       displayName: Run push
