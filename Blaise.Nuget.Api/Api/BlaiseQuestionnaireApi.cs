@@ -146,7 +146,7 @@ namespace Blaise.Nuget.Api.Api
 
             if (clearCati)
             {
-                // placeholder for future implementation in Blaise 5.14+
+                // TODO: implement clearing cati on questionnaire uninstall...
             }
 
             if (dropTables)

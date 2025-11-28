@@ -33,23 +33,21 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         }
 
         [Test]
-        public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseAuditTrailApi_No_Exceptions_Are_Thrown()
+        public void Given_No_Connection_Model_When_I_Instantiate_BlaiseAuditTrailApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.That(() => new BlaiseAuditTrailApi(), Throws.Nothing);
         }
 
         [Test]
-        public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseAuditTrailApi_No_Exceptions_Are_Thrown()
+        public void Given_A_Connection_Model_When_I_Instantiate_BlaiseAuditTrailApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.That(() => new BlaiseAuditTrailApi(new ConnectionModel()), Throws.Nothing);
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetAuditTrail_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_GetAuditTrail_Then_The_Correct_Service_Method_Is_Called()
         {
             // act
             _sut.GetAuditTrail(_questionnaireName, _serverParkName);
@@ -64,7 +62,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetAuditTrail_Then_It_Returns_The_Data_From_The_Service()
+        public void When_I_Call_GetAuditTrail_Then_The_Data_From_The_Service_Is_Returned()
         {
             // arrange
             var expectedAuditTrailData = new List<AuditTrailDataModel>();
@@ -82,7 +80,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         }
 
         [Test]
-        public void Given_A_Null_QuestionnaireName_When_I_Call_GetAuditTrail_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_Questionnaire_Name_When_I_Call_GetAuditTrail_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetAuditTrail(null, _serverParkName));
@@ -90,7 +88,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         }
 
         [Test]
-        public void Given_An_Empty_QuestionnaireName_When_I_Call_GetAuditTrail_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_Questionnaire_Name_When_I_Call_GetAuditTrail_Then_An_ArgumentException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetAuditTrail(string.Empty, _serverParkName));
@@ -98,7 +96,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         }
 
         [Test]
-        public void Given_A_Null_ServerParkName_When_I_Call_GetAuditTrail_Then_An_ArgumentNullException_Is_Thrown()
+        public void Given_A_Null_Server_Park_Name_When_I_Call_GetAuditTrail_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.GetAuditTrail(_questionnaireName, null));
@@ -106,7 +104,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.AuditTrail
         }
 
         [Test]
-        public void Given_An_Empty_ServerParkName_When_I_Call_GetAuditTrail_Then_An_ArgumentException_Is_Thrown()
+        public void Given_An_Empty_Server_Park_Name_When_I_Call_GetAuditTrail_Then_An_ArgumentException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentException>(() => _sut.GetAuditTrail(_questionnaireName, string.Empty));

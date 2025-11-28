@@ -22,28 +22,28 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
 
         [Ignore("Integration")]
         [Test]
-        public void Given_Value_Set_When_I_Call_GetLastUpdatedDateTime_Then_The_Correct_Value_Is_Returned()
+        public void Given_LastUpdated_Values_Are_Set_When_I_Call_GetLastUpdated_Then_The_Correct_Value_Is_Returned()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "OPN2102R";
-            const string dateValue = "02-12-2021";
-            const string timeValue = "09:23:59";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "OPN2102R";
+            const string DateValue = "02-12-2021";
+            const string TimeValue = "09:23:59";
 
-            var lastUpdated = DateTime.ParseExact($"{dateValue} {timeValue}", "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
+            var lastUpdated = DateTime.ParseExact($"{DateValue} {TimeValue}", "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
 
             var fieldData = new Dictionary<string, string>
             {
                 { FieldNameType.HOut.FullName(), "110" },
                 { FieldNameType.TelNo.FullName(), "07000000000" },
-                { FieldNameType.LastUpdatedDate.FullName(), dateValue },
-                { FieldNameType.LastUpdatedTime.FullName(), timeValue },
+                { FieldNameType.LastUpdatedDate.FullName(), DateValue },
+                { FieldNameType.LastUpdatedTime.FullName(), TimeValue },
             };
 
-            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, QuestionnaireName, ServerParkName);
 
             // act
-            var dataRecord = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
+            var dataRecord = _sut.GetCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
 
             var result = _sut.GetLastUpdated(dataRecord);
 
@@ -51,36 +51,36 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Field
             Assert.That(result, Is.EqualTo(lastUpdated));
 
             // cleanup
-            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
         }
 
         [Ignore("Integration")]
         [Test]
-        public void Given_Value_Set_When_I_Call_GetField_Then_The_Correct_Value_Is_Returned()
+        public void Given_A_Field_Value_Is_Set_When_I_Call_GetFieldValue_Then_The_Correct_Value_Is_Returned()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "OPN2102R";
-            const string telNoValue = "07000000000";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "OPN2102R";
+            const string TelNoValue = "07000000000";
 
             var fieldData = new Dictionary<string, string>
             {
                 { FieldNameType.HOut.FullName(), "110" },
-                { FieldNameType.TelNo.FullName(), telNoValue },
+                { FieldNameType.TelNo.FullName(), TelNoValue },
             };
 
-            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, QuestionnaireName, ServerParkName);
 
             // act
-            var dataRecord = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
+            var dataRecord = _sut.GetCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
 
             var result = _sut.GetFieldValue(dataRecord, FieldNameType.TelNo);
 
             // assert
-            Assert.That(result.ValueAsText, Is.EqualTo(telNoValue));
+            Assert.That(result.ValueAsText, Is.EqualTo(TelNoValue));
 
             // cleanup
-            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
         }
     }
 }

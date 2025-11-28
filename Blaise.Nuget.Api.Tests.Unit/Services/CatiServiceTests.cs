@@ -67,7 +67,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _questionnaireServiceMock.Setup(ss => ss.GetQuestionnaireId(_connectionModel, _questionnaireName, _serverParkName))
                 .Returns(_questionnaireId);
 
-            // setup service under test
+            // service under test
             _sut = new CatiService(_catiProviderMock.Object, _questionnaireServiceMock.Object);
         }
 
@@ -75,12 +75,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_Questionnaires_Are_Installed_When_I_Call_GetInstalledQuestionnaires_Then_The_Correct_Services_Are_Called()
         {
             // arrange
-            const string questionnaire1 = "OPN2004a";
-            const string questionnaire2 = "OPN2010a";
+            const string Questionnaire1 = "OPN2004a";
+            const string Questionnaire2 = "OPN2010a";
             var installedQuestionnaires = new Dictionary<string, Guid>
             {
-                { questionnaire1, Guid.NewGuid() },
-                { questionnaire2, Guid.NewGuid() },
+                { Questionnaire1, Guid.NewGuid() },
+                { Questionnaire2, Guid.NewGuid() },
             };
 
             var questionnaireMock = new Mock<ISurvey>();
@@ -97,20 +97,20 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 v => v.GetCatiManagementForServerPark(_connectionModel, _serverParkName),
                 Times.Once);
 
-            _questionnaireServiceMock.Verify(v => v.GetQuestionnaire(_connectionModel, questionnaire1, _serverParkName), Times.Once);
-            _questionnaireServiceMock.Verify(v => v.GetQuestionnaire(_connectionModel, questionnaire2, _serverParkName), Times.Once);
+            _questionnaireServiceMock.Verify(v => v.GetQuestionnaire(_connectionModel, Questionnaire1, _serverParkName), Times.Once);
+            _questionnaireServiceMock.Verify(v => v.GetQuestionnaire(_connectionModel, Questionnaire2, _serverParkName), Times.Once);
         }
 
         [Test]
-        public void Given_Questionnaires_Are_Installed_When_I_Call_GetInstalledQuestionnaires_Then_An_Correct_List_Is_Returned()
+        public void Given_Questionnaires_Are_Installed_When_I_Call_GetInstalledQuestionnaires_Then_A_Correct_List_Is_Returned()
         {
             // arrange
-            const string questionnaire1 = "OPN2004a";
-            const string questionnaire2 = "OPN2010a";
+            const string Questionnaire1 = "OPN2004a";
+            const string Questionnaire2 = "OPN2010a";
             var installedQuestionnaires = new Dictionary<string, Guid>
             {
-                { questionnaire1, Guid.NewGuid() },
-                { questionnaire2, Guid.NewGuid() },
+                { Questionnaire1, Guid.NewGuid() },
+                { Questionnaire2, Guid.NewGuid() },
             };
 
             var questionnaireMock = new Mock<ISurvey>();
@@ -144,15 +144,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_Questionnaires_Is_Installed_When_I_Call_GetInstalledQuestionnaire_Then_The_Correct_Services_Are_Called()
+        public void Given_A_Questionnaire_Is_Installed_When_I_Call_GetInstalledQuestionnaire_Then_The_Correct_Services_Are_Called()
         {
             // arrange
-            const string questionnaire1 = "OPN2004a";
-            const string questionnaire2 = "OPN2010a";
+            const string Questionnaire1 = "OPN2004a";
+            const string Questionnaire2 = "OPN2010a";
             var installedQuestionnaires = new Dictionary<string, Guid>
             {
-                { questionnaire1, Guid.NewGuid() },
-                { questionnaire2, Guid.NewGuid() },
+                { Questionnaire1, Guid.NewGuid() },
+                { Questionnaire2, Guid.NewGuid() },
                 { _questionnaireName, Guid.NewGuid() },
             };
 
@@ -178,12 +178,12 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_A_Questionnaire_Is_Installed_When_I_Call_GetInstalledQuestionnaire_Then_The_Correct_Questionnaire_Is_Returned()
         {
             // arrange
-            const string questionnaire1 = "OPN2004a";
-            const string questionnaire2 = "OPN2010a";
+            const string Questionnaire1 = "OPN2004a";
+            const string Questionnaire2 = "OPN2010a";
             var installedQuestionnaires = new Dictionary<string, Guid>
             {
-                { questionnaire1, Guid.NewGuid() },
-                { questionnaire2, Guid.NewGuid() },
+                { Questionnaire1, Guid.NewGuid() },
+                { Questionnaire2, Guid.NewGuid() },
                 { _questionnaireName, Guid.NewGuid() },
             };
 
@@ -202,15 +202,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_Questionnaire_Is_Not_Installed_When_I_Call_GetInstalledQuestionnaire_Then_A_DataNotFound_Exception_Is_Thrown()
+        public void Given_A_Questionnaire_Is_Not_Installed_When_I_Call_GetInstalledQuestionnaire_Then_A_DataNotFoundException_Is_Thrown()
         {
             // arrange
-            const string questionnaire1 = "OPN2004a";
-            const string questionnaire2 = "OPN2010a";
+            const string Questionnaire1 = "OPN2004a";
+            const string Questionnaire2 = "OPN2010a";
             var installedQuestionnaires = new Dictionary<string, Guid>
             {
-                { questionnaire1, Guid.NewGuid() },
-                { questionnaire2, Guid.NewGuid() },
+                { Questionnaire1, Guid.NewGuid() },
+                { Questionnaire2, Guid.NewGuid() },
             };
 
             var questionnaireMock = new Mock<ISurvey>();
@@ -304,7 +304,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_SetSurveyDay_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_SetSurveyDay_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.SetSurveyDay(_connectionModel, _questionnaireName, _serverParkName, DateTime.Today);
@@ -317,7 +317,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_SetSurveyDays_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_SetSurveyDays_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             var surveyDays = new List<DateTime>
@@ -337,7 +337,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetSurveyDays_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_GetSurveyDays_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.GetSurveyDays(_connectionModel, _questionnaireName, _serverParkName);
@@ -353,7 +353,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_RemoveSurveyDay_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_RemoveSurveyDay_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.RemoveSurveyDay(_connectionModel, _questionnaireName, _serverParkName, DateTime.Today);
@@ -366,7 +366,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_RemoveSurveyDays_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_RemoveSurveyDays_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             var surveyDays = new List<DateTime>
@@ -386,7 +386,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_MakeSuperAppointment_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_MakeSuperAppointment_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             var primaryKeyValue = "900001";

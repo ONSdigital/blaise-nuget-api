@@ -16,64 +16,64 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.QuestionnaireFile
 
         [Ignore("Integration")]
         [Test]
-        public void Given_I_Call_UpdateQuestionnaireFileWithAuditData_Then_The_Questionnaire_Is_Updated()
+        public void When_I_Call_UpdateQuestionnaireFileWithAuditData_Then_The_Questionnaire_Is_Updated()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "lms2301_ts6";
-            const string questionnaireFile = @"C:\Temp\LMS2301_TS61.bpkg";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "lms2301_ts6";
+            const string QuestionnaireFile = @"C:\Temp\LMS2301_TS61.bpkg";
 
-            CreateCases(100, questionnaireName, serverParkName);
+            CreateCases(100, QuestionnaireName, ServerParkName);
 
             // act and assert
-            Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithData(serverParkName, questionnaireName, questionnaireFile, true));
+            Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithData(ServerParkName, QuestionnaireName, QuestionnaireFile, true));
 
             // cleanup
-            DeleteCasesInDatabase(questionnaireName, serverParkName);
+            DeleteCasesInDatabase(QuestionnaireName, ServerParkName);
         }
 
         [Ignore("Integration")]
         [Test]
-        public void Given_I_Call_UpdateQuestionnaireFileWithData_Then_The_Questionnaire_Is_Updated()
+        public void When_I_Call_UpdateQuestionnaireFileWithData_Then_The_Questionnaire_Is_Updated()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "lms2301_ts6";
-            const string questionnaireFile = @"C:\Temp\LMS2301_TS61.bpkg";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "lms2301_ts6";
+            const string QuestionnaireFile = @"C:\Temp\LMS2301_TS61.bpkg";
 
-            CreateCases(100, questionnaireName, serverParkName);
+            CreateCases(100, QuestionnaireName, ServerParkName);
 
             // act and assert
-            Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithData(serverParkName, questionnaireName, questionnaireFile));
+            Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithData(ServerParkName, QuestionnaireName, QuestionnaireFile));
 
             // cleanup
-            DeleteCasesInDatabase(questionnaireName, serverParkName);
+            DeleteCasesInDatabase(QuestionnaireName, ServerParkName);
         }
 
         [Ignore("Integration")]
         [Test]
-        public void Given_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_The_Questionnaire_Is_Updated()
+        public void When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_The_Questionnaire_Is_Updated()
         {
             // arrange
-            const string questionnaireName = "LMS2101_AA1";
-            const string questionnaireFile = @"D:\Blaise\Questionnaires\LMS2101_AA1.bpkg";
+            const string QuestionnaireName = "LMS2101_AA1";
+            const string QuestionnaireFile = @"D:\Blaise\Questionnaires\LMS2101_AA1.bpkg";
 
             // act and assert
             Assert.DoesNotThrow(() => _sut.UpdateQuestionnaireFileWithSqlConnection(
-                questionnaireName,
-                questionnaireFile));
+                QuestionnaireName,
+                QuestionnaireFile));
         }
 
         [Ignore("Integration")]
         [Test]
-        public void Given_I_Call_CreateSettingsDataInterfaceFile_Then_The_Interface_Is_Created()
+        public void When_I_Call_CreateSettingsDataInterfaceFile_Then_The_Interface_Is_Created()
         {
             // arrange
-            const ApplicationType applicationType = ApplicationType.Cati;
-            const string fileName = @"D:\OPN2101A.bcdi";
+            const ApplicationType ApplicationType = ApplicationType.Cati;
+            const string FileName = @"D:\OPN2101A.bcdi";
 
             // act and assert
-            Assert.DoesNotThrow(() => _sut.CreateSettingsDataInterfaceFile(applicationType, fileName));
+            Assert.DoesNotThrow(() => _sut.CreateSettingsDataInterfaceFile(ApplicationType, FileName));
         }
 
         private static void CreateCases(int numberOfCases, string questionnaireName, string serverParkName)

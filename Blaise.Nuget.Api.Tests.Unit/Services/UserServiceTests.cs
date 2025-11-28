@@ -88,19 +88,18 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             _connectionFactoryMock = new Mock<IConnectedServerFactory>();
             _connectionFactoryMock.Setup(c => c.GetConnection(_connectionModel)).Returns(_connectedServerMock.Object);
-            _connectedServerMock.Setup(c => c.AddUser(It.IsAny<string>(), It.IsAny<SecureString>()))
-                .Returns(_userMock.Object);
+            _connectedServerMock.Setup(c => c.AddUser(It.IsAny<string>(), It.IsAny<SecureString>())).Returns(_userMock.Object);
 
             // setup password service
             _passwordServiceMock = new Mock<IPasswordService>();
             _passwordServiceMock.Setup(p => p.CreateSecurePassword(It.IsAny<string>())).Returns(_securePassword);
 
-            // setup service under test
+            // service under test
             _sut = new UserService(_connectionFactoryMock.Object, _passwordServiceMock.Object);
         }
 
         [Test]
-        public void Given_I_Call_GetUsers_Then_A_List_Of_IUser_Objects_Are_Returned()
+        public void When_I_Call_GetUsers_Then_A_List_Of_IUser_Objects_Is_Returned()
         {
             // arrange
             _connectedServerMock.Setup(c => c.Users).Returns(_userCollectionMock.Object);
@@ -113,7 +112,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_Users_Exist_When_I_Call_GetUsers_Then_The_Correct_List_Of_Users_Are_returned()
+        public void Given_Users_Exist_When_I_Call_GetUsers_Then_The_Correct_List_Of_Users_Is_Returned()
         {
             // arrange
             _connectedServerMock.Setup(c => c.Users).Returns(_userCollectionMock.Object);
@@ -126,7 +125,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetUser_Then_An_IUser_Object_Is_Returned()
+        public void When_I_Call_GetUser_Then_An_IUser_Object_Is_Returned()
         {
             // arrange
             _connectedServerMock.Setup(c => c.Users).Returns(_userCollectionMock.Object);
@@ -181,7 +180,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_AddUser_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_AddUser_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             var serverParkNameList = new List<string>
@@ -190,17 +189,17 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 "ServerPark2",
             };
 
-            const string defaultServerPark = "ServerPark1";
-            const string role = "King";
+            const string DefaultServerPark = "ServerPark1";
+            const string Role = "King";
 
             // act
-            _sut.AddUser(_connectionModel, _userName, _password, role, serverParkNameList, defaultServerPark);
+            _sut.AddUser(_connectionModel, _userName, _password, Role, serverParkNameList, DefaultServerPark);
 
             // assert
             _passwordServiceMock.Verify(v => v.CreateSecurePassword(_password), Times.Once);
             _connectedServerMock.Verify(v => v.AddUser(_userName, _securePassword), Times.Once);
 
-            _userMock.As<IUser2>().VerifySet(u => u.Role = role, Times.Once);
+            _userMock.As<IUser2>().VerifySet(u => u.Role = Role, Times.Once);
 
             foreach (var serverParkName in serverParkNameList)
             {
@@ -212,7 +211,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_An_Error_Occurs_When_Setting_The_User_Role_When_I_Call_AddUser_Then_The_Other_Setup_Steps_Still_Complete()
+        public void Given_An_Error_Occurs_Setting_The_User_Role_When_I_Call_AddUser_Then_The_Other_Setup_Steps_Still_Complete()
         {
             // arrange
             var serverParkNameList = new List<string>
@@ -220,15 +219,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 "ServerPark1",
                 "ServerPark2",
             };
-            const string role = "King";
-            const string defaultServerPark = "ServerPark1";
+            const string Role = "King";
+            const string DefaultServerPark = "ServerPark1";
 
             _userMock.As<IUser2>().SetupSet(u => u.Role = It.IsAny<string>()).Throws(new Exception("Role error"));
 
             // act and assert
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => _sut.AddUser(_connectionModel, _userName, _password, role, serverParkNameList, defaultServerPark));
+                Assert.DoesNotThrow(() => _sut.AddUser(_connectionModel, _userName, _password, Role, serverParkNameList, DefaultServerPark));
                 _passwordServiceMock.Verify(v => v.CreateSecurePassword(_password), Times.Once);
                 _connectedServerMock.Verify(v => v.AddUser(_userName, _securePassword), Times.Once);
 
@@ -242,7 +241,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_Valid_Parameters_When_I_Call_UpdatePassword_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_UpdatePassword_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.UpdatePassword(_connectionModel, _userName, _password);
@@ -255,23 +254,23 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_UpdateRole_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_UpdateRole_Then_The_Correct_Services_Are_Called()
         {
             // arrange
-            const string role = "King";
+            const string Role = "King";
 
             // act
-            _sut.UpdateRole(_connectionModel, _userName, role);
+            _sut.UpdateRole(_connectionModel, _userName, Role);
 
             // assert
             _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
 
-            _userMock.As<IUser2>().VerifySet(u => u.Role = role, Times.Once);
+            _userMock.As<IUser2>().VerifySet(u => u.Role = Role, Times.Once);
             _userMock.Verify(v => v.Save(), Times.Once);
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_UpdateServerParks_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_UpdateServerParks_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             var serverParkNameList = new List<string>
@@ -280,10 +279,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 "ServerPark2",
             };
 
-            const string defaultServerPark = "ServerPark2";
+            const string DefaultServerPark = "ServerPark2";
 
             // act
-            _sut.UpdateServerParks(_connectionModel, _userName, serverParkNameList, defaultServerPark);
+            _sut.UpdateServerParks(_connectionModel, _userName, serverParkNameList, DefaultServerPark);
 
             // assert
             _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
@@ -301,9 +300,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_Preference_Already_Exists_When_I_Call_UpdateServerParks_Then_Preference_Is_Not_Added_Again()
+        public void Given_Preference_Already_Exists_When_I_Call_UpdateServerParks_Then_The_Preference_Is_Not_Added_Again()
         {
-            // Mock user preference
+            // mock user preference
             _userPreferenceMock = new Mock<IUserPreference>();
             _userPreferenceMock.Setup(s => s.Type).Returns("CATI.Preferences");
             _userPreferenceMock.Setup(s => s.Value).Returns($"<CatiDashboard><ServerPark>ServerPark1</ServerPark></CatiDashboard>");
@@ -318,10 +317,10 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 "ServerPark2",
             };
 
-            const string defaultServerPark = "ServerPark1";
+            const string DefaultServerPark = "ServerPark1";
 
             // act
-            _sut.UpdateServerParks(_connectionModel, _userName, serverParkNameList, defaultServerPark);
+            _sut.UpdateServerParks(_connectionModel, _userName, serverParkNameList, DefaultServerPark);
 
             // assert
             _connectedServerMock.Verify(v => v.Users.GetItem(_userName), Times.Once);
@@ -339,7 +338,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_RemoveUser_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_RemoveUser_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.RemoveUser(_connectionModel, _userName);

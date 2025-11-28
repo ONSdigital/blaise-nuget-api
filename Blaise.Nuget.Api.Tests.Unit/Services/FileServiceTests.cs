@@ -34,26 +34,26 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase(ApplicationType.Meta)]
         [TestCase(ApplicationType.Session)]
         public void
-            Given_An_ApplicationType_When_I_Call_CreateSettingsDataInterfaceFile_Then_The_DatabaseName_Is_Updated_In_The_Connection_String(
+            Given_An_Application_Type_When_I_Call_CreateSettingsDataInterfaceFile_Then_The_Database_Name_Is_Updated_In_The_Connection_String(
                 ApplicationType applicationType)
         {
             // arrange
-            const string fileName = "LMS2101_BK1";
-            const string existingConnectionString = "User Id=username;Server=ipaddress;Database=blaise;Password=password";
+            const string FileName = "LMS2101_BK1";
+            const string ExistingConnectionString = "User Id=username;Server=ipaddress;Database=blaise;Password=password";
 
             var expectedConnectionString
                 = $"User Id=username;Server=ipaddress;Database={applicationType.ToString().ToLower()};Password=password";
 
             _configurationMock.Setup(c => c.DatabaseConnectionString)
-                .Returns(existingConnectionString);
+                .Returns(ExistingConnectionString);
 
             // act
-            _sut.CreateSettingsDataInterfaceFile(applicationType, fileName);
+            _sut.CreateSettingsDataInterfaceFile(applicationType, FileName);
 
             // assert
             _dataInterfaceMock.Verify(
                 v => v.CreateSettingsDataInterface(
-                expectedConnectionString, applicationType, fileName), Times.Once);
+                expectedConnectionString, applicationType, FileName), Times.Once);
         }
     }
 }

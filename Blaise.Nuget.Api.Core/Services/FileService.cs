@@ -13,19 +13,13 @@ namespace Blaise.Nuget.Api.Core.Services
     public class FileService : IFileService
     {
         private const string DatabaseFileNameExt = "bdix";
-
         private const string DatabaseSourceExt = "bdbx";
-
         private const string DatabaseModelExt = "bmix";
 
         private readonly IBlaiseConfigurationProvider _configurationProvider;
-
         private readonly IDataInterfaceProvider _dataInterfaceService;
-
         private readonly ICaseService _caseService;
-
         private readonly IAuditTrailService _auditTrailService;
-
         private readonly ISqlService _sqlService;
 
         public FileService(

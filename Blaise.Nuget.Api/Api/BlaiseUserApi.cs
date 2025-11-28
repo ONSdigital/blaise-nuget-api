@@ -60,7 +60,7 @@ namespace Blaise.Nuget.Api.Api
             userName.ThrowExceptionIfNullOrEmpty("userName");
             password.ThrowExceptionIfNullOrEmpty("password");
             role.ThrowExceptionIfNullOrEmpty("role");
-            defaultServerPark.ThrowExceptionIfNullOrEmpty("DefaultServerPark");
+            defaultServerPark.ThrowExceptionIfNullOrEmpty("defaultServerPark");
 
             _userService.AddUser(_connectionModel, userName, password, role, serverParkNames, defaultServerPark);
         }

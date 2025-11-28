@@ -44,7 +44,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseRoleApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.That(() => new BlaiseRoleApi(), Throws.Nothing);
         }
 
@@ -52,12 +51,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseRoleApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.That(() => new BlaiseRoleApi(new ConnectionModel()), Throws.Nothing);
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetRoles_Then_The_Correct_List_Of_Roles_Are_Returned()
+        public void When_I_Call_GetRoles_Then_The_Correct_List_Of_Roles_Is_Returned()
         {
             // arrange
             var roleMock = new Mock<IRole>();
@@ -73,7 +71,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetRole_Then_The_Correct_Role_Is_Returned()
+        public void When_I_Call_GetRole_Then_The_Correct_Role_Is_Returned()
         {
             // arrange
             var roleMock = new Mock<IRole>();
@@ -105,7 +103,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Given_Valid_Arguments_When_I_Call_RoleExists_Then_The_Correct_Value_Is_Returned(bool exists)
+        public void When_I_Call_RoleExists_Then_The_Correct_Value_Is_Returned(bool exists)
         {
             _roleServiceMock.Setup(r => r.RoleExists(_connectionModel, _name)).Returns(exists);
 
@@ -133,7 +131,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_AddRole_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_AddRole_Then_The_Correct_Service_Method_Is_Called()
         {
             // act
             _sut.AddRole(_name, _description, _permissions);
@@ -159,7 +157,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_RemoveRole_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_RemoveRole_Then_The_Correct_Service_Method_Is_Called()
         {
             // act
             _sut.RemoveRole(_name);
@@ -185,7 +183,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Role
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_UpdateRolePermissions_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_UpdateRolePermissions_Then_The_Correct_Service_Method_Is_Called()
         {
             // act
             _sut.UpdateRolePermissions(_name, _permissions);

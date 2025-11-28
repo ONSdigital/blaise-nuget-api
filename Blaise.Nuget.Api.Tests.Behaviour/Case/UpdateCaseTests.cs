@@ -20,34 +20,34 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 
         [Ignore("Integration")]
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_Update_An_Existing_Case_Then_The_Case_Is_Updated()
+        public void When_I_Call_UpdateCase_Then_The_Case_Is_Updated()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "OPN2101A";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "OPN2101A";
             var fieldData = new Dictionary<string, string>
             {
                 { FieldNameType.HOut.FullName(), "110" },
                 { FieldNameType.TelNo.FullName(), "07000000000" },
             };
 
-            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, QuestionnaireName, ServerParkName);
 
             fieldData[FieldNameType.TelNo.FullName()] = "0711111111";
 
-            var existingCase = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
+            var existingCase = _sut.GetCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
 
             // act
-            _sut.UpdateCase(existingCase, fieldData, questionnaireName, serverParkName);
+            _sut.UpdateCase(existingCase, fieldData, QuestionnaireName, ServerParkName);
 
-            existingCase = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
+            existingCase = _sut.GetCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
             var fields = _sut.GetRecordDataFields(existingCase);
 
             // assert
             Assert.That(fields[FieldNameType.TelNo.FullName()], Is.EqualTo("0711111111"));
 
             // cleanup
-            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
         }
 
         [Ignore("Integration")]
@@ -55,9 +55,9 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         public void Given_An_Existing_Case_Is_Locked_When_I_Call_DataRecordIsLocked_Then_True_Is_Returned()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "OPN2101A";
-            const string lockId = "Lock123";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "OPN2101A";
+            const string LockId = "Lock123";
 
             var fieldData = new Dictionary<string, string>
             {
@@ -65,18 +65,18 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                 { FieldNameType.TelNo.FullName(), "07000000000" },
             };
 
-            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
-            _sut.LockDataRecord(_primaryKeyValues, questionnaireName, serverParkName, lockId);
+            _sut.CreateCase(_primaryKeyValues, fieldData, QuestionnaireName, ServerParkName);
+            _sut.LockDataRecord(_primaryKeyValues, QuestionnaireName, ServerParkName, LockId);
 
             // act
-            var result = _sut.DataRecordIsLocked(_primaryKeyValues, questionnaireName, serverParkName);
+            var result = _sut.DataRecordIsLocked(_primaryKeyValues, QuestionnaireName, ServerParkName);
 
             // assert
             Assert.That(result, Is.True);
 
             // cleanup
-            _sut.UnLockDataRecord(_primaryKeyValues, questionnaireName, serverParkName, lockId);
-            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
+            _sut.UnLockDataRecord(_primaryKeyValues, QuestionnaireName, ServerParkName, LockId);
+            _sut.RemoveCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
         }
 
         [Ignore("Integration")]
@@ -84,8 +84,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         public void Given_An_Existing_Case_Is_Not_Locked_When_I_Call_DataRecordIsLocked_Then_False_Is_Returned()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "OPN2101A";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "OPN2101A";
 
             var fieldData = new Dictionary<string, string>
             {
@@ -93,16 +93,16 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                 { FieldNameType.TelNo.FullName(), "07000000000" },
             };
 
-            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, QuestionnaireName, ServerParkName);
 
             // act
-            var result = _sut.DataRecordIsLocked(_primaryKeyValues, questionnaireName, serverParkName);
+            var result = _sut.DataRecordIsLocked(_primaryKeyValues, QuestionnaireName, ServerParkName);
 
             // assert
             Assert.That(result, Is.False);
 
             // cleanup
-            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
         }
     }
 }

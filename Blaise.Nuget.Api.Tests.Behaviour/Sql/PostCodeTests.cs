@@ -14,14 +14,14 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
 
         [Ignore("Integration")]
         [Test]
-        public void Given_An_QuestionnaireName_And_PrimaryKey_When_I_Call_GetPostCode_I_Get_A_PostCode_Back()
+        public void Given_A_Questionnaire_Name_And_Primary_Key_When_I_Call_GetPostCode_Then_The_Expected_PostCode_Is_Returned()
         {
             // arrange
-            const string questionnaireName = "dst2106A";
-            const string primaryKey = "1005101";
+            const string QuestionnaireName = "dst2106A";
+            const string PrimaryKey = "1005101";
 
             // act
-            var result = _sut.GetPostCode(questionnaireName, primaryKey);
+            var result = _sut.GetPostCode(QuestionnaireName, PrimaryKey);
 
             // assert
             Assert.That(result, Is.EqualTo("NP899XX"));

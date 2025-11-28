@@ -23,7 +23,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
 
         [Ignore("Integration")]
         [Test]
-        public void Given_I_Have_A_Valid_Questionnaire_It_Gets_Installed_On_A_Server_Park()
+        public void Given_A_Valid_Questionnaire_When_I_Call_InstallQuestionnaire_Then_The_Questionnaire_Is_Installed_On_The_Server_Park()
         {
             // arrange
             var installOptions = new InstallOptions
@@ -44,7 +44,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
 
         [Ignore("Integration")]
         [Test]
-        public void Given_An_Questionnaire_Is_Installed_When_I_Call_GetQuestionnaire_The_Correct_Questionnaire_Is_Returned()
+        public void Given_A_Questionnaire_Is_Installed_When_I_Call_GetQuestionnaire_The_Correct_Questionnaire_Is_Returned()
         {
             // act
             var result = _sut.GetQuestionnaire(QuestionnaireName, ServerParkName);
@@ -91,7 +91,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Questionnaire
 
         [Ignore("Integration")]
         [Test]
-        public void Given_A_Questionnaire_Is_Installed_In_When_I_Call_GetQuestionnaireDataEntrySettings_I_Get_A_Settings_Model_Back()
+        public void Given_A_Questionnaire_Is_Installed_When_I_Call_GetQuestionnaireDataEntrySettings_A_Settings_Model_Is_Returned()
         {
             // act
             var result = _sut.GetQuestionnaireDataEntrySettings(QuestionnaireName, ServerParkName);

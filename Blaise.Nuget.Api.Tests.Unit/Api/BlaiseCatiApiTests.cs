@@ -41,7 +41,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseCatiApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseCatiApi());
         }
 
@@ -49,12 +48,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseCatiApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseCatiApi(new ConnectionModel()));
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetInstalledQuestionnaires_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_GetInstalledQuestionnaires_Then_The_Correct_Service_Method_Is_Called()
         {
             // act
             _sut.GetInstalledQuestionnaires(_serverParkName);
@@ -80,7 +78,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetInstalledQuestionnaire_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_GetInstalledQuestionnaire_Then_The_Correct_Service_Method_Is_Called()
         {
             // act
             _sut.GetInstalledQuestionnaire(_questionnaireName, _serverParkName);
@@ -123,7 +121,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Given_Valid_Arguments_When_I_Call_CreateDayBatch_Then_The_Correct_Service_Method_Is_Called(bool checkForTreatedCases)
+        public void When_I_Call_CreateDayBatch_Then_The_Correct_Service_Method_Is_Called(bool checkForTreatedCases)
         {
             // arrange
             var dayBatchDate = DateTime.Now;
@@ -146,7 +144,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Given_Valid_Arguments_When_I_Call_CreateDayBatch_Then_A_DayBatchModel_Is_Returned(bool checkForTreatedCases)
+        public void When_I_Call_CreateDayBatch_Then_A_DayBatchModel_Is_Returned(bool checkForTreatedCases)
         {
             // arrange
             var dayBatchDate = DateTime.Now;
@@ -224,7 +222,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetDayBatch_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_GetDayBatch_Then_The_Correct_Service_Method_Is_Called()
         {
             // act
             _sut.GetDayBatch(_questionnaireName, _serverParkName);
@@ -271,7 +269,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_AddToDayBatch_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_AddToDayBatch_Then_The_Correct_Service_Method_Is_Called()
         {
             // act
             _sut.AddToDayBatch(_questionnaireName, _serverParkName, _primaryKeyValue);
@@ -335,7 +333,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_SetSurveyDay_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_SetSurveyDay_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             var surveyDay = DateTime.Now;
@@ -392,7 +390,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_SetSurveyDays_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_SetSurveyDays_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             var surveyDays = new List<DateTime>
@@ -485,7 +483,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetSurveyDays_Then_The_Expected_Result_Is_Returned()
+        public void When_I_Call_GetSurveyDays_Then_The_Expected_Result_Is_Returned()
         {
             var surveyDays = new List<DateTime>
             {
@@ -553,7 +551,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_RemoveSurveyDay_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_RemoveSurveyDay_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             var surveyDay = DateTime.Now;
@@ -610,7 +608,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_RemoveSurveyDays_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_RemoveSurveyDays_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             var surveyDays = new List<DateTime>
@@ -703,7 +701,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Cati
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_MakeSuperAppointment_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_MakeSuperAppointment_Then_The_Correct_Service_Method_Is_Called()
         {
             // act
             _sut.MakeSuperAppointment(_questionnaireName, _serverParkName, _primaryKeyValue);

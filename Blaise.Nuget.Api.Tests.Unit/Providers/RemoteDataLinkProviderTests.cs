@@ -60,7 +60,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_InstallDate_Has_Not_Changed_When_I_Call_GetDataLink_With_The_Same_QuestionnaireName_And_ServerParkName_More_Than_Once_Then_The_Same_DataLink_Is_Used()
+        public void Given_Install_Date_Has_Not_Changed_When_I_Call_GetDataLink_With_The_Same_Questionnaire_Name_And_Server_Park_Name_More_Than_Once_Then_The_Same_Data_Link_Is_Used()
         {
             // arrange
             _connectionModel.ConnectionExpiresInMinutes = 1;
@@ -76,7 +76,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_InstallDate_Has_Changed_I_Call_GetDataLink_With_The_Same_QuestionnaireName_And_ServerParkName_More_Than_Once_Then_A_New_DataLink_Is_Established()
+        public void Given_Install_Date_Has_Changed_When_I_Call_GetDataLink_With_The_Same_Questionnaire_Name_And_Server_Park_Name_More_Than_Once_Then_A_New_Data_Link_Is_Established()
         {
             // arrange
             _connectionModel.ConnectionExpiresInMinutes = 1;
@@ -95,7 +95,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_GetDataLink_With_The_Same_QuestionnaireName_And_ServerParkName_But_Connection_Has_expired_Then_A_New_DataLink_Is_Established()
+        public void Given_The_Connection_Has_Expired_When_I_Call_GetDataLink_With_The_Same_Questionnaire_Name_And_Server_Park_Name_Then_A_New_Data_Link_Is_Established()
         {
             // arrange
             _connectionModel.ConnectionExpiresInMinutes = 0;
@@ -112,7 +112,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_GetDataLink_With_A_Different_QuestionnaireName_More_Than_Once_Then_A_New_DataLink_Is_Established()
+        public void When_I_Call_GetDataLink_With_A_Different_Questionnaire_Name_More_Than_Once_Then_A_New_Data_Link_Is_Established()
         {
             // arrange
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
@@ -127,7 +127,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_GetDataLink_With_A_Different_ServerParkName_More_Than_Once_Then_A_New_DataLink_Is_Established()
+        public void When_I_Call_GetDataLink_With_A_Different_Server_Park_Name_More_Than_Once_Then_A_New_Data_Link_Is_Established()
         {
             // arrange
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());
@@ -142,7 +142,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_GetDataLink_With_A_Different_QuestionnaireName_And_ServerParkName_More_Than_Once_Then_A_New_DataLink_Is_Established()
+        public void When_I_Call_GetDataLink_With_A_Different_Questionnaire_Name_And_Server_Park_Name_More_Than_Once_Then_A_New_Data_Link_Is_Established()
         {
             // arrange
             _questionnaireServiceMock.Setup(p => p.GetQuestionnaireId(_connectionModel, It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<Guid>());

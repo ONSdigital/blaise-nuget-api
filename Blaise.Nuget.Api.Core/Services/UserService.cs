@@ -118,6 +118,7 @@ namespace Blaise.Nuget.Api.Core.Services
             catch
             {
                 // currently only way to validate user...
+                // TODO: ask StatNeth to implement auth user check..?
                 return false;
             }
             finally
@@ -142,7 +143,8 @@ namespace Blaise.Nuget.Api.Core.Services
             }
             catch
             {
-                // still continue..!?
+                // swallow exception
+                // TODO: should this still continue..? will create user without a role..?
             }
         }
 

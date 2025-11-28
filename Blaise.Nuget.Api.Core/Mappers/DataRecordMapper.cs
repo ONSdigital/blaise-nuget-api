@@ -29,7 +29,6 @@ namespace Blaise.Nuget.Api.Core.Mappers
             foreach (var field in fieldData)
             {
                 // adding try/catch when processing payload fields ensures the process continues
-                // even if a field doesn't match the Blaise data model we still want the process to continue
                 try
                 {
                     if (!definitionScope.FieldExists(field.Key))
@@ -40,10 +39,10 @@ namespace Blaise.Nuget.Api.Core.Mappers
                     var item = dataRecord.GetField(field.Key);
                     item.DataValue.Assign(field.Value);
                 }
-
-                // ReSharper disable once EmptyGeneralCatchClause
                 catch
                 {
+                    // swallow exception
+                    // even if a field doesn't match the Blaise data model we still want the process to continue
                 }
             }
 

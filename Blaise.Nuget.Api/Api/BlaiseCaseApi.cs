@@ -331,10 +331,9 @@ namespace Blaise.Nuget.Api.Api
                 _caseService.GetDataRecord(_connectionModel, primaryKeyValues, questionnaireName, serverParkName);
                 return false;
             }
-
-            // ReSharper disable once EmptyGeneralCatchClause
             catch
             {
+                // swallow exception
             }
 
             return true;
