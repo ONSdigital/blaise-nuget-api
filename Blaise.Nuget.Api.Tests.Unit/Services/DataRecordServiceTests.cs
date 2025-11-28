@@ -194,7 +194,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var result = _sut.GetDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName);
 
             // assert
-
             Assert.That(result, Is.SameAs(_dataRecordMock.Object));
         }
 

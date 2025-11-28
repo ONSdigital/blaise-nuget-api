@@ -58,7 +58,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         }
 
         [Test]
-        public void When_Calling_CaseExists_With_Valid_Arguments_Then_Correct_Service_Method_Should_Be_Called()
+        public void When_I_Call_CaseExists_Then_Correct_Service_Method_Is_Called()
         {
             // arrange
             _caseServiceMock.Setup(mock => mock.CaseExists(
@@ -508,13 +508,20 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
             // arrange
             var fieldData = new Dictionary<string, string>();
 
-            _caseServiceMock.Setup(d => d.CreateNewDataRecord(_connectionModel, It.IsAny<Dictionary<string, string>>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<string>(), It.IsAny<string>()));
+            _caseServiceMock.Setup(d => d.CreateNewDataRecord(
+                _connectionModel,
+                It.IsAny<Dictionary<string, string>>(),
+                It.IsAny<Dictionary<string, string>>(),
+                It.IsAny<string>(),
+                It.IsAny<string>()));
 
             // act
             _sut.CreateCase(_primaryKeyValues, fieldData, _questionnaireName, _serverParkName);
 
             // assert
-            _caseServiceMock.Verify(v => v.CreateNewDataRecord(_connectionModel, _primaryKeyValues, fieldData, _questionnaireName, _serverParkName), Times.Once);
+            _caseServiceMock.Verify(
+                v => v.CreateNewDataRecord(_connectionModel, _primaryKeyValues, fieldData, _questionnaireName, _serverParkName),
+                Times.Once);
         }
 
         [Test]
@@ -601,10 +608,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         }
 
         [Test]
-        public void When_I_Call_CreateCase_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_CreateCase_With_DataRecord_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             var dataRecord = new Mock<IDataRecord>();
+
             _caseServiceMock.Setup(d => d.CreateNewDataRecord(
                 _connectionModel,
                 It.IsAny<IDataRecord>(),
@@ -1169,7 +1177,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         [TestCase(FieldNameType.HOut)]
         [TestCase(FieldNameType.Mode)]
         [TestCase(FieldNameType.TelNo)]
-        public void When_I_Call_FieldExists_Then_The_Correct_Service_Method_Is_Called(FieldNameType fieldNameType)
+        public void When_I_Call_FieldExists_With_Connection_Details_Then_The_Correct_Service_Method_Is_Called(FieldNameType fieldNameType)
         {
             // arrange
             _caseServiceMock.Setup(d => d.FieldExists(
@@ -1250,7 +1258,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         [TestCase(FieldNameType.HOut)]
         [TestCase(FieldNameType.Mode)]
         [TestCase(FieldNameType.TelNo)]
-        public void When_I_Call_FieldExists_Then_The_Correct_Service_Method_Is_Called(FieldNameType fieldNameType)
+        public void When_I_Call_FieldExists_With_A_Data_Record_Then_The_Correct_Service_Method_Is_Called(FieldNameType fieldNameType)
         {
             // arrange
             var dataRecordMock = new Mock<IDataRecord>();
@@ -1642,7 +1650,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Case
         [Test]
         public void Given_A_Null_QuestionnaireName_When_I_Call_RemoveCase_Then_An_ArgumentNullException_Is_Thrown()
         {
-              // act and assert
+            // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.RemoveCase(_primaryKeyValues, null, _serverParkName));
             Assert.That(exception.ParamName, Is.EqualTo("questionnaireName"));
         }
