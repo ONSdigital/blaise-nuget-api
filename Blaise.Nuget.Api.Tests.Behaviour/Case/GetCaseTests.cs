@@ -20,27 +20,27 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 
         [Ignore("Integration")]
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetCase_Then_The_Case_is_Returned()
+        public void When_I_Call_GetCase_Then_The_Case_Is_Returned()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "OPN2102R";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "OPN2102R";
             var fieldData = new Dictionary<string, string>
             {
                 { FieldNameType.HOut.FullName(), "110" },
                 { FieldNameType.TelNo.FullName(), "07000000000" },
             };
 
-            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, QuestionnaireName, ServerParkName);
 
             // act
-            var result = _sut.GetCase(_primaryKeyValues, questionnaireName, serverParkName);
+            var result = _sut.GetCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
 
             // assert
             Assert.That(_sut.GetPrimaryKeyValues(result), Is.EqualTo(_primaryKeyValues));
 
             // cleanup
-            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
         }
 
         [Ignore("Integration")]
@@ -48,12 +48,12 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         public void Given_Cases_Exist_When_I_Specify_A_Filter_Then_The_Expected_Cases_Are_Returned()
         {
             // arrange
-            const string serverParkName = "gusty";
-            const string questionnaireName = "LMS2405_HU1";
-            const string filter = "Id=10";
+            const string ServerParkName = "gusty";
+            const string QuestionnaireName = "LMS2405_HU1";
+            const string Filter = "Id=10";
 
             // act
-            var result = _sut.GetFilteredCases(questionnaireName, serverParkName, filter);
+            var result = _sut.GetFilteredCases(QuestionnaireName, ServerParkName, Filter);
 
             // assert
             Assert.That(result.RecordCount, Is.EqualTo(5));

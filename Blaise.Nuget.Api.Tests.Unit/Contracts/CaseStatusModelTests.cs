@@ -9,7 +9,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
     public class CaseStatusModelTests
     {
         [Test]
-        public void Given_A_CaseStatusModel_Has_Populated_PrimaryKeys_When_I_Call_GetPrimaryKeyValue_The_Correct_PrimaryKey_Value_Is_Returned()
+        public void Given_A_Case_Status_Model_Has_Populated_Primary_Keys_When_I_Call_GetPrimaryKeyValue_Then_The_Correct_Primary_Key_Value_Is_Returned()
         {
             // arrange
             var primaryKeyName = "QID.Serial_Number";
@@ -25,7 +25,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
         }
 
         [Test]
-        public void Given_A_CaseStatusModel_Has_Populated_PrimaryKeys_When_I_Call_PrimaryKey_The_Correct_PrimaryKey_Value_Is_Returned()
+        public void Given_A_Case_Status_Model_Has_Populated_Primary_Keys_When_I_Access_The_Primary_Key_Property_Then_The_Correct_Value_Is_Returned()
         {
             // arrange
             var primaryKeyName = "QID.Serial_Number";
@@ -41,7 +41,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
         }
 
         [Test]
-        public void Given_A_CaseStatusModel_Does_Not_Have_Any_PrimaryKeys_When_I_Call_GetPrimaryKeyValue_Then_An_ArgumentOutOfRangeException_Is_Thrown()
+        public void Given_A_Case_Status_Model_Does_Not_Have_Any_Primary_Keys_When_I_Call_GetPrimaryKeyValue_Then_An_ArgumentOutOfRangeException_Is_Thrown()
         {
             // arrange
             var primaryKeyName = "QID.Serial_Number";
@@ -53,7 +53,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
         }
 
         [Test]
-        public void Given_A_CaseStatusModel_Does_Not_Have_The_Expected_PrimaryKeys_When_I_Call_GetPrimaryKeyValue_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Case_Status_Model_Does_Not_Have_The_Expected_Primary_Keys_When_I_Call_GetPrimaryKeyValue_Then_An_ArgumentException_Is_Thrown()
         {
             // arrange
             var primaryKeyName = "QID.Serial_Number";
@@ -66,7 +66,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
         }
 
         [Test]
-        public void Given_A_CaseStatusModel_Has_A_CaseId_When_I_Call_CaseId_The_Correct_PrimaryKey_Value_Is_Returned()
+        public void Given_A_Case_Status_Model_Has_A_Case_Id_When_I_Access_The_Primary_Key_Property_Then_The_Correct_Value_Is_Returned()
         {
             // arrange
             var caseId = "900001";

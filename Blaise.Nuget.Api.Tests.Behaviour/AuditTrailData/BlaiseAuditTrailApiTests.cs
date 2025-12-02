@@ -24,7 +24,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
 
         [Ignore("Integration")]
         [Test]
-        public void GetAuditTrail_WithValidParameters_ReturnsAuditTrailData()
+        public void When_I_Call_GetAuditTrail_Then_AuditTrailData_Is_Returned()
         {
             // arrange
             var serverPark = "LocalDevelopment";
@@ -40,7 +40,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
 
         [Ignore("Integration")]
         [Test]
-        public void GetAuditTrail_With_Empty_Server_Park_Returns_An_Exception()
+        public void Given_An_Empty_Server_Park_When_I_Call_GetAuditTrail_Then_An_ArgumentNullException_Is_Thrown()
         {
             // arrange
             var serverPark = string.Empty;
@@ -52,7 +52,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.AuditTrailData
 
         [Ignore("Integration")]
         [Test]
-        public void GetAuditTrail_With_Empty_Questionnaire_Name_Returns_An_Exception()
+        public void Given_An_Empty_Questionnaire_Name_When_I_Call_GetAuditTrail_Then_An_ArgumentNullException_Is_Thrown()
         {
             // arrange
             var serverPark = "LocalDevelopment";

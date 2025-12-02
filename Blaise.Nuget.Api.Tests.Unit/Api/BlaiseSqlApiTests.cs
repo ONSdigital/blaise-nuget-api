@@ -35,15 +35,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
-        public void Given_I_Instantiate_BlaiseSqlApi_No_Exceptions_Are_Thrown()
+        public void When_I_Instantiate_BlaiseSqlApi_Then_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.DoesNotThrow(() => new BlaiseSqlApi());
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetCaseIds_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_GetCaseIds_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
@@ -57,7 +56,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetCaseIds_Then_The_Expected_Result_Is_Returned()
+        public void When_I_Call_GetCaseIds_Then_The_Expected_Result_Is_Returned()
         {
             // arrange
             var caseIds = new List<string>
@@ -93,7 +92,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetEditingCaseIds_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_GetEditingCaseIds_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
@@ -107,7 +106,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetEditingCaseIds_Then_The_Expected_Result_Is_Returned()
+        public void When_I_Call_GetEditingCaseIds_Then_The_Expected_Result_Is_Returned()
         {
             // arrange
             var caseIds = new List<string>
@@ -143,7 +142,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetCaseIdentifiers_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_GetCaseIdentifiers_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
@@ -157,7 +156,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetCaseIdentifiers_Then_The_Expected_Result_Is_Returned()
+        public void When_I_Call_GetCaseIdentifiers_Then_The_Expected_Result_Is_Returned()
         {
             // arrange
             var caseIdentifiers = new List<CaseIdentifierModel>
@@ -193,7 +192,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetPostCode_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_GetPostCode_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
@@ -207,7 +206,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_GetPostCode_Then_The_Expected_Result_Is_Returned()
+        public void When_I_Call_GetPostCode_Then_The_Expected_Result_Is_Returned()
         {
             // arrange
             var postCode = "NP1223";
@@ -255,7 +254,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_DropQuestionnaireTables_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_DropQuestionnaireTables_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);
@@ -270,7 +269,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Sql
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Given_Valid_Arguments_When_I_Call_DropQuestionnaireTables_Then_The_Expected_Result_Is_Returned(bool dropResult)
+        public void When_I_Call_DropQuestionnaireTables_Then_The_Expected_Result_Is_Returned(bool dropResult)
         {
             // arrange
             _configMock.Setup(c => c.DatabaseConnectionString).Returns(_connectionString);

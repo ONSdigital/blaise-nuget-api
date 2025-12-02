@@ -55,7 +55,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_KeyExists_I_Get_A_Boolean_Back()
+        public void When_I_Call_KeyExists_Then_A_Boolean_Is_Returned()
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.KeyExists(_keyMock.Object)).Returns(It.IsAny<bool>());
@@ -69,7 +69,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Given_I_Call_KeyExists_I_Get_The_Correct_Boolean_Back(bool keyExists)
+        public void When_I_Call_KeyExists_Then_The_Correct_Boolean_Is_Returned(bool keyExists)
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.KeyExists(_keyMock.Object)).Returns(keyExists);
@@ -82,7 +82,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_KeyExists_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_KeyExists_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.KeyExists(_keyMock.Object)).Returns(It.IsAny<bool>());
@@ -99,7 +99,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase("QID.Serial_Number", " 900001 ", "900001")]
         [TestCase("QID.Serial_Number", "900001 ", "900001")]
         [TestCase("QID.Serial_Number", " 900001", "900001")]
-        public void Given_I_Call_GetPrimaryKeyValues_I_Get_The_Correct_Value_Back(string primaryKeyName, string primaryKeyValue, string expectedValue)
+        public void When_I_Call_GetPrimaryKeyValues_Then_The_Correct_Value_Is_Returned(string primaryKeyName, string primaryKeyValue, string expectedValue)
         {
             // arrange
             var primaryKeyFieldMock = new Mock<IField>();
@@ -126,7 +126,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetPrimaryKeyValues_For_A_MultiKey_Questionnaire_I_Get_The_Correct_Value_Back()
+        public void When_I_Call_GetPrimaryKeyValues_For_A_MultiKey_Questionnaire_Then_The_Correct_Values_Are_Returned()
         {
             // arrange
             var primaryKeyFieldMock1 = new Mock<IField>();

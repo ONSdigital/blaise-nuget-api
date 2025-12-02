@@ -23,8 +23,8 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         public void Given_A_Case_Exists_When_I_Call_CaseExists_Then_True_Is_Returned()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "OPN2101A";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "OPN2101A";
 
             var fieldData = new Dictionary<string, string>
             {
@@ -32,16 +32,16 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                 { FieldNameType.TelNo.FullName(), "07000000000" },
             };
 
-            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
+            _sut.CreateCase(_primaryKeyValues, fieldData, QuestionnaireName, ServerParkName);
 
             // act
-            var result = _sut.CaseExists(_primaryKeyValues, questionnaireName, serverParkName);
+            var result = _sut.CaseExists(_primaryKeyValues, QuestionnaireName, ServerParkName);
 
             // assert
             Assert.That(result, Is.True);
 
             // cleanup
-            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
+            _sut.RemoveCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
         }
 
         [Ignore("Integration")]
@@ -49,11 +49,11 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         public void Given_A_Case_Does_Not_Exist_When_I_Call_CaseExists_Then_False_Is_Returned()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "OPN2101A";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "OPN2101A";
 
             // act
-            var result = _sut.CaseExists(_primaryKeyValues, questionnaireName, serverParkName);
+            var result = _sut.CaseExists(_primaryKeyValues, QuestionnaireName, ServerParkName);
 
             // assert
             Assert.That(result, Is.False);
@@ -64,9 +64,9 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
         public void Given_A_Record_Is_Locked_When_I_Call_CaseExists_Then_True_Is_Returned()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "OPN2101A";
-            const string lockId = "Lock123";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "OPN2101A";
+            const string LockId = "Lock123";
 
             var fieldData = new Dictionary<string, string>
             {
@@ -74,18 +74,18 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                 { FieldNameType.TelNo.FullName(), "07000000000" },
             };
 
-            _sut.CreateCase(_primaryKeyValues, fieldData, questionnaireName, serverParkName);
-            _sut.LockDataRecord(_primaryKeyValues, questionnaireName, serverParkName, lockId);
+            _sut.CreateCase(_primaryKeyValues, fieldData, QuestionnaireName, ServerParkName);
+            _sut.LockDataRecord(_primaryKeyValues, QuestionnaireName, ServerParkName, LockId);
 
             // act
-            var result = _sut.CaseExists(_primaryKeyValues, questionnaireName, serverParkName);
+            var result = _sut.CaseExists(_primaryKeyValues, QuestionnaireName, ServerParkName);
 
             // assert
             Assert.That(result, Is.True);
 
             // cleanup
-            _sut.UnLockDataRecord(_primaryKeyValues, questionnaireName, serverParkName, lockId);
-            _sut.RemoveCase(_primaryKeyValues, questionnaireName, serverParkName);
+            _sut.UnLockDataRecord(_primaryKeyValues, QuestionnaireName, ServerParkName, LockId);
+            _sut.RemoveCase(_primaryKeyValues, QuestionnaireName, ServerParkName);
         }
     }
 }

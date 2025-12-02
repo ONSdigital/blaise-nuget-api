@@ -7,13 +7,13 @@ namespace Blaise.Nuget.Api.Tests.Unit.Extensions
     public class ConfigurationExtensionsTests
     {
         [TestCase("30", 30)]
-        public void Given_A_Valid_Argument_When_I_Call_GetVariableAsInt_I_Get_A_Correct_Value_Returned(string variable, int expectedResult)
+        public void When_I_Call_GetVariableAsInt_Then_A_Correct_Value_Is_Returned(string variable, int expectedResult)
         {
             // arrange
-            const string variableName = "name";
+            const string VariableName = "name";
 
             // act
-            var result = ConfigurationExtensions.GetVariableAsInt(variable, variableName);
+            var result = ConfigurationExtensions.GetVariableAsInt(variable, VariableName);
 
             // assert
             Assert.That(result, Is.EqualTo(expectedResult));
@@ -21,14 +21,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Extensions
 
         [TestCase("one")]
         [TestCase("")]
-        public void Given_An_Invalid_Argument_When_I_Call_GetVariableAsInt_An_ArgumentException_Is_Thrown(string invalidArgument)
+        public void Given_An_Invalid_Argument_When_I_Call_GetVariableAsInt_Then_An_ArgumentException_Is_Thrown(string invalidArgument)
         {
             // arrange
-            const string variableName = "name";
+            const string VariableName = "name";
 
             // act and assert
-            var exception = Assert.Throws<ArgumentException>(() => ConfigurationExtensions.GetVariableAsInt(invalidArgument, variableName));
-            Assert.That(exception.Message, Is.EqualTo($"A int value for the argument '{variableName}' must be supplied"));
+            var exception = Assert.Throws<ArgumentException>(() => ConfigurationExtensions.GetVariableAsInt(invalidArgument, VariableName));
+            Assert.That(exception.Message, Is.EqualTo($"A int value for the argument '{VariableName}' must be supplied"));
         }
     }
 }

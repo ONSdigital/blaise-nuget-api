@@ -18,12 +18,12 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 
         [Ignore("Integration")]
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_CreateCases_Then_The_Cases_Are_Created()
+        public void When_I_Call_CreateCases_Then_The_Cases_Are_Created()
         {
             // arrange
-            const string serverParkName = "gusty";
-            const string questionnaireName = "LMS2304_FS1";
-            const int startingPrimaryKey = 90000;
+            const string ServerParkName = "gusty";
+            const string QuestionnaireName = "LMS2304_FS1";
+            const int StartingPrimaryKey = 90000;
 
             var fieldData
                 = new Dictionary<string, string>
@@ -33,13 +33,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
                                 };
 
             var caseCount = 1000;
-            var caseModels = GenerateCaseModels(startingPrimaryKey, caseCount, fieldData);
+            var caseModels = GenerateCaseModels(StartingPrimaryKey, caseCount, fieldData);
 
             // act
-            _sut.CreateCases(caseModels, questionnaireName, serverParkName);
+            _sut.CreateCases(caseModels, QuestionnaireName, ServerParkName);
 
-            // assert & Cleanup
-            VerifyCasesExistAndRemove(startingPrimaryKey, caseCount, questionnaireName, serverParkName);
+            // assert
+            VerifyCasesExistAndRemove(StartingPrimaryKey, caseCount, QuestionnaireName, ServerParkName);
         }
 
         private List<CaseModel> GenerateCaseModels(int startingPrimaryKey, int caseCount, Dictionary<string, string> fieldData)

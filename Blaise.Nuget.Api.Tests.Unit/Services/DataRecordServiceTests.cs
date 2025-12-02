@@ -65,7 +65,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetDataSet_I_Get_A_DataSet_Back()
+        public void When_I_Call_GetDataSet_Then_A_Data_Set_Is_Returned()
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.Read(It.IsAny<string>(), It.IsAny<string>())).Returns(_dataSetMock.Object);
@@ -78,7 +78,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetDataSet_I_Get_The_Correct_DataSet_Back()
+        public void When_I_Call_GetDataSet_Then_The_Correct_Data_Set_Is_Returned()
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.Read(It.IsAny<string>(), It.IsAny<string>())).Returns(_dataSetMock.Object);
@@ -91,7 +91,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetDataSet_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_GetDataSet_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.Read(It.IsAny<string>(), It.IsAny<string>())).Returns(It.IsAny<IDataSet>());
@@ -105,7 +105,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_File_When_I_Call_GetDataSet_I_Get_A_DataSet_Back()
+        public void Given_A_File_When_I_Call_GetDataSet_Then_A_Data_Set_Is_Returned()
         {
             // arrange
             _localDataLinkMock.Setup(d => d.Read(It.IsAny<string>(), It.IsAny<string>())).Returns(_dataSetMock.Object);
@@ -118,7 +118,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_File_When_I_Call_GetDataSet_I_Get_The_Correct_DataSet_Back()
+        public void Given_A_File_When_I_Call_GetDataSet_Then_The_Correct_Data_Set_Is_Returned()
         {
             // arrange
             _localDataLinkMock.Setup(d => d.Read(It.IsAny<string>(), It.IsAny<string>())).Returns(_dataSetMock.Object);
@@ -145,7 +145,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_File_When_I_Call_GetDataRecord_I_Get_The_Correct_DataRecord_Back()
+        public void Given_A_File_When_I_Call_GetDataRecord_Then_The_Correct_Data_Record_Is_Returned()
         {
             // arrange
             _localDataLinkMock.Setup(d => d.ReadRecord(_keyMock.Object)).Returns(_dataRecordMock.Object);
@@ -172,7 +172,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetDataRecord_I_Get_A_DataRecord_Back()
+        public void When_I_Call_GetDataRecord_Then_A_Data_Record_Is_Returned()
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.ReadRecord(It.IsAny<IKey>())).Returns(_dataRecordMock.Object);
@@ -185,7 +185,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_QuestionnaireName_And_ServerParkName_When_I_Call_GetDataRecord_I_Get_The_Correct_DataRecord_Back()
+        public void Given_A_Questionnaire_Name_And_Server_Park_Name_When_I_Call_GetDataRecord_Then_The_Correct_Data_Record_Is_Returned()
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.ReadRecord(It.IsAny<IKey>())).Returns(_dataRecordMock.Object);
@@ -198,7 +198,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_QuestionnaireName_And_ServerParkName_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
+        public void Given_A_Questionnaire_Name_And_Server_Park_Name_When_I_Call_GetDataRecord_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.ReadRecord(It.IsAny<IKey>())).Returns(It.IsAny<IDataRecord>());
@@ -212,7 +212,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_QuestionnaireName_And_ServerParkName_When_I_Call_WriteDataRecord_Then_The_Correct_Services_Are_Called()
+        public void Given_A_Questionnaire_Name_And_Server_Park_Name_When_I_Call_WriteDataRecord_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.Write(It.IsAny<IDataRecord>()));
@@ -226,7 +226,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_DatabaseFile_When_I_Call_WriteDataRecord_Then_The_Correct_Services_Are_Called()
+        public void Given_A_Database_File_When_I_Call_WriteDataRecord_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             _localDataLinkMock.Setup(d => d.Write(It.IsAny<IDataRecord>()));
@@ -240,7 +240,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_PrimaryKeyValue_When_I_Call_RemoveDataRecord_Then_The_Correct_Services_Are_Called()
+        public void Given_A_Primary_Key_Value_When_I_Call_DeleteDataRecord_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             _remoteDataLinkMock.Setup(d => d.Delete(It.IsAny<IKey>()));
@@ -254,7 +254,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_RemoveDataRecords_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_DeleteDataRecords_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.DeleteDataRecords(_connectionModel, _questionnaireName, _serverParkName);
@@ -265,7 +265,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetNumberOfRecords_I_Get_The_Correct_Number_Back()
+        public void When_I_Call_GetNumberOfRecords_Then_The_Correct_Number_Of_Records_Is_Returned()
         {
             // arrange
             _dataSetMock.SetupSequence(ds => ds.EndOfSet)
@@ -283,7 +283,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetNumberOfRecords_For_Local_Connection_I_Get_The_Correct_Number_Back()
+        public void When_I_Call_GetNumberOfRecords_For_Local_Connection_Then_The_Correct_Number_Of_Records_Is_Returned()
         {
             // arrange
             _dataSetMock.SetupSequence(ds => ds.EndOfSet)
@@ -301,33 +301,33 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_Valid_Parameters_When_I_Call_LockDataRecord_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_LockDataRecord_Then_The_Correct_Services_Are_Called()
         {
             // arrange
-            const string lockId = "Lock123";
-            _remoteDataLinkMock.Setup(d => d.Lock(It.IsAny<IKey>(), lockId));
+            const string LockId = "Lock123";
+            _remoteDataLinkMock.Setup(d => d.Lock(It.IsAny<IKey>(), LockId));
 
             // act
-            _sut.LockDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName, lockId);
+            _sut.LockDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName, LockId);
 
             // assert
             _remoteDataLinkProviderMock.Verify(v => v.GetDataLink(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
-            _remoteDataLinkMock.Verify(v => v.Lock(_keyMock.Object, lockId), Times.Once);
+            _remoteDataLinkMock.Verify(v => v.Lock(_keyMock.Object, LockId), Times.Once);
         }
 
         [Test]
-        public void Given_Valid_Parameters_When_I_Call_UnLockDataRecord_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_UnLockDataRecord_Then_The_Correct_Services_Are_Called()
         {
             // arrange
-            const string lockId = "Lock123";
-            _remoteDataLinkMock.Setup(d => d.Unlock(It.IsAny<IKey>(), lockId));
+            const string LockId = "Lock123";
+            _remoteDataLinkMock.Setup(d => d.Unlock(It.IsAny<IKey>(), LockId));
 
             // act
-            _sut.UnLockDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName, lockId);
+            _sut.UnLockDataRecord(_connectionModel, _keyMock.Object, _questionnaireName, _serverParkName, LockId);
 
             // assert
             _remoteDataLinkProviderMock.Verify(v => v.GetDataLink(_connectionModel, _questionnaireName, _serverParkName), Times.Once);
-            _remoteDataLinkMock.Verify(v => v.Unlock(_keyMock.Object, lockId), Times.Once);
+            _remoteDataLinkMock.Verify(v => v.Unlock(_keyMock.Object, LockId), Times.Once);
         }
     }
 }

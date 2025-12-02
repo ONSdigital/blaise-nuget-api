@@ -14,13 +14,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
 
         [Ignore("Integration")]
         [Test]
-        public void DropQuestionnaireTables_WithValidQuestionnaireName_ShouldDropTables()
+        public void Given_A_Valid_Questionnaire_Name_When_I_Call_DropQuestionnaireTables_Then_The_Tables_Are_Dropped()
         {
             // arrange
-            const string questionnaireName = "LMS2211_EJ2";
+            const string QuestionnaireName = "LMS2211_EJ2";
 
             // act
-            var result = _sut.DropQuestionnaireTables(questionnaireName);
+            var result = _sut.DropQuestionnaireTables(QuestionnaireName);
 
             // assert
             Assert.That(result, Is.True, "Expected tables were dropped given a valid questionnaire name.");
@@ -28,13 +28,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Sql
 
         [Ignore("Integration")]
         [Test]
-        public void DropQuestionnaireTables_ShouldExecuteSuccessfully_WithNonexistentQuestionnaireName()
+        public void Given_A_Nonexistent_Questionnaire_Name_When_I_Call_DropQuestionnaireTables_Then_True_Is_Returned()
         {
             // arrange
-            const string questionnaireName = "xxxxxxx";
+            const string QuestionnaireName = "xxxxxxx";
 
             // act
-            var result = _sut.DropQuestionnaireTables(questionnaireName);
+            var result = _sut.DropQuestionnaireTables(QuestionnaireName);
 
             // assert
             Assert.That(result, Is.True, "Expected successful execution for a nonexistent questionnaire name.");

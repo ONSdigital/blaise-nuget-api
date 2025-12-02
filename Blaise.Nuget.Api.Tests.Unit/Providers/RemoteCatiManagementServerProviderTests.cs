@@ -34,7 +34,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_GetCatiManagementForServerPark_Then_The_Correct_Methods_Are_Called()
+        public void When_I_Call_GetCatiManagementForServerPark_Then_The_Correct_Methods_Are_Called()
         {
             // act
             _sut.GetCatiManagementForServerPark(_connectionModel, _serverParkName);
@@ -45,7 +45,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_GetCatiManagementForServerPark_Then_The_Correct_Connection_Is_Returned()
+        public void When_I_Call_GetCatiManagementForServerPark_Then_The_Correct_Connection_Is_Returned()
         {
             // act
             var result = _sut.GetCatiManagementForServerPark(_connectionModel, _serverParkName);

@@ -34,16 +34,16 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_A_Questionnaire_Is_Installed_In_Cati_And_Cawi_Mode_When_I_Call_GetQuestionnaireModes_The_Correct_Modes_Are_Returned()
+        public void Given_A_Questionnaire_Is_Installed_In_CATI_And_CAWI_Mode_When_I_Call_GetQuestionnaireModes_The_Correct_Modes_Are_Returned()
         {
             // arrange
-            const string mode1 = "CATI";
+            const string Mode1 = "CATI";
             var mode1Mock = new Mock<IMode>();
-            mode1Mock.Setup(m => m.Name).Returns(mode1);
+            mode1Mock.Setup(m => m.Name).Returns(Mode1);
 
-            const string mode2 = "CAWI";
+            const string Mode2 = "CAWI";
             var mode2Mock = new Mock<IMode>();
-            mode2Mock.Setup(m => m.Name).Returns(mode2);
+            mode2Mock.Setup(m => m.Name).Returns(Mode2);
 
             var modelList = new List<IMode> { mode1Mock.Object, mode2Mock.Object };
 
@@ -86,7 +86,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetQuestionnaireDataEntrySettings_I_Get_A_List_Of_DataEntrySettingsModel_Back()
+        public void When_I_Call_GetQuestionnaireDataEntrySettings_A_List_Of_DataEntrySettingsModel_Is_Returned()
         {
             // arrange
             var dataEntrySettingsList = new List<IDataEntrySettings>();
@@ -111,11 +111,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetQuestionnaireDataEntrySettings_I_Get_A_Valid_List_Of_DataEntrySettingsModel_Back()
+        public void When_I_Call_GetQuestionnaireDataEntrySettings_A_Valid_List_Of_DataEntrySettingsModel_Is_Returned()
         {
             // arrange
-
-            // data entry settings 1
             var dataEntrySettings1Name = "StrictInterviewing";
             var dataEntrySettings1Timeout = 30;
             var dataEntrySettings1Mock = new Mock<IDataEntrySettings>();
@@ -179,7 +177,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetQuestionnaireDataEntrySettings_And_There_Are_No_Settings_Configured_I_Get_An_Empty_List_Back()
+        public void When_I_Call_GetQuestionnaireDataEntrySettings_And_There_Are_No_Settings_Configured_An_Empty_List_Is_Returned()
         {
             // arrange
             var dataEntrySettingsList = new List<IDataEntrySettings>();

@@ -8,7 +8,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
     public class CaseModelTests
     {
         [Test]
-        public void Given_A_CaseModel_Has_Populated_PrimaryKeys_When_I_Call_GetPrimaryKeyValue_The_Correct_PrimaryKey_Value_Is_Returned()
+        public void Given_A_Case_Model_Has_Populated_Primary_Keys_When_I_Call_GetPrimaryKeyValue_Then_The_Correct_Primary_Key_Value_Is_Returned()
         {
             // arrange
             var primaryKeyName = "QID.Serial_Number";
@@ -24,7 +24,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
         }
 
         [Test]
-        public void Given_A_CaseModel_Does_Not_Have_Any_PrimaryKeys_When_I_Call_GetPrimaryKeyValue_Then_An_ArgumentOutOfRangeException_Is_Thrown()
+        public void Given_A_Case_Model_Does_Not_Have_Any_Primary_Keys_When_I_Call_GetPrimaryKeyValue_Then_An_ArgumentOutOfRangeException_Is_Thrown()
         {
             // arrange
             var primaryKeyName = "QID.Serial_Number";
@@ -36,15 +36,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Contracts
         }
 
         [Test]
-        public void Given_A_CaseModel_Has_A_CaseId_When_I_Access_The_PrimaryKey_Property_The_Correct_Value_Is_Returned()
+        public void Given_A_Case_Model_Has_A_Case_Id_When_I_Access_The_Primary_Key_Property_Then_The_Correct_Value_Is_Returned()
         {
             // arrange
             var caseId = "900001";
             var primaryKeyValues = new Dictionary<string, string> { { "MainSurveyID", "dgss-5ghghg-ttggh" }, { "QID.Serial_Number", caseId } };
-            var caseStatusModel = new CaseModel(primaryKeyValues, new Dictionary<string, string>());
+            var caseModel = new CaseModel(primaryKeyValues, new Dictionary<string, string>());
 
             // act
-            var result = caseStatusModel.PrimaryKey;
+            var result = caseModel.PrimaryKey;
 
             // assert
             Assert.That(result, Is.EqualTo(caseId));

@@ -17,11 +17,11 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
 
         [Ignore("Integration")]
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_RemoveCases_Then_Then_All_Cases_Are_Deleted()
+        public void When_I_Call_RemoveCases_Then_All_Cases_Are_Deleted()
         {
             // arrange
-            const string serverParkName = "LocalDevelopment";
-            const string questionnaireName = "OPN2101A";
+            const string ServerParkName = "LocalDevelopment";
+            const string QuestionnaireName = "OPN2101A";
             var primaryKey = 9000001;
 
             var fieldData = new Dictionary<string, string>
@@ -33,13 +33,13 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Case
             for (var i = 0; i < 1000; i++)
             {
                 var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", primaryKey.ToString() } };
-                _sut.CreateCase(primaryKeyValues, fieldData, questionnaireName, serverParkName);
+                _sut.CreateCase(primaryKeyValues, fieldData, QuestionnaireName, ServerParkName);
                 primaryKey++;
             }
 
             // act
-            _sut.RemoveCases(questionnaireName, serverParkName);
-            var result = _sut.GetNumberOfCases(questionnaireName, serverParkName);
+            _sut.RemoveCases(QuestionnaireName, ServerParkName);
+            var result = _sut.GetNumberOfCases(QuestionnaireName, ServerParkName);
 
             // assert
             Assert.That(result, Is.EqualTo(0));

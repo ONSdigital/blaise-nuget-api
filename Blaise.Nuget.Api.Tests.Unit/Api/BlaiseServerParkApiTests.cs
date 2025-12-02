@@ -36,7 +36,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
         public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseServerParkApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.That(() => new BlaiseServerParkApi(), Throws.Nothing);
         }
 
@@ -44,7 +43,6 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
         public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseServerParkApi_No_Exceptions_Are_Thrown()
         {
             // act and assert
-            // ReSharper disable once ObjectCreationAsStatement
             Assert.That(() => new BlaiseServerParkApi(new ConnectionModel()), Throws.Nothing);
         }
 
@@ -113,7 +111,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
         }
 
         [Test]
-        public void When_I_Call_GetServerParks_Then_The_Correct_ServerPark_Is_Returned()
+        public void When_I_Call_GetServerParks_Then_The_Correct_List_Of_Server_Parks_Is_Returned()
         {
             // arrange
             var serverParkMock1 = new Mock<IServerPark>();
@@ -159,7 +157,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_ServerParkExists_Then_The_Correct_Service_Method_Is_Called()
+        public void When_I_Call_ServerParkExists_Then_The_Correct_Service_Method_Is_Called()
         {
             // arrange
             _parkServiceMock.Setup(p => p.ServerParkExists(_connectionModel, It.IsAny<string>())).Returns(It.IsAny<bool>());
@@ -173,7 +171,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.ServerPark
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Given_Valid_Arguments_When_I_Call_ServerParkExists_Then_The_Expected_Result_Is_Returned(bool serverParkExists)
+        public void When_I_Call_ServerParkExists_Then_The_Expected_Result_Is_Returned(bool serverParkExists)
         {
             // arrange
             _parkServiceMock.Setup(p => p.ServerParkExists(_connectionModel, _serverParkName)).Returns(serverParkExists);

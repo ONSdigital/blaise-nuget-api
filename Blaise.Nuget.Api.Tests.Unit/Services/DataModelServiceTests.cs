@@ -47,7 +47,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetDataModel_I_Get_A_DataModel_Back()
+        public void When_I_Call_GetDataModel_Then_A_DataModel_Is_Returned()
         {
             // act
             var result = _sut.GetDataModel(_connectionModel, _questionnaireName, _serverParkName);
@@ -57,7 +57,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetDataModel_I_Get_The_Correct_DataModel_Back()
+        public void When_I_Call_GetDataModel_Then_The_Correct_DataModel_Is_Returned()
         {
             // act
             var result = _sut.GetDataModel(_connectionModel, _questionnaireName, _serverParkName);
@@ -67,7 +67,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_No_DataModel_Available_When_I_Call_GetDataModel_A_NullReferenceException_Is_Thrown()
+        public void Given_No_DataModel_Available_When_I_Call_GetDataModel_Then_A_NullReferenceException_Is_Thrown()
         {
             // arrange
             _dataLinkMock.Setup(d => d.Datamodel).Returns(null as IDatamodel);
@@ -78,7 +78,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetDataModel_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_GetDataModel_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.GetDataModel(_connectionModel, _questionnaireName, _serverParkName);
@@ -89,7 +89,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetDataModel_For_Local_Connection_I_Get_A_DataModel_Back()
+        public void When_I_Call_GetDataModel_For_Local_Connection_Then_A_DataModel_Is_Returned()
         {
             // act
             var result = _sut.GetDataModel(_connectionModel, _databaseFile);
@@ -99,7 +99,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetDataModel_For_Local_Connection_I_Get_The_Correct_DataModel_Back()
+        public void When_I_Call_GetDataModel_For_Local_Connection_Then_The_Correct_DataModel_Is_Returned()
         {
             // act
             var result = _sut.GetDataModel(_connectionModel, _databaseFile);
@@ -109,7 +109,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_No_DataModel_Available_When_I_Call_GetDataModel_For_Local_Connection_A_NullReferenceException_Is_Thrown()
+        public void Given_No_DataModel_Available_When_I_Call_GetDataModel_For_Local_Connection_Then_A_NullReferenceException_Is_Thrown()
         {
             // arrange
             _dataLinkMock.Setup(d => d.Datamodel).Returns(null as IDatamodel);
@@ -120,7 +120,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetDataModel_For_Local_Connection_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_GetDataModel_For_Local_Connection_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.GetDataModel(_connectionModel, _databaseFile);

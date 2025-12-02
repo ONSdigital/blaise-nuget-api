@@ -52,7 +52,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
 
         [TestCase(false)]
         [TestCase(true)]
-        public void Given_Valid_Parameters_When_I_Call_UpdateQuestionnaireFileWithData_The_Correct_Services_Are_Called(bool addAudit)
+        public void When_I_Call_UpdateQuestionnaireFileWithData_Then_The_Correct_Services_Are_Called(bool addAudit)
         {
             // arrange
             _fileServiceMock.Setup(f => f.UpdateQuestionnaireFileWithData(
@@ -88,7 +88,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         }
 
         [Test]
-        public void Given_A_Null_ServerParkName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_ServerParkName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(
@@ -110,7 +110,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         }
 
         [Test]
-        public void Given_A_Null_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(
@@ -132,7 +132,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         }
 
         [Test]
-        public void Given_A_Null_DestinationFilePath_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_DestinationFilePath_When_I_Call_UpdateQuestionnaireFileWithData_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithData(
@@ -144,7 +144,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
 
         [TestCase(false, 10)]
         [TestCase(true, 20)]
-        public void Given_Valid_Parameters_When_I_Call_UpdateQuestionnaireFileWithBatchedData_The_Correct_Services_Are_Called(bool addAudit, int batchSize)
+        public void When_I_Call_UpdateQuestionnaireFileWithBatchedData_Then_The_Correct_Services_Are_Called(bool addAudit, int batchSize)
         {
             // arrange
             _fileServiceMock.Setup(f => f.UpdateQuestionnaireFileWithBatchedData(
@@ -183,7 +183,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         }
 
         [Test]
-        public void Given_A_Null_ServerParkName_When_I_Call_UpdateQuestionnaireFileWithBatchedData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_ServerParkName_When_I_Call_UpdateQuestionnaireFileWithBatchedData_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithBatchedData(
@@ -207,7 +207,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         }
 
         [Test]
-        public void Given_A_Null_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithBatchedData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithBatchedData_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithBatchedData(
@@ -231,7 +231,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         }
 
         [Test]
-        public void Given_A_Null_DestinationFilePath_When_I_Call_UpdateQuestionnaireFileWithBatchedData_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_DestinationFilePath_When_I_Call_UpdateQuestionnaireFileWithBatchedData_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithBatchedData(
@@ -244,7 +244,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Given_Valid_Parameters_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_The_Correct_Services_Are_Called(bool overwriteExistingData)
+        public void When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_The_Correct_Services_Are_Called(bool overwriteExistingData)
         {
             // arrange
             _fileServiceMock.Setup(f => f.UpdateQuestionnairePackageWithSqlConnection(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
@@ -262,7 +262,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         }
 
         [Test]
-        public void Given_No_OverwriteExistingData_Is_Passed_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_The_Correct_Services_Are_Called()
+        public void Given_No_OverwriteExistingData_Is_Passed_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_The_Correct_Services_Are_Called()
         {
             // arrange
             _fileServiceMock.Setup(f => f.UpdateQuestionnairePackageWithSqlConnection(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()));
@@ -288,7 +288,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         }
 
         [Test]
-        public void Given_A_Null_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireName_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithSqlConnection(null, _questionnaireFile));
@@ -306,7 +306,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         }
 
         [Test]
-        public void Given_A_Null_QuestionnaireFile_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_QuestionnaireFile_When_I_Call_UpdateQuestionnaireFileWithSqlConnection_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.UpdateQuestionnaireFileWithSqlConnection(_questionnaireName, null));
@@ -319,7 +319,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         [TestCase(ApplicationType.Session)]
         [TestCase(ApplicationType.Configuration)]
         [TestCase(ApplicationType.Meta)]
-        public void Given_Valid_Parameters_When_I_Call_CreateSettingsDataInterfaceFile_The_Correct_Services_Are_Called(ApplicationType applicationType)
+        public void When_I_Call_CreateSettingsDataInterfaceFile_Then_The_Correct_Services_Are_Called(ApplicationType applicationType)
         {
             // arrange
             var fileName = "OPN2101a.bcdi";
@@ -344,7 +344,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.File
         }
 
         [Test]
-        public void Given_A_Null_FileName_When_I_Call_CreateSettingsDataInterfaceFile_Then_An_ArgumentException_Is_Thrown()
+        public void Given_A_Null_FileName_When_I_Call_CreateSettingsDataInterfaceFile_Then_An_ArgumentNullException_Is_Thrown()
         {
             // act and assert
             var exception = Assert.Throws<ArgumentNullException>(() => _sut.CreateSettingsDataInterfaceFile(ApplicationType.Cati, null));

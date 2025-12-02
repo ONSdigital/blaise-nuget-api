@@ -99,25 +99,24 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public string GetPostCode(string connectionString, string questionnaireName, string primaryKey)
         {
-            string postCode;
             var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
             using (var con = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand())
             {
                 con.Open();
-                cmd.Connection = con;
-                cmd.CommandText = $"SELECT {SqlFieldType.PostCode.FullName()} from {databaseTableName} WHERE {SqlFieldType.CaseId.FullName()} = {primaryKey}";
+                cmd.CommandText = $"SELECT {SqlFieldType.PostCode.FullName()} from `{databaseTableName}` WHERE {SqlFieldType.CaseId.FullName()} = @primaryKey";
+                cmd.Parameters.AddWithValue("@primaryKey", primaryKey);
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    reader.Read();
-                    postCode = reader[0].ToString();
+                    if (reader.Read())
+                    {
+                        return reader.IsDBNull(0) ? null : reader.GetString(0);
+                    }
                 }
-
-                con.Close();
             }
 
-            return postCode;
+            return null;
         }
 
         public bool DropQuestionnaireTables(string connectionString, string questionnaireName)
@@ -166,24 +165,23 @@ namespace Blaise.Nuget.Api.Core.Services
 
         private bool TableExists(string connectionString, string databaseTableName)
         {
-            bool tableExists;
             using (var con = new MySqlConnection(connectionString))
             using (var cmd = new MySqlCommand())
             {
                 con.Open();
-                cmd.Connection = con;
-                cmd.CommandText = $"SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{databaseTableName}'";
+                cmd.CommandText = "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = @tableName";
+                cmd.Parameters.AddWithValue("@tableName", databaseTableName);
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    reader.Read();
-                    tableExists = reader[0].ToString() == "1";
+                    if (reader.Read())
+                    {
+                        return reader[0].ToString() == "1";
+                    }
                 }
-
-                con.Close();
             }
 
-            return tableExists;
+            return false;
         }
     }
 }

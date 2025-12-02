@@ -12,57 +12,53 @@ namespace Blaise.Nuget.Api.Providers
 
     public static class UnityProvider
     {
-        private static readonly UnityContainer UnityContainer;
+        private static readonly UnityContainer _unityContainer;
 
         static UnityProvider()
         {
-            UnityContainer = new UnityContainer();
-
-            // configuration provider
-            UnityContainer.RegisterSingleton<IBlaiseConfigurationProvider, BlaiseConfigurationProvider>();
-
-            // password service
-            UnityContainer.RegisterType<IPasswordService, PasswordService>();
+            _unityContainer = new UnityContainer();
 
             // factories
-            UnityContainer.RegisterSingleton<IConnectedServerFactory, ConnectedServerFactory>();
-            UnityContainer.RegisterSingleton<IRemoteDataServerFactory, RemoteDataServerFactory>();
-            UnityContainer.RegisterType<ICatiManagementServerFactory, CatiManagementServerFactory>();
-            UnityContainer.RegisterSingleton<ISecurityManagerFactory, SecurityManagerFactory>();
-            UnityContainer.RegisterType<IDataInterfaceFactory, DataInterfaceFactory>();
-            UnityContainer.RegisterType<IAuditTrailManagerFactory, AuditTrailManagerFactory>();
+            _unityContainer.RegisterSingleton<IConnectedServerFactory, ConnectedServerFactory>();
+            _unityContainer.RegisterSingleton<IRemoteDataServerFactory, RemoteDataServerFactory>();
+            _unityContainer.RegisterType<ICatiManagementServerFactory, CatiManagementServerFactory>();
+            _unityContainer.RegisterSingleton<ISecurityManagerFactory, SecurityManagerFactory>();
+            _unityContainer.RegisterType<IDataInterfaceFactory, DataInterfaceFactory>();
+            _unityContainer.RegisterType<IAuditTrailManagerFactory, AuditTrailManagerFactory>();
 
             // mappers
-            UnityContainer.RegisterType<IDataRecordMapper, DataRecordMapper>();
-            UnityContainer.RegisterType<IRolePermissionMapper, RolePermissionMapper>();
-            UnityContainer.RegisterType<IAuditTrailDataMapper, AuditTrailDataMapper>();
+            _unityContainer.RegisterType<IDataRecordMapper, DataRecordMapper>();
+            _unityContainer.RegisterType<IRolePermissionMapper, RolePermissionMapper>();
+            _unityContainer.RegisterType<IAuditTrailDataMapper, AuditTrailDataMapper>();
 
-            // data link providers
-            UnityContainer.RegisterType<ILocalDataLinkProvider, LocalDataLinkProvider>();
-            UnityContainer.RegisterSingleton<IRemoteDataLinkProvider, RemoteDataLinkProvider>();
-            UnityContainer.RegisterType<IDataInterfaceProvider, DataInterfaceProvider>();
-            UnityContainer.RegisterType<IRemoteCatiManagementServerProvider, RemoteCatiManagementServerProvider>();
+            // providers
+            _unityContainer.RegisterSingleton<IBlaiseConfigurationProvider, BlaiseConfigurationProvider>();
+            _unityContainer.RegisterType<ILocalDataLinkProvider, LocalDataLinkProvider>();
+            _unityContainer.RegisterSingleton<IRemoteDataLinkProvider, RemoteDataLinkProvider>();
+            _unityContainer.RegisterType<IDataInterfaceProvider, DataInterfaceProvider>();
+            _unityContainer.RegisterType<IRemoteCatiManagementServerProvider, RemoteCatiManagementServerProvider>();
 
             // services
-            UnityContainer.RegisterType<IDataModelService, DataModelService>();
-            UnityContainer.RegisterType<IDataRecordService, DataRecordService>();
-            UnityContainer.RegisterType<ICaseService, CaseService>();
-            UnityContainer.RegisterType<IFieldService, FieldService>();
-            UnityContainer.RegisterType<IKeyService, KeyService>();
-            UnityContainer.RegisterType<IServerParkService, ServerParkService>();
-            UnityContainer.RegisterType<IQuestionnaireService, QuestionnaireService>();
-            UnityContainer.RegisterType<IUserService, UserService>();
-            UnityContainer.RegisterType<IFileService, FileService>();
-            UnityContainer.RegisterType<ICatiService, CatiService>();
-            UnityContainer.RegisterType<IRoleService, RoleService>();
-            UnityContainer.RegisterType<IQuestionnaireMetaService, QuestionnaireMetaService>();
-            UnityContainer.RegisterType<ISqlService, SqlService>();
-            UnityContainer.RegisterType<IAuditTrailService, AuditTrailService>();
+            _unityContainer.RegisterType<IDataModelService, DataModelService>();
+            _unityContainer.RegisterType<IDataRecordService, DataRecordService>();
+            _unityContainer.RegisterType<ICaseService, CaseService>();
+            _unityContainer.RegisterType<IFieldService, FieldService>();
+            _unityContainer.RegisterType<IKeyService, KeyService>();
+            _unityContainer.RegisterType<IServerParkService, ServerParkService>();
+            _unityContainer.RegisterType<IQuestionnaireService, QuestionnaireService>();
+            _unityContainer.RegisterType<IUserService, UserService>();
+            _unityContainer.RegisterType<IFileService, FileService>();
+            _unityContainer.RegisterType<ICatiService, CatiService>();
+            _unityContainer.RegisterType<IRoleService, RoleService>();
+            _unityContainer.RegisterType<IQuestionnaireMetaService, QuestionnaireMetaService>();
+            _unityContainer.RegisterType<ISqlService, SqlService>();
+            _unityContainer.RegisterType<IAuditTrailService, AuditTrailService>();
+            _unityContainer.RegisterType<IPasswordService, PasswordService>();
         }
 
         public static T Resolve<T>()
         {
-            return UnityContainer.Resolve<T>();
+            return _unityContainer.Resolve<T>();
         }
     }
 }

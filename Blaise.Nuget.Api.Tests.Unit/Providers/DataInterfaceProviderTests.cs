@@ -48,14 +48,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_CreateFileDataInterface_Then_The_Correct_Service_Methods_Are_Called()
+        public void When_I_Call_CreateFileDataInterface_Then_The_Correct_Service_Methods_Are_Called()
         {
             // arrange
-            const string fileName = "OPN.bdix";
-            const string dataModelFileName = "OPN.bmix";
+            const string FileName = "OPN.bdix";
+            const string DataModelFileName = "OPN.bmix";
 
             // act
-            _sut.CreateFileDataInterface(_sourceFile, fileName, dataModelFileName);
+            _sut.CreateFileDataInterface(_sourceFile, FileName, DataModelFileName);
 
             // assert
             _dataInterfaceFactoryMock.Verify(v => v.GetDataInterfaceForFile(_sourceFile), Times.Once);
@@ -66,14 +66,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_CreateFileDataInterface_Then_I_Get_A_Correct_DataInterface_Returned()
+        public void When_I_Call_CreateFileDataInterface_Then_A_Correct_DataInterface_Is_Returned()
         {
             // arrange
-            const string fileName = "OPN.bdix";
-            const string dataModelFileName = "OPN.bmix";
+            const string FileName = "OPN.bdix";
+            const string DataModelFileName = "OPN.bmix";
 
             // act
-            var result = _sut.CreateFileDataInterface(_sourceFile, fileName, dataModelFileName);
+            var result = _sut.CreateFileDataInterface(_sourceFile, FileName, DataModelFileName);
 
             // assert
             Assert.That(result, Is.InstanceOf<IDataInterface>());
@@ -81,15 +81,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_CreateSqlDataInterface_withCreateTables_set_To_True_Then_The_Correct_DataInterface_Is_Created()
+        public void When_I_Call_CreateSqlDataInterface_With_CreateTables_set_To_True_Then_The_Correct_DataInterface_Is_Created()
         {
             // arrange
-            const string fileName = "OPN.bdix";
-            const string dataModelFileName = "OPN.bmix";
+            const string FileName = "OPN.bdix";
+            const string DataModelFileName = "OPN.bmix";
             _dataInterfaceMock.Setup(d => d.ConnectionInfo.GetConnectionString(null)).Returns(_connectionString);
 
             // act
-            _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName, true);
+            _sut.CreateSqlDataInterface(_connectionString, FileName, DataModelFileName, true);
 
             // assert
             _dataInterfaceFactoryMock.Verify(v => v.GetDataInterfaceForSql(_connectionString), Times.Once);
@@ -99,15 +99,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_CreateSqlDataInterface_withCreateTables_set_To_False_Then_The_Correct_DataInterface_Is_Created()
+        public void When_I_Call_CreateSqlDataInterface_With_CreateTables_Set_To_False_Then_The_Correct_DataInterface_Is_Created()
         {
             // arrange
-            const string fileName = "OPN.bdix";
-            const string dataModelFileName = "OPN.bmix";
+            const string FileName = "OPN.bdix";
+            const string DataModelFileName = "OPN.bmix";
             _dataInterfaceMock.Setup(d => d.ConnectionInfo.GetConnectionString(null)).Returns(_connectionString);
 
             // act
-            _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName, false);
+            _sut.CreateSqlDataInterface(_connectionString, FileName, DataModelFileName, false);
 
             // assert
             _dataInterfaceFactoryMock.Verify(v => v.GetDataInterfaceForSql(_connectionString), Times.Once);
@@ -117,15 +117,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_CreateSqlDataInterface_Then_I_Get_A_Correct_DataInterface_Returned()
+        public void When_I_Call_CreateSqlDataInterface_Then_A_Correct_DataInterface_Is_Returned()
         {
             // arrange
-            const string fileName = "OPN.bdix";
-            const string dataModelFileName = "OPN.bmix";
+            const string FileName = "OPN.bdix";
+            const string DataModelFileName = "OPN.bmix";
             _dataInterfaceMock.Setup(d => d.ConnectionInfo.GetConnectionString(null)).Returns(_connectionString);
 
             // act
-            var result = _sut.CreateSqlDataInterface(_connectionString, fileName, dataModelFileName, true);
+            var result = _sut.CreateSqlDataInterface(_connectionString, FileName, DataModelFileName, true);
 
             // assert
             Assert.That(result, Is.InstanceOf<IDataInterface>());
@@ -138,14 +138,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         [TestCase(ApplicationType.Session)]
         [TestCase(ApplicationType.Configuration)]
         [TestCase(ApplicationType.Meta)]
-        public void Given_I_Call_CreateSettingsDataInterface_Then_The_Correct_DataInterface_Is_Created(ApplicationType applicationType)
+        public void When_I_Call_CreateSettingsDataInterface_Then_The_Correct_DataInterface_Is_Created(ApplicationType applicationType)
         {
             // arrange
-            const string fileName = "OPN.bcdi";
+            const string FileName = "OPN.bcdi";
             _generalDataInterfaceMock.Setup(d => d.ConnectionInfo.GetConnectionString(null)).Returns(_connectionString);
 
             // act
-            _sut.CreateSettingsDataInterface(_connectionString, applicationType, fileName);
+            _sut.CreateSettingsDataInterface(_connectionString, applicationType, FileName);
 
             // assert
             _dataInterfaceFactoryMock.Verify(v => v.GetSettingsDataInterfaceForSql(_connectionString, applicationType), Times.Once);
@@ -154,14 +154,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_I_Call_CreateSettingsDataInterface_Then_I_Get_A_Correct_DataInterface_Returned()
+        public void When_I_Call_CreateSettingsDataInterface_Then_A_Correct_DataInterface_Is_Returned()
         {
             // arrange
-            const string fileName = "OPN.bcdi";
+            const string FileName = "OPN.bcdi";
             _generalDataInterfaceMock.Setup(d => d.ConnectionInfo.GetConnectionString(null)).Returns(_connectionString);
 
             // act
-            var result = _sut.CreateSettingsDataInterface(_connectionString, ApplicationType.Cati, fileName);
+            var result = _sut.CreateSettingsDataInterface(_connectionString, ApplicationType.Cati, FileName);
 
             // assert
             Assert.That(result, Is.InstanceOf<IGeneralDataInterface>());

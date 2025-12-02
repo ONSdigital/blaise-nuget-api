@@ -17,7 +17,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Mappers
         }
 
         [Test]
-        public void Given_A_DataRecord_With_A_List_Of_Fields_When_I_Call_MapFieldDictionaryFromRecord_I_Get_A_Dictionary_Of_Fields_Returned()
+        public void Given_A_Data_Record_With_A_List_Of_Fields_When_I_Call_MapFieldDictionaryFromRecord_Then_A_Dictionary_Of_Fields_Is_Returned()
         {
             var dataRecordMock = new Mock<IDataRecord>();
 

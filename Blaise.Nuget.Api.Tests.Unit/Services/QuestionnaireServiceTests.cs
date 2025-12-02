@@ -19,7 +19,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         private readonly string _questionnaireName;
         private readonly string _serverParkName;
         private readonly Guid _questionnaireId;
-        private Mock<IServerParkService> _parkServiceMock;
+        private Mock<IServerParkService> _serverParkServiceMock;
         private Mock<ISurvey> _questionnaireMock;
         private Mock<ISurveyCollection> _questionnaireCollectionMock;
         private Mock<IServerPark6> _serverParkMock;
@@ -36,7 +36,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [SetUp]
         public void SetUpTests()
         {
-            // setup questionnaires
+            // setup questionnaire
             _questionnaireMock = new Mock<ISurvey>();
             _questionnaireMock.Setup(s => s.Name).Returns(_questionnaireName);
             _questionnaireMock.Setup(s => s.InstrumentID).Returns(_questionnaireId);
@@ -46,20 +46,20 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
             _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(() => questionnaireItems.GetEnumerator());
 
-            // setup server parks
+            // setup server park
             _serverParkMock = new Mock<IServerPark6>();
             _serverParkMock.Setup(s => s.Name).Returns("TestServerParkName");
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
 
-            _parkServiceMock = new Mock<IServerParkService>();
-            _parkServiceMock.Setup(p => p.GetServerPark(_connectionModel, _serverParkName)).Returns(_serverParkMock.Object);
-            _parkServiceMock.Setup(p => p.GetServerParkNames(_connectionModel)).Returns(new List<string> { _serverParkName });
+            _serverParkServiceMock = new Mock<IServerParkService>();
+            _serverParkServiceMock.Setup(p => p.GetServerPark(_connectionModel, _serverParkName)).Returns(_serverParkMock.Object);
+            _serverParkServiceMock.Setup(p => p.GetServerParkNames(_connectionModel)).Returns(new List<string> { _serverParkName });
 
-            _sut = new QuestionnaireService(_parkServiceMock.Object);
+            _sut = new QuestionnaireService(_serverParkServiceMock.Object);
         }
 
         [Test]
-        public void Given_I_Call_GetQuestionnaireNames_Then_I_Get_A_Correct_List_Of_Questionnaire_Names_Returned()
+        public void When_I_Call_GetQuestionnaireNames_Then_A_Correct_List_Of_Questionnaire_Names_Is_Returned()
         {
             // act
             var result = _sut.GetQuestionnaireNames(_connectionModel, _serverParkName).ToList();
@@ -79,7 +79,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _questionnaireCollectionMock.Setup(s => s.GetEnumerator()).Returns(()
                 => new List<ISurvey>().GetEnumerator());
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
-            _parkServiceMock.Setup(s => s.GetServerPark(_connectionModel, It.IsAny<string>())).Returns(_serverParkMock.Object);
+            _serverParkServiceMock.Setup(s => s.GetServerPark(_connectionModel, It.IsAny<string>())).Returns(_serverParkMock.Object);
 
             // act
             var result = _sut.GetQuestionnaireNames(_connectionModel, _serverParkName);
@@ -91,7 +91,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
         [TestCase("TestQuestionnaireName", true)]
         [TestCase("QuestionnaireNotFound", false)]
-        public void Given_I_Call_QuestionnaireExists_Then_I_Get_A_Correct_Value_Returned(string questionnaireName, bool exists)
+        public void When_I_Call_QuestionnaireExists_Then_A_Correct_Value_Is_Returned(string questionnaireName, bool exists)
         {
             // act
             var result = _sut.QuestionnaireExists(_connectionModel, questionnaireName, _serverParkName);
@@ -102,7 +102,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetQuestionnaires_Then_I_Get_A_Correct_List_Of_Questionnaire_Returned()
+        public void When_I_Call_GetQuestionnaires_Then_A_Correct_List_Of_Questionnaires_Are_Returned()
         {
             // act
             var result = _sut.GetQuestionnaires(_connectionModel, _serverParkName).ToList();
@@ -134,15 +134,15 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         [TestCase("Questionnaire1")]
         [TestCase("questionnaire1")]
         [TestCase("QUESTIONNAIRE1")]
-        public void Given_I_Call_GetQuestionnaire_Then_I_Get_The_Correct_Questionnaire_Returned(string questionnaire1Name)
+        public void When_I_Call_GetQuestionnaire_Then_The_Correct_Questionnaire_Is_Returned(string questionnaire1Name)
         {
             // arrange
             var questionnaire1Mock = new Mock<ISurvey>();
             questionnaire1Mock.Setup(s => s.Name).Returns(questionnaire1Name);
 
-            const string questionnaire2Name = "questionnaire2";
+            const string Questionnaire2Name = "questionnaire2";
             var questionnaire2Mock = new Mock<ISurvey>();
-            questionnaire2Mock.Setup(s => s.Name).Returns(questionnaire2Name);
+            questionnaire2Mock.Setup(s => s.Name).Returns(Questionnaire2Name);
 
             var questionnaireItems = new List<ISurvey> { questionnaire1Mock.Object, questionnaire2Mock.Object };
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
@@ -163,11 +163,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_Survey_Does_Not_Exist_When_I_Call_GetSurvey_Then_A_Data_Not_Found_Exception_Is_Thrown()
         {
             // arrange
-            const string questionnaire1Name = "questionnaire1";
+            const string Questionnaire1Name = "questionnaire1";
             var questionnaire1Mock = new Mock<ISurvey>();
-            questionnaire1Mock.Setup(s => s.Name).Returns(questionnaire1Name);
+            questionnaire1Mock.Setup(s => s.Name).Returns(Questionnaire1Name);
 
-            const string questionnaire2Name = "questionnaire2";
+            const string Questionnaire2Name = "questionnaire2";
 
             var questionnaireItems = new List<ISurvey> { questionnaire1Mock.Object };
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
@@ -175,19 +175,18 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
 
             // act and assert
-            var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetQuestionnaire(_connectionModel, questionnaire2Name, _serverParkName));
-            Assert.That(exception?.Message, Is.EqualTo($"No questionnaire found for questionnaire name '{questionnaire2Name}'"));
+            var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetQuestionnaire(_connectionModel, Questionnaire2Name, _serverParkName));
+            Assert.That(exception?.Message, Is.EqualTo($"No questionnaire found for questionnaire name '{Questionnaire2Name}'"));
         }
 
         [Test]
-
-        public void Given_Survey_Exists_When_I_Call_GetInstallDate_The_Correct_Date_Is_Returned()
+        public void Given_Questionnaire_Exists_When_I_Call_GetInstallDate_The_Correct_Date_Is_Returned()
         {
             // arrange
             var installDate = DateTime.Today;
-            const string questionnaireName = "questionnaire1";
+            const string QuestionnaireName = "questionnaire1";
             var questionnaire1Mock = new Mock<ISurvey>();
-            questionnaire1Mock.Setup(s => s.Name).Returns(questionnaireName);
+            questionnaire1Mock.Setup(s => s.Name).Returns(QuestionnaireName);
             questionnaire1Mock.Setup(s => s.InstallDate).Returns(installDate);
 
             var questionnaireItems = new List<ISurvey> { questionnaire1Mock.Object };
@@ -196,7 +195,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
 
             // act
-            var result = _sut.GetInstallDate(_connectionModel, questionnaireName, _serverParkName);
+            var result = _sut.GetInstallDate(_connectionModel, QuestionnaireName, _serverParkName);
 
             // assert
             Assert.That(result, Is.Not.Null);
@@ -217,9 +216,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_Questionnaire_Exists_When_I_Call_GetQuestionnaireStatus_The_Correct_Status_Is_Returned(string questionnaireStatus, QuestionnaireStatusType questionnaireStatusType)
         {
             // arrange
-            const string questionnaireName = "questionnaire1";
+            const string QuestionnaireName = "questionnaire1";
             var questionnaire1Mock = new Mock<ISurvey>();
-            questionnaire1Mock.Setup(s => s.Name).Returns(questionnaireName);
+            questionnaire1Mock.Setup(s => s.Name).Returns(QuestionnaireName);
             questionnaire1Mock.Setup(s => s.Status).Returns(questionnaireStatus);
 
             var questionnaireItems = new List<ISurvey> { questionnaire1Mock.Object };
@@ -228,7 +227,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
 
             // act
-            var result = _sut.GetQuestionnaireStatus(_connectionModel, questionnaireName, _serverParkName);
+            var result = _sut.GetQuestionnaireStatus(_connectionModel, QuestionnaireName, _serverParkName);
 
             // assert
             Assert.That(result, Is.EqualTo(questionnaireStatusType));
@@ -238,11 +237,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         public void Given_A_Questionnaire_Does_Not_Exist_When_I_Call_GetQuestionnaireStatus_Then_A_Data_Not_Found_Exception_Is_Thrown()
         {
             // arrange
-            const string questionnaire1Name = "questionnaire1";
+            const string Questionnaire1Name = "questionnaire1";
             var questionnaire1Mock = new Mock<ISurvey>();
-            questionnaire1Mock.Setup(s => s.Name).Returns(questionnaire1Name);
+            questionnaire1Mock.Setup(s => s.Name).Returns(Questionnaire1Name);
 
-            const string questionnaire2Name = "questionnaire2";
+            const string Questionnaire2Name = "questionnaire2";
 
             var questionnaireItems = new List<ISurvey> { questionnaire1Mock.Object };
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
@@ -250,8 +249,8 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             _serverParkMock.Setup(s => s.Surveys).Returns(_questionnaireCollectionMock.Object);
 
             // act and assert
-            var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetQuestionnaireStatus(_connectionModel, questionnaire2Name, _serverParkName));
-            Assert.That(exception.Message, Is.EqualTo($"No questionnaire found for questionnaire name '{questionnaire2Name}'"));
+            var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetQuestionnaireStatus(_connectionModel, Questionnaire2Name, _serverParkName));
+            Assert.That(exception.Message, Is.EqualTo($"No questionnaire found for questionnaire name '{Questionnaire2Name}'"));
         }
 
         [TestCase("CATI", QuestionnaireInterviewType.Cati, "StrictInterviewing", QuestionnaireDataEntryType.StrictInterviewing)]
@@ -261,9 +260,9 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             string interviewType, QuestionnaireInterviewType questionnaireInterviewType, string dataEntryType, QuestionnaireDataEntryType questionnaireDataEntryType)
         {
             // arrange
-            const string questionnaireName = "questionnaire1";
+            const string QuestionnaireName = "questionnaire1";
             var questionnaireMock = new Mock<ISurvey>();
-            questionnaireMock.Setup(s => s.Name).Returns(questionnaireName);
+            questionnaireMock.Setup(s => s.Name).Returns(QuestionnaireName);
 
             var questionnaireItems = new List<ISurvey> { questionnaireMock.Object };
             _questionnaireCollectionMock = new Mock<ISurveyCollection>();
@@ -273,7 +272,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             var iConfigurationMock = new Mock<IConfiguration>();
             iConfigurationMock.Setup(c => c.InitialLayoutSetGroupName).Returns(interviewType);
             iConfigurationMock.Setup(c => c.InitialDataEntrySettingsName).Returns(dataEntryType);
-            iConfigurationMock.Setup(c => c.InstrumentName).Returns(questionnaireName);
+            iConfigurationMock.Setup(c => c.InstrumentName).Returns(QuestionnaireName);
             var configurations = new List<IConfiguration> { iConfigurationMock.Object };
 
             var machineConfigurationMock = new Mock<IMachineConfigurationCollection>();
@@ -281,7 +280,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             questionnaireMock.Setup(s => s.Configuration).Returns(machineConfigurationMock.Object);
 
             // act
-            var result = _sut.GetQuestionnaireConfigurationModel(_connectionModel, questionnaireName, _serverParkName);
+            var result = _sut.GetQuestionnaireConfigurationModel(_connectionModel, QuestionnaireName, _serverParkName);
 
             // assert
             Assert.That(result, Is.Not.Null);
@@ -291,11 +290,11 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetAllQuestionnaires_Then_I_Get_A_Correct_List_Of_Questionnaires_Returned()
+        public void When_I_Call_GetAllQuestionnaires_Then_A_Correct_List_Of_Questionnaires_Are_Returned()
         {
             // arrange
-            const string serverPark1Name = "ServerPark1";
-            const string serverPark2Name = "ServerPark2";
+            const string ServerPark1Name = "ServerPark1";
+            const string ServerPark2Name = "ServerPark2";
 
             var questionnaire1Mock = new Mock<ISurvey>();
             var questionnaire2Mock = new Mock<ISurvey>();
@@ -311,16 +310,16 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
             questionnaireCollection2Mock.Setup(s => s.GetEnumerator()).Returns(() => questionnaire2Items.GetEnumerator());
 
             var serverPark1Mock = new Mock<IServerPark>();
-            serverPark1Mock.Setup(s => s.Name).Returns(serverPark1Name);
+            serverPark1Mock.Setup(s => s.Name).Returns(ServerPark1Name);
             serverPark1Mock.Setup(s => s.Surveys).Returns(questionnaireCollection1Mock.Object);
 
             var serverPark2Mock = new Mock<IServerPark>();
-            serverPark2Mock.Setup(s => s.Name).Returns(serverPark2Name);
+            serverPark2Mock.Setup(s => s.Name).Returns(ServerPark2Name);
             serverPark2Mock.Setup(s => s.Surveys).Returns(questionnaireCollection2Mock.Object);
 
-            _parkServiceMock.Setup(p => p.GetServerParkNames(_connectionModel)).Returns(new List<string> { serverPark1Name, serverPark2Name });
-            _parkServiceMock.Setup(p => p.GetServerPark(_connectionModel, serverPark1Name)).Returns(serverPark1Mock.Object);
-            _parkServiceMock.Setup(p => p.GetServerPark(_connectionModel, serverPark2Name)).Returns(serverPark2Mock.Object);
+            _serverParkServiceMock.Setup(p => p.GetServerParkNames(_connectionModel)).Returns(new List<string> { ServerPark1Name, ServerPark2Name });
+            _serverParkServiceMock.Setup(p => p.GetServerPark(_connectionModel, ServerPark1Name)).Returns(serverPark1Mock.Object);
+            _serverParkServiceMock.Setup(p => p.GetServerPark(_connectionModel, ServerPark2Name)).Returns(serverPark2Mock.Object);
 
             // act
             var result = _sut.GetAllQuestionnaires(_connectionModel).ToList();
@@ -335,7 +334,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetQuestionnaireId_Then_I_Get_A_Guid_Returned()
+        public void When_I_Call_GetQuestionnaireId_Then_A_Guid_Is_Returned()
         {
             // act
             var result = _sut.GetQuestionnaireId(_connectionModel, _questionnaireName, _serverParkName);
@@ -346,7 +345,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetQuestionnaireId_Then_I_Get_The_Correct_QuestionnaireId_Returned()
+        public void When_I_Call_GetQuestionnaireId_Then_The_Correct_QuestionnaireId_Is_Returned()
         {
             // act
             var result = _sut.GetQuestionnaireId(_connectionModel, _questionnaireName, _serverParkName);
@@ -356,24 +355,24 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
         }
 
         [Test]
-        public void Given_I_Call_GetQuestionnaireId_And_The_Questionnaire_Does_Not_Exist_Then_An_ArgumentOutOfRangeException_Is_Thrown()
+        public void When_I_Call_GetQuestionnaireId_And_The_Questionnaire_Does_Not_Exist_Then_An_ArgumentOutOfRangeException_Is_Thrown()
         {
             // arrange
-            const string questionnaireName = "QuestionnaireThatDoesNotExist";
+            const string QuestionnaireName = "QuestionnaireThatDoesNotExist";
 
             // act and assert
-            var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetQuestionnaireId(_connectionModel, questionnaireName, _serverParkName));
-            Assert.That(exception.Message, Is.EqualTo($"Questionnaire '{questionnaireName}' not found on server park '{_serverParkName}'"));
+            var exception = Assert.Throws<DataNotFoundException>(() => _sut.GetQuestionnaireId(_connectionModel, QuestionnaireName, _serverParkName));
+            Assert.That(exception.Message, Is.EqualTo($"Questionnaire '{QuestionnaireName}' not found on server park '{_serverParkName}'"));
         }
 
         [Test]
-        public void Given_I_Call_GetMetaFileName_Then_The_Correct_Name_Is_Returned()
+        public void When_I_Call_GetMetaFileName_Then_The_Correct_Name_Is_Returned()
         {
             // arrange
-            const string metaFileName = "MetaFileName";
+            const string MetaFileName = "MetaFileName";
 
             var configurationMock = new Mock<IConfiguration>();
-            configurationMock.Setup(c => c.MetaFileName).Returns(metaFileName);
+            configurationMock.Setup(c => c.MetaFileName).Returns(MetaFileName);
 
             var configurationItems = new List<IConfiguration> { configurationMock.Object };
 
@@ -387,20 +386,20 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
 
             // assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.EqualTo(metaFileName));
+            Assert.That(result, Is.EqualTo(MetaFileName));
         }
 
         [Test]
-        public void Given_Valid_Arguments_When_I_Call_InstallQuestionnaire_Then_The_Correct_Services_Are_Called()
+        public void When_I_Call_InstallQuestionnaire_Then_The_Correct_Services_Are_Called()
         {
             // arrange
-            const string questionnaireFile = @"d:\\opn2101a.pkg";
-            const string fileName = "OPN.bdix";
-            const string dataModelFileName = "OPN.bmix";
+            const string QuestionnaireFile = @"d:\\opn2101a.pkg";
+            const string FileName = "OPN.bdix";
+            const string DataModelFileName = "OPN.bmix";
 
             var configurationMock = new Mock<IConfiguration>();
-            configurationMock.Setup(c => c.DataFileName).Returns(fileName);
-            configurationMock.Setup(c => c.MetaFileName).Returns(dataModelFileName);
+            configurationMock.Setup(c => c.DataFileName).Returns(FileName);
+            configurationMock.Setup(c => c.MetaFileName).Returns(DataModelFileName);
 
             var configurationItems = new List<IConfiguration> { configurationMock.Object };
 
@@ -425,22 +424,22 @@ namespace Blaise.Nuget.Api.Tests.Unit.Services
                 _connectionModel,
                 _questionnaireName,
                 _serverParkName,
-                questionnaireFile,
+                QuestionnaireFile,
                 installOptions);
 
             // assert
-            _parkServiceMock.Verify(v => v.GetServerPark(_connectionModel, _serverParkName), Times.Once);
-            _serverParkMock.Verify(v => v.InstallSurvey(questionnaireFile, installOptions), Times.Once);
+            _serverParkServiceMock.Verify(v => v.GetServerPark(_connectionModel, _serverParkName), Times.Once);
+            _serverParkMock.Verify(v => v.InstallSurvey(QuestionnaireFile, installOptions), Times.Once);
         }
 
         [Test]
-        public void Given_An_Questionnaire_Exists_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Services_Are_Called()
+        public void Given_A_Questionnaire_Exists_When_I_Call_UninstallQuestionnaire_Then_The_Correct_Services_Are_Called()
         {
             // act
             _sut.UninstallQuestionnaire(_connectionModel, _questionnaireName, _serverParkName);
 
             // assert
-            _parkServiceMock.Verify(v => v.GetServerPark(_connectionModel, _serverParkName), Times.AtLeastOnce);
+            _serverParkServiceMock.Verify(v => v.GetServerPark(_connectionModel, _serverParkName), Times.AtLeastOnce);
             _serverParkMock.Verify(v => v.RemoveSurvey(_questionnaireId), Times.Once);
         }
     }

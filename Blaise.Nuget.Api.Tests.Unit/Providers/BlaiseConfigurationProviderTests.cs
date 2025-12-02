@@ -16,7 +16,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_AppConfig_Values_Are_Set_When_I_Call_GetConnectionModel_I_Get_A_ConnectionModel_Back()
+        public void Given_AppConfig_Values_Are_Set_When_I_Call_GetConnectionModel_Then_A_Connection_Model_Is_Returned()
         {
             // act
             var result = _sut.GetConnectionModel();
@@ -32,7 +32,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_ConnectionExpiresInMinutes_Value_Is_Set_When_I_Call_ConnectionExpiresInMinutes_I_Get_The_Correct_Value_Back()
+        public void Given_ConnectionExpiresInMinutes_Value_Is_Set_When_I_Call_ConnectionExpiresInMinutes_The_Correct_Value_Is_Returned()
         {
             // act
             var result = _sut.ConnectionExpiresInMinutes;
@@ -42,7 +42,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Providers
         }
 
         [Test]
-        public void Given_ConnectionString_Value_Is_Set_When_I_Call_DatabaseConnectionString_I_Get_The_Correct_Value_Back_Including_Timeout()
+        public void Given_ConnectionString_Value_Is_Set_When_I_Call_DatabaseConnectionString_The_Correct_Value_Including_Timeout_Is_Returned()
         {
             // act
             var result = _sut.DatabaseConnectionString;

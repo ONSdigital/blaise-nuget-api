@@ -55,14 +55,14 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
         }
 
         [Test]
-        public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseHealthApi_No_Exceptions_Are_Thrown()
+        public void Given_No_ConnectionModel_When_I_Instantiate_BlaiseHealthApi_Then_No_Exceptions_Are_Thrown()
         {
             // act and assert
             Assert.That(() => new BlaiseHealthApi(), Throws.Nothing);
         }
 
         [Test]
-        public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseHealthApi_No_Exceptions_Are_Thrown()
+        public void Given_A_ConnectionModel_When_I_Instantiate_BlaiseHealthApi_Then_No_Exceptions_Are_Thrown()
         {
             // act and assert
             Assert.That(() => new BlaiseHealthApi(new ConnectionModel()), Throws.Nothing);
@@ -131,7 +131,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
         }
 
         [Test]
-        public void Given_An_Invalid_Port_When_I_Call_ConnectionModelIsHealthy_Then_False_Returned()
+        public void Given_An_Invalid_Port_When_I_Call_ConnectionModelIsHealthy_Then_False_Is_Returned()
         {
             // arrange
             _connectionModel.Port = 0;
@@ -144,7 +144,7 @@ namespace Blaise.Nuget.Api.Tests.Unit.Api.Health
         }
 
         [Test]
-        public void Given_An_Invalid_RemotePort_When_I_Call_ConnectionModelIsHealthy_Then_False_Returned()
+        public void Given_An_Invalid_RemotePort_When_I_Call_ConnectionModelIsHealthy_Then_False_Is_Returned()
         {
             // arrange
             _connectionModel.RemotePort = 0;

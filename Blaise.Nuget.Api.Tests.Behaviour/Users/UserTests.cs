@@ -70,25 +70,25 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
 
         [Ignore("Integration")]
         [Test]
-        public void Given_An_Existing_User_When_I_Call_Update_serverParks_Then_The_Users_ServerParks_Are_Updated()
+        public void Given_An_Existing_User_When_I_Call_UpdateServerParks_Then_The_Users_Server_Parks_Are_Updated()
         {
             // arrange
-            const string userName = "jamie123";
-            const string password = "password123";
-            const string role = "DST";
-            const string defaultServerPark = "gusty";
+            const string UserName = "jamie123";
+            const string Password = "password123";
+            const string Role = "DST";
+            const string DefaultServerPark = "gusty";
             var serverParkList = new List<string> { "gusty" };
-            _sut.AddUser(userName, password, role, serverParkList, defaultServerPark);
+            _sut.AddUser(UserName, Password, Role, serverParkList, DefaultServerPark);
 
-            const string cmaServerPark = "cma";
-            serverParkList.Add(cmaServerPark);
+            const string CmaServerPark = "cma";
+            serverParkList.Add(CmaServerPark);
 
             // act
-            _sut.UpdateServerParks(userName, serverParkList, cmaServerPark);
-            var result = _sut.GetUser(userName);
+            _sut.UpdateServerParks(UserName, serverParkList, CmaServerPark);
+            var result = _sut.GetUser(UserName);
 
             // assert
-            Assert.That(result.Name, Is.EqualTo(userName));
+            Assert.That(result.Name, Is.EqualTo(UserName));
             Assert.That(result.ServerParks.Count, Is.EqualTo(2));
 
             foreach (var serverPark in serverParkList)
@@ -97,7 +97,7 @@ namespace Blaise.Nuget.Api.Tests.Behaviour.Users
             }
 
             // clear down
-            _sut.RemoveUser(userName);
+            _sut.RemoveUser(UserName);
         }
     }
 }
