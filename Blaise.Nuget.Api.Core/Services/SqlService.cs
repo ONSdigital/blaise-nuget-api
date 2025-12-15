@@ -1,5 +1,6 @@
 namespace Blaise.Nuget.Api.Core.Services
 {
+    using System;
     using System.Collections.Generic;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Extensions;
@@ -39,34 +40,51 @@ namespace Blaise.Nuget.Api.Core.Services
             var caseIds = new List<string>();
             var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
             var databaseUneditedTableName = GetDatabaseTableNameUneditedForm(questionnaireName);
+            var commandText = $"SELECT QUESTIONNAIRE.{SqlFieldType.CaseId.FullName()} " +
+                                      $"FROM {databaseTableName} QUESTIONNAIRE " +
+                                      $"JOIN {databaseUneditedTableName} UNEDITED " +
+                                      $"ON QUESTIONNAIRE.{SqlFieldType.CaseId.FullName()} = UNEDITED.{SqlFieldType.CaseId.FullName()} " +
+                                      $"AND (QUESTIONNAIRE.{SqlFieldType.Edited.FullName()} = 1 " +
+                                      $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} IS NULL AND UNEDITED.{SqlFieldType.EditLastUpdated.FullName()} IS NULL) " +
+                                      $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} = UNEDITED.{SqlFieldType.EditLastUpdated.FullName()}))";
 
-            if (!TableExists(connectionString, databaseUneditedTableName))
+
+            try
             {
-                return caseIds;
-            }
-
-            using (var con = new MySqlConnection(connectionString))
-            using (var cmd = new MySqlCommand())
-            {
-                con.Open();
-                cmd.Connection = con;
-                cmd.CommandText = $"SELECT QUESTIONNAIRE.{SqlFieldType.CaseId.FullName()} " +
-                                  $"FROM {databaseTableName} QUESTIONNAIRE " +
-                                  $"JOIN {databaseUneditedTableName} UNEDITED " +
-                                  $"ON QUESTIONNAIRE.{SqlFieldType.CaseId.FullName()} = UNEDITED.{SqlFieldType.CaseId.FullName()} " +
-                                  $"AND (QUESTIONNAIRE.{SqlFieldType.Edited.FullName()} = 1 " +
-                                  $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} IS NULL AND UNEDITED.{SqlFieldType.EditLastUpdated.FullName()} IS NULL) " +
-                                  $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} = UNEDITED.{SqlFieldType.EditLastUpdated.FullName()}))";
-
-                using (var reader = cmd.ExecuteReader())
+                if (!TableExists(connectionString, databaseUneditedTableName))
                 {
-                    while (reader.Read())
-                    {
-                        caseIds.Add(reader[0].ToString());
-                    }
+                    return caseIds;
                 }
 
-                con.Close();
+                using (var con = new MySqlConnection(connectionString))
+                using (var cmd = new MySqlCommand())
+                {
+                    con.Open();
+                    cmd.Connection = con;
+                    cmd.CommandText = $"SELECT QUESTIONNAIRE.{SqlFieldType.CaseId.FullName()} " +
+                                      $"FROM {databaseTableName} QUESTIONNAIRE " +
+                                      $"JOIN {databaseUneditedTableName} UNEDITED " +
+                                      $"ON QUESTIONNAIRE.{SqlFieldType.CaseId.FullName()} = UNEDITED.{SqlFieldType.CaseId.FullName()} " +
+                                      $"AND (QUESTIONNAIRE.{SqlFieldType.Edited.FullName()} = 1 " +
+                                      $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} IS NULL AND UNEDITED.{SqlFieldType.EditLastUpdated.FullName()} IS NULL) " +
+                                      $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} = UNEDITED.{SqlFieldType.EditLastUpdated.FullName()}))";
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            caseIds.Add(reader[0].ToString());
+                        }
+                    }
+
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(
+                    $"[SqlService.GetEditingCaseIds] Exception: {ex.Message} | ConnectionString: {connectionString} | QuestionnaireName: {questionnaireName} | CommandText: {commandText}");
+                throw;
             }
 
             return caseIds;
