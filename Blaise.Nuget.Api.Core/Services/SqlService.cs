@@ -196,7 +196,7 @@ namespace Blaise.Nuget.Api.Core.Services
         }
 
         private bool TableExists(string connectionString, string databaseTableName)
-        {
+        { 
             EventLog.WriteEntry("NUGET_LOG", $"A - [SqlService.TableExists] input parameters | connectionString {connectionString} | databaseTableName {databaseTableName}");
             EventLog.WriteEntry("NUGET_LOG", $"B - [SqlService.TableExists] Creating MySqlConnection using connectionString {connectionString}");
             using (var con = new MySqlConnection(connectionString))
@@ -204,6 +204,7 @@ namespace Blaise.Nuget.Api.Core.Services
             {
                 EventLog.WriteEntry("NUGET_LOG", $"C - [SqlService.TableExists] Opening Connection");
                 con.Open();
+                cmd.Connection = con;
                 cmd.CommandText = "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = @tableName";
                 cmd.Parameters.AddWithValue("@tableName", databaseTableName);
 
