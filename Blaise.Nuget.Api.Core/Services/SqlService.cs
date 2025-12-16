@@ -2,6 +2,7 @@ namespace Blaise.Nuget.Api.Core.Services
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Extensions;
     using Blaise.Nuget.Api.Contracts.Models;
@@ -37,6 +38,8 @@ namespace Blaise.Nuget.Api.Core.Services
 
         public IEnumerable<string> GetEditingCaseIds(string connectionString, string questionnaireName)
         {
+            EventLog.WriteEntry("NUGET_LOG", $"[SqlService.GetEditingCaseIds] Input Parameters: | connectionString: {connectionString} | questionnaireName: {questionnaireName}");
+
             var caseIds = new List<string>();
             var databaseTableName = GetDatabaseTableNameForm(questionnaireName);
             var databaseUneditedTableName = GetDatabaseTableNameUneditedForm(questionnaireName);
@@ -48,11 +51,13 @@ namespace Blaise.Nuget.Api.Core.Services
                                       $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} IS NULL AND UNEDITED.{SqlFieldType.EditLastUpdated.FullName()} IS NULL) " +
                                       $"OR (QUESTIONNAIRE.{SqlFieldType.EditLastUpdated.FullName()} = UNEDITED.{SqlFieldType.EditLastUpdated.FullName()}))";
 
+            EventLog.WriteEntry("NUGET_LOG", $"[SqlService.GetEditingCaseIds] SQL Command: | commandText: {commandText}");
 
             try
             {
                 if (!TableExists(connectionString, databaseUneditedTableName))
                 {
+                    EventLog.WriteEntry("NUGET_LOG", $"[SqlService.GetEditingCaseIds] Table does not exist {databaseUneditedTableName}");
                     return caseIds;
                 }
 
@@ -82,10 +87,11 @@ namespace Blaise.Nuget.Api.Core.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(
-                    $"[SqlService.GetEditingCaseIds] Exception: {ex.Message} | ConnectionString: {connectionString} | QuestionnaireName: {questionnaireName} | CommandText: {commandText}");
+                EventLog.WriteEntry("NUGET_LOG", $"[SqlService.GetEditingCaseIds] Exception: {ex.Message} | ConnectionString: {connectionString} | QuestionnaireName: {questionnaireName} | CommandText: {commandText}");
                 throw;
             }
+
+            EventLog.WriteEntry("NUGET_LOG", $"[SqlService.GetEditingCaseIds] returning caseIds: {string.Join(", ", caseIds)}");
 
             return caseIds;
         }
