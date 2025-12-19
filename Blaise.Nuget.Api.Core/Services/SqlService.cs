@@ -104,6 +104,7 @@ namespace Blaise.Nuget.Api.Core.Services
             using (var cmd = new MySqlCommand())
             {
                 con.Open();
+                cmd.Connection = con;
                 cmd.CommandText = $"SELECT {SqlFieldType.PostCode.FullName()} from `{databaseTableName}` WHERE {SqlFieldType.CaseId.FullName()} = @primaryKey";
                 cmd.Parameters.AddWithValue("@primaryKey", primaryKey);
 
